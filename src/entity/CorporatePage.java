@@ -4,10 +4,10 @@ public class CorporatePage {
 
     private String companyName;
     private String companyInfo;
-    private CorporateRepresentative pageManager;
+    private CorporateRep pageManager;
     private int companyPageId;
 
-    public CorporatePage(String companyName, String companyInfo, CorporateRepresentative pageManager, int companyPageId){
+    public CorporatePage(String companyName, String companyInfo, CorporateRep pageManager, int companyPageId){
         this.companyName = companyName;
         this.companyInfo = companyInfo;
         this.pageManager = pageManager;
@@ -22,7 +22,7 @@ public class CorporatePage {
         return companyInfo;
     }
 
-    public CorporateRepresentative getPageManager() {
+    public CorporateRep getPageManager() {
         return pageManager;
     }
 
