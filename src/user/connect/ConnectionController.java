@@ -1,11 +1,8 @@
 package user.connect;
-import user.connect.ConnectionRequestModel;
-import user.connect.ConnectionResponseModel;
-import user.connect.ConnectionInput;
 
 public class ConnectionController {
-    final ConnectionInput interactor;
-    public ConnectionController(ConnectionInput interactor){
+    final IConnectionInput interactor;
+    public ConnectionController(IConnectionInput interactor){
         this.interactor = interactor;
     }
     public ConnectionResponseModel createConnectionRequestModel(String userName, String targetName){
