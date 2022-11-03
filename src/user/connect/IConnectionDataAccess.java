@@ -3,7 +3,6 @@ import entity.User;
 
 public interface IConnectionDataAccess {
     // returns a serialized user object?
-    User getUser();
-    Boolean isTargetConnected();
-    Boolean isPendingRequest();
+    User getUser(String userId);
+    boolean saveUser(User user);
 }
