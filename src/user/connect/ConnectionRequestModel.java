@@ -1,18 +1,18 @@
 package user.connect;
 
 public class ConnectionRequestModel {
-    public String userName;
-    public String targetName;
+    private final String userId;
+    private final String targetId;
 
-    public ConnectionRequestModel(String userName, String targetName) {
-        this.userName = userName;
-        this.targetName = targetName;
+    public ConnectionRequestModel(String userId, String targetId) {
+        this.userId = userId;
+        this.targetId = targetId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserId() {
+        return userId;
     }
-    public String getTargetName() {
-        return targetName;
+    public String getTargetId() {
+        return targetId;
     }
 }
