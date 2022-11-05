@@ -1,48 +1,53 @@
 package user.connect;
-import user.connect.ConnectionInput;
-import user.connect.ConnectionRequestModel;
 
-public class ConnectionInteractor implements ConnectionInput{
+public class ConnectionInteractor implements IConnectionInput {
     public ConnectionRequestModel requestModel;
-    public ConnectionInput interactor;
-    public ConnectionInteractor(ConnectionInput interactor, ConnectionRequestModel requestModel) {
-        this.interactor = interactor;
+    public IConnectionDataAccess dataAccess;
+
+    public ConnectionInteractor(ConnectionRequestModel requestModel,
+                                IConnectionDataAccess dataAccess) {
         this.requestModel = requestModel;
+        this.dataAccess = dataAccess;
     }
 
     /**
-     * @param userName
-     * @param targetName
-     * @return
+     * @param userId the id of the current user
+     * @param targetId the userId of the target user
+     * @return if the inputs are valid ids
      */
     @Override
-    public boolean checkInputIsValid(String userName, String targetName) {
+    public boolean checkInputIsValid(String userId, String targetId
+    ) {
         return false;
     }
 
     /**
-     * @param userName
-     * @param targetName
+     * @param userId the id of the current user
+     * @param targetId
+     *
      * @return
      */
     @Override
-    public boolean checkUserTargetAlreadyConnected(String userName, String targetName) {
+    public boolean checkUserTargetAlreadyConnected(String userId, String targetId
+    ) {
         return false;
     }
 
     /**
-     * @param userName
-     * @param targetName
+     * @param userId
+     * @param targetId
+     *
      * @return
      */
     @Override
-    public boolean sendConnectionRequestToTarget(String userName, String targetName) {
+    public boolean sendConnectionRequestToTarget(String userId, String targetId
+    ) {
         return false;
     }
 
     /**
-     * @param requestModel
-     * @return
+     * @param requestModel a request model that contains target
+     * @return a response model
      */
     @Override
     public ConnectionResponseModel createConnectionResponseModel(ConnectionRequestModel requestModel) {
