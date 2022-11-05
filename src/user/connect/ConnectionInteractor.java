@@ -1,51 +1,73 @@
 package user.connect;
-import user.connect.ConnectionInput;
-import user.connect.ConnectionRequestModel;
 
-public class ConnectionInteractor implements ConnectionInput{
+import entity.User;
+import user.connect.exceptions.PendingRequestExistsException;
+import user.connect.exceptions.UserAlreadyConnectedException;
+import user.connect.exceptions.UserNotFoundException;
+
+public class ConnectionInteractor implements IConnectionInput {
     public ConnectionRequestModel requestModel;
-    public ConnectionInput interactor;
-    public ConnectionInteractor(ConnectionInput interactor, ConnectionRequestModel requestModel) {
-        this.interactor = interactor;
+    public IConnectionDataAccess dataAccess;
+    public ConnectionInteractor(ConnectionRequestModel requestModel,
+                                IConnectionDataAccess dataAccess) {
         this.requestModel = requestModel;
+        this.dataAccess = dataAccess;
     }
 
+    // might move these somewhere else
     /**
-     * @param userName
-     * @param targetName
-     * @return
+     * @param userId the id of the current user
+     * @param targetId the id of the target user
+     * @return if request was sent successfully
      */
-    @Override
-    public boolean checkInputIsValid(String userName, String targetName) {
+    public boolean sendConnectionRequestToTarget(String userId, String targetId
+    ) {
         return false;
     }
 
     /**
-     * @param userName
-     * @param targetName
-     * @return
+     * @return check if user has a request from target
      */
-    @Override
-    public boolean checkUserTargetAlreadyConnected(String userName, String targetName) {
-        return false;
+    public boolean checkIncomingRequest(User user, User target){
+        return user.getConnectionRequests().contains(target.getId());
     }
 
     /**
-     * @param userName
-     * @param targetName
-     * @return
+     * @param requestModel a request model that contains target
+     * @return a response model
      */
     @Override
-    public boolean sendConnectionRequestToTarget(String userName, String targetName) {
-        return false;
-    }
+    public ConnectionResponseModel createConnectionResponseModel(ConnectionRequestModel requestModel){
+        String userId = requestModel.getUserId();
+        String targetId = requestModel.getTargetId();
+        User user;
+        User target;
+        try {
+            user = dataAccess.getUser(userId);
+            target = dataAccess.getUser(targetId);
+            if (user == null || target == null){
+                throw new UserNotFoundException("Could not find target user");
+            }
+        } catch (UserNotFoundException e) {
+            // prepare failure view
+            return new ConnectionResponseModel("Failure %s", e.getMessage());
+        }
+        if (checkIncomingRequest(user, target)) {
+            // connect and return
+            return new ConnectionResponseModel("Success", String.format("You are connected with %s", target.getName()));
+        }
+        ConnectionVerifier verifier = new ConnectionVerifier(user, target);
+        try {
+            verifier.verify();
+        } catch (UserAlreadyConnectedException e) {
+            // prepare failure view for already connected
+        } catch (PendingRequestExistsException e) {
+            // prepare failure view for pending request
+        }
 
-    /**
-     * @param requestModel
-     * @return
-     */
-    @Override
-    public ConnectionResponseModel createConnectionResponseModel(ConnectionRequestModel requestModel) {
+        // once verified, send connect request
+
+        // pass in
         return null;
     }
 }
