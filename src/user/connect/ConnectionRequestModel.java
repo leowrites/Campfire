@@ -1,8 +1,8 @@
 package user.connect;
 
 public class ConnectionRequestModel {
-    public String userId;
-    public String targetId;
+    private final String userId;
+    private final String targetId;
 
     public ConnectionRequestModel(String userId, String targetId) {
         this.userId = userId;
