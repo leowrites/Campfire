@@ -12,33 +12,35 @@ public class ConnectionVerifier {
     }
 
     /**
-     * @return if two users are already connected
+     * raises error if two users are arleady connected
      */
-    public boolean checkAlreadyConnected() throws UserAlreadyConnectedException {
+    public void checkAlreadyConnected() throws UserAlreadyConnectedException {
         if (target.getConnections().contains(user.getId())){
             throw new UserAlreadyConnectedException("You are already connected!");
-        } else {
-            return false;
         }
     }
 
     /**
-     * @return if the user already has an outgoing request
+     * raises error if user has an outgoing request
      */
-    public boolean checkPendingRequest() throws PendingRequestExistsException {
+    public void checkPendingRequest() throws PendingRequestExistsException {
         if (target.getPendingConnections().contains(user.getId())){
             throw new PendingRequestExistsException("Pending request!");
-        } else {
-            return false;
         }
     }
 
     /**
-     * @return if the request passes all checks
+     * @return check if user has an incoming request from target
      */
-    public boolean verify() throws UserAlreadyConnectedException, PendingRequestExistsException {
+    public boolean checkIncomingRequest(){
+        return user.getConnectionRequests().contains(target.getId());
+    }
+
+    /**
+     * verify the connection and raise errors if a condition is not met
+     */
+    public void verify() throws UserAlreadyConnectedException, PendingRequestExistsException {
         checkAlreadyConnected();
         checkPendingRequest();
-        return true;
     }
 }
