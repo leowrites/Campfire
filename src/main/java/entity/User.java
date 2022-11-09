@@ -7,10 +7,14 @@ public class User implements Serializable {
     private ArrayList<String> connectionRequests;
     private ArrayList<String> pendingConnections;
     private ArrayList<String> connections;
-    private final String id;
+    private String id;
     private String name;
-    public User(String id, ArrayList<String> connectionRequests, ArrayList<String> pendingConnections,
-                ArrayList<String> connections, String name) {
+    public User() {}
+    public User(String id,
+                ArrayList<String> connectionRequests,
+                ArrayList<String> pendingConnections,
+                ArrayList<String> connections,
+                String name) {
         this.connectionRequests = connectionRequests;
         this.pendingConnections = pendingConnections;
         this.connections = connections;
