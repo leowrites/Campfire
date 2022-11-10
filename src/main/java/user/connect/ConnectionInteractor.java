@@ -6,12 +6,13 @@ import user.connect.exceptions.UserAlreadyConnectedException;
 import user.connect.exceptions.UserNotFoundException;
 
 public class ConnectionInteractor implements IConnectionInput {
-    public ConnectionRequestModel requestModel;
-    public IConnectionDataAccess dataAccess;
-    public ConnectionInteractor(ConnectionRequestModel requestModel,
-                                IConnectionDataAccess dataAccess) {
-        this.requestModel = requestModel;
+    private final IConnectionDataAccess dataAccess;
+    private final IConnectionSocket socket;
+
+    public ConnectionInteractor(IConnectionDataAccess dataAccess,
+                                IConnectionSocket socket) {
         this.dataAccess = dataAccess;
+        this.socket = socket;
     }
 
     /**
@@ -39,13 +40,12 @@ public class ConnectionInteractor implements IConnectionInput {
 
         try {
             verifier.verify();
-        } catch (UserAlreadyConnectedException e) {
-            // prepare failure view for already connected
-        } catch (PendingRequestExistsException e) {
-            // prepare failure view for pending request
+        } catch (UserAlreadyConnectedException | PendingRequestExistsException e) {
+            // prepare failure response model for already connected
+            return new ConnectionResponseModel("Failure %s", e.getMessage());
         }
 
-        ConnectionHandler handler = new ConnectionHandler(user, target, dataAccess);
+        ConnectionHandler handler = new ConnectionHandler(user, target, dataAccess, socket);
 
         if (verifier.checkIncomingRequest()) {
             handler.acceptConnectionRequest();
