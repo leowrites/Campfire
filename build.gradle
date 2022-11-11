@@ -20,9 +20,16 @@ dependencies {
     implementation 'org.webjars:stomp-websocket:2.3.4'
     implementation 'org.webjars:bootstrap:5.2.2'
     implementation 'org.webjars:jquery:3.3.1-1'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('processResources') {
+    expand(project.properties)
 }
