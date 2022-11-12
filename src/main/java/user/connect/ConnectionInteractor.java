@@ -7,20 +7,17 @@ import user.connect.exceptions.UserNotFoundException;
 
 public class ConnectionInteractor implements IConnectionInput {
     private final IConnectionDataAccess dataAccess;
-    private final IConnectionSocket socket;
 
-    public ConnectionInteractor(IConnectionDataAccess dataAccess,
-                                IConnectionSocket socket) {
+    public ConnectionInteractor(IConnectionDataAccess dataAccess) {
         this.dataAccess = dataAccess;
-        this.socket = socket;
     }
 
     /**
-     * @param requestModel a request model that contains target
+     * @param requestModel a request model
      * @return a response model
      */
     @Override
-    public ConnectionResponseModel createConnectionResponseModel(ConnectionRequestModel requestModel){
+    public ConnectionResponseModel requestConnection(ConnectionRequestModel requestModel) {
         String userId = requestModel.getUserId();
         String targetId = requestModel.getTargetId();
         User user;
@@ -33,7 +30,7 @@ public class ConnectionInteractor implements IConnectionInput {
                 throw new UserNotFoundException("Could not find target user");
             }
         } catch (UserNotFoundException e) {
-            return new ConnectionResponseModel("Failure %s", e.getMessage());
+            return new ConnectionResponseModel(ServerStatus.ERROR, e.getMessage());
         }
 
         ConnectionVerifier verifier = new ConnectionVerifier(user, target);
@@ -42,10 +39,10 @@ public class ConnectionInteractor implements IConnectionInput {
             verifier.verify();
         } catch (UserAlreadyConnectedException | PendingRequestExistsException e) {
             // prepare failure response model for already connected
-            return new ConnectionResponseModel("Failure %s", e.getMessage());
+            return new ConnectionResponseModel(ServerStatus.ERROR, e.getMessage());
         }
 
-        ConnectionHandler handler = new ConnectionHandler(user, target, dataAccess, socket);
+        ConnectionHandler handler = new ConnectionHandler(user, target, dataAccess);
 
         if (verifier.checkIncomingRequest()) {
             handler.acceptConnectionRequest();
@@ -53,6 +50,7 @@ public class ConnectionInteractor implements IConnectionInput {
             handler.sendConnectionRequestToTarget();
         }
 
-        return new ConnectionResponseModel("Success");
+        // updated entities
+        return new ConnectionResponseModel(ServerStatus.SUCCESS, user, target);
     }
 }
