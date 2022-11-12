@@ -1,10 +1,10 @@
-package user.connect;
+package user.requestconnect;
 
-public class ConnectionRequestModel {
+public class RequestConnectionRequestModel {
     private final String userId;
     private final String targetId;
 
-    public ConnectionRequestModel(String userId, String targetId) {
+    public RequestConnectionRequestModel(String userId, String targetId) {
         this.userId = userId;
         this.targetId = targetId;
     }

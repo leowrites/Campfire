@@ -1,14 +1,14 @@
-package user.connect;
+package user.requestconnect;
 
 import entity.User;
 
-public class ConnectionHandler {
+public class RequestConnectionHandler {
 
     private final User user;
     private final User target;
-    private final IConnectionDataAccess dataAccess;
-    private final IConnectionSocket socket;
-    public ConnectionHandler(User user, User target, IConnectionDataAccess dataAccess, IConnectionSocket socket) {
+    private final IRequestConnectionDataAccess dataAccess;
+    private final IRequestConnectionSocket socket;
+    public RequestConnectionHandler(User user, User target, IRequestConnectionDataAccess dataAccess, IRequestConnectionSocket socket) {
         this.user = user;
         this.target = target;
         this.dataAccess = dataAccess;
