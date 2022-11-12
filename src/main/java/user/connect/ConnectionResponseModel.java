@@ -1,26 +1,31 @@
 package user.connect;
+import entity.User;
+
 import java.util.*;
 
 public class ConnectionResponseModel {
-    private final String connectionStatus;
-    private final Date connectionTime;
+    private final ServerStatus connectionStatus;
     private String message;
-    public ConnectionResponseModel(String connectionStatus){
+    private User user;
+    private User target;
+    public ConnectionResponseModel(ServerStatus connectionStatus, User user, User target){
         this.connectionStatus = connectionStatus;
-        this.connectionTime = new Date();
+        this.user = user;
+        this.target = target;
     }
-    public ConnectionResponseModel(String connectionStatus, String message){
+    public ConnectionResponseModel(ServerStatus connectionStatus, String message){
         this.connectionStatus = connectionStatus;
-        this.connectionTime = new Date();
         this.message = message;
     }
-    public String getConnectionStatus() {
+    public ServerStatus getConnectionStatus() {
         return connectionStatus;
     }
-
-    public Date getConnectionTime() {
-        return connectionTime;
+    public User getUser() {
+        return user;
     }
+
+    public User getTarget() {return target;}
+
     public String getMessage() {
         return message;
     }
