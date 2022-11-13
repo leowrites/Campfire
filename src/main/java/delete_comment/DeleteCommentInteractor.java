@@ -11,12 +11,12 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
     @Override
     public DeleteCommentResponseModel createResponseModel(DeleteCommentRequestModel request_model){
         ArrayList<Review> comments = request_model.getcomments();
-        int id = request_model.getid();
+        String id = request_model.getid();
         int access_level = request_model.getaccesslevel();
 
         try {
             for (Review comment : comments) {
-                if (comment.getid() == id){
+                if (id.equals(comment.getid())){
                     break;
                 }
                 throw new CommentNotFoundException("Comment not found");

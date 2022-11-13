@@ -6,8 +6,8 @@ public class AccessLevelVerifier {
 
     private final int access_level;
 
-    public AccessLevelVerifier(int id){
-        this.access_level = id;
+    public AccessLevelVerifier(int access_level){
+        this.access_level = access_level;
     }
 
     public int getaccesslevel(){

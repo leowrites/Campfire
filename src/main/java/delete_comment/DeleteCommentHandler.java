@@ -6,19 +6,19 @@ import java.util.ArrayList;
 
 public class DeleteCommentHandler {
 
-    private final int id;
+    private final String id;
 
     private final ArrayList<Review> comments;
 
-    public DeleteCommentHandler(int id, ArrayList<Review> comments){
+    public DeleteCommentHandler(String id, ArrayList<Review> comments){
         this.id = id;
         this.comments = comments;
     }
 
-    public void deletecomment(int id, ArrayList<Review> comments){
+    public void deletecomment(String id, ArrayList<Review> comments){
         int size = comments.size();
         for (int i = 0; i < size; i++){
-            if (comments.get(i).getid() == id){
+            if (id.equals(comments.get(i).getid())){
                 comments.remove(i);
                 break;
             }

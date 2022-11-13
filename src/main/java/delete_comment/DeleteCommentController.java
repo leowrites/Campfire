@@ -14,7 +14,7 @@ public class DeleteCommentController {
     }
 
     public DeleteCommentResponseModel createDeleteCommentrequestmodel(ArrayList<Review> comments,
-                                                                      int id,
+                                                                      String id,
                                                                       int access_level){
         DeleteCommentRequestModel requestModel = new DeleteCommentRequestModel(comments, id, access_level);
         return interactor.createResponseModel(requestModel);
