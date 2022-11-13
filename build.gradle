@@ -21,6 +21,7 @@ dependencies {
     implementation 'org.webjars:bootstrap:5.2.2'
     implementation 'org.webjars:jquery:3.3.1-1'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
