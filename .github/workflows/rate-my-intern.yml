@@ -30,6 +30,8 @@ jobs:
         distribution: 'temurin'
     - name: Run gradle wrapper
       run: gradle wrapper
+    - name: Run Test
+      run: gradle clean test
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:

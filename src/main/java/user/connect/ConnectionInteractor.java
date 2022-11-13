@@ -6,30 +6,13 @@ import user.connect.exceptions.UserAlreadyConnectedException;
 import user.connect.exceptions.UserNotFoundException;
 
 public class ConnectionInteractor implements IConnectionInput {
-    public ConnectionRequestModel requestModel;
-    public IConnectionDataAccess dataAccess;
-    public ConnectionInteractor(ConnectionRequestModel requestModel,
-                                IConnectionDataAccess dataAccess) {
-        this.requestModel = requestModel;
+    private final IConnectionDataAccess dataAccess;
+    private final IConnectionSocket socket;
+
+    public ConnectionInteractor(IConnectionDataAccess dataAccess,
+                                IConnectionSocket socket) {
         this.dataAccess = dataAccess;
-    }
-
-    // might move these somewhere else
-    /**
-     * @param userId the id of the current user
-     * @param targetId the id of the target user
-     * @return if request was sent successfully
-     */
-    public boolean sendConnectionRequestToTarget(String userId, String targetId
-    ) {
-        return false;
-    }
-
-    /**
-     * @return check if user has a request from target
-     */
-    public boolean checkIncomingRequest(User user, User target){
-        return user.getConnectionRequests().contains(target.getId());
+        this.socket = socket;
     }
 
     /**
@@ -42,6 +25,7 @@ public class ConnectionInteractor implements IConnectionInput {
         String targetId = requestModel.getTargetId();
         User user;
         User target;
+
         try {
             user = dataAccess.getUser(userId);
             target = dataAccess.getUser(targetId);
@@ -49,25 +33,26 @@ public class ConnectionInteractor implements IConnectionInput {
                 throw new UserNotFoundException("Could not find target user");
             }
         } catch (UserNotFoundException e) {
-            // prepare failure view
             return new ConnectionResponseModel("Failure %s", e.getMessage());
         }
-        if (checkIncomingRequest(user, target)) {
-            // connect and return
-            return new ConnectionResponseModel("Success", String.format("You are connected with %s", target.getName()));
-        }
+
         ConnectionVerifier verifier = new ConnectionVerifier(user, target);
+
         try {
             verifier.verify();
-        } catch (UserAlreadyConnectedException e) {
-            // prepare failure view for already connected
-        } catch (PendingRequestExistsException e) {
-            // prepare failure view for pending request
+        } catch (UserAlreadyConnectedException | PendingRequestExistsException e) {
+            // prepare failure response model for already connected
+            return new ConnectionResponseModel("Failure %s", e.getMessage());
         }
 
-        // once verified, send connect request
+        ConnectionHandler handler = new ConnectionHandler(user, target, dataAccess, socket);
 
-        // pass in
-        return null;
+        if (verifier.checkIncomingRequest()) {
+            handler.acceptConnectionRequest();
+        } else {
+            handler.sendConnectionRequestToTarget();
+        }
+
+        return new ConnectionResponseModel("Success");
     }
 }
