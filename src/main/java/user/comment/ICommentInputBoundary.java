@@ -1,5 +1,5 @@
 package user.comment;
 
-public interface CommentInputBoundary {
+public interface ICommentInputBoundary {
     CommentResponseModel create(CommentRequestModel requestModel);
 }

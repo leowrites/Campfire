@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Review {
-    private String reviewID;
+    private String id;
     private String userID;
+    private String company;
     private Date datePosted;
     private int numLikes;
     private int numDislikes;
     private String content;
     private ArrayList<Comment> comments;
 
-    public Review(String reviewID, String userID, String content) {
-        this.reviewID = reviewID;
+    public Review() {
+    }
+
+    public Review(String reviewID, String userID, String company, String content) {
+        this.id = reviewID;
         this.userID = userID;
+        this.company = company;
         this.content = content;
         this.datePosted = new Date();
         this.numLikes = 0;
@@ -22,23 +27,24 @@ public class Review {
         this.comments = new ArrayList<>();
     }
 
-    public Review(String reviewID, String userID, String content, Date datePosted, int numLikes, int numDislikes,
+    public Review(String reviewID, String userID, String content, String company, Date datePosted, int numLikes, int numDislikes,
                   ArrayList<Comment> comments) {
-        this.reviewID = reviewID;
+        this.id = reviewID;
         this.userID = userID;
         this.content = content;
+        this.company = company;
         this.datePosted = datePosted;
         this.numLikes = numLikes;
         this.numDislikes = numDislikes;
         this.comments = comments;
     }
 
-    public String getReviewID() {
-        return this.reviewID;
+    public String getid() {
+        return this.id;
     }
 
-    public void setReviewID(String newID) {
-        this.reviewID = newID;
+    public void setid(String newID) {
+        this.id = newID;
     }
 
     public String getUserID() {
@@ -47,6 +53,14 @@ public class Review {
 
     public void setUserID(String newID) {
         this.userID = newID;
+    }
+
+    public String getCompany() {
+        return this.company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public String getContent() {

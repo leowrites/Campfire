@@ -7,7 +7,7 @@ import user.comment.exceptions.ReviewNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CommentInteractor implements CommentInputBoundary{
+public class CommentInteractor implements ICommentInputBoundary {
     private final CommentObservable observable;
     private final ICommentDataAccess dataAccess;
 

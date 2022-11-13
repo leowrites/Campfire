@@ -5,7 +5,7 @@ public class CommentObservable {
     private final ArrayList<CommentObserver> observers;
 
     public CommentObservable() {
-        this.observers = new ArrayList<CommentObserver>();
+        this.observers = new ArrayList<>();
     }
 
     public void addObserver(CommentObserver observer) {

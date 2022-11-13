@@ -1,9 +1,9 @@
 package user.comment;
 
 public class CommentController {
-    private final CommentInputBoundary input;
+    private final ICommentInputBoundary input;
 
-    public CommentController(CommentInputBoundary input){
+    public CommentController(ICommentInputBoundary input){
         this.input = input;
     }
 

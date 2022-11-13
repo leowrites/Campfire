@@ -9,6 +9,7 @@ public class CommentResponseModel {
 
     public CommentResponseModel(String successful) {
         this.successful = successful;
+        this.message = "";
     }
 
     public CommentResponseModel(String successful, String message) {
