@@ -2,8 +2,8 @@ package useCases.createCorporatePage;
 
 public class PageGenerateResponseModel {
     String resultMessage;
-    String companyName;
-    String companyInfo;
+    String companyName = null;
+    String companyInfo = null;
 
     // The responseModel constructor uses the number of arguments to distinguish the different types of pages
 

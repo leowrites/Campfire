@@ -20,6 +20,7 @@ public class PageGenerateRequestModel {
     }
 
     // This is requestModel for a corporatePage
+    // Overloading
     public PageGenerateRequestModel(String pageType,
                                     String inputLabel, User user, String companyName, String companyInfo){
         this.pageType = pageType;

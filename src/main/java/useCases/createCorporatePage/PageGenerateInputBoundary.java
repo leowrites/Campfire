@@ -1,5 +1,5 @@
 package useCases.createCorporatePage;
 
 public interface PageGenerateInputBoundary {
-    pageGeneratorResponseModel creates(pageGeneratorRequestModel requestModel);
+    PageGenerateResponseModel create(PageGenerateRequestModel requestModel);
 }

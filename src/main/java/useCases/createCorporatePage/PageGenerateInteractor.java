@@ -2,7 +2,7 @@ package useCases.createCorporatePage;
 import entity.CorporatePage;
 import entity.Page;
 
-public class PageGenerateInteractor {
+public class PageGenerateInteractor implements PageGenerateInputBoundary {
 
     final PageGenerateDsGateway pageGenerateDsGateway;
     final PageGenerateOutputBoundary pageGenerateOutputBoundary;
@@ -15,7 +15,6 @@ public class PageGenerateInteractor {
         this.pageFactory = pageFactory;
     }
 
-    @override
     public PageGenerateResponseModel create(PageGenerateRequestModel requestModel){
 
         if (pageGenerateDsGateway.existsByPageLabel(requestModel.getInputLabel())){
@@ -26,7 +25,7 @@ public class PageGenerateInteractor {
 
         PageGenerateResponseModel pageResponseModel;
 
-        if (requestModel.getPageType() == "Corporate"){
+        if (requestModel.getPageType().equals("Corporate")){
             CorporatePage corporatePage = (CorporatePage) page;
             CorporatePageFactory corporatePageFactory = new CorporatePageFactory();
             corporatePage = corporatePageFactory.addInfo(corporatePage,
