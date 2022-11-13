@@ -1,8 +1,8 @@
 package delete_comment;
 
 import entity.Review;
-import delete_comment.exceptions.CommentNotFoundException;
-import delete_comment.exceptions.NotModeratorException;
+import exceptions.CommentNotFoundException;
+import exceptions.NotModeratorException;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
     @Override
     public DeleteCommentResponseModel createResponseModel(DeleteCommentRequestModel request_model){
         ArrayList<Review> comments = request_model.getcomments();
-        String id = request_model.getid();
+        int id = request_model.getid();
         int access_level = request_model.getaccesslevel();
 
         try {

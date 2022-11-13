@@ -1,6 +1,6 @@
 package delete_comment;
 
-import delete_comment.exceptions.NotModeratorException;
+import exceptions.NotModeratorException;
 
 public class AccessLevelVerifier {
 

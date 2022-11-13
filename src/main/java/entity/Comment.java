@@ -2,7 +2,7 @@ package entity;
 
 public class Comment extends Review{
 
-    public Comment(String id, String comment){
+    public Comment(int id, String comment){
         super(id, comment);
     }
 

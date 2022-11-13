@@ -8,12 +8,12 @@ public class DeleteCommentRequestModel {
 
     private final ArrayList<Review> comments;
 
-    private final String id;
+    private final int id;
 
     private final int access_level;
 
     public DeleteCommentRequestModel(ArrayList<Review> comments,
-                                     String id,
+                                     int id,
                                      int access_level){
         this.comments = comments;
         this.id = id;
@@ -24,7 +24,7 @@ public class DeleteCommentRequestModel {
         return this.comments;
     }
 
-    public String getid(){
+    public int getid(){
         return this.id;
     }
 

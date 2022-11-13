@@ -2,21 +2,21 @@ package entity;
 
 public class Review {
 
-    private String id;
+    private int id;
 
     private String body;
 
-    public Review(String id, String text){
+    public Review(int id, String text){
         this.id = id;
         this.body = text;
     }
 
-    public Review(String id){
+    public Review(int id){
         this.id = id;
         this.body = "";
     }
 
-    public String getid(){
+    public int getid(){
         return this.id;
     }
 
