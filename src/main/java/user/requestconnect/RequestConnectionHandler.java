@@ -2,6 +2,8 @@ package user.requestconnect;
 
 import entity.User;
 
+import java.util.ArrayList;
+
 public class RequestConnectionHandler {
 
     private final User user;
@@ -16,16 +18,30 @@ public class RequestConnectionHandler {
     }
 
     public void acceptConnectionRequest() {
-        user.getConnections().add(user.getId());
-        target.getConnections().add(user.getId());
+        ArrayList<String> userConnections = user.getConnections();
+        ArrayList<String> targetConnections = target.getConnections();
+
+        userConnections.add(target.getId());
+        targetConnections.add(user.getId());
+
+        target.setConnections(targetConnections);
+        user.setConnections(userConnections);
+
         dataAccess.saveUser(user);
         dataAccess.saveUser(target);
         // broadcast update to target
         socket.broadcastConnectionRequest();
     }
     public void sendConnectionRequestToTarget() {
-        user.getConnectionRequests().add(target.getId());
-        target.getPendingConnections().add(user.getId());
+        ArrayList<String> userConnectionRequests = user.getConnectionRequests();
+        ArrayList<String> targetPendingConnections = target.getPendingConnections();
+
+        userConnectionRequests.add(target.getId());
+        targetPendingConnections.add(user.getId());
+
+        user.setConnectionRequests(userConnectionRequests);
+        target.setPendingConnections(targetPendingConnections);
+
         dataAccess.saveUser(user);
         dataAccess.saveUser(target);
         // broadcast update to target
