@@ -25,10 +25,15 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation('junit:junit:4.13.2')
+    testImplementation('org.junit.jupiter:junit-jupiter:5.9.0')
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 tasks.named('processResources') {
