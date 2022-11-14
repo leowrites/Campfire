@@ -6,20 +6,24 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RestController;
-import user.connect.ConnectionDataAccess;
+import user.requestconnect.IRequestConnectionDataAccess;
+import user.acceptconnect.IAcceptConnectionDataAccess;
 
 
-@SpringBootApplication
+
 @RestController
-@ComponentScan("user.connect")
+@SpringBootApplication
+@ComponentScan(basePackages = {"user"})
 public class Application{
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private ConnectionDataAccess dataAccess;
+    private IAcceptConnectionDataAccess dataAccess;
 
+    @Autowired
+    private IRequestConnectionDataAccess data;
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
