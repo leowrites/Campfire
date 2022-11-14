@@ -1,4 +1,5 @@
 package entity;
+import java.util.ArrayList;
 
 /**
  * CorporatePage is a child class of the abstract class Page, which displays company info and internship reviews
@@ -8,20 +9,18 @@ package entity;
 public class CorporatePage extends Page {
 
     // This uniqueIdTracker starts from 0, and increments by 1 every time it's assigned to a CorporatePage instance.
-    static int uniqueIdTracker = 0;
 
     private String companyName;
     private String companyInfo;
     private CorporateRep pageManager;
     private int companyPageId;
+    //private ArrayList<Internship> internshipsArray = new ArrayList<Internship>();
 
     public CorporatePage(String pageName, User owner,
                          String companyName, String companyInfo){
         super(pageName, owner);
         this.companyName = companyName;
         this.companyInfo = companyInfo;
-        this.companyPageId = uniqueIdTracker;
-        uniqueIdTracker ++;
     }
 
     public CorporatePage(String pageName, User owner){
@@ -36,6 +35,8 @@ public class CorporatePage extends Page {
         return companyInfo;
     }
 
+    //public ArrayList<Internship> getInternshipsArray() { return this.internshipsArray; }
+
     public void setCompanyName(String companyName){
         this.companyName = companyName;
     }
@@ -43,5 +44,8 @@ public class CorporatePage extends Page {
     public void setCompanyInfo(String companyInfo){
         this.companyInfo = companyInfo;
     }
+
+    //public void addInternship(Internship internship) {this.internshipsArray}
+
 
 }
