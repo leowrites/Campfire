@@ -1,12 +1,12 @@
-package user.connect;
+package user.requestconnect;
 import entity.User;
-import user.connect.exceptions.PendingRequestExistsException;
-import user.connect.exceptions.UserAlreadyConnectedException;
+import user.requestconnect.exceptions.PendingRequestExistsException;
+import user.requestconnect.exceptions.UserAlreadyConnectedException;
 
-public class ConnectionVerifier {
+public class RequestConnectionVerifier {
     private final User user;
     private final User target;
-    public ConnectionVerifier(User user, User target) {
+    public RequestConnectionVerifier(User user, User target) {
         this.user = user;
         this.target = target;
     }
