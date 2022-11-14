@@ -1,5 +1,6 @@
 package delete_comment;
 
+import entity.Comment;
 import entity.Review;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class DeleteCommentController {
         this.interactor = interactor;
     }
 
-    public DeleteCommentResponseModel createDeleteCommentrequestmodel(ArrayList<Review> comments,
+    public DeleteCommentResponseModel createDeleteCommentrequestmodel(ArrayList<Comment> comments,
                                                                       String id,
                                                                       int access_level){
         DeleteCommentRequestModel requestModel = new DeleteCommentRequestModel(comments, id, access_level);
