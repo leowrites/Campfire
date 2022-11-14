@@ -1,7 +1,6 @@
 package delete_comment;
 
 import entity.Review;
-import user.connect.ConnectionRequestModel;
 
 import java.util.ArrayList;
 
