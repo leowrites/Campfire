@@ -1,21 +1,20 @@
-package user.connect;
+package user.requestconnect;
 
 import entity.User;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import user.connect.exceptions.PendingRequestExistsException;
-import user.connect.exceptions.UserAlreadyConnectedException;
+import user.requestconnect.exceptions.PendingRequestExistsException;
+import user.requestconnect.exceptions.UserAlreadyConnectedException;
 
 import java.util.ArrayList;
 
-class ConnectionVerifierTest {
+class RequestConnectionVerifierTest {
 
     User user1;
     User user2;
-    ConnectionVerifier verifier;
+    RequestConnectionVerifier verifier;
     @BeforeEach
     public void setUp() {
         ArrayList<String> user1Requests = new ArrayList<String>();
@@ -29,7 +28,7 @@ class ConnectionVerifierTest {
                 "leoliu", "leo@gmail.com", "pass", "Leo");
         user2 = new User("02", user2Requests, user2Connections, user2PendingConnections,
                 "alex123", "alex@gmail.com", "pass", "Alex");
-        verifier = new ConnectionVerifier(user1, user2);
+        verifier = new RequestConnectionVerifier(user1, user2);
     }
 
     @Test

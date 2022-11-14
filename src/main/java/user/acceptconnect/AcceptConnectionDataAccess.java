@@ -1,9 +1,5 @@
-package user.connect;
+package user.acceptconnect;
 
-import java.io.*;
-import java.util.Arrays;
-
-// remove this dependency once db is implemented
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.User;
@@ -12,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ConnectionDataAccess implements IConnectionDataAccess {
+public class AcceptConnectionDataAccess implements IAcceptConnectionDataAccess {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     final String INSERT_QUERY = "INSERT INTO users (username, data) values (?, ?)";
