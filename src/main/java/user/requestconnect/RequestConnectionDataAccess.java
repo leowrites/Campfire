@@ -1,11 +1,11 @@
-package user.connect;
+package user.requestconnect;
 
 import java.io.*;
 
 // remove this dependency once db is implemented
 import entity.User;
 
-public class ConnectionDataAccess implements IConnectionDataAccess {
+public class RequestConnectionDataAccess implements IRequestConnectionDataAccess {
     /**
      * @param userId id of the current user
      * @return A serialized user object
