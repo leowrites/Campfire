@@ -1,7 +1,6 @@
 package user.requestconnect;
 
 import entity.User;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,8 +24,10 @@ class RequestConnectionVerifierTest {
         ArrayList<String> user2PendingConnections = new ArrayList<String>();
         ArrayList<String> user2Connections = new ArrayList<String>();
 
-        user1 = new User("01", user1Requests, user1Connections, user1PendingConnections, "Leo", 0);
-        user2 = new User("02", user2Requests, user2Connections, user2PendingConnections, "Alex", 0);
+        user1 = new User("01", user1Requests, user1Connections, user1PendingConnections,
+                "leoliu", "leo@gmail.com", "pass", "Leo");
+        user2 = new User("02", user2Requests, user2Connections, user2PendingConnections,
+                "alex123", "alex@gmail.com", "pass", "Alex");
         verifier = new RequestConnectionVerifier(user1, user2);
     }
 
