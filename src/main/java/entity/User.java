@@ -79,4 +79,8 @@ public class User implements Serializable {
     }
 
     public int getaccesslevel(){return this.access_level;}
+
+    public void setaccesslevel(){
+        this.access_level = 1;
+    }
 }
