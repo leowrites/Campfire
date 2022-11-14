@@ -18,16 +18,16 @@ public class ConnectionHandler {
     public void acceptConnectionRequest() {
         user.getConnections().add(user.getId());
         target.getConnections().add(user.getId());
-        dataAccess.saveUser(user);
-        dataAccess.saveUser(target);
+        dataAccess.updateUser(user);
+        dataAccess.updateUser(target);
         // broadcast update to target
         socket.broadcastConnectionRequest();
     }
     public void sendConnectionRequestToTarget() {
         user.getConnectionRequests().add(target.getId());
         target.getPendingConnections().add(user.getId());
-        dataAccess.saveUser(user);
-        dataAccess.saveUser(target);
+        dataAccess.updateUser(user);
+        dataAccess.updateUser(target);
         // broadcast update to target
         socket.broadcastConnectionRequest();
     }

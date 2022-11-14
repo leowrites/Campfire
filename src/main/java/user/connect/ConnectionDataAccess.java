@@ -20,7 +20,7 @@ public class ConnectionDataAccess implements IConnectionDataAccess {
     final String DATA_QUERY = "select username, data from users where username = ? ";
 
     /**
-     *
+     * query from db and return a user object given username
      * @param username username of the query
      * @return a User object
      */
@@ -30,12 +30,14 @@ public class ConnectionDataAccess implements IConnectionDataAccess {
     }
 
     /**
-     * @param user saves a new connection
+     * save a new user object to db
+     * @param user a user object
      */
     @Override
     public void saveUser(User user){
         try{
             ObjectMapper mapper = new ObjectMapper();
+            // need to verify username is not duplicated
             String userString = mapper.writeValueAsString(user);
             jdbcTemplate.update(INSERT_QUERY, user.getUsername(), userString);
         } catch(JsonProcessingException e){
@@ -44,12 +46,17 @@ public class ConnectionDataAccess implements IConnectionDataAccess {
     }
 
     /**
-     *
-     * @param data new values to update, must be a stringified user object
-     * @param username username
+     * updates a user given a user object
+     * @param user a user object
      */
     @Override
-    public void updateUser(String data, String username) {
-        jdbcTemplate.update(UPDATE_QUERY, data, username);
+    public void updateUser(User user) {
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            String userString = mapper.writeValueAsString(user);
+            jdbcTemplate.update(UPDATE_QUERY, userString, user.getUsername());
+        } catch(JsonProcessingException e){
+            System.out.println("Json process error!");
+        }
     }
 }
