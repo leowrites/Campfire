@@ -29,9 +29,6 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
         try {
             user = dataAccess.getUser(userId);
             target = dataAccess.getUser(targetId);
-            if (user == null || target == null){
-                throw new UserNotFoundException("Could not find target user");
-            }
         } catch (UserNotFoundException e) {
             return new RequestConnectionResponseModel("Failure %s", e.getMessage());
         }
