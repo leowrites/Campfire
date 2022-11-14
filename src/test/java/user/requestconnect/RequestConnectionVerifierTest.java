@@ -25,8 +25,8 @@ class ConnectionVerifierTest {
         ArrayList<String> user2PendingConnections = new ArrayList<String>();
         ArrayList<String> user2Connections = new ArrayList<String>();
 
-        user1 = new User("01", user1Requests, user1Connections, user1PendingConnections, "Leo", 0);
-        user2 = new User("02", user2Requests, user2Connections, user2PendingConnections, "Alex", 0);
+        user1 = new User("01", user1Requests, user1Connections, user1PendingConnections, "Leo");
+        user2 = new User("02", user2Requests, user2Connections, user2PendingConnections, "Alex");
         verifier = new ConnectionVerifier(user1, user2);
     }
 

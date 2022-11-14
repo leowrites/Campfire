@@ -1,4 +1,4 @@
-package user.connect.exceptions;
+package user.requestconnect.exceptions;
 
 public class UserNotFoundException extends Exception{
     public UserNotFoundException(String msg) {
