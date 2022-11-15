@@ -5,27 +5,25 @@ import java.util.*;
 public class RequestConnectionResponseModel {
     private final ServerStatus connectionStatus;
     private String message;
-    private User user;
-    private User target;
-    public RequestConnectionResponseModel(ServerStatus connectionStatus, User user, User target){
+    private ArrayList<String> connectionRequests;
+    private ArrayList<String> pendingConnections;
+    private ArrayList<String> connections;
+    private String userId;
+    private String targetId;
+    public RequestConnectionResponseModel(ServerStatus connectionStatus, String message, ArrayList<String> connectionRequests,
+                                          ArrayList<String> pendingConnections, ArrayList<String> connections, String userId,
+                                           String targetId){
+        this.message = message;
+        this.userId = userId;
+        this.targetId = targetId;
         this.connectionStatus = connectionStatus;
-        this.user = user;
-        this.target = target;
+        this.connectionRequests = connectionRequests;
+        this.pendingConnections = pendingConnections;
+        this.connections = connections;
     }
-    public RequestConnectionResponseModel(ServerStatus connectionStatus, String message){
+    public RequestConnectionResponseModel(ServerStatus connectionStatus, String message, String userId){
+        this.userId = userId;
         this.connectionStatus = connectionStatus;
         this.message = message;
-    }
-    public ServerStatus getConnectionStatus() {
-        return connectionStatus;
-    }
-    public User getUser() {
-        return user;
-    }
-
-    public User getTarget() {return target;}
-
-    public String getMessage() {
-        return message;
     }
 }
