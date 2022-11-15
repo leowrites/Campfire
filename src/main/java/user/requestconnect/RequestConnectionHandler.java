@@ -9,12 +9,10 @@ public class RequestConnectionHandler {
     private final User user;
     private final User target;
     private final IRequestConnectionDataAccess dataAccess;
-    private final IRequestConnectionSocket socket;
-    public RequestConnectionHandler(User user, User target, IRequestConnectionDataAccess dataAccess, IRequestConnectionSocket socket) {
+    public RequestConnectionHandler(User user, User target, IRequestConnectionDataAccess dataAccess) {
         this.user = user;
         this.target = target;
         this.dataAccess = dataAccess;
-        this.socket = socket;
     }
 
     public void acceptConnectionRequest() {
@@ -29,8 +27,6 @@ public class RequestConnectionHandler {
 
         dataAccess.saveUser(user);
         dataAccess.saveUser(target);
-        // broadcast update to target
-        socket.broadcastConnectionRequest();
     }
     public void sendConnectionRequestToTarget() {
         ArrayList<String> userConnectionRequests = user.getConnectionRequests();
@@ -44,7 +40,5 @@ public class RequestConnectionHandler {
 
         dataAccess.saveUser(user);
         dataAccess.saveUser(target);
-        // broadcast update to target
-        socket.broadcastConnectionRequest();
     }
 }

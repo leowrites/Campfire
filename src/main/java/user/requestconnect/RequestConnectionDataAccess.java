@@ -26,7 +26,7 @@ public class RequestConnectionDataAccess implements IRequestConnectionDataAccess
      */
     @Override
     public User getUser(String username) {
-        return jdbcTemplate.queryForObject(DATA_QUERY, new UserDaoMapper());
+        return jdbcTemplate.queryForObject(DATA_QUERY,  new UserDaoMapper(), username);
     }
 
     /**

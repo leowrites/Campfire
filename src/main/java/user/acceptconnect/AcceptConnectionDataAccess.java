@@ -13,7 +13,7 @@ public class AcceptConnectionDataAccess implements IAcceptConnectionDataAccess {
     private JdbcTemplate jdbcTemplate;
     final String INSERT_QUERY = "INSERT INTO users (username, data) values (?, ?)";
     final String UPDATE_QUERY = "update user set ? = ? where username = ?";
-    final String DATA_QUERY = "select username, data from users where username = ? ";
+    final String DATA_QUERY = "select data from users where username = ?";
 
     /**
      * query from db and return a user object given username
@@ -22,7 +22,7 @@ public class AcceptConnectionDataAccess implements IAcceptConnectionDataAccess {
      */
     @Override
     public User getUser(String username) {
-        return jdbcTemplate.queryForObject(DATA_QUERY, new UserDaoMapper());
+        return jdbcTemplate.queryForObject(DATA_QUERY,  new UserDaoMapper(), username);
     }
 
     /**
