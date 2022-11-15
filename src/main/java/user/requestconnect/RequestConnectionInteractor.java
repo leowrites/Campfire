@@ -29,7 +29,7 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
             user = dataAccess.getUser(userId);
             target = dataAccess.getUser(targetId);
         } catch (UserNotFoundException e) {
-            return new RequestConnectionResponseModel(ServerStatus.ERROR, e.getMessage());
+            return new RequestConnectionResponseModel(ServerStatus.ERROR, e.getMessage(), userId);
         }
 
         RequestConnectionVerifier verifier = new RequestConnectionVerifier(user, target);
@@ -38,7 +38,7 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
             verifier.verify();
         } catch (UserAlreadyConnectedException | PendingRequestExistsException e) {
             // prepare failure response model for already connected
-            return new RequestConnectionResponseModel(ServerStatus.ERROR, e.getMessage());
+            return new RequestConnectionResponseModel(ServerStatus.ERROR, e.getMessage(), userId);
         }
 
         RequestConnectionHandler handler = new RequestConnectionHandler(user, target, dataAccess);
@@ -49,6 +49,8 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
             handler.sendConnectionRequestToTarget();
         }
 
-        return new RequestConnectionResponseModel(ServerStatus.SUCCESS, "You connected with _");
+        return new RequestConnectionResponseModel(ServerStatus.SUCCESS, "Success",
+                user.getConnectionRequests(), user.getPendingConnections(), user.getConnections(),
+                userId, targetId);
     }
 }
