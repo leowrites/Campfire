@@ -3,10 +3,12 @@ package main;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-@SpringBootApplication
-@ComponentScan(basePackages = "controllers")
-public class Application {
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@SpringBootApplication
+@ComponentScan(basePackages = {"user"})
+public class Application{
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
