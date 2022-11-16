@@ -7,9 +7,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import user.acceptconnect.UserDaoMapper;
+import user.requestconnect.exceptions.UserNotFoundException;
 
 @Repository
 public class RequestConnectionDataAccess implements IRequestConnectionDataAccess {
@@ -25,8 +27,13 @@ public class RequestConnectionDataAccess implements IRequestConnectionDataAccess
      * @return a User object
      */
     @Override
-    public User getUser(String username) {
-        return jdbcTemplate.queryForObject(DATA_QUERY,  new UserDaoMapper(), username);
+    public User getUser(String username) throws UserNotFoundException {
+        try {
+            return jdbcTemplate.queryForObject(DATA_QUERY,  new UserDaoMapper(), username);
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println("No user found!");
+            throw new UserNotFoundException("No user found!");
+        }
     }
 
     /**
