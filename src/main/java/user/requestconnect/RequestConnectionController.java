@@ -1,11 +1,12 @@
 package user.requestconnect;
 
+import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -23,7 +24,7 @@ public class RequestConnectionController {
         this.requestConnectionInteractor = requestConnectionInteractor;
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
-    @PostMapping("/users/connections/request")
+    @MessageMapping("/users/connections/request")
     public void requestConnection(
             Principal user,
             @Header("simpSessionId") String sessionId,
@@ -32,12 +33,12 @@ public class RequestConnectionController {
 
         // send to target
         simpMessagingTemplate.convertAndSendToUser(
-                requestModel.getTargetId(), "/queue/connections/response", requestConnectionResponseModel
+                requestModel.getTargetId(), "/queue/connections", requestConnectionResponseModel
         );
 
         // send to current user
         simpMessagingTemplate.convertAndSendToUser(
-                requestModel.getUserId(), "/queue/connections/response", requestConnectionResponseModel
+                requestModel.getUserId(), "/queue/connections", requestConnectionResponseModel
         );
     }
 }
