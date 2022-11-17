@@ -1,6 +1,6 @@
-package delete_comment;
+package user.delete_comment;
 
-import delete_comment.exceptions.NotOwnCommentException;
+import user.delete_comment.exceptions.NotOwnCommentException;
 import entity.Comment;
 
 public class UserOwnCommentVerifier {

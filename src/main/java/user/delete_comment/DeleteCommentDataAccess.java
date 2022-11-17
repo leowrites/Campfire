@@ -1,7 +1,6 @@
-package delete_comment;
+package user.delete_comment;
 
 import entity.Comment;
-import user.comment.ICommentDataAccess;
 
 public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {
 

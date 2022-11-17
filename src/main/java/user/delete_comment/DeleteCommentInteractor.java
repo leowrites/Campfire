@@ -1,10 +1,9 @@
-package delete_comment;
+package user.delete_comment;
 
-import delete_comment.exceptions.NotOwnCommentException;
+import user.delete_comment.exceptions.NotOwnCommentException;
 import entity.Comment;
 import exceptions.CommentNotFoundException;
 import exceptions.NotModeratorException;
-import org.yaml.snakeyaml.events.Event;
 
 import java.util.ArrayList;
 

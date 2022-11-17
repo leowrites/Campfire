@@ -1,8 +1,8 @@
-package delete_comment;
+package user.delete_comment;
 
 public class DeleteCommentResponseModel {
 
-    private String message;
+    private final String message;
 
     public DeleteCommentResponseModel(String message){
         this.message = message;

@@ -1,7 +1,6 @@
-package delete_comment;
+package user.delete_comment;
 
 import entity.Comment;
-import entity.Review;
 
 import java.util.ArrayList;
 

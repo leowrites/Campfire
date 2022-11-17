@@ -1,4 +1,4 @@
-package delete_comment.exceptions;
+package user.delete_comment.exceptions;
 
 public class NotOwnCommentException extends Exception{
 

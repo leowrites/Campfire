@@ -1,4 +1,4 @@
-package delete_comment;
+package user.delete_comment;
 
 public interface IDeleteCommentInput {
 
