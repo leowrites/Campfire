@@ -4,5 +4,7 @@ import entity.Comment;
 
 public interface IDeleteCommentDataAccess {
 
-    Comment getComment(String id);
+    Comment getComment(String commentId);
+
+    void removeComment(String commentId);
 }

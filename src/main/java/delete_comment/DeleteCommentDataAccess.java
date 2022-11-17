@@ -13,6 +13,7 @@ public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {
         return comment;
     }
 
+    @Override
     public void removeComment(String commentId){
         // Connect this to Spring DB, should take the commentId and remove the comment from the database
         // Does not return anything
