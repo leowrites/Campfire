@@ -10,6 +10,9 @@ public class Comment {
     private Date datePosted;
     // private ArrayList<Comment> comments;
 
+    public Comment(){
+    }
+
     public Comment(String id, String userID, String content /*, ArrayList<Comment> comments */) {
         this.id = id;
         this.userID = userID;

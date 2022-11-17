@@ -2,16 +2,18 @@ package delete_comment;
 
 import exceptions.NotModeratorException;
 
-public class AccessLevelVerifier {
+import static java.lang.Boolean.FALSE;
 
-    private final int access_level;
+public class UserAccessLevelVerifier {
 
-    public AccessLevelVerifier(int access_level){
-        this.access_level = access_level;
+    private final int accessLevel;
+
+    public UserAccessLevelVerifier(int accessLevel){
+        this.accessLevel = accessLevel;
     }
 
     public int getaccesslevel(){
-        return this.access_level;
+        return this.accessLevel;
     }
 
     /**

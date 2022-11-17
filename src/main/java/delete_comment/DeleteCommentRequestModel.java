@@ -1,36 +1,37 @@
 package delete_comment;
 
 import entity.Comment;
-import entity.Review;
 
 import java.util.ArrayList;
 
 public class DeleteCommentRequestModel {
 
     private final ArrayList<Comment> comments;
+    private final String commentId;
 
-    private final String id;
+    private final String userId;
 
-    private final int access_level;
+    private final int accessLevel;
 
     public DeleteCommentRequestModel(ArrayList<Comment> comments,
-                                     String id,
-                                     int access_level){
+                                     String commentId,
+                                     String userId,
+                                     int accessLevel){
         this.comments = comments;
-        this.id = id;
-        this.access_level = access_level;
+        this.commentId = commentId;
+        this.userId = userId;
+        this.accessLevel = accessLevel;
     }
 
-    public ArrayList<Comment> getcomments(){
-        return this.comments;
+    public ArrayList<Comment> getComments() {return this.comments;}
+    public String getCommentId(){
+        return this.commentId;
     }
 
-    public String getid(){
-        return this.id;
-    }
+    public String getUserId(){return this.userId;}
 
     public int getaccesslevel(){
-        return this.access_level;
+        return this.accessLevel;
     }
 
 }

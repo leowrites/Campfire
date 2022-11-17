@@ -12,7 +12,7 @@ public class Moderator extends User{
                 String email,
                 String password,
                 String name){
-        this.setaccesslevel();
+        super.setaccesslevel(1);
     }
 
 }
