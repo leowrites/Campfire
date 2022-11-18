@@ -19,10 +19,25 @@ public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {
     }
 
     @Override
+    public ArrayList<Comment> getCommentsComment(String parentId){
+        // Connect this to Spring DB, should take the parentId, and return the corresponding list of comments
+        // Call this in getComments if parentType is a comment
+        ArrayList<Comment> comments = new ArrayList<Comment>();
+        return comments;
+    }
+
+    @Override
+    public ArrayList<Comment> getCommentsReview(String parentId){
+        // Connect this to Spring DB, should take the parentId, and return the corresponding list of comments
+        // Call this in getComments if parentType is a review
+        ArrayList<Comment> comments = new ArrayList<Comment>();
+        return comments;
+    }
+
+    @Override
     public Comment getComment(String Id){
         // Connect this to Spring DB, should take the Id and return the comment in the database
         // with the corresponding Id
-        // Call this function in getComments
         Comment comment = new Comment();
         return comment;
     }
@@ -31,7 +46,6 @@ public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {
     public Review getReview(String Id){
         // Connect this to Spring DB, should take the Id and return the Review in the database
         // with the corresponding Id
-        // Call this function in getComments
         Review review = new Review();
         return review;
     }

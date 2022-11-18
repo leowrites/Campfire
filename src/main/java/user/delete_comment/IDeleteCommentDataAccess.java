@@ -9,6 +9,10 @@ public interface IDeleteCommentDataAccess {
 
     public ArrayList<Comment> getComments(String parentType, String parentId);
 
+    public ArrayList<Comment> getCommentsComment(String parentId);
+
+    public ArrayList<Comment> getCommentsReview(String parentId);
+
     public Comment getComment(String Id);
 
     public Review getReview(String Id);
