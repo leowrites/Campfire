@@ -1,6 +1,5 @@
 import Container from 'react-bootstrap/Container';
 import { useEffect, useState } from 'react';
-import Navbar from '../Component/Navbar'
 import InternshipPaper from './InternshipPaper';
 
 function HomePage() {
@@ -19,7 +18,6 @@ function HomePage() {
   }, [])
   return (
     <>
-    <Navbar />
     <Container>
       {internships.map((v, i) => (
           <InternshipPaper key={i} title={v.name} info={v.info}/>

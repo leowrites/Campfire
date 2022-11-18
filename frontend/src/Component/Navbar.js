@@ -16,7 +16,7 @@ const darkTheme = createTheme({
   },
 });
 
-export default function Navbar() {
+export default function Navbar({sendMessage}) {
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={darkTheme}>
@@ -26,6 +26,7 @@ export default function Navbar() {
             <Box sx={{ ml: 'auto' }}>
               <Button sx={{ color: 'white' }}>Login</Button>
               <Button sx={{ color: 'white' }}>Sign in</Button>
+              <Button sx={{ color: 'white' }} onClick={sendMessage}>Send a message</Button>
             </Box>
           </Toolbar>
         </AppBar>

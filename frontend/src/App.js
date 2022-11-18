@@ -2,11 +2,29 @@ import './App.css';
 import HomePage from './Home/HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SockJsclient from 'react-stomp'
+import { useRef, useState } from 'react';
+import Navbar from './Component/Navbar'
 
 const SOCKET_URL = 'http://localhost:8080/ws'
 
 
 function App() {
+  const clientRef = useRef()
+  // const [sessionId, setSessionId] = useState('')
+
+  const sendMessage = () => {
+    console.log('message sent')
+    clientRef.current.sendMessage(
+      ['/app/users/test'],
+      JSON.stringify(
+        {
+          userId: 'leoliu',
+          targetId: 'syx'
+        }
+      )
+    )
+  }
+
 
   const onConnected = () => {
     console.log("connected")
@@ -22,11 +40,18 @@ function App() {
     <div className="App">
       <SockJsclient
         url={SOCKET_URL}
-        topics={['/topic/queue/connections']}
+        topics={['/topic/users/connections', '/topic/users/test',
+      '/users/queue/reply']}
+        ref={clientRef}
         onConnect={onConnected}
         onDisconnect={onDisconnect}
+        options={{
+          // options in https://github.com/sockjs/sockjs-client#sockjs-client-api
+          sessionId: () => "leoliu"
+        }}
         onMessage={(msg) => onMessage(msg)}
       />
+      <Navbar sendMessage={sendMessage}/>
       <HomePage />
     </div>
   );
