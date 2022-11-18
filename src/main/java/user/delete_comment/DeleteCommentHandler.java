@@ -6,14 +6,11 @@ import java.util.ArrayList;
 
 public class DeleteCommentHandler {
 
-    private final String parentType;
-
     private final String commentId;
 
     private final ArrayList<Comment> comments;
 
-    public DeleteCommentHandler(String parentType, String commentId, ArrayList<Comment> comments){
-        this.parentType = parentType;
+    public DeleteCommentHandler(String commentId, ArrayList<Comment> comments){
         this.commentId = commentId;
         this.comments = comments;
     }

@@ -25,6 +25,7 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
         String commentId = requestModel.getCommentId();
         String userId = requestModel.getUserId();
         int accessLevel = requestModel.getaccesslevel();
+
         ArrayList<Comment> comments = dataAccess.getComments(parentType, parentId);
         ArrayList<Comment> commentsNew;
         Comment comment;
@@ -65,7 +66,7 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
         // Handler will delete the specific comment from the ArrayList, will update the parent
         // with updated list of comments.
 
-        DeleteCommentHandler handler = new DeleteCommentHandler(parentType, commentId, comments);
+        DeleteCommentHandler handler = new DeleteCommentHandler(commentId, comments);
 
         commentsNew = handler.deleteComment();
 
