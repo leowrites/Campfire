@@ -8,11 +8,13 @@ public class DeleteCommentController {
         this.interactor = interactor;
     }
 
-    public DeleteCommentResponseModel createDeleteCommentRequestModel(String parentId,
+    public DeleteCommentResponseModel createDeleteCommentRequestModel(String parentType,
+                                                                      String parentId,
                                                                       String commentId,
                                                                       String userId,
                                                                       int accessLevel){
-        DeleteCommentRequestModel requestModel = new DeleteCommentRequestModel(parentId, commentId, userId, accessLevel);
+        DeleteCommentRequestModel requestModel = new DeleteCommentRequestModel(parentType,
+                parentId, commentId, userId, accessLevel);
         return interactor.createResponseModel(requestModel);
     }
 }

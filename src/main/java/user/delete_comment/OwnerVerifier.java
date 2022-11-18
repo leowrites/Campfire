@@ -14,18 +14,10 @@ public class OwnerVerifier {
         this.userId = userId;
     }
 
-    public Comment getComment(){
-        return this.comment;
-    }
-
-    public String getUserId(){
-        return this.userId;
-    }
-
     public void verify() throws NotOwnCommentException{
-        String userIdGiven = this.getUserId();
-        String userIdComment = this.getComment().getUserID();
-        if (userIdGiven.equals(userIdComment)) {
+        // Raises error if the two ids are not equal to each other (Comment does not belong to user)
+        String userIdComment = this.comment.getUserID();
+        if (!this.userId.equals(userIdComment)) {
             throw new NotOwnCommentException("Comment does not belong to user");
         }
 

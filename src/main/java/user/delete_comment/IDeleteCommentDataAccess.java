@@ -8,7 +8,7 @@ public interface IDeleteCommentDataAccess {
 
     Comment getComment(String commentId);
 
-    ArrayList<Comment> getComments(String parentId);
+    ArrayList<Comment> getComments(String parentType, String parentId);
 
-    void updateComments (String parentId, ArrayList<Comment> newComments);
+    void updateComments (String parentType, String parentId, ArrayList<Comment> newComments);
 }

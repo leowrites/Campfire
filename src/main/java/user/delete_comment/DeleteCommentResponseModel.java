@@ -17,7 +17,7 @@ public class DeleteCommentResponseModel {
 
     }
 
-    public String getmessage(){
+    public String getMessage(){
         return this.message;
     }
 

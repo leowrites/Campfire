@@ -10,15 +10,11 @@ public class ModeratorVerifier {
         this.accessLevel = accessLevel;
     }
 
-    public int getaccesslevel(){
-        return this.accessLevel;
-    }
-
     /**
      * raises error if the user does not have access level
      */
     public void verify() throws NotModeratorException{
-        if (this.getaccesslevel() != 1){
+        if (this.accessLevel != 1){
             throw new NotModeratorException("Not enough access level");
             }
         }
