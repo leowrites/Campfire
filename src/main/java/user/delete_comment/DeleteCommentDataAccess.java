@@ -9,13 +9,6 @@ import java.util.ArrayList;
 public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {
 
     @Override
-    public Comment getComment(String commentId){
-        // Connect this to Spring DB, should take the commentId and return the comment in the database
-        // with the corresponding Id
-        Comment comment = new Comment();
-        return comment;
-    }
-
     public ArrayList<Comment> getComments(String parentType, String parentId){
         // Connect this to Spring DB, should take the parentId (which is either
         // a Review or Comment) and return the corresponding list of comments in the database
@@ -25,16 +18,20 @@ public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {
         return comments;
     }
 
-    public Comment getCommentParent(String parentId){
-        // Call this function in getComments if parentType is a comment
-        // Can also call this function in updateCommentsComment
+    @Override
+    public Comment getComment(String Id){
+        // Connect this to Spring DB, should take the Id and return the comment in the database
+        // with the corresponding Id
+        // Call this function in getComments
         Comment comment = new Comment();
         return comment;
     }
 
-    public Review getReviewParent(String parentid){
-        // Call this function in getComments if parentType is a review
-        // Can also call this function in updateCommentsReview
+    @Override
+    public Review getReview(String Id){
+        // Connect this to Spring DB, should take the Id and return the Review in the database
+        // with the corresponding Id
+        // Call this function in getComments
         Review review = new Review();
         return review;
     }
@@ -47,11 +44,13 @@ public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {
         // Need to pass in parentType to know which table in DB to search
     }
 
-    public void updateCommentsReview(String parentid, ArrayList<Comment> newComments){
+    @Override
+    public void updateReview(String Id, ArrayList<Comment> newComments){
         // Call this function in updateComments if parentType is a review
     }
 
-    public void updateCommentComment(String parentid, ArrayList<Comment> newComments){
+    @Override
+    public void updateComment(String Id, ArrayList<Comment> newComments){
         // Call this function in updateComments if parentType is a comment
     }
 }

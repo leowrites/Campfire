@@ -1,14 +1,22 @@
 package user.delete_comment;
 
 import entity.Comment;
+import entity.Review;
 
 import java.util.ArrayList;
 
 public interface IDeleteCommentDataAccess {
 
-    Comment getComment(String commentId);
+    public ArrayList<Comment> getComments(String parentType, String parentId);
 
-    ArrayList<Comment> getComments(String parentType, String parentId);
+    public Comment getComment(String Id);
 
-    void updateComments (String parentType, String parentId, ArrayList<Comment> newComments);
+    public Review getReview(String Id);
+
+    public void updateComments(String parentType, String parentId, ArrayList<Comment> newComments);
+
+    public void updateReview(String Id, ArrayList<Comment> newComments);
+
+    public void updateComment(String Id, ArrayList<Comment> newComments);
+
 }
