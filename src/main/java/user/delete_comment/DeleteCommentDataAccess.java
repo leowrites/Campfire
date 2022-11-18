@@ -2,6 +2,9 @@ package user.delete_comment;
 
 import entity.Comment;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {
 
     @Override
@@ -12,9 +15,18 @@ public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {
         return comment;
     }
 
+    public ArrayList<Comment> getComments(String parentId){
+        // Connect this to Spring DB, should take the parentId (which is either
+        // a Review or Comment) and return the corresponding list of comments in the database
+        // with the corresponding parentId
+        ArrayList<Comment> comments = new ArrayList<Comment>();
+        return comments;
+    }
+
     @Override
-    public void removeComment(String commentId){
-        // Connect this to Spring DB, should take the commentId and remove the comment from the database
+    public void updateComments(String parentId, ArrayList<Comment> newComments){
+        // Connect this to Spring DB, should take the parentId (which is either a Review or Comment)
+        // and set the comments to the new comments, which has one comment deleted
         // Does not return anything
     }
 }

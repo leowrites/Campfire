@@ -3,13 +3,13 @@ package user.delete_comment;
 import user.delete_comment.exceptions.NotOwnCommentException;
 import entity.Comment;
 
-public class UserOwnCommentVerifier {
+public class OwnerVerifier {
 
     private final Comment comment;
 
     private final String userId;
 
-    public UserOwnCommentVerifier(Comment comment, String userId){
+    public OwnerVerifier(Comment comment, String userId){
         this.comment = comment;
         this.userId = userId;
     }

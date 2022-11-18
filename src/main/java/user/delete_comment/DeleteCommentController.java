@@ -1,9 +1,5 @@
 package user.delete_comment;
 
-import entity.Comment;
-
-import java.util.ArrayList;
-
 public class DeleteCommentController {
 
     final IDeleteCommentInput interactor;
@@ -12,11 +8,11 @@ public class DeleteCommentController {
         this.interactor = interactor;
     }
 
-    public DeleteCommentResponseModel createDeleteCommentrequestmodel(ArrayList<Comment> comments,
+    public DeleteCommentResponseModel createDeleteCommentRequestModel(String parentId,
                                                                       String commentId,
                                                                       String userId,
                                                                       int accessLevel){
-        DeleteCommentRequestModel requestModel = new DeleteCommentRequestModel(comments, commentId, userId, accessLevel);
+        DeleteCommentRequestModel requestModel = new DeleteCommentRequestModel(parentId, commentId, userId, accessLevel);
         return interactor.createResponseModel(requestModel);
     }
 }
