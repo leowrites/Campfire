@@ -12,11 +12,12 @@ public class Review {
     private int numDislikes;
     private String content;
     private ArrayList<Comment> comments;
+    private int rating;
 
     public Review() {
     }
 
-    public Review(String reviewID, String userID, String company, String content) {
+    public Review(String reviewID, String userID, String company, String content, int rating) {
         this.id = reviewID;
         this.userID = userID;
         this.company = company;
@@ -25,13 +26,19 @@ public class Review {
         this.numLikes = 0;
         this.numDislikes = 0;
         this.comments = new ArrayList<>();
+        if (rating > 10){this.rating = 10;}
+        else if (rating < 0){this.rating = 0;}
+        else{this.rating = rating;}
     }
 
-    public Review(String reviewID, String userID, String content, String company, Date datePosted, int numLikes, int numDislikes,
+    public Review(String reviewID, String userID, String content, int rating, String company, Date datePosted, int numLikes, int numDislikes,
                   ArrayList<Comment> comments) {
         this.id = reviewID;
         this.userID = userID;
         this.content = content;
+        if (rating > 10){this.rating = 10;}
+        else if (rating < 0){this.rating = 0;}
+        else{this.rating = rating;}
         this.company = company;
         this.datePosted = datePosted;
         this.numLikes = numLikes;
@@ -69,6 +76,16 @@ public class Review {
 
     public void setContent(String newContent) {
         this.content = newContent;
+    }
+
+    public int getRating() {
+        return this.rating;
+    }
+
+    public void setRating(int rating) {
+        if (rating > 10){this.rating = 10;}
+        else if (rating < 0){this.rating = 0;}
+        else{this.rating = rating;}
     }
 
     public Date getDatePosted() {
