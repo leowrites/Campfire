@@ -1,6 +1,7 @@
 package user.requestconnect;
 
 import entity.User;
+import service.IUserDataAccess;
 
 import java.util.ArrayList;
 
@@ -8,8 +9,8 @@ public class RequestConnectionHandler {
 
     private final User user;
     private final User target;
-    private final IRequestConnectionDataAccess dataAccess;
-    public RequestConnectionHandler(User user, User target, IRequestConnectionDataAccess dataAccess) {
+    private final IUserDataAccess dataAccess;
+    public RequestConnectionHandler(User user, User target, IUserDataAccess dataAccess) {
         this.user = user;
         this.target = target;
         this.dataAccess = dataAccess;

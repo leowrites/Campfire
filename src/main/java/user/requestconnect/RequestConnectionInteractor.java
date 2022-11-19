@@ -1,16 +1,16 @@
 package user.requestconnect;
 
 import entity.User;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import service.IUserDataAccess;
+import service.UserDataAccess;
 import user.requestconnect.exceptions.PendingRequestExistsException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import user.requestconnect.exceptions.UserNotFoundException;
 
 
 public class RequestConnectionInteractor implements IRequestConnectionInput {
-    private final IRequestConnectionDataAccess dataAccess;
-    public RequestConnectionInteractor(IRequestConnectionDataAccess dataAccess) {
+    private final IUserDataAccess dataAccess;
+    public RequestConnectionInteractor(IUserDataAccess dataAccess) {
         this.dataAccess = dataAccess;
     }
 

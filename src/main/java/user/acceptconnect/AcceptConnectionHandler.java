@@ -1,6 +1,7 @@
 package user.acceptconnect;
 
 import entity.User;
+import service.IUserDataAccess;
 import user.acceptconnect.exceptions.NoRequestFoundException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import java.util.ArrayList;
@@ -8,8 +9,8 @@ import java.util.ArrayList;
 public class AcceptConnectionHandler {
     private final User user;
     private final User target;
-    private final IAcceptConnectionDataAccess dataAccess;
-    public AcceptConnectionHandler(User user, User target, IAcceptConnectionDataAccess dataAccess) {
+    private final IUserDataAccess dataAccess;
+    public AcceptConnectionHandler(User user, User target, IUserDataAccess dataAccess) {
         this.user = user;
         this.target = target;
         this.dataAccess = dataAccess;

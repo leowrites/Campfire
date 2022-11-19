@@ -8,29 +8,27 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.web.bind.annotation.*;
-import user.requestconnect.RequestConnectionDataAccess;
+import service.IUserDataAccess;
 import user.requestconnect.RequestConnectionRequestModel;
 import user.requestconnect.RequestConnectionResponseModel;
 import user.requestconnect.ServerStatus;
 import user.requestconnect.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 import java.security.Principal;
 import java.util.ArrayList;
 
 @RestController
 public class TestController {
     @Autowired
-    private RequestConnectionDataAccess requestConnectionDataAccess;
+    private IUserDataAccess userDataAccess;
 
-//    @GetMapping("/users/{id}")
-//    public ResponseEntity<User> getUser(
-//            @PathVariable("id") String username,
-//            HttpSession session
-//    ) {
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUser(
+            @PathVariable("id") String username,
+            HttpSession session
+    ) {
 //         saving a user works
 //        ArrayList<String> user1Requests = new ArrayList<String>();
 //        ArrayList<String> user1PendingConnections = new ArrayList<String>();
@@ -39,28 +37,28 @@ public class TestController {
 //                new User("01", user1Requests, user1Connections, user1PendingConnections,
 //                        username, "leo@gmail.com", "pass", "Leo")
 //        );
-//        System.out.println(session.getId());
-//        User user;
-//        try {
-//            user = requestConnectionDataAccess.getUser(username);
-//        } catch (UserNotFoundException e) {
-//            return null;
-//        }
-//        return new ResponseEntity<>(user, HttpStatus.OK);
-//    }
-//
-//    @PostMapping("/users/{id}")
-//    public void postUser(
-//            @PathVariable("id") String username
-//    ) {
-//        ArrayList<String> user1Requests = new ArrayList<String>();
-//        ArrayList<String> user1PendingConnections = new ArrayList<String>();
-//        ArrayList<String> user1Connections = new ArrayList<String>();
-//        requestConnectionDataAccess.saveUser(
-//                new User("01", user1Requests, user1Connections, user1PendingConnections,
-//                        username, "leo@gmail.com", "pass", "Leo")
-//        );
-//    }
+        System.out.println(session.getId());
+        User user;
+        try {
+            user = userDataAccess.getUser(username);
+        } catch (UserNotFoundException e) {
+            return null;
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping("/users/{id}")
+    public void postUser(
+            @PathVariable("id") String username
+    ) {
+        ArrayList<String> user1Requests = new ArrayList<String>();
+        ArrayList<String> user1PendingConnections = new ArrayList<String>();
+        ArrayList<String> user1Connections = new ArrayList<String>();
+        userDataAccess.saveUser(
+                new User("01", user1Requests, user1Connections, user1PendingConnections,
+                        username, "leo@gmail.com", "pass", "Leo")
+        );
+    }
 
     @MessageMapping("/users/test")
     @SendTo("/topic/users/test")
