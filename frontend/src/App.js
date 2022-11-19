@@ -11,24 +11,4 @@ function App() {
   )
 }
 
-function Home() {
-  return(
-      <div>
-        <h1>HOME</h1>
-          <Link to="signUp">SIGN UP.</Link>
-          <br/>
-          <Link to="login">LOG IN.</Link>
-      </div>);
-
-}
-
-function SignUp() {
-  return <h2>SIGN UP</h2>;
-}
-
-function Login(){
-    return <h2> LOGIN </h2>
-}
-
-
 export default App;
