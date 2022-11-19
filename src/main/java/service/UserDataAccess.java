@@ -1,6 +1,6 @@
 package service;
 
-import java.io.*;
+import java.util.ArrayList;
 
 // remove this dependency once db is implemented
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,8 +18,9 @@ public class UserDataAccess implements IUserDataAccess {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     final String INSERT_QUERY = "INSERT INTO users (username, data) values (?, ?)";
-    final String UPDATE_QUERY = "update user set ? = ? where username = ?";
+    final String UPDATE_QUERY = "update users set data = ? where username = ?";
     final String DATA_QUERY = "select username, data from users where username = ? ";
+    final String QUERY_ALL = "select * from users";
 
     /**
      * query from db and return a user object given username
@@ -37,6 +38,14 @@ public class UserDataAccess implements IUserDataAccess {
     }
 
     /**
+     * @return all users
+     */
+    @Override
+    public ArrayList<User> getUsers() {
+        return (ArrayList<User>) jdbcTemplate.query(QUERY_ALL, new UserDaoMapper());
+    }
+
+    /**
      * save a new user object to db
      * @param user a user object
      */
@@ -46,7 +55,7 @@ public class UserDataAccess implements IUserDataAccess {
             ObjectMapper mapper = new ObjectMapper();
             // need to verify username is not duplicated
             String userString = mapper.writeValueAsString(user);
-            jdbcTemplate.update(INSERT_QUERY, user.getUsername(), userString);
+            jdbcTemplate.update(INSERT_QUERY, userString, user.getUsername());
         } catch(JsonProcessingException e){
             System.out.println("Json process error!");
         }
@@ -64,6 +73,14 @@ public class UserDataAccess implements IUserDataAccess {
             jdbcTemplate.update(UPDATE_QUERY, userString, user.getUsername());
         } catch(JsonProcessingException e){
             System.out.println("Json process error!");
+        }
+    }
+
+    public void reset() {
+        ArrayList<User> users = getUsers();
+        for (User user : users){
+            user.setConnections(new ArrayList<>());
+            updateUser(user);
         }
     }
 }
