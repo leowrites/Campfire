@@ -55,7 +55,7 @@ public class UserDataAccess implements IUserDataAccess {
             ObjectMapper mapper = new ObjectMapper();
             // need to verify username is not duplicated
             String userString = mapper.writeValueAsString(user);
-            jdbcTemplate.update(INSERT_QUERY, userString, user.getUsername());
+            jdbcTemplate.update(INSERT_QUERY, user.getUsername(), userString);
         } catch(JsonProcessingException e){
             System.out.println("Json process error!");
         }
@@ -77,9 +77,29 @@ public class UserDataAccess implements IUserDataAccess {
     }
 
     public void reset() {
+//        ArrayList<String> user1incoming = new ArrayList<String>();
+//        ArrayList<String> user1outgoing = new ArrayList<String>();
+//        ArrayList<String> user1Connections = new ArrayList<String>();
+//        ArrayList<String> user2incoming = new ArrayList<String>();
+//        ArrayList<String> user2outgoing = new ArrayList<String>();
+//        ArrayList<String> user2Connections = new ArrayList<String>();
+//        User user1 = new User("01", user1incoming, user1Connections, user1outgoing,
+//                "leoliu", "leo@gmail.com", "pass", "Leo");
+//        User user2 = new User("02", user2incoming, user2Connections, user2outgoing,
+//                "alex", "alex@gmail.com", "pass", "Alex");
+//        User user3 = new User("01", user1incoming, user1Connections, user1outgoing,
+//                "stevejobs", "steve@gmail.com", "pass", "steve");
+//        User user4 = new User("02", user2incoming, user2Connections, user2outgoing,
+//                "timcook", "tim@gmail.com", "pass", "tim");
+//        saveUser(user1);
+//        saveUser(user2);
+//        saveUser(user3);
+//        saveUser(user4);
         ArrayList<User> users = getUsers();
         for (User user : users){
             user.setConnections(new ArrayList<>());
+            user.setOutgoingConnectionRequests((new ArrayList<>()));
+            user.setIncomingConnectionRequests(new ArrayList<>());
             updateUser(user);
         }
     }
