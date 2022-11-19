@@ -5,6 +5,7 @@ import service.IUserDataAccess;
 import service.UserDataAccess;
 import user.requestconnect.exceptions.PendingRequestExistsException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
+import user.requestconnect.exceptions.UserConnectSelf;
 import user.requestconnect.exceptions.UserNotFoundException;
 
 
@@ -36,7 +37,7 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
 
         try {
             verifier.verify();
-        } catch (UserAlreadyConnectedException | PendingRequestExistsException e) {
+        } catch (UserAlreadyConnectedException | PendingRequestExistsException | UserConnectSelf e) {
             // prepare failure response model for already connected
             return new RequestConnectionResponseModel(ServerStatus.ERROR, e.getMessage(), userId);
         }
