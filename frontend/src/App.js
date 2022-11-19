@@ -86,8 +86,6 @@ function App() {
       />
       <Navbar sendMessage={sendMessage}/>
       <HomePage users={users} sendConnectionRequest={sendConnectionRequest}/>
-
-      
     </div>
   );
 }
@@ -99,7 +97,6 @@ function SignUp() {
 function Login(){
     return <h2> LOGIN </h2>
 }
-
 
 
 export default App;
