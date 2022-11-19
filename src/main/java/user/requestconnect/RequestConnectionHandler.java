@@ -17,29 +17,36 @@ public class RequestConnectionHandler {
     }
 
     public void acceptConnectionRequest() {
+        ArrayList<String> userConnectionRequests = user.getConnectionRequests();
+        userConnectionRequests.remove(target.getUsername());
+        user.setConnectionRequests(userConnectionRequests);
+
         ArrayList<String> userConnections = user.getConnections();
+        userConnections.add(target.getUsername());
+        user.setConnectionRequests(userConnections);
+
+        ArrayList<String> targetPendingConnections = target.getPendingConnections();
+        targetPendingConnections.remove(target.getUsername());
+        target.setPendingConnections(targetPendingConnections);
+
         ArrayList<String> targetConnections = target.getConnections();
+        targetConnections.add(user.getUsername());
+        target.setConnectionRequests(targetConnections);
 
-        userConnections.add(target.getId());
-        targetConnections.add(user.getId());
-
-        target.setConnections(targetConnections);
-        user.setConnections(userConnections);
-
-        dataAccess.saveUser(user);
-        dataAccess.saveUser(target);
+        dataAccess.updateUser(user);
+        dataAccess.updateUser(target);
     }
     public void sendConnectionRequestToTarget() {
         ArrayList<String> userConnectionRequests = user.getConnectionRequests();
         ArrayList<String> targetPendingConnections = target.getPendingConnections();
 
-        userConnectionRequests.add(target.getId());
-        targetPendingConnections.add(user.getId());
+        userConnectionRequests.add(target.getUsername());
+        targetPendingConnections.add(user.getUsername());
 
         user.setConnectionRequests(userConnectionRequests);
         target.setPendingConnections(targetPendingConnections);
 
-        dataAccess.saveUser(user);
-        dataAccess.saveUser(target);
+        dataAccess.updateUser(user);
+        dataAccess.updateUser(target);
     }
 }
