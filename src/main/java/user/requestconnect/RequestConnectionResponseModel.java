@@ -1,27 +1,29 @@
 package user.requestconnect;
+import entity.User;
 import java.util.*;
 
 public class RequestConnectionResponseModel {
-    private final String connectionStatus;
-    private final Date connectionTime;
+    private final ServerStatus connectionStatus;
     private String message;
-    public RequestConnectionResponseModel(String connectionStatus){
-        this.connectionStatus = connectionStatus;
-        this.connectionTime = new Date();
-    }
-    public RequestConnectionResponseModel(String connectionStatus, String message){
-        this.connectionStatus = connectionStatus;
-        this.connectionTime = new Date();
+    private ArrayList<String> connectionRequests;
+    private ArrayList<String> pendingConnections;
+    private ArrayList<String> connections;
+    private String userId;
+    private String targetId;
+    public RequestConnectionResponseModel(ServerStatus connectionStatus, String message, ArrayList<String> connectionRequests,
+                                          ArrayList<String> pendingConnections, ArrayList<String> connections, String userId,
+                                           String targetId){
         this.message = message;
+        this.userId = userId;
+        this.targetId = targetId;
+        this.connectionStatus = connectionStatus;
+        this.connectionRequests = connectionRequests;
+        this.pendingConnections = pendingConnections;
+        this.connections = connections;
     }
-    public String getConnectionStatus() {
-        return connectionStatus;
-    }
-
-    public Date getConnectionTime() {
-        return connectionTime;
-    }
-    public String getMessage() {
-        return message;
+    public RequestConnectionResponseModel(ServerStatus connectionStatus, String message, String userId){
+        this.userId = userId;
+        this.connectionStatus = connectionStatus;
+        this.message = message;
     }
 }
