@@ -1,8 +1,10 @@
 import Container from 'react-bootstrap/Container';
 import { useEffect, useState } from 'react';
 import InternshipPaper from './InternshipPaper';
+import Grid from '@mui/material/Grid'
+import UserCard from '../Component/UserCard';
 
-function HomePage() {
+function HomePage({ users, sendConnectionRequest }) {
   const [internships, setInternships] = useState([]);
   useEffect(() => {
     const internships = []
@@ -16,12 +18,23 @@ function HomePage() {
     }
     setInternships(internships)
   }, [])
+
   return (
     <>
     <Container>
-      {internships.map((v, i) => (
-          <InternshipPaper key={i} title={v.name} info={v.info}/>
-      ))}
+      <Grid container>
+        <Grid item xs={6}>
+          {internships.map((v, i) => (
+            <InternshipPaper key={i} title={v.name} info={v.info}/>
+          ))}
+        </Grid>
+        <Grid item xs={6}>
+          {users.map((v, i) => (
+            <UserCard key={i} username={v.username} name={v.name}
+            connections={v.connections} sendConnectionRequest={sendConnectionRequest}/>
+          ))}
+          </Grid>
+      </Grid>
     </Container>
     </>
   );
