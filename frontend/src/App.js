@@ -6,11 +6,7 @@ import { Routes, Route, Link } from "react-router-dom"
 function App() {
   return (
       <div className="App">
-        <Routes>
-            <Route path="/" element={ <Home/> } />
-            <Route path="signup" element={ <SignUp/> }> </Route>
-            <Route path="login" element={ <Login/> }> </Route>
-      </Routes>
+
       </div>
   )
 }
