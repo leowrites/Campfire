@@ -1,4 +1,14 @@
 import './App.css';
+import HomePage from './Home/HomePage';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SockJsclient from 'react-stomp'
+import { useEffect, useRef, useState } from 'react';
+import Navbar from './Component/Navbar'
+
+const SOCKET_URL = 'http://localhost:8080/ws'
+
+// this is to be replaced once authentication is implemented
+const CURRENT_USERNAME = 'leoliu'
 
 function App() {
   const clientRef = useRef()
