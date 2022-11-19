@@ -10,9 +10,9 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import service.IUserDataAccess;
+import service.ServerStatus;
 import user.requestconnect.RequestConnectionRequestModel;
 import user.requestconnect.RequestConnectionResponseModel;
-import user.requestconnect.ServerStatus;
 import user.requestconnect.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpSession;
@@ -71,8 +71,7 @@ public class TestController {
         System.out.println(sessionId);
         return new RequestConnectionResponseModel(
                 ServerStatus.SUCCESS,
-                "We received the message",
-                "leoliu"
+                "We received the message"
         );
     }
 
