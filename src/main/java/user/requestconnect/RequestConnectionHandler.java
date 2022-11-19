@@ -17,34 +17,34 @@ public class RequestConnectionHandler {
     }
 
     public void acceptConnectionRequest() {
-        ArrayList<String> userConnectionRequests = user.getConnectionRequests();
-        userConnectionRequests.remove(target.getUsername());
-        user.setConnectionRequests(userConnectionRequests);
+        ArrayList<String> userIncomingConnectionRequests = user.getIncomingConnectionRequests();
+        userIncomingConnectionRequests.remove(target.getUsername());
+        user.setIncomingConnectionRequests(userIncomingConnectionRequests);
 
         ArrayList<String> userConnections = user.getConnections();
         userConnections.add(target.getUsername());
-        user.setConnectionRequests(userConnections);
+        user.setConnections(userConnections);
 
-        ArrayList<String> targetPendingConnections = target.getPendingConnections();
-        targetPendingConnections.remove(target.getUsername());
-        target.setPendingConnections(targetPendingConnections);
+        ArrayList<String> targetOutgoingConnectionRequests = target.getOutgoingConnectionRequests();
+        targetOutgoingConnectionRequests.remove(user.getUsername());
+        target.setOutgoingConnectionRequests(targetOutgoingConnectionRequests);
 
         ArrayList<String> targetConnections = target.getConnections();
         targetConnections.add(user.getUsername());
-        target.setConnectionRequests(targetConnections);
+        target.setConnections(targetConnections);
 
         dataAccess.updateUser(user);
         dataAccess.updateUser(target);
     }
     public void sendConnectionRequestToTarget() {
-        ArrayList<String> userConnectionRequests = user.getConnectionRequests();
-        ArrayList<String> targetPendingConnections = target.getPendingConnections();
+        ArrayList<String> userOutgoing = user.getOutgoingConnectionRequests();
+        ArrayList<String> targetIncoming = target.getIncomingConnectionRequests();
 
-        userConnectionRequests.add(target.getUsername());
-        targetPendingConnections.add(user.getUsername());
+        userOutgoing.add(target.getUsername());
+        targetIncoming.add(user.getUsername());
 
-        user.setConnectionRequests(userConnectionRequests);
-        target.setPendingConnections(targetPendingConnections);
+        user.setOutgoingConnectionRequests(userOutgoing);
+        target.setIncomingConnectionRequests(targetIncoming);
 
         dataAccess.updateUser(user);
         dataAccess.updateUser(target);

@@ -29,7 +29,7 @@ public class RequestConnectionVerifier {
      @throws PendingRequestExistsException if user already has a sent pending request
      */
     public void checkPendingRequest() throws PendingRequestExistsException {
-        if (target.getPendingConnections().contains(user.getUsername())){
+        if (target.getIncomingConnectionRequests().contains(user.getUsername())){
             throw new PendingRequestExistsException("Pending request!");
         }
     }
@@ -38,7 +38,7 @@ public class RequestConnectionVerifier {
      * @throws UserConnectSelf if user tries to connect themselves
      */
     public void checkConnectSelf() throws UserConnectSelf {
-        if (Objects.equals(target.getUsername(), user.getUsername())) {
+        if (target.getUsername().equals(user.getUsername())) {
             throw new UserConnectSelf("You cannot connect yourself!");
         }
     }
@@ -47,7 +47,7 @@ public class RequestConnectionVerifier {
      * @return check if user has an incoming request from target
      */
     public boolean checkIncomingRequest(){
-        return user.getConnectionRequests().contains(target.getUsername());
+        return user.getIncomingConnectionRequests().contains(target.getUsername());
     }
 
     /**
