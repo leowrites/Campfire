@@ -4,6 +4,10 @@ import java.util.*;
 
 public class HighestRatingSort implements ISort{
 
+    /**
+     * @param reviews an ArrayList of Reviews from the page
+     * @return a response model
+     */
     public SortResponseModel sort(ArrayList<Review> reviews){
         ArrayList<Integer> ratingOrder = new ArrayList<Integer>();
         ArrayList<Review> newOrder = new ArrayList<Review>();

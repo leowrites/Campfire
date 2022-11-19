@@ -8,6 +8,10 @@ public class SortAlgorithmFactory {
         this.sortCriteria = sortCriteria;
     }
 
+    /**
+     * @return a sorting algorithm that
+     * @throws SortCriteriaNotFoundException thrown when an invalid sortCriteria is given
+     */
     public ISort createSortAlgorithm() throws SortCriteriaNotFoundException{
         switch (sortCriteria) {
             case "Helpful":

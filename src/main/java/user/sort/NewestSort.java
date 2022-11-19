@@ -4,6 +4,10 @@ import java.util.*;
 
 public class NewestSort implements ISort{
 
+    /**
+     * @param reviews an ArrayList of Reviews from the page
+     * @return a response model
+     */
     public SortResponseModel sort(ArrayList<Review> reviews){
         ArrayList<Date> dateOrder = new ArrayList<Date>();
         ArrayList<Review> newOrder = new ArrayList<Review>();
