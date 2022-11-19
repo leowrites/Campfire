@@ -17,33 +17,33 @@ public class AcceptConnectionHandler {
     }
 
     public void acceptConnection() throws UserAlreadyConnectedException, NoRequestFoundException {
-        if (user.getConnections().contains(target.getId())) {
+        if (user.getConnections().contains(target.getUsername())) {
             // throw already connected error
             throw new UserAlreadyConnectedException(String.format("%s and %s are already connected!",
-                    user.getId(), target.getId()));
+                    user.getUsername(), target.getUsername()));
         }
-        if (!user.getConnectionRequests().contains(target.getId())) {
+        if (!user.getConnectionRequests().contains(target.getUsername())) {
             // throw no request from user
             throw new NoRequestFoundException(String.format("%s and %s are already connected!",
-                    user.getId(), target.getId()));
+                    user.getUsername(), target.getUsername()));
         }
         ArrayList<String> userConnectionRequests = user.getConnectionRequests();
-        userConnectionRequests.remove(target.getId());
+        userConnectionRequests.remove(target.getUsername());
         user.setConnectionRequests(userConnectionRequests);
 
         ArrayList<String> userConnections = user.getConnections();
-        userConnections.add(target.getId());
+        userConnections.add(target.getUsername());
         user.setConnectionRequests(userConnections);
 
         ArrayList<String> targetPendingConnections = target.getPendingConnections();
-        targetPendingConnections.remove(target.getId());
+        targetPendingConnections.remove(target.getUsername());
         target.setPendingConnections(targetPendingConnections);
 
         ArrayList<String> targetConnections = target.getConnections();
-        targetConnections.add(user.getId());
+        targetConnections.add(user.getUsername());
         target.setConnectionRequests(targetConnections);
 
-        dataAccess.saveUser(user);
-        dataAccess.saveUser(target);
+        dataAccess.updateUser(user);
+        dataAccess.updateUser(target);
     }
 }
