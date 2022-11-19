@@ -17,6 +17,11 @@ const darkTheme = createTheme({
 });
 
 export default function Navbar({sendMessage}) {
+  const resetAllConnections = () => {
+    fetch('/users/reset', {
+      method: "POST"
+    })
+  }
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={darkTheme}>
@@ -27,6 +32,7 @@ export default function Navbar({sendMessage}) {
               <Button sx={{ color: 'white' }}>Login</Button>
               <Button sx={{ color: 'white' }}>Sign in</Button>
               <Button sx={{ color: 'white' }} onClick={sendMessage}>Send a message</Button>
+              <Button sx={{ color: 'white' }} onClick={resetAllConnections} > reset all connections</Button>
             </Box>
           </Toolbar>
         </AppBar>
