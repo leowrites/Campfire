@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Box } from '@mui/system';
+import { useNavigate } from 'react-router';
 
 const darkTheme = createTheme({
   palette: {
@@ -22,6 +23,8 @@ export default function Navbar({sendMessage}) {
       method: "POST"
     })
   }
+
+  const navigate = useNavigate()
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={darkTheme}>
@@ -29,9 +32,8 @@ export default function Navbar({sendMessage}) {
           <Toolbar>
             <Typography variant='h6'>Rate my Intern</Typography>
             <Box sx={{ ml: 'auto' }}>
-              <Button sx={{ color: 'white' }}>Login</Button>
-              <Button sx={{ color: 'white' }}>Sign in</Button>
-              <Button sx={{ color: 'white' }} onClick={sendMessage}>Send a message</Button>
+              <Button sx={{ color: 'white' }} onClick={() => navigate('login')}>Login</Button>
+              <Button sx={{ color: 'white' }} onClick={() => navigate('signup')}>Sign in</Button>
               <Button sx={{ color: 'white' }} onClick={resetAllConnections} > reset all connections</Button>
             </Box>
           </Toolbar>
