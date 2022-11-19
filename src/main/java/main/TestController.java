@@ -75,4 +75,14 @@ public class TestController {
                 "leoliu"
         );
     }
+
+    @GetMapping("/users")
+    public ResponseEntity<ArrayList<User>> getUser() {
+        return new ResponseEntity<>(userDataAccess.getUsers(), HttpStatus.OK);
+    }
+
+    @PostMapping("/users/reset")
+    public void resetUser() {
+        userDataAccess.reset();
+    }
 }
