@@ -40,8 +40,8 @@ class RequestConnectionVerifierTest {
     }
 
     @Test
-    void testCheckPendingRequestPendingRequestExists() {
-        user2.getOutgoingConnectionRequests().add(user1.getUsername());
+    void testCheckPendingRequestExists() {
+        user2.getIncomingConnectionRequests().add(user1.getUsername());
         Throwable exception = assertThrows(PendingRequestExistsException.class, () -> verifier.checkPendingRequest());
         assertEquals("Pending request!", exception.getMessage());
     }
@@ -63,12 +63,5 @@ class RequestConnectionVerifierTest {
         user2.getConnections().add(user1.getUsername());
         Throwable exception = assertThrows(UserAlreadyConnectedException.class, () -> verifier.checkAlreadyConnected());
         assertEquals("You are already connected!", exception.getMessage());
-    }
-
-    @Test
-    void testVerifyPendingRequest() {
-        user2.getOutgoingConnectionRequests().add(user1.getUsername());
-        Throwable exception = assertThrows(PendingRequestExistsException.class, () -> verifier.checkPendingRequest());
-        assertEquals("Pending request!", exception.getMessage());
     }
 }
