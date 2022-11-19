@@ -7,12 +7,10 @@ import user.comment.exceptions.ReviewNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CommentInteractor implements ICommentInputBoundary {
-    private final CommentObservable observable;
+public class CommentInteractor extends CommentObservable implements ICommentInputBoundary {
     private final ICommentDataAccess dataAccess;
 
-    public CommentInteractor(CommentObservable observable, ICommentDataAccess dataAccess) {
-        this.observable = observable;
+    public CommentInteractor(ICommentDataAccess dataAccess) {
         this.dataAccess = dataAccess;
     }
 
@@ -38,10 +36,6 @@ public class CommentInteractor implements ICommentInputBoundary {
         ArrayList<Comment> reviewComments = review.getComments();
         reviewComments.add(comment);
         review.setComments(reviewComments);
-
-        CommentObserver observer = new CommentObserver(userID);
-        this.observable.addObserver(observer);
-        this.observable.notifyObservers();
 
         return new CommentResponseModel("Success");
     }

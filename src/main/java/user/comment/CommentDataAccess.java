@@ -1,7 +1,10 @@
 package user.comment;
 
 import entity.Review;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class CommentDataAccess implements ICommentDataAccess {
 
     @Override
