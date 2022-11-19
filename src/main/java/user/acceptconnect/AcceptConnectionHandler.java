@@ -22,26 +22,26 @@ public class AcceptConnectionHandler {
             throw new UserAlreadyConnectedException(String.format("%s and %s are already connected!",
                     user.getUsername(), target.getUsername()));
         }
-        if (!user.getConnectionRequests().contains(target.getUsername())) {
+        if (!user.getIncomingConnectionRequests().contains(target.getUsername())) {
             // throw no request from user
             throw new NoRequestFoundException(String.format("%s and %s are already connected!",
                     user.getUsername(), target.getUsername()));
         }
-        ArrayList<String> userConnectionRequests = user.getConnectionRequests();
+        ArrayList<String> userConnectionRequests = user.getIncomingConnectionRequests();
         userConnectionRequests.remove(target.getUsername());
-        user.setConnectionRequests(userConnectionRequests);
+        user.setIncomingConnectionRequests(userConnectionRequests);
 
         ArrayList<String> userConnections = user.getConnections();
         userConnections.add(target.getUsername());
-        user.setConnectionRequests(userConnections);
+        user.setIncomingConnectionRequests(userConnections);
 
-        ArrayList<String> targetPendingConnections = target.getPendingConnections();
+        ArrayList<String> targetPendingConnections = target.getOutgoingConnectionRequests();
         targetPendingConnections.remove(target.getUsername());
-        target.setPendingConnections(targetPendingConnections);
+        target.setOutgoingConnectionRequests(targetPendingConnections);
 
         ArrayList<String> targetConnections = target.getConnections();
         targetConnections.add(user.getUsername());
-        target.setConnectionRequests(targetConnections);
+        target.setIncomingConnectionRequests(targetConnections);
 
         dataAccess.updateUser(user);
         dataAccess.updateUser(target);
