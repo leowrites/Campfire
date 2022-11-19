@@ -1,18 +1,17 @@
 package user.requestconnect;
 
 import entity.User;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import user.requestconnect.exceptions.PendingRequestExistsException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import user.requestconnect.exceptions.UserNotFoundException;
 
+
 public class RequestConnectionInteractor implements IRequestConnectionInput {
     private final IRequestConnectionDataAccess dataAccess;
-    private final IRequestConnectionSocket socket;
-
-    public RequestConnectionInteractor(IRequestConnectionDataAccess dataAccess,
-                                       IRequestConnectionSocket socket) {
+    public RequestConnectionInteractor(IRequestConnectionDataAccess dataAccess) {
         this.dataAccess = dataAccess;
-        this.socket = socket;
     }
 
     /**
@@ -29,11 +28,8 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
         try {
             user = dataAccess.getUser(userId);
             target = dataAccess.getUser(targetId);
-            if (user == null || target == null){
-                throw new UserNotFoundException("Could not find target user");
-            }
         } catch (UserNotFoundException e) {
-            return new RequestConnectionResponseModel("Failure %s", e.getMessage());
+            return new RequestConnectionResponseModel(ServerStatus.ERROR, e.getMessage(), userId);
         }
 
         RequestConnectionVerifier verifier = new RequestConnectionVerifier(user, target);
@@ -42,10 +38,10 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
             verifier.verify();
         } catch (UserAlreadyConnectedException | PendingRequestExistsException e) {
             // prepare failure response model for already connected
-            return new RequestConnectionResponseModel("Failure %s", e.getMessage());
+            return new RequestConnectionResponseModel(ServerStatus.ERROR, e.getMessage(), userId);
         }
 
-        RequestConnectionHandler handler = new RequestConnectionHandler(user, target, dataAccess, socket);
+        RequestConnectionHandler handler = new RequestConnectionHandler(user, target, dataAccess);
 
         if (verifier.checkIncomingRequest()) {
             handler.acceptConnectionRequest();
@@ -53,6 +49,8 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
             handler.sendConnectionRequestToTarget();
         }
 
-        return new RequestConnectionResponseModel("Success");
+        return new RequestConnectionResponseModel(ServerStatus.SUCCESS, "Success",
+                user.getConnectionRequests(), user.getPendingConnections(), user.getConnections(),
+                userId, targetId);
     }
 }

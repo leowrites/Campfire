@@ -21,8 +21,12 @@ dependencies {
     implementation 'org.webjars:bootstrap:5.2.2'
     implementation 'org.webjars:jquery:3.3.1-1'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'com.google.code.gson:gson:2.10'
     implementation('junit:junit:4.13.2')
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation('org.junit.jupiter:junit-jupiter:5.9.0')
 }
 
@@ -31,4 +35,8 @@ tasks.named('test') {
     testLogging {
         events "passed", "skipped", "failed"
     }
+}
+
+tasks.named('processResources') {
+    expand(project.properties)
 }

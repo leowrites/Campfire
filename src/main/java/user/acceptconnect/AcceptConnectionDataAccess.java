@@ -1,54 +1,58 @@
 package user.acceptconnect;
 
-import java.io.*;
-
-// remove this dependency once db is implemented
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class AcceptConnectionDataAccess implements IAcceptConnectionDataAccess {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    final String INSERT_QUERY = "INSERT INTO users (username, data) values (?, ?)";
+    final String UPDATE_QUERY = "update user set ? = ? where username = ?";
+    final String DATA_QUERY = "select data from users where username = ?";
+
     /**
-     * @param userId id of the current user
-     * @return A serialized user object
+     * query from db and return a user object given username
+     * @param username username of the query
+     * @return a User object
      */
     @Override
-    public User getUser(String userId) {
-        /**
-         * TODO
-         *  need to implement this with mySQL query
-         *  this is a temporary placeholder
-         */
-        User user = null;
-        try {
-            // Reading the object from a file
-            FileInputStream file = new FileInputStream
-                    ("fakeUser.txt");
-            ObjectInputStream in = new ObjectInputStream
-                    (file);
-            // Method for deserialization of object
-            user = (User)in.readObject();
-            in.close();
-            file.close();
-        }
-
-        catch (IOException ex) {
-            System.out.println("IOException is caught");
-        }
-        catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return user;
+    public User getUser(String username) {
+        return jdbcTemplate.queryForObject(DATA_QUERY,  new UserDaoMapper(), username);
     }
 
     /**
-     * @param user user to be saved
-     * @return status of saved user
+     * save a new user object to db
+     * @param user a user object
      */
     @Override
-    public boolean saveUser(User user) {
-        /**
-         * TODO
-         *  implement this function
-         */
-        return false;
+    public void saveUser(User user){
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            // need to verify username is not duplicated
+            String userString = mapper.writeValueAsString(user);
+            jdbcTemplate.update(INSERT_QUERY, user.getUsername(), userString);
+        } catch(JsonProcessingException e){
+            System.out.println("Json process error!");
+        }
+    }
+
+    /**
+     * updates a user given a user object
+     * @param user a user object
+     */
+    @Override
+    public void updateUser(User user) {
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            String userString = mapper.writeValueAsString(user);
+            jdbcTemplate.update(UPDATE_QUERY, userString, user.getUsername());
+        } catch(JsonProcessingException e){
+            System.out.println("Json process error!");
+        }
     }
 }
