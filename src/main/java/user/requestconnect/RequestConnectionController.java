@@ -1,6 +1,5 @@
 package user.requestconnect;
 
-import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.messaging.handler.annotation.Header;
@@ -30,15 +29,15 @@ public class RequestConnectionController {
             @Header("simpSessionId") String sessionId,
             @Payload RequestConnectionRequestModel requestModel){
         RequestConnectionResponseModel requestConnectionResponseModel = requestConnectionInteractor.requestConnection(requestModel);
-
+        simpMessagingTemplate.convertAndSend("/topic/users/connections/request", requestConnectionResponseModel);
         // send to target
-        simpMessagingTemplate.convertAndSendToUser(
-                requestModel.getTargetId(), "/queue/connections", requestConnectionResponseModel
-        );
-
+//        simpMessagingTemplate.convertAndSendToUser(
+//                requestModel.getTargetId(), "/queue/connections", requestConnectionResponseModel
+//        );
+//
         // send to current user
-        simpMessagingTemplate.convertAndSendToUser(
-                requestModel.getUserId(), "/queue/connections", requestConnectionResponseModel
-        );
+//        simpMessagingTemplate.convertAndSendToUser(
+//                requestModel.getUserId(), "/queue/connections", requestConnectionResponseModel
+//        );
     }
 }
