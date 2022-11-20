@@ -16,7 +16,7 @@ public class SortController {
         this.interactor = interactor;
     }
 
-    @GetMapping("/Review/Sort") //Change Name!!!
+    @GetMapping("/review/sort")
     public SortResponseModel reviewSort(@RequestBody SortRequestModel requestModel){
         SortAlgorithmFactory factory = new SortAlgorithmFactory(requestModel.getSortCriteria());
         try{

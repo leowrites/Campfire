@@ -9,19 +9,8 @@ public class NewestSort implements ISort{
      * @return a response model
      */
     public SortResponseModel sort(ArrayList<Review> reviews){
-        ArrayList<Date> dateOrder = new ArrayList<Date>();
-        ArrayList<Review> newOrder = new ArrayList<Review>();
-        for (Review review : reviews){
-            dateOrder.add(review.getDatePosted());
-        }
-        dateOrder.sort(Collections.reverseOrder());
-        for (Date date : dateOrder) {
-            for (Review review : reviews) {
-                if (review.getDatePosted().compareTo(date) == 0){
-                    newOrder.add(review);
-                }
-            }
-        }
+        ArrayList<Review> newOrder = new ArrayList<>(reviews);
+        newOrder.sort(Review::compareToNewest);
         return new SortResponseModel(newOrder);
     }
 }

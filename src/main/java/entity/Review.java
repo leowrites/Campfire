@@ -1,9 +1,11 @@
 package entity;
 
+import user.sort.ISortComparator;
+
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Review {
+public class Review implements ISortComparator {
     private String id;
     private String userID;
     private String company;
@@ -118,5 +120,29 @@ public class Review {
 
     public void setComments(ArrayList<Comment> newComments) {
         this.comments = newComments;
+    }
+
+    public int compareToHelpful(Review otherReview){
+        /*
+        Note: this sorts them in an order that is the opposite of most default compareTo methods
+        in order to have the highest value come up first in the sort.
+         */
+        return Integer.compare(otherReview.getNumLikes(), this.numLikes);
+    }
+
+    public int compareToHighestRating(Review otherReview){
+        /*
+        Note: this sorts them in an order that is the opposite of most default compareTo methods
+        in order to have the highest value come up first in the sort.
+         */
+        return Integer.compare(otherReview.getRating(), this.rating);
+    }
+
+    public int compareToNewest(Review otherReview){
+        /*
+        Note: this sorts them in an order that is the opposite of most default compareTo methods
+        in order to have the highest value come up first in the sort.
+         */
+        return otherReview.getDatePosted().compareTo(this.datePosted);
     }
 }

@@ -9,19 +9,8 @@ public class HighestRatingSort implements ISort{
      * @return a response model
      */
     public SortResponseModel sort(ArrayList<Review> reviews){
-        ArrayList<Integer> ratingOrder = new ArrayList<Integer>();
-        ArrayList<Review> newOrder = new ArrayList<Review>();
-        for (Review review : reviews){
-            ratingOrder.add(review.getRating());
-        }
-        ratingOrder.sort(Collections.reverseOrder());
-        for (int ratingCount : ratingOrder) {
-            for (Review review : reviews) {
-                if (review.getRating() == ratingCount){
-                    newOrder.add(review);
-                }
-            }
-        }
+        ArrayList<Review> newOrder = new ArrayList<>(reviews);
+        newOrder.sort(Review::compareToHighestRating);
         return new SortResponseModel(newOrder);
     }
 }
