@@ -8,6 +8,7 @@ function UserCard({
   sendConnectionRequest,
   incomingConnectionRequests,
   outgoingConnectionRequests,
+  sendAcceptConnectionRequest,
   connections,
 }) {
   return (
@@ -25,7 +26,7 @@ function UserCard({
       {incomingConnectionRequests?.map((c, i) => (
         <Box >
           <Typography key={i} sx={{display: 'inline-block'}}>{c}</Typography>
-          <Button> Accept </Button>
+          <Button onClick={() => sendAcceptConnectionRequest(username, c)}>Accept</Button>
         </Box>
       ))}
       <Button

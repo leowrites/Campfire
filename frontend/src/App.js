@@ -41,6 +41,19 @@ function App() {
     )
   }
 
+  const sendAcceptConnectionRequest = (username, target) => {
+    console.log('message sent')
+    clientRef.current.sendMessage(
+      ['/app/users/connections/accept'],
+      JSON.stringify(
+        {
+          userId: username,
+          targetId: target
+        }
+      )
+    )
+  }
+
   const onConnected = () => {
     console.log("connected")
   } 
@@ -87,6 +100,7 @@ function App() {
         url={SOCKET_URL}
         topics={['/topic/users/connections', '/topic/users/test',
         '/topic/users/connections/request',
+        '/topic/users/connections/accept',
         '/users/queue/reply']}
         ref={clientRef}
         onConnect={onConnected}
@@ -98,7 +112,7 @@ function App() {
         onMessage={(msg) => onMessage(msg)}
       />
       <Navbar />
-      <HomePage users={users} sendConnectionRequest={sendConnectionRequest}/>
+      <HomePage users={users} sendConnectionRequest={sendConnectionRequest} sendAcceptConnectionRequest={sendAcceptConnectionRequest}/>
       <ErrorMessage open={showMsg} handleClose={handleClose} msg={msg} status={status}/>
     </div>
   );
