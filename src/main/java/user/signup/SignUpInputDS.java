@@ -11,6 +11,8 @@ public class SignUpInputDS {
     private final String confirmPassword;
     private final String email;
 
+    private final String username;
+
     public String getFirstName() {
         return firstName;
     }
@@ -31,11 +33,16 @@ public class SignUpInputDS {
         return email;
     }
 
-    public SignUpInputDS(String firstName, String lastName, String password, String confirmPassword, String email) {
+    public String getUsername() {
+        return username;
+    }
+
+    public SignUpInputDS(String firstName, String lastName, String password, String confirmPassword, String email, String username) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.email = email;
+        this.username = username;
     }
 }

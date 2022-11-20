@@ -2,25 +2,28 @@ package user.signup;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 @ComponentScan("main")
 @RestController
 public class SignUpController{
 
-    private SignUpInputBoundary signUpInteractor;
+    private final SignUpInputBoundary interactor;
 
     @Autowired
     public SignUpController(SignUpInputBoundary signUpInteractor) {
-        this.signUpInteractor = signUpInteractor;
+        this.interactor = signUpInteractor;
     }
 
-    @PostMapping("/user/signup")
-    public void receiveSignUpForm(@RequestBody SignUpInputDS inputdata) {
-
+    @PostMapping("/users/signup")
+    public ResponseEntity<Object> receiveSignUpForm(@RequestBody SignUpInputDS inputdata) {
+        SignUpResponseDS responseDS = this.interactor.validateInputs(inputdata);
+        System.out.println("fuck");
+        if (responseDS.getErrorMessages().isEmpty()){
+            return new ResponseEntity<>(responseDS, HttpStatus.OK);
+        } else {return new ResponseEntity<>(responseDS, HttpStatus.UNPROCESSABLE_ENTITY);}
     }
 }
 

@@ -21,15 +21,10 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         //permit routes to / and /home
-                        .antMatchers("/", "/home").permitAll()
+                        .antMatchers("/", "/home", "/user/signup").permitAll()
                         .anyRequest().authenticated()
-                )
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .logout((logout) -> logout.permitAll());
-
+                );
+        http.csrf().disable();
         return http.build();
     }
 
