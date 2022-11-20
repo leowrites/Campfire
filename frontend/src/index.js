@@ -12,9 +12,9 @@ ReactDOM.render(
         <Routes>
             <Route path="/" element={<App/>}>
                 <Route element={<PageLayout/>}>
-                    <Route path="/" element={ <Home/> } />
-                    <Route path="signup" element={ <SignUp/> }> </Route>
-                    <Route path="login" element={ <Login/> }> </Route>
+                    {/*<Route path="/" element={ <Home/> } />*/}
+                    {/*<Route path="signup" element={ <SignUp/> }> </Route>*/}
+                    {/*<Route path="login" element={ <Login/> }> </Route>*/}
                 </Route>
             </Route>
         </Routes>

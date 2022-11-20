@@ -1,13 +1,11 @@
 package user.signup;
-
+import service.IUserDataAccess;
 public class SignUpInteractor implements SignUpInputBoundary {
 
-    final SignUpOutputBoundary presenter;
-    final SignUpDBGateway dbGateway;
+    final IUserDataAccess dataAccess;
 
-    public SignUpInteractor(SignUpOutputBoundary presenter, SignUpDBGateway dbGateway) {
-        this.presenter = presenter;
-        this.dbGateway = dbGateway;
+    public SignUpInteractor(IUserDataAccess dataAccess) {
+        this.dataAccess = dataAccess;
     }
 
     @Override
