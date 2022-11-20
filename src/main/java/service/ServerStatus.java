@@ -1,4 +1,4 @@
-package user.requestconnect;
+package service;
 
 public enum ServerStatus {
     ERROR, SUCCESS;
