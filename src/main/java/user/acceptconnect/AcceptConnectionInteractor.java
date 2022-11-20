@@ -1,14 +1,16 @@
 package user.acceptconnect;
 
 import entity.User;
+import service.IUserDataAccess;
+import service.ServerStatus;
 import user.acceptconnect.exceptions.NoRequestFoundException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import user.requestconnect.exceptions.UserNotFoundException;
 
 public class AcceptConnectionInteractor implements IAcceptConnectionInput {
-    private final IAcceptConnectionDataAccess dataAccess;
+    private final IUserDataAccess dataAccess;
 
-    public AcceptConnectionInteractor(IAcceptConnectionDataAccess dataAccess) {
+    public AcceptConnectionInteractor(IUserDataAccess dataAccess) {
         this.dataAccess = dataAccess;
     }
 
@@ -26,7 +28,7 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
             user = dataAccess.getUser(userId);
             target = dataAccess.getUser(targetId);
         } catch (UserNotFoundException e) {
-            return new AcceptConnectionResponseModel("Failure", e.getMessage());
+            return new AcceptConnectionResponseModel(ServerStatus.ERROR, e.getMessage());
         }
 
         AcceptConnectionHandler acceptConnectionHandler = new AcceptConnectionHandler(user, target, dataAccess);
@@ -34,9 +36,26 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
         try {
             acceptConnectionHandler.acceptConnection();
         } catch (NoRequestFoundException | UserAlreadyConnectedException e) {
-            return new AcceptConnectionResponseModel("Failure", e.getMessage());
+            return new AcceptConnectionResponseModel(ServerStatus.ERROR, e.getMessage());
         }
 
-        return new AcceptConnectionResponseModel("Success", "you connected with _");
+        return new AcceptConnectionResponseModel(ServerStatus.SUCCESS, "Success",
+                new AcceptConnectionUserResponseModel(
+                        String.format("You sent a connection request to %s", targetId),
+                        ServerStatus.SUCCESS,
+                        user.getIncomingConnectionRequests(),
+                        user.getOutgoingConnectionRequests(),
+                        user.getConnections(),
+                        userId,
+                        targetId),
+                new AcceptConnectionUserResponseModel(
+                        String.format("You have a connection request from %s", userId),
+                        ServerStatus.SUCCESS,
+                        target.getIncomingConnectionRequests(),
+                        target.getOutgoingConnectionRequests(),
+                        target.getConnections(),
+                        targetId,
+                        userId)
+        );
     }
 }
