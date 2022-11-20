@@ -10,7 +10,7 @@ public class PageGenerateController {
     }
 
     // The requestModel uses the number of arguments to distinguish the different types of pages
-    PageGenerateResponseModel create(String pageType, String inputLabel, User user){
+    PageGenerateResponseModel create(int pageType, String inputLabel, User user){
         PageGenerateRequestModel requestModel = new PageGenerateRequestModel(pageType, inputLabel, user);
         return pageInput.create(requestModel);
 
@@ -18,7 +18,7 @@ public class PageGenerateController {
 
     // This is requestModel for a corporatePage
     // overloading
-    PageGenerateResponseModel create(String pageType,
+    PageGenerateResponseModel create(int pageType,
                                      String inputLabel, User user, String companyName, String companyInfo){
         PageGenerateRequestModel requestModel = new PageGenerateRequestModel(pageType, inputLabel, user,
                 companyName, companyInfo);

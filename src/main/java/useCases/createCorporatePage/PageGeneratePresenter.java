@@ -1,5 +1,6 @@
 package useCases.createCorporatePage;
 
+// not needed
 public class PageGeneratePresenter {
 
     public PageGenerateResponseModel prepareSuccessView(PageGenerateResponseModel response){

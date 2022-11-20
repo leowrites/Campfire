@@ -5,7 +5,7 @@ import entity.User;
 // The requestModel frames the input data into an object
 public class PageGenerateRequestModel {
 
-    private String pageType;
+    private int pageType;
     private String inputLabel;
     private User user;
     private String companyName;
@@ -13,7 +13,7 @@ public class PageGenerateRequestModel {
 
     // The requestModel uses the number of arguments to distinguish the different types of pages
 
-    public PageGenerateRequestModel(String pageType, String inputLabel, User user){
+    public PageGenerateRequestModel(int pageType, String inputLabel, User user){
         this.pageType = pageType;
         this.inputLabel = inputLabel;
         this.user = user;
@@ -21,7 +21,7 @@ public class PageGenerateRequestModel {
 
     // This is requestModel for a corporatePage
     // Overloading
-    public PageGenerateRequestModel(String pageType,
+    public PageGenerateRequestModel(int pageType,
                                     String inputLabel, User user, String companyName, String companyInfo){
         this.pageType = pageType;
         this.inputLabel = inputLabel;
@@ -31,7 +31,7 @@ public class PageGenerateRequestModel {
 
     }
 
-    public String getPageType(){
+    public int getPageType(){
         return this.pageType;
     }
 

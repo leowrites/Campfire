@@ -4,9 +4,9 @@ import entity.Page;
 
 public class PageGenerateInteractor implements PageGenerateInputBoundary {
 
-    final PageGenerateDsGateway pageGenerateDsGateway;
-    final PageGenerateOutputBoundary pageGenerateOutputBoundary;
-    final PageFactory pageFactory;
+    private final PageGenerateDsGateway pageGenerateDsGateway;
+    private final PageGenerateOutputBoundary pageGenerateOutputBoundary;
+    private final PageFactory pageFactory;
 
     public PageGenerateInteractor(PageGenerateDsGateway pageGenerateDsGateway,
                                   PageGenerateOutputBoundary pageGenerateOutputBoundary, PageFactory pageFactory){
@@ -19,13 +19,15 @@ public class PageGenerateInteractor implements PageGenerateInputBoundary {
 
         if (pageGenerateDsGateway.existsByPageLabel(requestModel.getInputLabel())){
             return pageGenerateOutputBoundary.prepareFailView("Page already exists.");
+
+            //return a responseModel instead?
         }
 
         Page page = pageFactory.create(requestModel.getInputLabel(), requestModel.getUser());
 
         PageGenerateResponseModel pageResponseModel;
 
-        if (requestModel.getPageType().equals("Corporate")){
+        if (requestModel.getPageType() == 1){
             CorporatePage corporatePage = (CorporatePage) page;
             CorporatePageFactory corporatePageFactory = new CorporatePageFactory();
             corporatePage = corporatePageFactory.addInfo(corporatePage,
@@ -44,6 +46,7 @@ public class PageGenerateInteractor implements PageGenerateInputBoundary {
         }
 
         return pageGenerateOutputBoundary.prepareSuccessView(pageResponseModel);
+        // return a responseModel instead?
 
 
     }

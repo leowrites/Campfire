@@ -45,7 +45,7 @@ public class CorporatePage extends Page {
         this.companyInfo = companyInfo;
     }
 
-    //public void addInternship(Internship internship) {this.internshipsArray}
+    //public void addInternship(Internship internship) { this.internshipsArray.add(internship); }
 
 
 }
