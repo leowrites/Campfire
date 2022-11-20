@@ -9,8 +9,7 @@ public class HelpfulSort implements ISort{
      * @return a response model
      */
     public SortResponseModel sort(ArrayList<Review> reviews){
-        ArrayList<Review> newOrder = new ArrayList<>(reviews);
-        newOrder.sort(Review::compareToHelpful);
-        return new SortResponseModel(newOrder);
+        reviews.sort(Review::compareToHelpful);
+        return new SortResponseModel(reviews);
     }
 }

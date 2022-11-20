@@ -9,8 +9,7 @@ public class HighestRatingSort implements ISort{
      * @return a response model
      */
     public SortResponseModel sort(ArrayList<Review> reviews){
-        ArrayList<Review> newOrder = new ArrayList<>(reviews);
-        newOrder.sort(Review::compareToHighestRating);
-        return new SortResponseModel(newOrder);
+        reviews.sort(Review::compareToHighestRating);
+        return new SortResponseModel(reviews);
     }
 }
