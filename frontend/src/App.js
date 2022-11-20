@@ -1,118 +1,121 @@
-import logo from './logo.svg';
 import './App.css';
-import React from "react";
-import {useState} from "react";
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import { Routes, Route, Link } from "react-router-dom"
+import HomePage from './Home/HomePage';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SockJsclient from 'react-stomp'
+import { useEffect, useRef, useState } from 'react';
+import Navbar from './Component/Navbar'
+import ErrorMessage from './ErrorMessage';
 
+const SOCKET_URL = 'http://localhost:8080/ws'
+
+// this is to be replaced once authentication is implemented
+const CURRENT_USERNAME = 'leoliu'
+
+// Have different handlers for different endpoints
+// delete option
 
 function App() {
+  const clientRef = useRef()
+  // const [sessionId, setSessionId] = useState('')
+  const [users, setUsers] = useState([])
+  const [showMsg, setShowMsg] = useState(false)
+  const [msg, setMsg] = useState('')
+  const [status, setStatus] = useState()
+
+  useEffect(() => {
+    fetch('/users')
+      .then(res => res.json())
+      .then(data => setUsers(data))
+  }, [])
+
+  const sendConnectionRequest = (username) => {
+    console.log('message sent')
+    clientRef.current.sendMessage(
+      ['/app/users/connections/request'],
+      JSON.stringify(
+        {
+          userId: CURRENT_USERNAME,
+          targetId: username
+        }
+      )
+    )
+  }
+
+  const sendAcceptConnectionRequest = (username, target) => {
+    console.log('message sent')
+    clientRef.current.sendMessage(
+      ['/app/users/connections/accept'],
+      JSON.stringify(
+        {
+          userId: username,
+          targetId: target
+        }
+      )
+    )
+  }
+
+  const onConnected = () => {
+    console.log("connected")
+  } 
+  const onDisconnect = () => {
+    console.log("disconnected")
+  } 
+
+
+
+  // need to have different handlers than this generic one
+  const onMessage = (msg) => {
+    if (msg.serverStatus === "SUCCESS") {
+      const newUsers = users.map(u => {
+        if (u.username === msg.userId) {
+          u.connections = msg.connections
+          u.incomingConnectionRequests = msg.incomingConnectionRequests
+          u.outgoingConnectionRequests = msg.outgoingConnectionRequests
+        }
+        return u
+      })
+      setUsers(newUsers)
+      setMsg(msg.message)
+      setStatus('success')
+    } else {
+      setMsg(msg.message)
+      setStatus('error')
+    }
+    setShowMsg(true)
+    console.log(msg)
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setShowMsg(false)
+    setMsg('')
+    setStatus()
+  }
+
   return (
-      <div className="App">
-        <SignUp></SignUp>
-      </div>
-  )
+    <div className="App">
+      <SockJsclient
+        url={SOCKET_URL}
+        topics={['/topic/users/connections', '/topic/users/test',
+        '/topic/users/connections/request',
+        '/topic/users/connections/accept',
+        '/users/queue/reply']}
+        ref={clientRef}
+        onConnect={onConnected}
+        onDisconnect={onDisconnect}
+        options={{
+          // options in https://github.com/sockjs/sockjs-client#sockjs-client-api
+          // sessionId: () => "leoliu"
+        }}
+        onMessage={(msg) => onMessage(msg)}
+      />
+      <Navbar />
+      <HomePage users={users} sendConnectionRequest={sendConnectionRequest} sendAcceptConnectionRequest={sendAcceptConnectionRequest}/>
+      <ErrorMessage open={showMsg} handleClose={handleClose} msg={msg} status={status}/>
+    </div>
+  );
 }
-
-function SignUp() {
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
-
-    const [usernameError, setUsernameError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
-    const onFirstNameChange = (e) => {
-        setFormData({...formData, firstName: e.target.value})
-    }
-
-    const onLastNameChange = (e) => {
-        setFormData({...formData, lastName: e.target.value})
-    }
-
-    const onUserNameChange = (e) => {
-        setFormData({...formData, username: e.target.value})
-    }
-
-    const onEmailChange = (e) => {
-        setFormData({...formData, email: e.target.value})
-    }
-
-    const onPasswordChange = (e) => {
-        setFormData({...formData, password: e.target.value})
-    }
-
-    const onConfirmPasswordChange = (e) => {
-        setFormData({...formData, confirmPassword: e.target.value})
-    }
-
-    const signup = () => {
-        fetch('/users/signup', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        }).then((response) => response.json())
-            .then((data) => {
-                console.log(data)
-                if(data.errorMessages.length > 0) {
-                    data.errorMessages.forEach(fieldError => {
-                        if(fieldError.field === 'email'){
-                            setEmailError(fieldError.message);
-                        }
-
-                        if(fieldError.field === 'password'){
-                            setPasswordError(fieldError.message);
-                        }
-                    });
-                } else {
-                    alert("Success !!");
-                }
-            })
-            .catch((err) => err);
-    };
-
-
-    return (
-        <Container>
-            <Typography variant='h4'>SIGN UP</Typography>
-            <Stack spacing={2}>
-                <TextField label='First Name' onChange={onFirstNameChange}/>
-                <TextField label='Last Name' onChange={onLastNameChange}/>
-                <TextField label='Username' onChange={onUserNameChange}/>
-                {
-                    usernameError ? <span style={{ color: 'red', fontSize: '12px'}}>{usernameError}</span> : ''
-                }
-                <TextField label='Email' onChange={onEmailChange}/>
-                {
-                    emailError ? <span style={{ color: 'red', fontSize: '12px'}}>{emailError}</span> : ''
-                }
-                <TextField label='Password' type="password" onChange={onPasswordChange}/>
-                {
-                    passwordError ? <span style={{ color: 'red', fontSize: '12px'}}>{passwordError}</span> : ''
-                }
-                <TextField label='Confirm Password' type="password" onChange={onConfirmPasswordChange}/>
-                {
-                    confirmPasswordError ? <span style={{ color: 'red', fontSize: '12px'}}>{confirmPasswordError}</span> : ''
-                }
-                <Button variant='contained' onClick={signup}>Sign up</Button>
-            </Stack>
-        </Container>
-    );
-}
-
 
 export default App;

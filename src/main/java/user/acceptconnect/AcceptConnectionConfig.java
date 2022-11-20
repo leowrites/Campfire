@@ -1,4 +1,4 @@
-package user.requestconnect;
+package user.acceptconnect;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -7,10 +7,10 @@ import service.IUserDataAccess;
 
 @Configuration
 @ComponentScan("service")
-public class Config {
+public class AcceptConnectionConfig {
 
     @Bean
-    public IRequestConnectionInput connectionInput(IUserDataAccess dataAccess) {
-        return new RequestConnectionInteractor(dataAccess);
+    public IAcceptConnectionInput acceptConnectionInput(IUserDataAccess dataAccess) {
+        return new AcceptConnectionInteractor(dataAccess);
     }
 }

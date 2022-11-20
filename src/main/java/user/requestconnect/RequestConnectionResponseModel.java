@@ -1,29 +1,40 @@
 package user.requestconnect;
-import entity.User;
-import java.util.*;
+import service.ServerStatus;
 
 public class RequestConnectionResponseModel {
-    private final ServerStatus connectionStatus;
-    private String message;
-    private ArrayList<String> connectionRequests;
-    private ArrayList<String> pendingConnections;
-    private ArrayList<String> connections;
-    private String userId;
-    private String targetId;
-    public RequestConnectionResponseModel(ServerStatus connectionStatus, String message, ArrayList<String> connectionRequests,
-                                          ArrayList<String> pendingConnections, ArrayList<String> connections, String userId,
-                                           String targetId){
+    private final String message;
+    private final ServerStatus serverStatus;
+    private RequestConnectionUserResponseModel userResponseModel;
+    private RequestConnectionUserResponseModel targetResponseModel;
+
+    public RequestConnectionResponseModel(ServerStatus serverStatus,
+                                          String message,
+                                          RequestConnectionUserResponseModel userResponseModel,
+                                          RequestConnectionUserResponseModel targetResponseModel) {
+        this.serverStatus = serverStatus;
         this.message = message;
-        this.userId = userId;
-        this.targetId = targetId;
-        this.connectionStatus = connectionStatus;
-        this.connectionRequests = connectionRequests;
-        this.pendingConnections = pendingConnections;
-        this.connections = connections;
+        this.userResponseModel = userResponseModel;
+        this.targetResponseModel = targetResponseModel;
     }
-    public RequestConnectionResponseModel(ServerStatus connectionStatus, String message, String userId){
-        this.userId = userId;
-        this.connectionStatus = connectionStatus;
+
+    public RequestConnectionResponseModel(ServerStatus serverStatus, String message) {
         this.message = message;
+        this.serverStatus = serverStatus;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public ServerStatus getServerStatus() {
+        return serverStatus;
+    }
+
+    public RequestConnectionUserResponseModel getUserResponseModel() {
+        return userResponseModel;
+    }
+
+    public RequestConnectionUserResponseModel getTargetResponseModel() {
+        return targetResponseModel;
     }
 }
