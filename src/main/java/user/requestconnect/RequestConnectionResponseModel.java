@@ -1,27 +1,40 @@
 package user.requestconnect;
-import java.util.*;
+import service.ServerStatus;
 
 public class RequestConnectionResponseModel {
-    private final String connectionStatus;
-    private final Date connectionTime;
-    private String message;
-    public RequestConnectionResponseModel(String connectionStatus){
-        this.connectionStatus = connectionStatus;
-        this.connectionTime = new Date();
-    }
-    public RequestConnectionResponseModel(String connectionStatus, String message){
-        this.connectionStatus = connectionStatus;
-        this.connectionTime = new Date();
+    private final String message;
+    private final ServerStatus serverStatus;
+    private RequestConnectionUserResponseModel userResponseModel;
+    private RequestConnectionUserResponseModel targetResponseModel;
+
+    public RequestConnectionResponseModel(ServerStatus serverStatus,
+                                          String message,
+                                          RequestConnectionUserResponseModel userResponseModel,
+                                          RequestConnectionUserResponseModel targetResponseModel) {
+        this.serverStatus = serverStatus;
         this.message = message;
-    }
-    public String getConnectionStatus() {
-        return connectionStatus;
+        this.userResponseModel = userResponseModel;
+        this.targetResponseModel = targetResponseModel;
     }
 
-    public Date getConnectionTime() {
-        return connectionTime;
+    public RequestConnectionResponseModel(ServerStatus serverStatus, String message) {
+        this.message = message;
+        this.serverStatus = serverStatus;
     }
+
     public String getMessage() {
         return message;
+    }
+
+    public ServerStatus getServerStatus() {
+        return serverStatus;
+    }
+
+    public RequestConnectionUserResponseModel getUserResponseModel() {
+        return userResponseModel;
+    }
+
+    public RequestConnectionUserResponseModel getTargetResponseModel() {
+        return targetResponseModel;
     }
 }

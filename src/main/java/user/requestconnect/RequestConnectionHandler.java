@@ -1,6 +1,7 @@
 package user.requestconnect;
 
 import entity.User;
+import service.IUserDataAccess;
 
 import java.util.ArrayList;
 
@@ -8,43 +9,44 @@ public class RequestConnectionHandler {
 
     private final User user;
     private final User target;
-    private final IRequestConnectionDataAccess dataAccess;
-    private final IRequestConnectionSocket socket;
-    public RequestConnectionHandler(User user, User target, IRequestConnectionDataAccess dataAccess, IRequestConnectionSocket socket) {
+    private final IUserDataAccess dataAccess;
+    public RequestConnectionHandler(User user, User target, IUserDataAccess dataAccess) {
         this.user = user;
         this.target = target;
         this.dataAccess = dataAccess;
-        this.socket = socket;
     }
 
     public void acceptConnectionRequest() {
+        ArrayList<String> userIncomingConnectionRequests = user.getIncomingConnectionRequests();
+        userIncomingConnectionRequests.remove(target.getUsername());
+        user.setIncomingConnectionRequests(userIncomingConnectionRequests);
+
         ArrayList<String> userConnections = user.getConnections();
-        ArrayList<String> targetConnections = target.getConnections();
-
-        userConnections.add(target.getId());
-        targetConnections.add(user.getId());
-
-        target.setConnections(targetConnections);
+        userConnections.add(target.getUsername());
         user.setConnections(userConnections);
 
-        dataAccess.saveUser(user);
-        dataAccess.saveUser(target);
-        // broadcast update to target
-        socket.broadcastConnectionRequest();
+        ArrayList<String> targetOutgoingConnectionRequests = target.getOutgoingConnectionRequests();
+        targetOutgoingConnectionRequests.remove(user.getUsername());
+        target.setOutgoingConnectionRequests(targetOutgoingConnectionRequests);
+
+        ArrayList<String> targetConnections = target.getConnections();
+        targetConnections.add(user.getUsername());
+        target.setConnections(targetConnections);
+
+        dataAccess.updateUser(user);
+        dataAccess.updateUser(target);
     }
     public void sendConnectionRequestToTarget() {
-        ArrayList<String> userConnectionRequests = user.getConnectionRequests();
-        ArrayList<String> targetPendingConnections = target.getPendingConnections();
+        ArrayList<String> userOutgoing = user.getOutgoingConnectionRequests();
+        ArrayList<String> targetIncoming = target.getIncomingConnectionRequests();
 
-        userConnectionRequests.add(target.getId());
-        targetPendingConnections.add(user.getId());
+        userOutgoing.add(target.getUsername());
+        targetIncoming.add(user.getUsername());
 
-        user.setConnectionRequests(userConnectionRequests);
-        target.setPendingConnections(targetPendingConnections);
+        user.setOutgoingConnectionRequests(userOutgoing);
+        target.setIncomingConnectionRequests(targetIncoming);
 
-        dataAccess.saveUser(user);
-        dataAccess.saveUser(target);
-        // broadcast update to target
-        socket.broadcastConnectionRequest();
+        dataAccess.updateUser(user);
+        dataAccess.updateUser(target);
     }
 }
