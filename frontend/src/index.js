@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Login from "./Login";
-import SignUp from "./SignUp";
+import Login from "./Component/Login";
+import SignUp from "./Component/SignUp";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
 
