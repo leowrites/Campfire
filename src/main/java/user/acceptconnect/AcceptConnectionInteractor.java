@@ -1,14 +1,16 @@
 package user.acceptconnect;
 
 import entity.User;
+import service.IUserDataAccess;
 import user.acceptconnect.exceptions.NoRequestFoundException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import user.requestconnect.exceptions.UserNotFoundException;
+import service.UserDataAccess;
 
 public class AcceptConnectionInteractor implements IAcceptConnectionInput {
-    private final IAcceptConnectionDataAccess dataAccess;
+    private final IUserDataAccess dataAccess;
 
-    public AcceptConnectionInteractor(IAcceptConnectionDataAccess dataAccess) {
+    public AcceptConnectionInteractor(IUserDataAccess dataAccess) {
         this.dataAccess = dataAccess;
     }
 
