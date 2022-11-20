@@ -4,7 +4,7 @@ import InternshipPaper from './InternshipPaper';
 import Grid from '@mui/material/Grid';
 import UserCard from '../Component/UserCard';
 
-function HomePage({ users, sendConnectionRequest }) {
+function HomePage({ users, sendConnectionRequest, sendAcceptConnectionRequest }) {
   const [internships, setInternships] = useState([]);
   useEffect(() => {
     const internships = [];
@@ -35,6 +35,7 @@ function HomePage({ users, sendConnectionRequest }) {
                 connections={v.connections}
                 incomingConnectionRequests={v.incomingConnectionRequests}
                 outgoingConnectionRequests={v.outgoingConnectionRequests}
+                sendAcceptConnectionRequest={sendAcceptConnectionRequest}
                 sendConnectionRequest={sendConnectionRequest}
               />
             ))}

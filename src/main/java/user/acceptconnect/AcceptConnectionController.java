@@ -3,6 +3,7 @@ package user.acceptconnect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 import service.ServerStatus;
@@ -21,7 +22,16 @@ public class AcceptConnectionController {
     }
 
     @MessageMapping("/users/connections/accept")
-    public void acceptConnection(String userName, String targetName){
-        AcceptConnectionRequestModel requestModel = new AcceptConnectionRequestModel(userName, targetName);
+    public void acceptConnection(
+            @Payload AcceptConnectionRequestModel requestModel
+    ){
+        System.out.println("received message");
+        AcceptConnectionResponseModel responseModel = interactor.acceptConnection(requestModel);
+        if (responseModel.getServerStatus() == ServerStatus.SUCCESS) {
+            simpMessagingTemplate.convertAndSend("/topic/users/connections/accept", responseModel.getUserResponseModel());
+            simpMessagingTemplate.convertAndSend("/topic/users/connections/accept", responseModel.getTargetResponseModel());
+        } else {
+            simpMessagingTemplate.convertAndSend("/topic/users/connections/accept", responseModel);
+        }
     }
 }
