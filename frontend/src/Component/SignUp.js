@@ -45,7 +45,7 @@ function SignUp() {
     }
 
     const signup = () => {
-        fetch('/users/signup', {
+        fetch('/signup', {
             method: 'POST',
             credentials: 'include',
             headers: {

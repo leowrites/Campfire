@@ -17,10 +17,9 @@ public class SignUpController{
         this.interactor = signUpInteractor;
     }
 
-    @PostMapping("/users/signup")
-    public ResponseEntity<Object> receiveSignUpForm(@RequestBody SignUpInputDS inputdata) {
+    @PostMapping("/signup")
+    public ResponseEntity<SignUpResponseDS> receiveSignUpForm(@RequestBody SignUpInputDS inputdata) {
         SignUpResponseDS responseDS = this.interactor.validateInputs(inputdata);
-        System.out.println("fuck");
         if (responseDS.getErrorMessages().isEmpty()){
             return new ResponseEntity<>(responseDS, HttpStatus.OK);
         } else {return new ResponseEntity<>(responseDS, HttpStatus.UNPROCESSABLE_ENTITY);}
