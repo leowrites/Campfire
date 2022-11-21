@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import axios from 'axios'
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router';
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -12,10 +13,10 @@ function Login() {
         password: ''
     });
 
+    const navigate = useNavigate()
+
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-
-
 
     const onUserNameChange = (e) => {
         setFormData({...formData, username: e.target.value})
@@ -26,10 +27,15 @@ function Login() {
     }
 
     const login = async (username, password) => {
-        const response = await axios.post("http://localhost:8080/login", {
-            password: formData.username,
-            username: formData.password
+        const fd = new FormData()
+        fd.append('username', formData.username)
+        fd.append('password', formData.password)
+        const response = await axios.post("http://localhost:8080/login", fd, {
+            headers: { "Content-Type": "multipart/form-data" },
         })
+        if (response.status === 200) {
+            navigate('/')
+        } 
     };
 
 
