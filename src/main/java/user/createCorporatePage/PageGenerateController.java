@@ -21,6 +21,12 @@ public class PageGenerateController {
     }
 
 
+/**
+ * The code that is commented out below was for the clean architecture framework
+ * where "input boundary" and "gateway" are used.
+ * As we are implementing Spring instead, the code below is no long be needed and only kept as comments
+ * for my own reference (ie. easier for me to understand the logic and debug).
+ */
 
 //    final PageGenerateInputBoundary pageInput;
 

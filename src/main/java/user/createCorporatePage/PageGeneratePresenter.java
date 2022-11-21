@@ -1,6 +1,6 @@
 package user.createCorporatePage;
 
-import user.createCorporatePage.exceptions.PageCreationFailed;
+import user.createCorporatePage.exceptions.PageCreationFailedException;
 
 // not needed
 public class PageGeneratePresenter {
@@ -10,7 +10,7 @@ public class PageGeneratePresenter {
     }
 
     public PageGenerateResponseModel prepareFailView(String error){
-        throw new PageCreationFailed(error);
+        throw new PageCreationFailedException(error);
     }
 
 

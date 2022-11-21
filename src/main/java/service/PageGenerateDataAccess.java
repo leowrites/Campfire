@@ -7,7 +7,7 @@ import entity.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import user.createCorporatePage.exceptions.PageCreationFailed;
+import user.createCorporatePage.exceptions.PageCreationFailedException;
 
 @Repository
 public class PageGenerateDataAccess implements IPageGenerateDataAccess{
@@ -23,7 +23,7 @@ public class PageGenerateDataAccess implements IPageGenerateDataAccess{
      */
 
     @Override
-    public void createPage(Page page) throws PageCreationFailed {
+    public void createPage(Page page) throws PageCreationFailedException {
         try{
             ObjectMapper mapper = new ObjectMapper();
             String pageNameString = mapper.writeValueAsString(page);
@@ -36,7 +36,7 @@ public class PageGenerateDataAccess implements IPageGenerateDataAccess{
     }
 
     //this is an overload for corporatePage
-    public void createPage(CorporatePage corporatePage) throws PageCreationFailed {
+    public void createPage(CorporatePage corporatePage) throws PageCreationFailedException {
         try{
             ObjectMapper mapper = new ObjectMapper();
             String pageNameString = mapper.writeValueAsString(corporatePage);
