@@ -1,8 +1,8 @@
-package useCases.createCorporatePage;
+package user.createCorporatePage;
 import entity.CorporatePage;
 import entity.Page;
 
-public class PageGenerateInteractor implements PageGenerateInputBoundary {
+public class PageGenerateInteractor implements IPageGenerateInput {
 
     private final PageGenerateDsGateway pageGenerateDsGateway;
     private final PageGenerateOutputBoundary pageGenerateOutputBoundary;

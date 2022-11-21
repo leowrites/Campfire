@@ -1,4 +1,6 @@
-package useCases.createCorporatePage;
+package user.createCorporatePage;
+
+import user.createCorporatePage.exceptions.PageCreationFailed;
 
 // not needed
 public class PageGeneratePresenter {

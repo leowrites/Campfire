@@ -1,4 +1,4 @@
-package useCases.createCorporatePage;
+package user.createCorporatePage;
 
 public interface PageGenerateDsGateway {
     boolean existsByPageLabel(String identifier);

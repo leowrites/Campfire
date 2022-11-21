@@ -1,4 +1,4 @@
-package useCases.createCorporatePage;
+package user.createCorporatePage;
 
 // CorporatePageFactory implements the interface PageFactory
 // it creates CorporatePage instances in the PageGeneratorInteractor

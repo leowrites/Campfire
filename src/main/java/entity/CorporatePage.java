@@ -8,13 +8,11 @@ import java.util.ArrayList;
 
 public class CorporatePage extends Page {
 
-    // This uniqueIdTracker starts from 0, and increments by 1 every time it's assigned to a CorporatePage instance.
 
     private String companyName;
     private String companyInfo;
     private CorporateRep pageManager;
-    private int companyPageId;
-    //private ArrayList<Internship> internshipsArray = new ArrayList<Internship>();
+    private ArrayList<Internship> internshipsArray = new ArrayList<Internship>();
 
     public CorporatePage(String pageName, User owner,
                          String companyName, String companyInfo){
@@ -35,7 +33,7 @@ public class CorporatePage extends Page {
         return companyInfo;
     }
 
-    //public ArrayList<Internship> getInternshipsArray() { return this.internshipsArray; }
+    public ArrayList<Internship> getInternshipsArray() { return this.internshipsArray; }
 
     public void setCompanyName(String companyName){
         this.companyName = companyName;
@@ -45,7 +43,7 @@ public class CorporatePage extends Page {
         this.companyInfo = companyInfo;
     }
 
-    //public void addInternship(Internship internship) { this.internshipsArray.add(internship); }
+    public void addInternship(Internship internship) { this.internshipsArray.add(internship); }
 
 
 }

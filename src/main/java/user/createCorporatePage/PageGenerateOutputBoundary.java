@@ -1,4 +1,4 @@
-package useCases.createCorporatePage;
+package user.createCorporatePage;
 
 public interface PageGenerateOutputBoundary {
     PageGenerateResponseModel prepareSuccessView(PageGenerateResponseModel pageInfo);

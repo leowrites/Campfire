@@ -1,4 +1,4 @@
-package useCases.createCorporatePage;
+package user.createCorporatePage;
 
 public class PageGenerateResponseModel {
     private String resultMessage;

@@ -1,4 +1,4 @@
-package useCases.createCorporatePage;
+package user.createCorporatePage;
 
 import entity.User;
 
