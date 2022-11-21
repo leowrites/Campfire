@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.0-Beta1'
 }
 
 group = 'com.example'
@@ -36,6 +37,7 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation('org.junit.jupiter:junit-jupiter:5.9.0')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 tasks.named('test') {
@@ -47,4 +49,14 @@ tasks.named('test') {
 
 tasks.named('processResources') {
     expand(project.properties)
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

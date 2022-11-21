@@ -1,20 +1,24 @@
 package user.delete_comment;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class DeleteCommentController {
 
     final IDeleteCommentInput interactor;
 
+    @Autowired
     public DeleteCommentController(IDeleteCommentInput interactor){
         this.interactor = interactor;
     }
 
-    public DeleteCommentResponseModel createDeleteCommentRequestModel(String parentType,
-                                                                      String parentId,
-                                                                      String commentId,
-                                                                      String userId,
-                                                                      int accessLevel){
-        DeleteCommentRequestModel requestModel = new DeleteCommentRequestModel(parentType,
-                parentId, commentId, userId, accessLevel);
+    @GetMapping("/comments/sort")
+
+    @DeleteMapping("/user/comments")
+    public DeleteCommentResponseModel createDeleteCommentRequestModel(DeleteCommentRequestModel requestModel){
         return interactor.createResponseModel(requestModel);
     }
 }
