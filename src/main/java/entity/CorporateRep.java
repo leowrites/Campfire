@@ -8,9 +8,16 @@ import java.util.ArrayList;
 
 public class CorporateRep extends User {
     private String companyName;
-    public CorporateRep (String id, ArrayList<String> connectionRequests, ArrayList<String> pendingConnections,
-                         ArrayList<String> connections, String name, String companyName){
-        super(id, connectionRequests, pendingConnections, connections, name);
+    public CorporateRep (String id,
+                         ArrayList<String> incomingConnectionRequests,
+                         ArrayList<String> outgoingConnectionRequests,
+                         ArrayList<String> connections,
+                         String username,
+                         String email,
+                         String password,
+                         String name, String companyName){
+        super(id, incomingConnectionRequests, outgoingConnectionRequests, connections,
+                username, email, password, name);
         this.companyName = companyName;
     }
 
