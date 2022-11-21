@@ -48,3 +48,4 @@ tasks.named('test') {
 tasks.named('processResources') {
     expand(project.properties)
 }
+
