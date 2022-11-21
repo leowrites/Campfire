@@ -30,12 +30,10 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@CrossOrigin("http://localhost:3000")
 public class WebSecurityConfig {
 
     @Autowired
     UserDetailsService userDetailsService;
-
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
@@ -46,13 +44,11 @@ public class WebSecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
-    @Autowired
-    CorsConfigurationSource corsConfigurationSource;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors().configurationSource(corsConfigurationSource).and()
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .csrf()
                 .disable()
                 .authorizeHttpRequests((requests) -> requests
@@ -60,10 +56,9 @@ public class WebSecurityConfig {
                         .antMatchers("/", "/home", "/signup", "/users", "/login")
                         .permitAll()
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .anyRequest().
-                        authenticated())
-                .formLogin().loginProcessingUrl("/login")
-                .defaultSuccessUrl("https://www.apple.com/", true);
+                        .anyRequest()
+                        .authenticated())
+                .formLogin().loginProcessingUrl("/login");
         return http.build();
     }
 
@@ -72,10 +67,10 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
