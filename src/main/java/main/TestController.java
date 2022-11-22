@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import service.IUserDataAccess;
 import service.ServerStatus;
@@ -47,18 +48,18 @@ public class TestController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/users/{id}")
-    public void postUser(
-            @PathVariable("id") String username
-    ) {
-        ArrayList<String> user1Requests = new ArrayList<String>();
-        ArrayList<String> user1PendingConnections = new ArrayList<String>();
-        ArrayList<String> user1Connections = new ArrayList<String>();
-        userDataAccess.saveUser(
-                new User("01", user1Requests, user1Connections, user1PendingConnections,
-                        username, "leo@gmail.com", "pass", "Leo")
-        );
-    }
+//    @PostMapping("/users/{id}")
+//    public void postUser(
+//            @PathVariable("id") String username
+//    ) {
+//        ArrayList<String> user1Requests = new ArrayList<String>();
+//        ArrayList<String> user1PendingConnections = new ArrayList<String>();
+//        ArrayList<String> user1Connections = new ArrayList<String>();
+//        userDataAccess.saveUser(
+//                new User("01", user1Requests, user1Connections, user1PendingConnections,
+//                        username, "leo@gmail.com", "pass", "Leo")
+//        );
+//    }
 
     @MessageMapping("/users/test")
     @SendTo("/topic/users/test")
@@ -83,5 +84,10 @@ public class TestController {
     @PostMapping("/users/reset")
     public void resetUser() {
         userDataAccess.reset();
+    }
+
+    @PostMapping("/users/authenticate")
+    public Principal authenticate(Principal principal) {
+        return principal;
     }
 }
