@@ -56,7 +56,7 @@ public class WebSecurityConfig {
                 .disable()
                 .authorizeHttpRequests((requests) -> requests
                         //permit routes to / and /home
-                        .antMatchers("/", "/home", "/signup", "/users", "/login")
+                        .antMatchers("/", "/home", "/signup", "/users", "/login", "/ws/**")
                         .permitAll()
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest()
@@ -64,7 +64,10 @@ public class WebSecurityConfig {
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .successHandler(authenticationSuccessHandler)
-                .failureHandler(authenticationFailureHandler);
+                .failureHandler(authenticationFailureHandler)
+                .and()
+                .rememberMe()
+                .key("uniqueAndSecret");
         return http.build();
     }
 
@@ -78,6 +81,7 @@ public class WebSecurityConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS"));
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
 
