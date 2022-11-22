@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+import useAuthContext from '../AuthContext';
 
 const darkTheme = createTheme({
   palette: {
@@ -17,24 +19,41 @@ const darkTheme = createTheme({
   },
 });
 
-export default function Navbar({sendMessage}) {
-  const resetAllConnections = () => {
-    fetch('/users/reset', {
-      method: "POST"
-    })
-  }
+export default function Navbar() {
+  const navigate = useNavigate();
+  const authContext = useAuthContext();
+  const principal = authContext.principal;
 
-  const navigate = useNavigate()
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={darkTheme}>
         <AppBar position='static' color='primary'>
           <Toolbar>
-            <Typography variant='h6'>Rate my Intern</Typography>
+            <Link to='/' style={{ textDecoration: 'none' }}>
+              <Typography variant='h6' sx={{ color: 'white' }}>
+                Rate my Intern
+              </Typography>
+            </Link>
             <Box sx={{ ml: 'auto' }}>
-              <Button sx={{ color: 'white' }} onClick={() => navigate('login')}>Login</Button>
-              <Button sx={{ color: 'white' }} onClick={() => navigate('signup')}>Sign in</Button>
-              <Button sx={{ color: 'white' }} onClick={resetAllConnections} > reset all connections</Button>
+              {principal ? (
+                <>
+                  <Typography sx={{ display: 'inline' }}>{principal.username}</Typography>
+                  <Button
+                    sx={{ color: 'white', m: 2 }}
+                    onClick={() => authContext.setPrincipal()}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button sx={{ color: 'white' }} onClick={() => navigate('login')}>
+                    Login
+                  </Button>
+                  <Button sx={{ color: 'white' }} onClick={() => navigate('signup')}>
+                    Sign in
+                  </Button>
+                </>
+              )}
             </Box>
           </Toolbar>
         </AppBar>

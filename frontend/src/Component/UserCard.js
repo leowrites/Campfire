@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button';
+import useAuthContext from '../AuthContext'
 
 function UserCard({
   username,
@@ -11,6 +12,9 @@ function UserCard({
   sendAcceptConnectionRequest,
   connections,
 }) {
+
+  const authContext = useAuthContext();
+  const principal = authContext.principal;
   return (
     <Paper sx={{ m: 3}}>
       <Typography>{username.toUpperCase()}</Typography>
@@ -24,14 +28,14 @@ function UserCard({
       ))}
     <Typography sx={{ mt: 2 }}>Requests from:</Typography>
       {incomingConnectionRequests?.map((c, i) => (
-        <Box >
-          <Typography key={i} sx={{display: 'inline-block'}}>{c}</Typography>
+        <Box key={i}>
+          <Typography sx={{display: 'inline-block'}}>{c}</Typography>
           <Button onClick={() => sendAcceptConnectionRequest(username, c)}>Accept</Button>
         </Box>
       ))}
       <Button
         onClick={() => {
-          sendConnectionRequest(username);
+          sendConnectionRequest(principal.username, username);
         }}>
         Connect
       </Button>

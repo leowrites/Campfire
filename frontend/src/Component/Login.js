@@ -6,16 +6,16 @@ import Stack from '@mui/material/Stack';
 import axios from 'axios'
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router';
+import useAuthContext from '../AuthContext'
 
 function Login() {
     const [formData, setFormData] = useState({
         username: '',
         password: ''
     });
-
     const navigate = useNavigate()
-
     const [error, setError] = useState('')
+    const authContext = useAuthContext()
 
     const onUserNameChange = (e) => {
         setFormData({...formData, username: e.target.value})
@@ -29,11 +29,18 @@ function Login() {
         const fd = new FormData()
         fd.append('username', formData.username)
         fd.append('password', formData.password)
-        axios.post("http://localhost:8080/login", fd, {
+        fd.append('remember-me', true)
+        axios.post("/login", fd, {
             headers: { "Content-Type": "multipart/form-data" },
         })
-            .then(() => navigate('/'))
-            .catch(() => setError('Username and password does not match'))
+            .then(data => {
+                authContext.setPrincipal(data.data.principal)
+                navigate('/')
+            })
+            .catch((err) => {
+                setError('Username and password does not match')
+                console.log(err)
+            })
     };
 
 
