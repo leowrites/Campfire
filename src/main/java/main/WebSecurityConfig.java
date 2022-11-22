@@ -56,18 +56,22 @@ public class WebSecurityConfig {
                 .disable()
                 .authorizeHttpRequests((requests) -> requests
                         //permit routes to / and /home
-                        .antMatchers("/", "/home", "/signup", "/users", "/login", "/ws/**")
+                        .antMatchers("/", "/signup", "/login", "/ws",
+                                "/users/authenticate", "/users/reset")
                         .permitAll()
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .anyRequest()
-                        .authenticated())
+                        .antMatchers("/users/**", "/ws/**")
+                        .authenticated()
+                )
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
                 .and()
                 .rememberMe()
-                .key("uniqueAndSecret");
+                .alwaysRemember(true)
+                .tokenValiditySeconds(7 * 24 * 60 * 60)
+                .key("AbcdefghiJklmNoPqRstUvXyz");
         return http.build();
     }
 
