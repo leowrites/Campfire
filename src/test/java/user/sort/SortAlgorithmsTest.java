@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class SortAlgorithmsTest {
 
@@ -20,21 +21,13 @@ public class SortAlgorithmsTest {
 
     @BeforeEach
     public void setUp(){
-        reviews = new ArrayList<Review>();
         review1 = new Review("1", "user1", "", 3, "company1", new Date(2022, Calendar.JUNE, 24), 3, 3, new ArrayList<>());
         review2 = new Review("2", "user2", "", 5, "company1", new Date(2022, Calendar.JULY, 24), 5, 5, new ArrayList<>());
         review3 = new Review("3", "user4", "", 14, "company1", new Date(2022, Calendar.SEPTEMBER, 24), 115, 115, new ArrayList<>());
         review4 = new Review("4", "user5", "", -3, "company1", new Date(2022, Calendar.MARCH, 24), 0, 10, new ArrayList<>());
-        reviews.add(review1);
-        reviews.add(review2);
-        reviews.add(review3);
-        reviews.add(review4);
+        reviews = new ArrayList<Review>(List.of(review1, review2, review3, review4));
 
-        correctlySorted = new ArrayList<Review>();
-        correctlySorted.add(review3);
-        correctlySorted.add(review2);
-        correctlySorted.add(review1);
-        correctlySorted.add(review4);
+        correctlySorted = new ArrayList<Review>(List.of(review3, review2, review1, review4));
     }
 
     @Test
@@ -66,24 +59,11 @@ public class SortAlgorithmsTest {
         ArrayList<Review> reviews2 = new ArrayList<Review>(reviews);
         ArrayList<Review> reviews3 = new ArrayList<Review>(reviews);
 
-        ArrayList<Integer> correctlySortedHelpful = new ArrayList<Integer>();
-        correctlySortedHelpful.add(115);
-        correctlySortedHelpful.add(5);
-        correctlySortedHelpful.add(3);
-        correctlySortedHelpful.add(3);
-        correctlySortedHelpful.add(0);
-        ArrayList<Integer> correctlySortedHighestRating = new ArrayList<Integer>();
-        correctlySortedHighestRating.add(10);
-        correctlySortedHighestRating.add(5);
-        correctlySortedHighestRating.add(3);
-        correctlySortedHighestRating.add(3);
-        correctlySortedHighestRating.add(0);
-        ArrayList<Date> correctlySortedNewest = new ArrayList<Date>();
-        correctlySortedNewest.add(new Date(2022, Calendar.SEPTEMBER, 24));
-        correctlySortedNewest.add(new Date(2022, Calendar.JULY, 24));
-        correctlySortedNewest.add(new Date(2022, Calendar.JUNE, 24));
-        correctlySortedNewest.add(new Date(2022, Calendar.JUNE, 24));
-        correctlySortedNewest.add(new Date(2022, Calendar.MARCH, 24));
+        ArrayList<Integer> correctlySortedHelpful = new ArrayList<Integer>(List.of(115, 5, 3, 3, 0));
+        ArrayList<Integer> correctlySortedHighestRating = new ArrayList<Integer>(List.of(10, 5, 3, 3, 0));
+        ArrayList<Date> correctlySortedNewest = new ArrayList<Date>(List.of(new Date(2022, Calendar.SEPTEMBER, 24),
+                new Date(2022, Calendar.JULY, 24), new Date(2022, Calendar.JUNE, 24),
+                new Date(2022, Calendar.JUNE, 24), new Date(2022, Calendar.MARCH, 24)));
 
         SortResponseModel helpfulResponse = new HelpfulSort().sort(reviews1);
         SortResponseModel highestRatingResponse = new HighestRatingSort().sort(reviews2);
