@@ -39,7 +39,7 @@ Takes two numbers and returns the sum.
 
 - [@leowrites](https://github.com/leowrites)
 - [@MinGi-K](https://github.com/MinGi-K)
-- [@JTP001](https://github.com/justinwli930)
+- [@justinwli930](https://github.com/justinwli930)
 - [@hanyuxin02](https://github.com/hanyuxin02)
 - [@JTP001](https://github.com/JTP001)
 - [@PrimeAce123](https://github.com/PrimeAce123)
