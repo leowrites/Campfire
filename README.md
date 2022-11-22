@@ -43,14 +43,32 @@ Takes two numbers and returns the sum.
 - [@hanyuxin02](https://github.com/hanyuxin02)
 - [@JTP001](https://github.com/JTP001)
 - [@PrimeAce123](https://github.com/PrimeAce123)
+
+## Tech Stack
+
+**Client:** React, MUI
+
+**Server:** Java, Spring
+
+**Database:** PostgreSQL
+
 ## Installation
 
-1. Download the project file.
-2. Install the latest version of Node.js, which can be found [here](https://nodejs.org/en/download/)
-3. Open the project in the Java IDE of your choice, navigate to /src/main/java/main/Application.java.
-4. Compile and run to start backend Spring server.
-5. Open a new terminal window.
-6. cd into ~/rate_internship/frontend
-7. Run `npm install` to install dependencies.
-8. Run `npm start` to start the frontend React server.
-9. New tab should open.
+Download the project directory or directly clone the project:
+
+```bash
+git clone https://github.com/CSC207-2022F-UofT/rate-my-intern.git
+```
+
+```bash
+cd frontend
+npm install
+```
+
+## Run Locally
+To start our app, run
+```bash
+./gradlew bootRun
+cd frontend
+npm start
+```
