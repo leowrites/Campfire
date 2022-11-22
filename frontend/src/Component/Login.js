@@ -15,8 +15,7 @@ function Login() {
 
     const navigate = useNavigate()
 
-    const [usernameError, setUsernameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [error, setError] = useState('')
 
     const onUserNameChange = (e) => {
         setFormData({...formData, username: e.target.value})
@@ -26,16 +25,15 @@ function Login() {
         setFormData({...formData, password: e.target.value})
     }
 
-    const login = async (username, password) => {
+    const login = () => {
         const fd = new FormData()
         fd.append('username', formData.username)
         fd.append('password', formData.password)
-        const response = await axios.post("http://localhost:8080/login", fd, {
+        axios.post("http://localhost:8080/login", fd, {
             headers: { "Content-Type": "multipart/form-data" },
         })
-        if (response.status === 200) {
-            navigate('/')
-        } 
+            .then(() => navigate('/'))
+            .catch(() => setError('Username and password does not match'))
     };
 
 
@@ -44,12 +42,9 @@ function Login() {
             <Typography variant='h4'>Login</Typography>
             <Stack spacing={2}>
                 <TextField label='Username' onChange={onUserNameChange}/>
-                {
-                    usernameError ? <span style={{ color: 'red', fontSize: '12px'}}>{usernameError}</span> : ''
-                }
                 <TextField label='Password' type="password" onChange={onPasswordChange}/>
                 {
-                    passwordError ? <span style={{ color: 'red', fontSize: '12px'}}>{passwordError}</span> : ''
+                    error && <Typography sx={{color: 'red'}}>{error}</Typography>
                 }
                 <Button variant='contained' onClick={login}>Login</Button>
             </Stack>
