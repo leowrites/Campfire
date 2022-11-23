@@ -46,7 +46,7 @@ public class RequestConnectionController {
                     requestConnectionResponseModel.getTargetResponseModel());
         } else {
             simpMessagingTemplate.convertAndSendToUser(user.getName(), "/queue/connections/request",
-                    requestConnectionResponseModel);
+                    requestConnectionResponseModel.getUserResponseModel());
         }
     }
 }
