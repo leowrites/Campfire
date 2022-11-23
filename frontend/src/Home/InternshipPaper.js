@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 
 function InternshipPaper ({ title, info }){
     return (
-      <Paper elevation={2} sx={{ m: 3, p: 3 }}>
+      <Paper elevation={2} sx={{ mb: 3, p: 3 }}>
         <Typography>
             {title}
         </Typography>
