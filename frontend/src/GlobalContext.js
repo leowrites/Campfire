@@ -1,5 +1,4 @@
 import React, { useContext, useState, useRef, useMemo } from 'react';
-import useAuthContext from './AuthContext'
 
 export const GlobalContext = React.createContext();
 
@@ -7,9 +6,7 @@ export function GlobalContextProvider({ children }) {
   const socketRef = useRef();
   const [showMsg, setShowMsg] = useState(false);
   const [msg, setMsg] = useState('');
-  const [users, setUsers] = useState([]);
   const [status, setStatus] = useState();
-  const authContext = useAuthContext()
 
   const onConnected = () => {
     console.log('connected');
@@ -21,7 +18,21 @@ export function GlobalContextProvider({ children }) {
   // need to have different handlers than this generic one
   const onMessage = (msg) => {
     // implement handling this
-    console.log(msg);
+    if (msg.serverStatus === 'ERROR') {
+      setMsg(msg.message);
+      setShowMsg(true);
+      setStatus('error');
+    } else {
+      if (msg.action === 'OUTGOING_CONNECTION_REQUEST') {
+        // setPrincipal()
+      } else if (msg.action === 'INCOMING_CONNECTION_REQUEST') {
+      } else if (msg.action === 'INCOMING_CONNECT_ACCEPT') {
+      } else if (msg.action === 'OUTGOING_CONNECT_ACCEPT') {
+      }
+      setMsg(msg.message);
+      setShowMsg(true);
+      setStatus('success');
+    }
   };
 
   const sendAcceptConnectionRequest = (user, target) => {
@@ -36,15 +47,20 @@ export function GlobalContextProvider({ children }) {
   };
 
   const sendConnectionRequest = (user, target) => {
-    console.log('message sent');
-    console.log(authContext.principal)
-    socketRef.current.sendMessage(
-      ['/app/users/connections/request'],
-      JSON.stringify({
-        userId: user,
-        targetId: target,
-      })
-    );
+    if (!target || !user) {
+      setMsg('Please provide a valid input!');
+      setShowMsg(true);
+      setStatus('warning');
+    } else {
+      console.log(`Connection request sent from ${user} to ${target}`);
+      socketRef.current.sendMessage(
+        ['/app/users/connections/request'],
+        JSON.stringify({
+          userId: user,
+          targetId: target,
+        })
+      );
+    }
   };
 
   const handleNotificationClose = (_, reason) => {
@@ -69,7 +85,7 @@ export function GlobalContextProvider({ children }) {
       sendConnectionRequest,
       handleNotificationClose,
     }),
-    [users]
+    [msg]
   );
 
   return <GlobalContext.Provider value={memo}>{children}</GlobalContext.Provider>;
