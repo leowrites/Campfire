@@ -8,14 +8,30 @@ export function AuthContextProvider({ children }) {
 
   useEffect(() => {
     login();
+    // once user is authenticated, get info
   }, []);
 
-  console.log("rerendered")
   const login = () => {
     axios
       .post('/users/authenticate')
       .then((data) => {
-        setPrincipal(data.data.principal);
+        return {
+          principal: data.data.principal, 
+          username: data.data.principal.username}
+      })
+      .then(data => {
+        getUserInfo(data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getUserInfo = ({username, principal}) => {
+    axios
+      .get(`/users/${username}`)
+      .then((data) => {
+        setPrincipal({...principal, user: data.data});
       })
       .catch((err) => {
         console.log(err);
@@ -25,7 +41,8 @@ export function AuthContextProvider({ children }) {
   const memo = useMemo(
     () => ({
       principal,
-      setPrincipal
+      setPrincipal,
+      getUserInfo
     }),
     [principal]
   );

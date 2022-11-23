@@ -34,7 +34,13 @@ function Login() {
             headers: { "Content-Type": "multipart/form-data" },
         })
             .then(data => {
-                authContext.setPrincipal(data.data.principal)
+                return {
+                    principal: data.data.principal,
+                    username: data.data.principal.username
+                }
+            })
+            .then(data => {
+                authContext.getUserInfo(data)
                 navigate('/')
             })
             .catch((err) => {

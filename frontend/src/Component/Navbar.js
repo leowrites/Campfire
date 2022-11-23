@@ -9,6 +9,7 @@ import { Box } from '@mui/system';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import useAuthContext from '../AuthContext';
+import axios from 'axios';
 
 const darkTheme = createTheme({
   palette: {
@@ -23,6 +24,11 @@ export default function Navbar() {
   const navigate = useNavigate();
   const authContext = useAuthContext();
   const principal = authContext.principal;
+
+  const handleLogout = () => {
+    authContext.setPrincipal()
+    axios.post('logout')
+  }
 
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -40,7 +46,7 @@ export default function Navbar() {
                   <Typography sx={{ display: 'inline' }}>{principal.username}</Typography>
                   <Button
                     sx={{ color: 'white', m: 2 }}
-                    onClick={() => authContext.setPrincipal()}>
+                    onClick={handleLogout}>
                     Logout
                   </Button>
                 </>
