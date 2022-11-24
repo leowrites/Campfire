@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.IUserDataAccess;
 import user.requestconnect.exceptions.UserNotFoundException;
-
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.ArrayList;
 
@@ -29,11 +27,12 @@ public class TestController {
     }
 
     @PostMapping("/users/authenticate")
-    public String authenticate(HttpServletResponse response, Principal principal) {
+    public ResponseEntity<String> authenticate(Principal principal) {
         if (principal == null) {
-            return null;
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new Gson().toJson(principal);
+        String response = new Gson().toJson(principal);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // get authenticated user info here

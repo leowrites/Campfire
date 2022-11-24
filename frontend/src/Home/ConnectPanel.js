@@ -45,9 +45,9 @@ export default function ConnectPannel() {
         <Typography variant='h5' textAlign={'start'}>
           Your Outgoing Requests
         </Typography>
-        {principal?.user?.outgoingConnectionRequests?.map((connection) => (
-          <Typography key={connection} textAlign={'start'} variant='h6'>
-            {connection}
+        {principal?.user?.outgoingConnectionRequests?.map((username) => (
+          <Typography key={username} textAlign={'start'} variant='h6'>
+            {username}
           </Typography>
         ))}
       </Box>
@@ -55,10 +55,19 @@ export default function ConnectPannel() {
         <Typography variant='h5' textAlign={'start'}>
           Your Incoming Requests
         </Typography>
-        {principal?.user?.incomingConnectionRequests?.map((connection) => (
-          <Typography key={connection} textAlign={'start'} variant='h6'>
-            {connection}
-          </Typography>
+        {principal?.user?.incomingConnectionRequests?.map((target) => (
+          <Box key={target} sx={{ display: 'flex', justifyContent: 'left' }}>
+            <Typography textAlign={'start'} variant='h6'>
+              {target}
+            </Typography>
+            <Button
+              sx={{ ml: 'auto' }}
+              onClick={() =>
+                globalContext.sendAcceptConnectionRequest(principal?.username, target)
+              }>
+              Accept
+            </Button>
+          </Box>
         ))}
       </Box>
     </Box>

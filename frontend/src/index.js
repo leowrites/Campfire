@@ -13,11 +13,9 @@ import { AuthContextProvider } from './AuthContext';
 const router = createBrowserRouter([
   {
     element: (
-      <AuthContextProvider>
         <GlobalContextProvider>
           <App />
         </GlobalContextProvider>
-      </AuthContextProvider>
     ),
 
     children: [
@@ -41,4 +39,8 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-ReactDOM.createRoot(document.getElementById('root')).render(<RouterProvider router={router} />);
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <AuthContextProvider>
+    <RouterProvider router={router} />
+  </AuthContextProvider>
+);

@@ -1,4 +1,5 @@
 import React, { useContext, useState, useRef, useMemo } from 'react';
+import useAuthContext from './AuthContext';
 
 export const GlobalContext = React.createContext();
 
@@ -7,6 +8,8 @@ export function GlobalContextProvider({ children }) {
   const [showMsg, setShowMsg] = useState(false);
   const [msg, setMsg] = useState('');
   const [status, setStatus] = useState();
+  const { setPrincipal } = useAuthContext();
+  console.log('rerendered');
 
   const onConnected = () => {
     console.log('connected');
@@ -17,17 +20,28 @@ export function GlobalContextProvider({ children }) {
 
   // need to have different handlers than this generic one
   const onMessage = (msg) => {
-    // implement handling this
+    console.log(msg);
     if (msg.serverStatus === 'ERROR') {
       setMsg(msg.message);
       setShowMsg(true);
       setStatus('error');
     } else {
-      if (msg.action === 'OUTGOING_CONNECTION_REQUEST') {
-        // setPrincipal()
-      } else if (msg.action === 'INCOMING_CONNECTION_REQUEST') {
-      } else if (msg.action === 'INCOMING_CONNECT_ACCEPT') {
-      } else if (msg.action === 'OUTGOING_CONNECT_ACCEPT') {
+      if (msg.action === 'OUTGOING_CONNECT_REQUEST') {
+        setPrincipal((principal) => {
+          principal.user.outgoingConnectionRequests = msg.outgoingConnectionRequests;
+          return principal;
+        });
+      } else if (msg.action === 'INCOMING_CONNECT_REQUEST') {
+        setPrincipal((principal) => {
+          principal.user.incomingConnectionRequests = msg.incomingConnectionRequests;
+          return principal;
+        });
+      } else if (msg.action === 'INCOMING_CONNECT_ACCEPT' || 'OUTGOING_CONNECT_ACCEPT') {
+        setPrincipal((principal) => {
+          principal.user.connections = msg.connections;
+          principal.user.outgoingConnectionRequests = msg.outgoingConnectionRequests;
+          return principal
+        });
       }
       setMsg(msg.message);
       setShowMsg(true);
@@ -85,7 +99,7 @@ export function GlobalContextProvider({ children }) {
       sendConnectionRequest,
       handleNotificationClose,
     }),
-    [msg]
+    [msg, onMessage]
   );
 
   return <GlobalContext.Provider value={memo}>{children}</GlobalContext.Provider>;

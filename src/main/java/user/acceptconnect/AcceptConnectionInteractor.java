@@ -41,7 +41,7 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
 
         return new AcceptConnectionResponseModel(ServerStatus.SUCCESS, "Success",
                 new AcceptConnectionUserResponseModel(
-                        String.format("You sent a connection request to %s", targetId),
+                        String.format("You are connected with %s", targetId),
                         ServerStatus.SUCCESS,
                         user.getIncomingConnectionRequests(),
                         user.getOutgoingConnectionRequests(),
@@ -49,7 +49,7 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
                         userId,
                         targetId),
                 new AcceptConnectionUserResponseModel(
-                        String.format("You have a connection request from %s", userId),
+                        String.format("You are connected with %s", userId),
                         ServerStatus.SUCCESS,
                         target.getIncomingConnectionRequests(),
                         target.getOutgoingConnectionRequests(),
