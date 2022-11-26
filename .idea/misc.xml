@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-<<<<<<< HEAD
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-=======
->>>>>>> e0f0d82ed657f77fcf9aac99dd84b8e2672209d2
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
