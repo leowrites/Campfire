@@ -3,6 +3,7 @@ import entity.CorporatePage;
 import entity.Page;
 import service.IPageGenerateDataAccess;
 import user.createCorporatePage.exceptions.PageCreationFailedException;
+import java.lang.Throwable;
 
 public class PageGenerateInteractor implements IPageGenerateInput {
 
@@ -48,7 +49,7 @@ public class PageGenerateInteractor implements IPageGenerateInput {
 
     }
 
-    public void saveToDs(Page page){
+    public void saveToDs(Page page) {
         PageGenerateDsRequestModel pageDsModel = new PageGenerateDsRequestModel(page.getPageLabel(),
                 page.getPageOwner());
         dataAccess.createPage(page);
