@@ -8,7 +8,7 @@ import entity.CorporateRep;
 import entity.Page;
 import entity.User;
 
-public class CorporatePageFactory {
+public class CorporatePageFactory implements PageFactory{
 
 
 
@@ -19,6 +19,12 @@ public class CorporatePageFactory {
         newCorporatePage = new CorporatePage(pageName, owner);
         return newCorporatePage;
     }
+
+    @Override
+    public Page create(String pageName, User owner, String companyName, String companyInfo) {
+        return null;
+    }
+
     public Page create(String pageName, CorporateRep owner, String companyName, String companyInfo) {
         newCorporatePage = new CorporatePage(pageName, owner, companyName, companyInfo);
         return newCorporatePage;
