@@ -7,16 +7,25 @@ import java.util.ArrayList;
  */
 
 public class CorporatePage extends Page {
-
-
     private String companyName;
     private String companyInfo;
-    private CorporateRep pageManager;
-    private ArrayList<Internship> internshipsArray = new ArrayList<Internship>();
 
-    public CorporatePage(String pageName, User owner,
+    // the ArrayList of internships contains the internships that are displayed on the page
+    // they are not necessarily added when the corporate page is created
+    // they can be added by the student users who write reviews about their internships
+    private ArrayList<Internship> internships = new ArrayList<Internship>();
+
+    /**
+     *
+     * @param pageLabel is the identifier of the corporatePage
+     * @param owner is the CorporateRep user who manages the corporatePage
+     * @param companyName is the name the corporate
+     * @param companyInfo is the background information displayed on the corporatePage, it can
+     *                    be a summary of the company or the recruitment timeline.
+     */
+    public CorporatePage(String pageLabel, CorporateRep owner,
                          String companyName, String companyInfo){
-        super(pageName, owner);
+        super(pageLabel, owner);
         this.companyName = companyName;
         this.companyInfo = companyInfo;
     }
@@ -33,7 +42,7 @@ public class CorporatePage extends Page {
         return companyInfo;
     }
 
-    public ArrayList<Internship> getInternshipsArray() { return this.internshipsArray; }
+    public ArrayList<Internship> getInternships() { return this.internships; }
 
     public void setCompanyName(String companyName){
         this.companyName = companyName;
@@ -43,7 +52,11 @@ public class CorporatePage extends Page {
         this.companyInfo = companyInfo;
     }
 
-    public void addInternship(Internship internship) { this.internshipsArray.add(internship); }
-
+    /**
+     *
+     * @param internship: an internship object can be added to the internships ArrayList
+     *                  using the addInternship method
+     */
+    public void addInternship(Internship internship) { this.internships.add(internship); }
 
 }

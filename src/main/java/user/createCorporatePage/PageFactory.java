@@ -7,4 +7,5 @@ import entity.User;
 // such as corporatePageFactory and profilePageFactory.
 public interface PageFactory {
     Page create(String pageName, User owner);
+    Page create(String pageName, User owner, String companyName, String companyInfo);
 }

@@ -4,16 +4,23 @@ package user.createCorporatePage;
 // it creates CorporatePage instances in the PageGeneratorInteractor
 
 import entity.CorporatePage;
+import entity.CorporateRep;
 import entity.Page;
 import entity.User;
 
-public class CorporatePageFactory implements PageFactory {
+public class CorporatePageFactory {
+
+
 
     CorporatePage newCorporatePage;
 
-    @Override
+//    @Override
     public Page create(String pageName, User owner) {
         newCorporatePage = new CorporatePage(pageName, owner);
+        return newCorporatePage;
+    }
+    public Page create(String pageName, CorporateRep owner, String companyName, String companyInfo) {
+        newCorporatePage = new CorporatePage(pageName, owner, companyName, companyInfo);
         return newCorporatePage;
     }
 

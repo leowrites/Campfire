@@ -11,11 +11,11 @@ import service.PageGenerateDataAccess;
 public class PageGenerateConfig {
     @Bean
     public IPageGenerateInput inputConfig(IPageGenerateDataAccess dataAccess){
-        return new PageGenerateInteractor(dataAccess, new PageFactory() {
-            @Override
-            public Page create(String pageName, User owner) {
-                return null;
-            }
-        });
+        return new PageGenerateInteractor(dataAccess, (PageFactory) new CorporatePageFactory());
+//            @Override
+//            public Page create(String pageName, User owner) {
+//                return null;
+//            }
+//        });
     }
 }
