@@ -1,11 +1,15 @@
 package user.createCorporatePage;
 
-import entity.Page;
-import entity.User;
+// CorporatePageFactory implements the interface PageFactory
+// it creates CorporatePage instances in the PageGeneratorInteractor
 
-// The pageFactory interface must be implemented in concrete classes,
-// such as corporatePageFactory and profilePageFactory.
-public interface PageFactory {
-    Page create(String pageName, User owner);
-    Page create(String pageName, User owner, String companyName, String companyInfo);
+import entity.CorporatePage;
+import entity.CorporateRep;
+
+public class PageFactory {
+
+    public CorporatePage create(String pageName, CorporateRep owner, String companyName, String companyInfo) {
+        return new CorporatePage(pageName, owner, companyName, companyInfo);
+    }
+
 }

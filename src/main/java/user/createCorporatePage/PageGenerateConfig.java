@@ -8,6 +8,6 @@ import service.IPageGenerateDataAccess;
 public class PageGenerateConfig {
     @Bean
     public IPageGenerateInput inputConfig(IPageGenerateDataAccess dataAccess){
-        return new PageGenerateInteractor(dataAccess, new CorporatePageFactory());
+        return new PageGenerateInteractor(dataAccess, new PageFactory());
     }
 }

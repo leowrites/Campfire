@@ -1,15 +1,21 @@
 package user.createCorporatePage;
 import entity.CorporatePage;
-import entity.Page;
+import entity.CorporateRep;
 import service.IPageGenerateDataAccess;
 import user.createCorporatePage.exceptions.PageCreationFailedException;
-import java.lang.Throwable;
+
+// Use Case Layer
 
 public class PageGenerateInteractor implements IPageGenerateInput {
 
     private final IPageGenerateDataAccess dataAccess;
     private final PageFactory pageFactory;
 
+    /**
+     * Constructor of the use case interactor
+     * @param dataAccess: for the createCorporatePage use case, PageGenerateDataAccess will be passed in
+     * @param pageFactory: for the createCorporatePage use case, CorporatePageFactory will be passed in
+     */
     public PageGenerateInteractor(IPageGenerateDataAccess dataAccess, PageFactory pageFactory){
         this.dataAccess = dataAccess;
         this.pageFactory = pageFactory;
@@ -18,49 +24,25 @@ public class PageGenerateInteractor implements IPageGenerateInput {
     public PageGenerateResponseModel create(PageGenerateRequestModel requestModel){
 
         try {
-            Page page = pageFactory.create(requestModel.getInputLabel(), requestModel.getUser());
-            PageGenerateResponseModel pageResponseModel;
-
-            if (requestModel.getPageType() == 1){
-                CorporatePage corporatePage = (CorporatePage) page;
-                CorporatePageFactory corporatePageFactory = new CorporatePageFactory();
-                corporatePage = corporatePageFactory.addInfo(corporatePage,
-                        requestModel.getCompanyName(), requestModel.getCompanyInfo());
-
-                saveToDs(corporatePage);
-
-                pageResponseModel = new PageGenerateResponseModel(
-                        "New corporate page successfully created.",
-                        corporatePage.getCompanyName(), corporatePage.getCompanyInfo());
-
-            } else {
-                saveToDs(page);
-                pageResponseModel = new PageGenerateResponseModel(
-                        "page successfully created.");
-            }
-
-            return pageResponseModel;
-
-        } catch (PageCreationFailedException e) {
-            return new PageGenerateResponseModel("Page generation failed!");
+            this.dataAccess.checkPageExists(requestModel.getInputLabel());
+        } catch (PageCreationFailedException e){
+            return new PageGenerateResponseModel(e.getMessage());
         }
 
+        if (requestModel.getPageType() == 1){
+            CorporatePage corporatePage = pageFactory.create(requestModel.getInputLabel(),
+                    (CorporateRep) requestModel.getUser(),
+                    requestModel.getCompanyName(), requestModel.getCompanyInfo());
 
+            dataAccess.createPage(corporatePage);
+            return new PageGenerateResponseModel(
+                    "New corporate page successfully created.",
+                    corporatePage.getCompanyName(), corporatePage.getCompanyInfo());
+        }
 
+        else{
+            return new PageGenerateResponseModel("Not able to create a new page.");
+        }
     }
-
-    public void saveToDs(Page page) {
-        PageGenerateDsRequestModel pageDsModel = new PageGenerateDsRequestModel(page.getPageLabel(),
-                page.getPageOwner());
-        dataAccess.createPage(page);
-    }
-
-    public void saveToDs(CorporatePage corporatePage){
-        PageGenerateDsRequestModel pageDsModel = new PageGenerateDsRequestModel(corporatePage.getPageLabel(),
-                corporatePage.getPageOwner());
-        dataAccess.createPage(corporatePage);
-    }
-
-
 
 }
