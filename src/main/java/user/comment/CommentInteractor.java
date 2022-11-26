@@ -16,12 +16,13 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
 
     @Override
     public CommentResponseModel create(CommentRequestModel requestModel) {
+        String id = requestModel.getid();
         String userID = requestModel.getUserID();
         String reviewID = requestModel.getReviewID();
         String content = requestModel.getContent();
         Date datePosted = new Date();
         Review review;
-        Comment comment = new Comment(userID, content, datePosted);
+        Comment comment = new Comment(id, userID, content, datePosted);
 
         try {
             review = dataAccess.getReview(reviewID);
