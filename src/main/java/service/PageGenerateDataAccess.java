@@ -14,7 +14,9 @@ public class PageGenerateDataAccess implements IPageGenerateDataAccess{
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    final String INSERT_QUERY =
+    final String INSERT_QUERY_PAGE =
+            "INSERT INTO corporate_pages (PageName, UserID) values (?, ?)";
+    final String INSERT_QUERY_CORPORATE =
             "INSERT INTO corporate_pages (PageName, UserID, CompanyName, CompanyInfo) values (?, ?, ?, ?)";
 
     /**
@@ -24,28 +26,15 @@ public class PageGenerateDataAccess implements IPageGenerateDataAccess{
 
     @Override
     public void createPage(Page page) throws PageCreationFailedException {
-        try{
-            ObjectMapper mapper = new ObjectMapper();
-            String pageNameString = mapper.writeValueAsString(page);
-            jdbcTemplate.update(INSERT_QUERY, page.getPageLabel(), page.getPageOwner());
+        jdbcTemplate.update(INSERT_QUERY_PAGE, page.getPageLabel(), page.getPageOwner().getId());
 
-        } catch (JsonProcessingException e) {
-            System.out.println("Json process error!");
-        }
 
     }
 
     //this is an overload for corporatePage
     public void createPage(CorporatePage corporatePage) throws PageCreationFailedException {
-        try{
-            ObjectMapper mapper = new ObjectMapper();
-            String pageNameString = mapper.writeValueAsString(corporatePage);
-            jdbcTemplate.update(INSERT_QUERY, corporatePage.getPageLabel(), corporatePage.getPageOwner(),
+        jdbcTemplate.update(INSERT_QUERY_CORPORATE, corporatePage.getPageLabel(), corporatePage.getPageOwner().getId(),
                     corporatePage.getCompanyName(), corporatePage.getCompanyInfo());
-
-        } catch (JsonProcessingException e) {
-            System.out.println("Json process error!");
-        }
 
     }
 }
