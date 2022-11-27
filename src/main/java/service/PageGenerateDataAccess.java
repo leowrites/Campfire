@@ -1,7 +1,5 @@
 package service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.CorporatePage;
 import entity.Page;
 import org.springframework.beans.factory.annotation.Autowired;
