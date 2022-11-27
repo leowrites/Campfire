@@ -33,9 +33,9 @@ public class SignUpInteractor implements SignUpInputBoundary {
 
 //        System.out.println("test");
 //        //validate email is a valid U of T Email Address
-////        if (!signUpInputs.getEmail().matches("^[A-Za-z0-9._%+-]+@mail\\.utoronto\\.ca$")){
-////            errorMessages.add(new FieldError("email", "Please enter a valid email"));
-////        }
+        if (!signUpInputs.getEmail().matches("^[A-Za-z0-9._%+-]+@mail\\.utoronto\\.ca$")){
+            errorMessages.add(new FieldError("email", "Please enter a valid email"));
+        }
 
         //validate username is unique
         try {
@@ -54,10 +54,10 @@ public class SignUpInteractor implements SignUpInputBoundary {
 
         //validate password strength - at least one upper case, one lower case, one number, one special character,
         //length > 8
-//        if (!signUpInputs.getPassword().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")){
-//            errorMessages.add(new FieldError("password", "Please ensure at least one: capital, lowercase," +
-//                    " number, special characters, and a minimum length of 8 because we hate you :)"));
-//        }
+        if (!signUpInputs.getPassword().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")){
+            errorMessages.add(new FieldError("password", "Please ensure at least one: capital, lowercase," +
+                    " number, special characters, and a minimum length of 8 because we hate you :)"));
+        }
 
         //save user in database if there are no errors
         if (errorMessages.size() == 0){
