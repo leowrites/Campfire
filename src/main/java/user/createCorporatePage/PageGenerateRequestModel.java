@@ -1,37 +1,38 @@
 package user.createCorporatePage;
 
+import entity.CorporateRep;
 import entity.User;
 
 // The requestModel frames the input data into an object
 public class PageGenerateRequestModel {
 
-    private int pageType;
-    private String inputLabel;
-    private User user;
-    private String companyName;
-    private String companyInfo;
+    final private PageType pageType;
+    final private String inputLabel;
+    final private User user;
+    final private String companyName;
+    final private String companyInfo;
 
-    // The requestModel uses the number of arguments to distinguish the different types of pages
 
-    public PageGenerateRequestModel(int pageType, String inputLabel, User user){
+    /**
+     * This requestModel packs the inputs from user and pass them to the interactor
+     * This constructor is used for CorporatePage objects
+     * @param pageType indicates the type of the page. For this constructor, it will be CORPORATE
+     * @param inputLabel indicates the pageLabel inputted by the user
+     * @param corporateRep is the user who manages the CorporatePage
+     * @param companyName indicates the name of the corporate
+     * @param companyInfo has a summary of the corporate intro
+     */
+    public PageGenerateRequestModel(PageType pageType,
+                                    String inputLabel, CorporateRep corporateRep, String companyName, String companyInfo){
         this.pageType = pageType;
         this.inputLabel = inputLabel;
-        this.user = user;
-    }
-
-    // This is requestModel for a corporatePage
-    // Overloading
-    public PageGenerateRequestModel(int pageType,
-                                    String inputLabel, User user, String companyName, String companyInfo){
-        this.pageType = pageType;
-        this.inputLabel = inputLabel;
-        this.user = user;
+        this.user = corporateRep;
         this.companyName = companyName;
         this.companyInfo = companyInfo;
 
     }
 
-    public int getPageType(){
+    public PageType getPageType(){
         return this.pageType;
     }
 

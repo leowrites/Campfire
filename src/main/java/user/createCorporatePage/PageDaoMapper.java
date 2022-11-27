@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+// converts data between object and Json, used for SQL queries
 public class PageDaoMapper implements RowMapper<Page> {
 
     @Override

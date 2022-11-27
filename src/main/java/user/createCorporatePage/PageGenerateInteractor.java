@@ -21,15 +21,24 @@ public class PageGenerateInteractor implements IPageGenerateInput {
         this.pageFactory = pageFactory;
     }
 
+    /**
+     * implement the input boundary here
+     * @param requestModel with the user inputs is passed in
+     * @return a responseModel is returned
+     */
+
     public PageGenerateResponseModel create(PageGenerateRequestModel requestModel){
 
+        // if the page exists already, return responseModel with an error message
         try {
             this.dataAccess.checkPageExists(requestModel.getInputLabel());
         } catch (PageCreationFailedException e){
             return new PageGenerateResponseModel(e.getMessage());
         }
 
-        if (requestModel.getPageType() == 1){
+        // if the PageType is CORPORATE, return a responseModel with the corporate name and info
+
+        if (requestModel.getPageType() == PageType.CORPORATE){
             CorporatePage corporatePage = pageFactory.create(requestModel.getInputLabel(),
                     (CorporateRep) requestModel.getUser(),
                     requestModel.getCompanyName(), requestModel.getCompanyInfo());
@@ -40,8 +49,10 @@ public class PageGenerateInteractor implements IPageGenerateInput {
                     corporatePage.getCompanyName(), corporatePage.getCompanyInfo());
         }
 
+        // if more PageTypes are implemented in the future, elseif can be added here
+
         else{
-            return new PageGenerateResponseModel("Not able to create a new page.");
+            return new PageGenerateResponseModel("Corporate page creation failed.");
         }
     }
 

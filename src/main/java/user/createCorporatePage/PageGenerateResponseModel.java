@@ -5,13 +5,21 @@ public class PageGenerateResponseModel {
     private String companyName = null;
     private String companyInfo = null;
 
-    // The responseModel constructor uses the number of arguments to distinguish the different types of pages
+    /**
+     * This responseModel is used when page creation is failed
+     * @param resultMessage is passed in as the failure result message
+     */
 
     public PageGenerateResponseModel(String resultMessage) {
         this.resultMessage = resultMessage;
     }
 
-    // This is responseModel for a corporatePage
+    /**
+     * This response model is used when page is successfully created
+     * @param resultMessage is passed in as the success result message
+     * @param companyName is passed to the database
+     * @param companyInfo is passed to the database
+     */
     public PageGenerateResponseModel(String resultMessage, String companyName, String companyInfo){
         this.resultMessage = resultMessage;
         this.companyName = companyName;
