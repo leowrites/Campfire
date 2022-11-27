@@ -56,7 +56,7 @@ export default function Navbar() {
                     Login
                   </Button>
                   <Button sx={{ color: 'white' }} onClick={() => navigate('signup')}>
-                    Sign in
+                    Sign up
                   </Button>
                 </>
               )}
