@@ -36,9 +36,11 @@ export function GlobalContextProvider({ children }) {
           principal.user.incomingConnectionRequests = msg.incomingConnectionRequests;
           return principal;
         });
-      } else if (msg.action === 'INCOMING_CONNECT_ACCEPT' || 'OUTGOING_CONNECT_ACCEPT') {
+      } else if (msg.action === 'INCOMING_CONNECT_ACCEPT' || msg.action === 'OUTGOING_CONNECT_ACCEPT') {
+        console.log(msg)
         setPrincipal((principal) => {
           principal.user.connections = msg.connections;
+          principal.user.incomingConnectionRequests = msg.incomingConnectionRequests;
           principal.user.outgoingConnectionRequests = msg.outgoingConnectionRequests;
           return principal
         });

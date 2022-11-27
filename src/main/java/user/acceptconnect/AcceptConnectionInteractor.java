@@ -4,6 +4,7 @@ import entity.User;
 import service.IUserDataAccess;
 import service.ServerStatus;
 import user.acceptconnect.exceptions.NoRequestFoundException;
+import user.requestconnect.Action;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import user.requestconnect.exceptions.UserNotFoundException;
 
@@ -47,7 +48,8 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
                         user.getOutgoingConnectionRequests(),
                         user.getConnections(),
                         userId,
-                        targetId),
+                        targetId,
+                        Action.OUTGOING_CONNECT_ACCEPT),
                 new AcceptConnectionUserResponseModel(
                         String.format("You are connected with %s", userId),
                         ServerStatus.SUCCESS,
@@ -55,7 +57,8 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
                         target.getOutgoingConnectionRequests(),
                         target.getConnections(),
                         targetId,
-                        userId)
+                        userId,
+                        Action.INCOMING_CONNECT_ACCEPT)
         );
     }
 }
