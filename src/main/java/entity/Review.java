@@ -13,7 +13,7 @@ public class Review implements ISortComparator {
     private int numLikes;
     private int numDislikes;
     private String content;
-    private ArrayList<Comment> comments;
+    private ArrayList<String> comments;
     private int rating;
 
     public Review() {
@@ -34,7 +34,7 @@ public class Review implements ISortComparator {
     }
 
     public Review(String reviewID, String userID, String content, int rating, String company, Date datePosted, int numLikes, int numDislikes,
-                  ArrayList<Comment> comments) {
+                  ArrayList<String> comments) {
         this.id = reviewID;
         this.userID = userID;
         this.content = content;
@@ -114,11 +114,11 @@ public class Review implements ISortComparator {
         this.numDislikes = numDislikes;
     }
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<String> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<Comment> newComments) {
+    public void setComments(ArrayList<String> newComments) {
         this.comments = newComments;
     }
 

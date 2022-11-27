@@ -2,7 +2,9 @@ package user.comment;
 
 import entity.Comment;
 import entity.Review;
+import org.apache.catalina.Server;
 import user.comment.exceptions.ReviewNotFoundException;
+import service.ServerStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,13 +33,20 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
             }
         }
         catch (ReviewNotFoundException e) {
-            return new CommentResponseModel("Failure");
+            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
         }
+        
+        dataAccess.insertComment(comment); //implement insertComment
 
-        ArrayList<Comment> reviewComments = review.getComments();
-        reviewComments.add(comment);
+        ArrayList<String> reviewComments = review.getComments();
+        reviewComments.add(comment.getid()); //change to getID() once tim fixes
         review.setComments(reviewComments);
+        
+        // add comment to database using dataaccess.updateReview;
+        dataAccess.updateReview(review);
+        
+        // notify observers that a new comment has been made
 
-        return new CommentResponseModel("Success");
+        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.", reviewComments);
     }
 }
