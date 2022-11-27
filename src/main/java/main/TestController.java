@@ -29,14 +29,6 @@ public class TestController {
             @PathVariable("id") String username,
             HttpSession session
     ) {
-//         saving a user works
-//        ArrayList<String> user1Requests = new ArrayList<String>();
-//        ArrayList<String> user1PendingConnections = new ArrayList<String>();
-//        ArrayList<String> user1Connections = new ArrayList<String>();
-//        requestConnectionDataAccess.saveUser(
-//                new User("01", user1Requests, user1Connections, user1PendingConnections,
-//                        username, "leo@gmail.com", "pass", "Leo")
-//        );
         System.out.println(session.getId());
         User user;
         try {
