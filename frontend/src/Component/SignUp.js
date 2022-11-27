@@ -4,6 +4,9 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import axios from 'axios'
+import useAuthContext from "../AuthContext";
+import { useNavigate } from 'react-router';
 
 function SignUp() {
     const [formData, setFormData] = useState({
@@ -14,6 +17,9 @@ function SignUp() {
         password: '',
         confirmPassword: ''
     });
+
+    const navigate = useNavigate()
+    const authContext = useAuthContext()
 
     const [usernameError, setUsernameError] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -55,18 +61,47 @@ function SignUp() {
         }).then((response) => response.json())
             .then((data) => {
                 console.log(data)
+                //if there are error messages:
                 if(data.errorMessages.length > 0) {
+
+                    //iterate through each error message to display
                     data.errorMessages.forEach(fieldError => {
                         if(fieldError.field === 'email'){
                             setEmailError(fieldError.message);
                         }
-
                         if(fieldError.field === 'password'){
                             setPasswordError(fieldError.message);
                         }
+                        if(fieldError.field === 'username'){
+                            setUsernameError(fieldError.message);
+                        }
+                        if(fieldError.field === 'confirmPassword'){
+                            setConfirmPasswordError(fieldError.message);
+                        }
                     });
                 } else {
-                    alert("Success !!");
+                    // No errors, redirect user to login page
+
+                    //create form for login
+                    const fd = new FormData()
+                    fd.append('username', formData.email)
+                    fd.append('password', formData.password)
+                    fd.append('remember-me', true)
+
+                    //post to /login
+                    axios.post("/login", fd, {
+                        headers: { "Content-Type": "multipart/form-data" },
+                    })
+                        .then(data => {
+                            return {
+                                principal: data.data.principal,
+                                username: data.data.principal.username
+                            }
+                        })
+                        .then(data => {
+                            authContext.getUserInfo(data)
+                            navigate('/')
+                        })
                 }
             })
             .catch((err) => err);
