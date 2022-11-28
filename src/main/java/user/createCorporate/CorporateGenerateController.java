@@ -1,12 +1,12 @@
-package user.createCorporatePage;
+package user.createCorporate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PageGenerateController {
-    final IPageGenerateInput interactor;
+public class CorporateGenerateController {
+    final ICorporateGenerateInput interactor;
 
     /**
      *
@@ -14,7 +14,7 @@ public class PageGenerateController {
      */
 
     @Autowired
-    public PageGenerateController(IPageGenerateInput interactor) {
+    public CorporateGenerateController(ICorporateGenerateInput interactor) {
         this.interactor = interactor;
     }
 
@@ -24,8 +24,8 @@ public class PageGenerateController {
      * @return interactor is returned
      */
 
-    @PostMapping("/pages")
-    public PageGenerateResponseModel create(PageGenerateRequestModel requestModel){
+    @PostMapping("/corporates")
+    public CorporateGenerateResponseModel create(CorporateGenerateRequestModel requestModel){
         return interactor.create(requestModel);
     }
 }

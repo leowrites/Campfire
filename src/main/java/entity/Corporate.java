@@ -2,11 +2,12 @@ package entity;
 import java.util.ArrayList;
 
 /**
- * CorporatePage is a child class of the abstract class Page, which displays company info and internship reviews
- * Only the CorporateRep user has access to create a CorporatePage instance
+ * Corporate is a child class of the abstract class Page, which displays company info and internship reviews
+ * Only the CorporateRep user has access to create a Corporate instance
  */
 
-public class CorporatePage extends Page {
+public class Corporate {
+    private CorporateRep owner;
     private String companyName;
     private String companyInfo;
 
@@ -17,22 +18,20 @@ public class CorporatePage extends Page {
 
     /**
      *
-     * @param pageLabel is the identifier of the corporatePage
      * @param owner is the CorporateRep user who manages the corporatePage
-     * @param companyName is the name the corporate
+     * @param companyName is the name of the corporate, and the identifier of the corporate object
      * @param companyInfo is the background information displayed on the corporatePage, it can
      *                    be a summary of the company or the recruitment timeline.
      */
-    public CorporatePage(String pageLabel, CorporateRep owner,
-                         String companyName, String companyInfo){
-        super(pageLabel, owner);
+    public Corporate(CorporateRep owner,
+                     String companyName, String companyInfo){
+        this.owner = owner;
         this.companyName = companyName;
         this.companyInfo = companyInfo;
     }
 
-    public CorporatePage(String pageName, User owner){
-        super(pageName, owner);
-    }
+    public CorporateRep getOwner(){ return owner; }
+
 
     public String getCompanyName() {
         return companyName;
@@ -44,6 +43,8 @@ public class CorporatePage extends Page {
 
     public ArrayList<Internship> getInternships() { return this.internships; }
 
+    public void setOwner(CorporateRep owner){this.owner = owner;}
+
     public void setCompanyName(String companyName){
         this.companyName = companyName;
     }
@@ -51,6 +52,7 @@ public class CorporatePage extends Page {
     public void setCompanyInfo(String companyInfo){
         this.companyInfo = companyInfo;
     }
+
 
     /**
      *

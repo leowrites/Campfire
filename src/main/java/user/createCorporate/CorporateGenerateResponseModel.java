@@ -1,6 +1,6 @@
-package user.createCorporatePage;
+package user.createCorporate;
 
-public class PageGenerateResponseModel {
+public class CorporateGenerateResponseModel {
     private String resultMessage;
     private String companyName = null;
     private String companyInfo = null;
@@ -10,7 +10,7 @@ public class PageGenerateResponseModel {
      * @param resultMessage is passed in as the failure result message
      */
 
-    public PageGenerateResponseModel(String resultMessage) {
+    public CorporateGenerateResponseModel(String resultMessage) {
         this.resultMessage = resultMessage;
     }
 
@@ -20,7 +20,7 @@ public class PageGenerateResponseModel {
      * @param companyName is passed to the database
      * @param companyInfo is passed to the database
      */
-    public PageGenerateResponseModel(String resultMessage, String companyName, String companyInfo){
+    public CorporateGenerateResponseModel(String resultMessage, String companyName, String companyInfo){
         this.resultMessage = resultMessage;
         this.companyName = companyName;
         this.companyInfo = companyInfo;
