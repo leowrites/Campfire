@@ -84,7 +84,7 @@ function SignUp() {
 
                     //create form for login
                     const fd = new FormData()
-                    fd.append('username', formData.email)
+                    fd.append('username', formData.username)
                     fd.append('password', formData.password)
                     fd.append('remember-me', true)
 

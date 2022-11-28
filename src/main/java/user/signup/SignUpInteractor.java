@@ -64,8 +64,8 @@ public class SignUpInteractor implements SignUpInputBoundary {
                     new ArrayList<>(),
                     new ArrayList<>(),
                     new ArrayList<>(),
-                    signUpInputs.getEmail(),
                     signUpInputs.getUsername(),
+                    signUpInputs.getEmail(),
                     passwordEncoder.encode(signUpInputs.getPassword()),
                     signUpInputs.getFirstName()
             );
