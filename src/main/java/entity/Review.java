@@ -48,11 +48,11 @@ public class Review implements ISortComparator {
         this.comments = comments;
     }
 
-    public String getid() {
+    public String getID() {
         return this.id;
     }
 
-    public void setid(String newID) {
+    public void setID(String newID) {
         this.id = newID;
     }
 

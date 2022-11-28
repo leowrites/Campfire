@@ -28,8 +28,12 @@ public class Comment {
         this.datePosted = datePosted;
     }
 
-    public String getid(){
+    public String getID(){
         return this.id;
+    }
+
+    public void setID(String newID) {
+        this.id = newID;
     }
     public String getUserID() {
         return this.userID;
