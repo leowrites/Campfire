@@ -1,14 +1,11 @@
-package user.delete_comment;
+package user.deletecomment;
 
-import user.delete_comment.exceptions.NotOwnCommentException;
+import exceptions.NotOwnCommentException;
 import entity.Comment;
 import exceptions.CommentNotFoundException;
-import exceptions.NotModeratorException;
+import exceptions.NotEnoughAccessLevelException;
 
 import java.util.ArrayList;
-
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 public class DeleteCommentInteractor implements IDeleteCommentInput{
 
@@ -24,7 +21,7 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
         String parentId = requestModel.getParentId();
         String commentId = requestModel.getCommentId();
         String userId = requestModel.getUserId();
-        int accessLevel = requestModel.getaccesslevel();
+        int accessLevel = requestModel.getAccessLevel();
 
         ArrayList<Comment> comments = dataAccess.getComments(parentType, parentId);
         ArrayList<Comment> commentsNew;
@@ -42,21 +39,21 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
         }
 
 
-        // See if user is a moderator
-        ModeratorVerifier moderatorVerifier = new ModeratorVerifier(accessLevel);
+        // See if user has access-level
+        AccessLevelVerifier accessLevelVerifier = new AccessLevelVerifier(accessLevel);
 
         try {
-            moderatorVerifier.verify();
-        } catch (NotModeratorException e){
+            accessLevelVerifier.verify();
+        } catch (NotEnoughAccessLevelException e){
             return new DeleteCommentResponseModel(e.getMessage(), comments);
         }
 
 
         // See if comment belongs to user
-        OwnerVerifier ownerVerifier = new OwnerVerifier(comment, userId);
+        OwnerVerifierComment ownerVerifierComment = new OwnerVerifierComment(comment, userId);
 
         try {
-            ownerVerifier.verify();
+            ownerVerifierComment.verify();
         } catch (NotOwnCommentException e){
             return new DeleteCommentResponseModel(e.getMessage(), comments);
         }

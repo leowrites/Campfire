@@ -1,4 +1,4 @@
-package user.delete_comment;
+package user.deletecomment;
 
 import entity.Comment;
 import entity.Review;

@@ -28,7 +28,7 @@ public class Comment {
         this.datePosted = datePosted;
     }
 
-    public String getid(){
+    public String getId(){
         return this.id;
     }
     public String getUserID() {

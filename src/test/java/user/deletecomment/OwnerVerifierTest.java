@@ -1,0 +1,32 @@
+package user.deletecomment;
+
+import entity.Comment;
+import exceptions.NotOwnCommentException;
+import exceptions.NotOwnReviewException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+
+import java.util.ArrayList;
+
+public class OwnerVerifierTest {
+
+    ArrayList<Comment> commentsEmpty;
+    Comment commentTest;
+
+    String userIdTest;
+
+    @BeforeEach
+    public void setup(){
+        commentsEmpty = new ArrayList<Comment>();
+        commentTest = new Comment("commentId1", "userId1", "This is a test", commentsEmpty);
+    }
+    @Test
+    public void testOwnerVerifierNotMatch(){
+        userIdTest = "userId2";
+        OwnerVerifierComment ownerVerifierCommentTest = new OwnerVerifierComment(commentTest, userIdTest);
+        Throwable exception = assertThrows(NotOwnCommentException.class, ownerVerifierCommentTest::verify);
+        assertEquals("Comment does not belong to user", exception.getMessage());
+    }
+}

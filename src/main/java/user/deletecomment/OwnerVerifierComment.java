@@ -1,15 +1,15 @@
-package user.delete_comment;
+package user.deletecomment;
 
-import user.delete_comment.exceptions.NotOwnCommentException;
+import exceptions.NotOwnCommentException;
 import entity.Comment;
 
-public class OwnerVerifier {
+public class OwnerVerifierComment {
 
     private final Comment comment;
 
     private final String userId;
 
-    public OwnerVerifier(Comment comment, String userId){
+    public OwnerVerifierComment(Comment comment, String userId){
         this.comment = comment;
         this.userId = userId;
     }

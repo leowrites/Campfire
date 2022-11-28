@@ -1,4 +1,4 @@
-package user.delete_comment;
+package user.deletecomment;
 
 import entity.Comment;
 
@@ -23,11 +23,19 @@ public class DeleteCommentHandler {
         */
         int size = this.comments.size();
         for (int i = 0; i < size; i++){
-            if (this.commentId.equals(this.comments.get(i).getid())){
+            if (this.commentId.equals(this.comments.get(i).getId())){
                 this.comments.remove(i);
                 break;
             }
         }
         return this.comments;
+    }
+
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
     }
 }

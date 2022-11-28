@@ -1,8 +1,4 @@
-package user.delete_comment;
-
-import entity.Comment;
-
-import java.util.ArrayList;
+package user.deletecomment;
 
 public class DeleteCommentRequestModel {
 
@@ -38,7 +34,7 @@ public class DeleteCommentRequestModel {
 
     public String getUserId(){return this.userId;}
 
-    public int getaccesslevel(){
+    public int getAccessLevel(){
         return this.accessLevel;
     }
 

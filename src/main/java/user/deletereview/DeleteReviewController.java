@@ -1,4 +1,4 @@
-package user.delete_comment;
+package user.deletereview;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DeleteCommentController {
+public class DeleteReviewController {
 
-    final IDeleteCommentInput interactor;
+    final IDeleteReviewInput interactor;
 
     @Autowired
-    public DeleteCommentController(IDeleteCommentInput interactor){
+    public DeleteReviewController(IDeleteReviewInput interactor){
         this.interactor = interactor;
     }
 
     @GetMapping("/comments/sort")
 
     @DeleteMapping("/user/comments")
-    public DeleteCommentResponseModel createDeleteCommentRequestModel(DeleteCommentRequestModel requestModel){
+    public DeleteReviewResponseModel createDeleteReviewRequestModel(DeleteReviewRequestModel requestModel){
         return interactor.createResponseModel(requestModel);
     }
 }

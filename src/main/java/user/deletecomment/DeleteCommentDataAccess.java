@@ -1,9 +1,8 @@
-package user.delete_comment;
+package user.deletecomment;
 
 import entity.Comment;
 import entity.Review;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DeleteCommentDataAccess implements IDeleteCommentDataAccess {

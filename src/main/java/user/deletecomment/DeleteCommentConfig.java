@@ -1,4 +1,4 @@
-package user.delete_comment;
+package user.deletecomment;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
