@@ -1,6 +1,9 @@
 package user.sort;
 import user.sort.exceptions.SortCriteriaNotFoundException;
 
+/** A factory that creates sorting algorithms that commonly implement ISort, based on
+ * the sortCriteria variable that is taken in when this SortAlgorithmFactory is constructed.
+ */
 public class SortAlgorithmFactory {
     final String sortCriteria;
 
@@ -8,9 +11,9 @@ public class SortAlgorithmFactory {
         this.sortCriteria = sortCriteria;
     }
 
-    /**
-     * @return a sorting algorithm that
-     * @throws SortCriteriaNotFoundException thrown when an invalid sortCriteria is given
+    /** Creates a sorting algorithm based on sortCriteria.
+     * @return a sorting algorithm that corresponds to the sortCriteria given.
+     * @throws SortCriteriaNotFoundException thrown when an invalid sortCriteria is given.
      */
     public ISort createSortAlgorithm() throws SortCriteriaNotFoundException{
         switch (sortCriteria) {
