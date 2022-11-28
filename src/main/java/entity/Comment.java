@@ -13,27 +13,27 @@ public class Comment {
     public Comment(){
     }
 
-    public Comment(String id, String userID, String content, ArrayList<Comment> comments) {
+    public Comment(String id, String userId, String content, ArrayList<Comment> comments) {
         this.id = id;
-        this.userId = userID;
+        this.userId = userId;
         this.content = content;
         this.datePosted = new Date();
         this.comments = comments;
     }
 
-    public Comment(String id, String userID, String content, Date datePosted) {
+    public Comment(String id, String userId, String content, Date datePosted) {
         this.id = id;
-        this.userId = userID;
+        this.userId = userId;
         this.content = content;
         this.datePosted = datePosted;
     }
 
-    public String getID(){
+    public String getId(){
         return this.id;
     }
 
-    public void setID(String newID) {
-        this.id = newID;
+    public void setId(String newId) {
+        this.id = newId;
     }
     public String getUserId() {
         return this.userId;

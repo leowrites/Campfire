@@ -43,7 +43,7 @@ public class CommentDataAccess implements ICommentDataAccess {
         try {
             ObjectMapper m = new ObjectMapper();
             String reviewString = m.writeValueAsString(review);
-            jdbcTemplate.update(REVIEW_UPDATE_QUERY, reviewString, review.getID());
+            jdbcTemplate.update(REVIEW_UPDATE_QUERY, reviewString, review.getId());
         } catch (JsonProcessingException e) {
             System.out.println("There was an error in the JSON processing.");
         }

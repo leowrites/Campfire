@@ -39,7 +39,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         dataAccess.insertComment(comment);
 
         ArrayList<String> reviewComments = review.getComments();
-        reviewComments.add(comment.getID());
+        reviewComments.add(comment.getId());
         review.setComments(reviewComments);
 
         dataAccess.updateReview(review);

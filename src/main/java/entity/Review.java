@@ -19,9 +19,9 @@ public class Review implements ISortComparator {
     public Review() {
     }
 
-    public Review(String reviewID, String userID, String company, String content, int rating) {
-        this.id = reviewID;
-        this.userId = userID;
+    public Review(String reviewId, String userId, String company, String content, int rating) {
+        this.id = reviewId;
+        this.userId = userId;
         this.company = company;
         this.content = content;
         this.datePosted = new Date();
@@ -33,12 +33,12 @@ public class Review implements ISortComparator {
         else{this.rating = rating;}
     }
 
-    public String getID() {
+    public String getId() {
         return this.id;
     }
 
-    public void setID(String newID) {
-        this.id = newID;
+    public void setId(String newId) {
+        this.id = newId;
     }
 
     public String getUserId() {
