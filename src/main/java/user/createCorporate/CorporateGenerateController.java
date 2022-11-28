@@ -1,6 +1,8 @@
 package user.createCorporate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +26,13 @@ public class CorporateGenerateController {
      * @return interactor is returned
      */
 
-    @PostMapping("/corporates")
-    public CorporateGenerateResponseModel create(CorporateGenerateRequestModel requestModel){
-        return interactor.create(requestModel);
+    @PostMapping("/users/createCorporate")
+    public ResponseEntity<CorporateGenerateResponseModel> create(CorporateGenerateRequestModel requestModel){
+        CorporateGenerateResponseModel responseModel = this.interactor.create(requestModel);
+        if (responseModel.getResultMessage().equals("New corporate page successfully created.")){
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        }
+        else {return new ResponseEntity<>(responseModel, HttpStatus.UNPROCESSABLE_ENTITY);}
     }
+
 }
