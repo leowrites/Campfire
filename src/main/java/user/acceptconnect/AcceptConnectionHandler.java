@@ -6,6 +6,11 @@ import user.acceptconnect.exceptions.NoRequestFoundException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import java.util.ArrayList;
 
+/**
+ * The handler connects a user with a second target user by checking to see if the users
+ * are already connected and that there is a user request.  If neither UserAlreadyAcceptedException
+ * nor NoRequestFoundException are thrown, the users are connected.
+ */
 public class AcceptConnectionHandler {
     private final User user;
     private final User target;
@@ -16,6 +21,11 @@ public class AcceptConnectionHandler {
         this.dataAccess = dataAccess;
     }
 
+    /**
+     * Creates connection between user and target or throws exception
+     * @throws UserAlreadyConnectedException when user and target are already connected
+     * @throws NoRequestFoundException when target tries to accept request from user who has not requested them
+     */
     public void acceptConnection() throws UserAlreadyConnectedException, NoRequestFoundException {
         if (user.getConnections().contains(target.getUsername())) {
             // throw already connected error
