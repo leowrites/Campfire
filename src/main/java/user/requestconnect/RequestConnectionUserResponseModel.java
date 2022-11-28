@@ -7,24 +7,31 @@ import java.util.ArrayList;
 public class RequestConnectionUserResponseModel {
     private final String message;
     private final ServerStatus serverStatus;
-    private final ArrayList<String> incomingConnectionRequests;
-    private final ArrayList<String> outgoingConnectionRequests;
-    private final ArrayList<String> connections;
-    private final String userId;
-    private final String targetId;
+    private ArrayList<String> incomingConnectionRequests;
+    private ArrayList<String> outgoingConnectionRequests;
+    private ArrayList<String> connections;
+    private String userId;
+    private String targetId;
+    private Action action;
 
     public RequestConnectionUserResponseModel(String message, ServerStatus serverStatus,
                                               ArrayList<String> incomingConnectionRequests,
                                               ArrayList<String> outgoingConnectionRequests,
                                               ArrayList<String> connections, String userId,
-                                              String targetId) {
+                                              String targetId, Action action) {
         this.serverStatus = serverStatus;
         this.message = message;
         this.userId = userId;
         this.targetId = targetId;
+        this.action = action;
         this.incomingConnectionRequests = incomingConnectionRequests;
         this.outgoingConnectionRequests = outgoingConnectionRequests;
         this.connections = connections;
+    }
+
+    public RequestConnectionUserResponseModel(String message, ServerStatus serverStatus) {
+        this.message = message;
+        this.serverStatus = serverStatus;
     }
 
     public String getMessage() {
@@ -53,4 +60,8 @@ public class RequestConnectionUserResponseModel {
     public String getTargetId() {
         return targetId;
     }
+
+    public Action getAction() {
+        return action;
+    };
 }
