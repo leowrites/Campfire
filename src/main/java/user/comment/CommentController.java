@@ -1,12 +1,11 @@
 package user.comment;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import service.ServerStatus;
 
-//follow line 27 on TestController.java, use PostMapping instead of getMapping
 @RestController
 public class CommentController {
     private final ICommentInputBoundary input;
@@ -17,10 +16,13 @@ public class CommentController {
 
     @PostMapping("/comments")
     public ResponseEntity<CommentResponseModel> create(CommentRequestModel requestModel) {
-        // create response model using input.create
-        // responseModel.getStatus()
-        // if  else, creating a new response entity
-        // return response entity based on the http status
-        return new ResponseEntity<>(input.create(requestModel), HttpStatus.OK); // if failure, should not be HttpStatus.OK, choose approrpiate one
+        CommentResponseModel responseModel = input.create(requestModel);
+        String status = responseModel.getStatus().toString();
+        if (status.equals("success")) {
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+        }
     }
 }

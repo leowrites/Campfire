@@ -36,13 +36,12 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
             return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
         }
         
-        dataAccess.insertComment(comment); //implement insertComment
+        dataAccess.insertComment(comment);
 
         ArrayList<String> reviewComments = review.getComments();
         reviewComments.add(comment.getID());
         review.setComments(reviewComments);
-        
-        // add comment to database using dataaccess.updateReview;
+
         dataAccess.updateReview(review);
         
         // notify observers that a new comment has been made
