@@ -1,4 +1,4 @@
-package user.acceptconnect;
+package service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
