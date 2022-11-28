@@ -29,8 +29,7 @@ public class Review implements ISortComparator {
         this.numDislikes = 0;
         this.comments = new ArrayList<>();
         if (rating > 10){this.rating = 10;}
-        else if (rating < 0){this.rating = 0;}
-        else{this.rating = rating;}
+        else this.rating = Math.max(rating, 0);
     }
 
     public Review(String reviewID, String userID, String content, int rating, String company, Date datePosted, int numLikes, int numDislikes,
@@ -39,13 +38,23 @@ public class Review implements ISortComparator {
         this.userID = userID;
         this.content = content;
         if (rating > 10){this.rating = 10;}
-        else if (rating < 0){this.rating = 0;}
-        else{this.rating = rating;}
+        else this.rating = Math.max(rating, 0);
         this.company = company;
         this.datePosted = datePosted;
         this.numLikes = numLikes;
         this.numDislikes = numDislikes;
         this.comments = comments;
+    }
+
+    public Review(String reviewId, String userId, String reviewContent, String corporateId) {
+        this.id = reviewId;
+        this.userID = userId;
+        this.content = reviewContent;
+        this.company = corporateId;
+        this.datePosted = new Date();
+        this.numLikes = 0;
+        this.numDislikes = 0;
+        this.comments = new ArrayList<>();
     }
 
     public String getid() {
@@ -86,8 +95,7 @@ public class Review implements ISortComparator {
 
     public void setRating(int rating) {
         if (rating > 10){this.rating = 10;}
-        else if (rating < 0){this.rating = 0;}
-        else{this.rating = rating;}
+        else this.rating = Math.max(rating, 0);
     }
 
     public Date getDatePosted() {
