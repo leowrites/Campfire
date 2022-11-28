@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Comment {
     private String id;
-    private String userID;
+    private String userId;
     private String content;
     private Date datePosted;
     private ArrayList<Comment> comments;
@@ -15,7 +15,7 @@ public class Comment {
 
     public Comment(String id, String userID, String content, ArrayList<Comment> comments) {
         this.id = id;
-        this.userID = userID;
+        this.userId = userID;
         this.content = content;
         this.datePosted = new Date();
         this.comments = comments;
@@ -23,7 +23,7 @@ public class Comment {
 
     public Comment(String id, String userID, String content, Date datePosted) {
         this.id = id;
-        this.userID = userID;
+        this.userId = userID;
         this.content = content;
         this.datePosted = datePosted;
     }
@@ -35,12 +35,12 @@ public class Comment {
     public void setID(String newID) {
         this.id = newID;
     }
-    public String getUserID() {
-        return this.userID;
+    public String getUserId() {
+        return this.userId;
     }
 
     public void setUserID(String newID) {
-        this.userID = newID;
+        this.userId = newID;
     }
 
     public String getContent() {
