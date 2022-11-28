@@ -1,6 +1,7 @@
 package user.acceptconnect;
 
 import service.ServerStatus;
+import user.requestconnect.Action;
 
 import java.util.ArrayList;
 
@@ -12,12 +13,13 @@ public class AcceptConnectionUserResponseModel {
     private final ArrayList<String> connections;
     private final String userId;
     private final String targetId;
+    private Action action;
 
     public AcceptConnectionUserResponseModel(String message, ServerStatus serverStatus,
                                               ArrayList<String> incomingConnectionRequests,
                                               ArrayList<String> outgoingConnectionRequests,
                                               ArrayList<String> connections, String userId,
-                                              String targetId) {
+                                              String targetId, Action action) {
         this.serverStatus = serverStatus;
         this.message = message;
         this.userId = userId;
@@ -25,6 +27,7 @@ public class AcceptConnectionUserResponseModel {
         this.incomingConnectionRequests = incomingConnectionRequests;
         this.outgoingConnectionRequests = outgoingConnectionRequests;
         this.connections = connections;
+        this.action = action;
     }
 
     public String getMessage() {
@@ -52,5 +55,9 @@ public class AcceptConnectionUserResponseModel {
 
     public String getTargetId() {
         return targetId;
+    }
+
+    public Action getAction() {
+        return action;
     }
 }
