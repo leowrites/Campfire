@@ -16,8 +16,9 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
     }
 
     /**
-     * @param requestModel a request model that contains target
-     * @return a response model
+     * Creates a connection between two users, the user and the target
+     * @param requestModel returns the user id and the target id
+     * @return a string stating the request to connect was successful or throws exceptions
      */
     @Override
     public AcceptConnectionResponseModel acceptConnection(AcceptConnectionRequestModel requestModel){
