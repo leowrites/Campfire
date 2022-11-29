@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public class ReviewDAO implements IReviewDAO{
@@ -21,7 +22,7 @@ public class ReviewDAO implements IReviewDAO{
     JdbcTemplate jdbcTemplate;
 
     final String INSERT_QUERY = "INSERT INTO reviews (data) values (?)";
-    final String DATA_QUERY = "select data from reviews where reviewId = ? ";
+    final String DATA_QUERY = "select data from reviews where id = ? ";
     final String QUERY_ALL = "select * from reviews";
 
     /**
@@ -31,7 +32,7 @@ public class ReviewDAO implements IReviewDAO{
      */
     @Override
     public Review getReview(String reviewId){
-        return jdbcTemplate.queryForObject(DATA_QUERY, new ReviewDaoMapper(), reviewId);
+        return jdbcTemplate.queryForObject(DATA_QUERY, new ReviewDaoMapper(), Integer.parseInt(reviewId));
     }
 
     /**
@@ -65,7 +66,7 @@ public class ReviewDAO implements IReviewDAO{
                 statement.setString(1, reviewString);
                 return statement;
             }, keyHolder);
-            return keyHolder.getKeys().get("id").toString();
+            return Objects.requireNonNull(keyHolder.getKeys()).get("id").toString();
         } catch(JsonProcessingException e){
             System.out.println("Json process error!");
         }
