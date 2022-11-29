@@ -9,9 +9,18 @@ public class AcceptConnectionRequestModel {
         this.targetId = targetId;
     }
 
+    /**
+     * returns the user ID
+     * @return the user ID
+     */
     public String getUserId() {
         return userId;
     }
+
+    /**
+     * returns the target ID
+     * @return the target ID
+     */
     public String getTargetId() {
         return targetId;
     }
