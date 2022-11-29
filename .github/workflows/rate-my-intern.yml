@@ -54,9 +54,9 @@ jobs:
           distribution: 'temurin'
       - name: Run gradle wrapper
         run: gradle wrapper
+      - name: Run test
+        run: gradle clean test --stacktrace
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
-      - name: Run test
-        run: gradle clean test --stacktrace
