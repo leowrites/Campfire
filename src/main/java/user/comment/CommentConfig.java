@@ -12,9 +12,4 @@ public class CommentConfig {
     public ICommentInputBoundary commentInput(ICommentDataAccess dataAccess) {
         return new CommentInteractor(dataAccess);
     }
-
-    @Bean
-    public ICommentDataAccess commentDataAccess() {
-        return new CommentDataAccess();
-    }
 }

@@ -7,7 +7,12 @@ import entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.Objects;
 
 @Repository
 public class CommentDataAccess implements ICommentDataAccess {
@@ -18,9 +23,9 @@ public class CommentDataAccess implements ICommentDataAccess {
     final String REVIEW_SELECT_QUERY = "select id, data from reviews where id = ?";
 
     @Override
-    public Review getReview(String reviewID) {
+    public Review getReview(String reviewId) {
         try {
-            return jdbcTemplate.queryForObject(REVIEW_SELECT_QUERY,  new ReviewDaoMapper(), reviewID);
+            return jdbcTemplate.queryForObject(REVIEW_SELECT_QUERY,  new ReviewDaoMapper(), reviewId);
         } catch (DataAccessException e) {
             System.out.println("No review found.");
             return null;
@@ -28,13 +33,21 @@ public class CommentDataAccess implements ICommentDataAccess {
     }
 
     @Override
-    public void insertComment(Comment comment){
+    public String saveComment(Comment comment){
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             ObjectMapper m = new ObjectMapper();
             String commentString = m.writeValueAsString(comment);
-            jdbcTemplate.update(COMMENT_INSERT_QUERY, commentString);
-        } catch (JsonProcessingException e) {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement statement = connection.prepareStatement(COMMENT_INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, commentString);
+                return statement;
+            }, keyHolder);
+            return Objects.requireNonNull(keyHolder.getKeys()).get("id").toString();
+        }
+        catch (JsonProcessingException e) {
             System.out.println("There was an error in the JSON processing.");
+            return null;
         }
     }
 

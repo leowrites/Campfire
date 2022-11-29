@@ -8,7 +8,7 @@ public interface ICommentDataAccess {
 
     void updateReview(Review review);
 
-    void insertComment(Comment comment);
+    String saveComment(Comment comment);
 
     // Comment getComment(String commentID);
 }

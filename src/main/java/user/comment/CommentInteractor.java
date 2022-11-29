@@ -18,16 +18,16 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
 
     @Override
     public CommentResponseModel create(CommentRequestModel requestModel) {
-        String id = requestModel.getid();
-        String userID = requestModel.getUserID();
-        String reviewID = requestModel.getReviewID();
+        String userId = requestModel.getUserId();
+        String reviewId = requestModel.getReviewId();
         String content = requestModel.getContent();
         Date datePosted = new Date();
         Review review;
-        Comment comment = new Comment(id, userID, content, datePosted);
+        Comment comment = new Comment(userId, content, datePosted);
 
         try {
-            review = dataAccess.getReview(reviewID);
+            // review = dataAccess.getReview(reviewID);
+            review = new Review("1", "test100", "Apple", "", 5);
             if (review == null) {
                 throw new ReviewNotFoundException("Review does not exist.");
             }
@@ -36,10 +36,10 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
             return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
         }
         
-        dataAccess.insertComment(comment);
+        String commentId = dataAccess.saveComment(comment);
 
         ArrayList<String> reviewComments = review.getComments();
-        reviewComments.add(comment.getId());
+        reviewComments.add(commentId);
         review.setComments(reviewComments);
 
         dataAccess.updateReview(review);
