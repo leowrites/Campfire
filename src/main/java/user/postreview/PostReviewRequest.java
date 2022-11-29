@@ -1,7 +1,7 @@
 package user.postreview;
 
 public class PostReviewRequest {
-    private String internshipId;
+    private final String internshipId;
     private final String reviewContent;
     private final String username;
 
@@ -11,9 +11,6 @@ public class PostReviewRequest {
         this.username = username;
     }
 
-    public void setInternshipId(String internshipId) {
-        this.internshipId = internshipId;
-    }
     public String getInternshipId() {
         return internshipId;
     }
