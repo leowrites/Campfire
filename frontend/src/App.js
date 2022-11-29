@@ -1,23 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SockJsclient from 'react-stomp';
+import ErrorMessage from './ErrorMessage';
+import { Outlet } from 'react-router';
+import useGlobalContext from './GlobalContext';
+
+const SOCKET_URL = 'http://localhost:8080/ws';
 
 function App() {
+  const globalContext = useGlobalContext();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <SockJsclient
+        url={SOCKET_URL}
+        topics={[
+          '/users/queue/connections/request',
+          '/users/queue/connections/accept',
+        ]}
+        ref={globalContext.socketRef}
+        onConnect={globalContext.onConnected}
+        onDisconnect={globalContext.onDisconnect}
+        onMessage={globalContext.onMessage}
+      />
+      <Outlet />
+      <ErrorMessage />
     </div>
   );
 }

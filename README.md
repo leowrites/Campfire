@@ -1,39 +1,76 @@
-# Project Template
 
-This is a template repository for CSC 207 projects. 
-This repository contains starter code for a gradle project.
-It also contains workflow documents that give instructions on how to manage your Github repository and how to use Github Projects for efficient collaboration.
+# Rate My Internship
 
-## Checklist For Your Project
-- [x] Verify the correct settings for your project repository
-- [x] Set up Github Projects
-- [x] Create the implementation plan using issues and Github Projects
-- [x] Create deveopment branches for your features
-- [ ] Use pull requests to merge finished features into main branch
-- [ ] Conduct code reviews
+[![Rate my Intern CI](https://github.com/CSC207-2022F-UofT/rate-my-intern/actions/workflows/rate-my-intern.yml/badge.svg)](https://github.com/CSC207-2022F-UofT/rate-my-intern/actions/workflows/rate-my-intern.yml)
 
-**If your team has trouble with any of these steps, please ask on Piazza. For example, with how GitHub Classroom works, your team *may* not have permissions to do some of the first few steps, in which case we'll post alternative instructions as needed.**
+Primarily for prospective ASIP stream University of Toronto students to learn more about their internships of interests based on reviews left by ASIP students who completed their ASIP program.
 
-## Workflow Documents
+Secondary stakeholders may include companies who can view the experiences of their interns, and respond to reviews/comments left by students, or other miscellaneous students not in ASIP stream to collaborate as well.
 
-* Github Workflow: Please refer to the workflow that was introduced in the first lab. You should follow this when working on your code. The following document provides additional details too.
 
-* [Project Planning and Development Guide](project_plan_dev.md): This document helps you to understand how to create and maintain a project plan for your class project. **This document helps you to complete the Implementation Plan Milestone.**
+## API Reference
 
-## Gradle Project
-Import this project into your Intellij editor. It should automatically recognise this as a gradle repository.
-The starter code was built using SDK version 11.0.1. Ensure that you are using this version for this project. (You can, of course, change the SDK version as per your requirement if your team has all agreed to use a different version)
+UNDER CONSTRUCTION
 
-You have been provided with two starter files for demonstration: HelloWorld and HelloWorldTest.
+#### Get all items
 
-You will find HelloWorld in `src/main/java/tutorial` directory. Right click on the HelloWorld file and click on `Run HelloWorld.main()`.
-This should run the program and print on your console.
+```http
+  GET /api/items
+```
 
-You will find HelloWorldTest in `src/test/java/tutorial` directory. Right click on the HelloWorldTest file and click on `Run HelloWorldTest`.
-All tests should pass. Your team can remove this sample of how testing works once you start adding your project code to the repo.
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. Your API key |
 
-Moving forward, we expect you to maintain this project structure. You *should* use Gradle as the build environment, but it is fine if your team prefers to use something else -- just remove the gradle files and push your preferred project setup. Assuming you stick with Gradle, your source code should go into `src/main/java` (you can keep creating more subdirectories as per your project requirement). Every source class can auto-generate a test file for you. For example, open HelloWorld.java file and click on the `HelloWorld` variable as shown in the image below. You should see an option `Generate` and on clicking this your should see an option `Test`. Clicking on this will generate a JUnit test file for `HelloWorld` class. This was used to generate the `HelloWorldTest`.
+#### Get item
 
-![image](https://user-images.githubusercontent.com/5333020/196066655-d3c97bf4-fdbd-46b0-b6ae-aeb8dbcf351d.png)
+```http
+  GET /api/items/${id}
+```
 
-You can create another simple class and try generating a test for this class.
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of item to fetch |
+
+#### add(num1, num2)
+
+Takes two numbers and returns the sum.
+
+
+## Authors
+
+- [@leowrites](https://github.com/leowrites)
+- [@MinGi-K](https://github.com/MinGi-K)
+- [@justinwli930](https://github.com/justinwli930)
+- [@hanyuxin02](https://github.com/hanyuxin02)
+- [@JTP001](https://github.com/JTP001)
+- [@PrimeAce123](https://github.com/PrimeAce123)
+
+## Tech Stack
+
+**Client:** React, MUI
+
+**Server:** Java, Spring
+
+**Database:** PostgreSQL
+
+## Installation
+
+Download the project directory or directly clone the project:
+
+```bash
+git clone https://github.com/CSC207-2022F-UofT/rate-my-intern.git
+```
+
+```bash
+cd frontend
+npm install
+```
+
+## Run Locally
+To start our app, run
+```bash
+./gradlew bootRun
+cd frontend
+npm start
+```

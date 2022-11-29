@@ -1,58 +1,52 @@
 package entity;
 
+import user.sort.ISortComparator;
+
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Review {
+public class Review implements ISortComparator {
     private String id;
-    private String userID;
+    private String userId;
     private String company;
     private Date datePosted;
     private int numLikes;
     private int numDislikes;
     private String content;
-    private ArrayList<Comment> comments;
+    private ArrayList<String> comments;
+    private int rating;
 
     public Review() {
     }
 
-    public Review(String reviewID, String userID, String company, String content) {
-        this.id = reviewID;
-        this.userID = userID;
+    public Review(String reviewId, String userId, String company, String content, int rating) {
+        this.id = reviewId;
+        this.userId = userId;
         this.company = company;
         this.content = content;
         this.datePosted = new Date();
         this.numLikes = 0;
         this.numDislikes = 0;
         this.comments = new ArrayList<>();
+        if (rating > 10){this.rating = 10;}
+        else if (rating < 0){this.rating = 0;}
+        else{this.rating = rating;}
     }
 
-    public Review(String reviewID, String userID, String content, String company, Date datePosted, int numLikes, int numDislikes,
-                  ArrayList<Comment> comments) {
-        this.id = reviewID;
-        this.userID = userID;
-        this.content = content;
-        this.company = company;
-        this.datePosted = datePosted;
-        this.numLikes = numLikes;
-        this.numDislikes = numDislikes;
-        this.comments = comments;
-    }
-
-    public String getid() {
+    public String getId() {
         return this.id;
     }
 
-    public void setid(String newID) {
-        this.id = newID;
+    public void setId(String newId) {
+        this.id = newId;
     }
 
-    public String getUserID() {
-        return this.userID;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public void setUserID(String newID) {
-        this.userID = newID;
+    public void setUserId(String newID) {
+        this.userId = newID;
     }
 
     public String getCompany() {
@@ -69,6 +63,16 @@ public class Review {
 
     public void setContent(String newContent) {
         this.content = newContent;
+    }
+
+    public int getRating() {
+        return this.rating;
+    }
+
+    public void setRating(int rating) {
+        if (rating > 10){this.rating = 10;}
+        else if (rating < 0){this.rating = 0;}
+        else{this.rating = rating;}
     }
 
     public Date getDatePosted() {
@@ -95,11 +99,35 @@ public class Review {
         this.numDislikes = numDislikes;
     }
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<String> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<Comment> newComments) {
+    public void setComments(ArrayList<String> newComments) {
         this.comments = newComments;
+    }
+
+    public int compareToHelpful(Review otherReview){
+        /*
+        Note: this sorts them in an order that is the opposite of most default compareTo methods
+        in order to have the highest value come up first in the sort.
+         */
+        return Integer.compare(otherReview.getNumLikes(), this.numLikes);
+    }
+
+    public int compareToHighestRating(Review otherReview){
+        /*
+        Note: this sorts them in an order that is the opposite of most default compareTo methods
+        in order to have the highest value come up first in the sort.
+         */
+        return Integer.compare(otherReview.getRating(), this.rating);
+    }
+
+    public int compareToNewest(Review otherReview){
+        /*
+        Note: this sorts them in an order that is the opposite of most default compareTo methods
+        in order to have the highest value come up first in the sort.
+         */
+        return otherReview.getDatePosted().compareTo(this.datePosted);
     }
 }
