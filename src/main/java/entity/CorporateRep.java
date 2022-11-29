@@ -6,6 +6,10 @@ public class CorporateRep extends User {
         this.companyName = companyName;
     }
 
+    /**
+     * returns the company name
+     * @return the company name
+     */
     public String getCompanyName(){
         return companyName;
     }
