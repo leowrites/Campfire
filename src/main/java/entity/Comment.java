@@ -37,7 +37,6 @@ public class Comment {
         this.content = content;
         this.datePosted = datePosted;
     }
-
     /**
      * returns the id of the comment
      * @return the id of the comment
