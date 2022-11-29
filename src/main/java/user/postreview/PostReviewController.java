@@ -18,10 +18,6 @@ public class PostReviewController {
             @PathVariable("internshipId") String internshipId,
             @RequestBody PostReviewRequest request,
             @PathVariable String corporateId) {
-        System.out.println(internshipId);
-        System.out.println(corporateId);
-        System.out.println(request);
-        System.out.println("hit the route");
         // controller do the formating
 
         return new ResponseEntity<>(postReview.addReviewToCorporate(request), HttpStatus.CREATED);
