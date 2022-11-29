@@ -3,25 +3,21 @@ package user.comment;
 import java.util.Date;
 
 public class CommentRequestModel {
-    private final String id;
-    private final String userID;
-    private final String reviewID;
+    private final String userId;
+    private final String reviewId;
     private final String content;
 
-    public CommentRequestModel(String id, String userID, String reviewID, String content) {
-        this.id = id;
-        this.userID = userID;
-        this.reviewID = reviewID;
+    public CommentRequestModel(String userId, String reviewId, String content) {
+        this.userId = userId;
+        this.reviewId = reviewId;
         this.content = content;
     }
-
-    public String getid(){return this.id;}
-    public String getUserID() {
-        return this.userID;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public String getReviewID() {
-        return this.reviewID;
+    public String getReviewId() {
+        return this.reviewId;
     }
 
     public String getContent() {
