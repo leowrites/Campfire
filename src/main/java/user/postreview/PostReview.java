@@ -1,12 +1,9 @@
 package user.postreview;
 
-import entity.Internship;
 import entity.Review;
 import service.IInternshipDAO;
 import service.IReviewDAO;
 import service.ServerStatus;
-
-import java.util.ArrayList;
 
 public class PostReview implements IPostReview{
 
@@ -24,18 +21,18 @@ public class PostReview implements IPostReview{
      */
     @Override
     public PostReviewResponse addReviewToCorporate(PostReviewRequest request) {
-        Internship internship = internshipDAO.getInternship(request.getInternshipId());
+//      Internship internship = internshipDAO.getInternship(request.getInternshipId());
         Review review = new Review(
-                null,
                 request.getUsername(),
                 request.getReviewContent(),
                 request.getInternshipId()
         );
-        long reviewId = reviewDAO.saveReview(review);
-        ArrayList<String> reviews = internship.getReviews();
-        reviews.add(Long.toString(reviewId));
-        internship.setReviews(reviews);
-        internshipDAO.saveInternship(internship);
-        return new PostReviewResponse(ServerStatus.SUCCESS, "You have successfully posted a review");
+        String reviewId = reviewDAO.saveReview(review);
+//        ArrayList<String> reviews = internship.getReviews();
+//        reviews.add(reviewId);
+//        internship.setReviews(reviews);
+//        internshipDAO.saveInternship(internship);
+        return new PostReviewResponse(ServerStatus.SUCCESS,
+                String.format("You have successfully posted a review to reviewId %s", reviewId));
     }
 }

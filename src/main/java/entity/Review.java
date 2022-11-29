@@ -1,7 +1,6 @@
 package entity;
 
 import user.sort.ISortComparator;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -19,19 +18,6 @@ public class Review implements ISortComparator {
     public Review() {
     }
 
-    public Review(String reviewID, String userID, String company, String content, int rating) {
-        this.id = reviewID;
-        this.userID = userID;
-        this.company = company;
-        this.content = content;
-        this.datePosted = new Date();
-        this.numLikes = 0;
-        this.numDislikes = 0;
-        this.comments = new ArrayList<>();
-        if (rating > 10){this.rating = 10;}
-        else this.rating = Math.max(rating, 0);
-    }
-
     public Review(String reviewID, String userID, String content, int rating, String company, Date datePosted, int numLikes, int numDislikes,
                   ArrayList<Comment> comments) {
         this.id = reviewID;
@@ -46,8 +32,7 @@ public class Review implements ISortComparator {
         this.comments = comments;
     }
 
-    public Review(String reviewId, String userId, String reviewContent, String corporateId) {
-        this.id = reviewId;
+    public Review(String userId, String reviewContent, String corporateId) {
         this.userID = userId;
         this.content = reviewContent;
         this.company = corporateId;
