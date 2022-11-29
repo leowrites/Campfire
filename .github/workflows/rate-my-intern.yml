@@ -78,5 +78,5 @@ jobs:
           DATABASE_HOST: ${{ matrix.database-host }}
           DATABASE_PORT: ${{ matrix.database-port }}
           POSTGRES_DB: ${{ matrix.database-name }}
-        run:  |
+        run:
           gradle clean test
