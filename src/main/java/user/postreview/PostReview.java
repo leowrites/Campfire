@@ -25,7 +25,6 @@ public class PostReview implements IPostReview{
         Review review = new Review(
                 request.getUsername(),
                 request.getReviewContent(),
-                request.getInternshipId(),
                 request.getRating()
         );
         String reviewId = reviewDAO.saveReview(review);

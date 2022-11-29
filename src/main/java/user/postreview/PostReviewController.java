@@ -16,10 +16,8 @@ public class PostReviewController {
     @PostMapping("/corporates/{corporateId}/internships/{internshipId}/reviews")
     public ResponseEntity<PostReviewResponse> addReviewToCorporate(
             @PathVariable("internshipId") String internshipId,
-            @RequestBody PostReviewRequest request,
-            @PathVariable String corporateId) {
-        // controller do the formating
-
+            @RequestBody PostReviewRequest request) {
+        request.setInternshipId(internshipId);
         return new ResponseEntity<>(postReview.addReviewToCorporate(request), HttpStatus.CREATED);
     }
 }

@@ -3,8 +3,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 
 export default function ReviewCard({
-  company,
-  userID,
+  userId,
   datePosted,
   numLikes,
   numDislikes,
@@ -15,8 +14,7 @@ export default function ReviewCard({
   return (
     <Paper elevation={2} sx={{ mb: 3, p: 3 }}>
       <Box textAlign='start'>
-        <Typography> Company: {company}</Typography>
-        <Typography>User: {userID}</Typography>
+        <Typography>User: {userId}</Typography>
         <Typography>Date Posted: {datePosted}</Typography>
         <Typography>👍 {numLikes}</Typography>
         <Typography>👎 {numDislikes}</Typography>

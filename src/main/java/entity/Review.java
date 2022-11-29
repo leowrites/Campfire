@@ -7,7 +7,6 @@ import java.util.Date;
 public class Review implements ISortComparator {
     private String id;
     private String userId;
-    private String company;
     private Date datePosted;
     private int numLikes;
     private int numDislikes;
@@ -18,30 +17,26 @@ public class Review implements ISortComparator {
     public Review() {
     }
 
-    public Review(String userId, String company, String content, int rating) {
+    public Review(String userId, String content, int rating) {
         this.userId = userId;
-        this.company = company;
         this.content = content;
         this.datePosted = new Date();
         this.numLikes = 0;
         this.numDislikes = 0;
         this.comments = new ArrayList<>();
         if (rating > 10){this.rating = 10;}
-        else if (rating < 0){this.rating = 0;}
-        else{this.rating = rating;}
+        else this.rating = Math.max(rating, 0);
     }
-    public Review(String reviewId, String userId, String company, String content, int rating) {
+    public Review(String reviewId, String userId, String content, int rating) {
         this.id = reviewId;
         this.userId = userId;
-        this.company = company;
         this.content = content;
         this.datePosted = new Date();
         this.numLikes = 0;
         this.numDislikes = 0;
         this.comments = new ArrayList<>();
         if (rating > 10){this.rating = 10;}
-        else if (rating < 0){this.rating = 0;}
-        else{this.rating = rating;}
+        else this.rating = Math.max(rating, 0);
     }
 
     public String getId() {
@@ -60,16 +55,8 @@ public class Review implements ISortComparator {
         this.userId = userId;
     }
 
-    public String getCompany() {
-        return this.company;
-    }
-
     public String getContent() {
         return this.content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public int getRating() {
