@@ -1,18 +1,21 @@
 package user.postreview;
 
 public class PostReviewRequest {
-    private final String internshipId;
+    private String internshipId;
     private final String reviewContent;
     private final String username;
     private final int rating;
 
-    public PostReviewRequest(String internshipId, String reviewContent, String username, int rating) {
-        this.internshipId = internshipId;
+    public PostReviewRequest(String reviewContent,
+                             String username,
+                             int rating) {
         this.reviewContent = reviewContent;
         this.username = username;
         this.rating = rating;
     }
-
+    public void setInternshipId(String internshipId) {
+        this.internshipId = internshipId;
+    }
     public String getInternshipId() {
         return internshipId;
     }
