@@ -20,14 +20,15 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
     public CommentResponseModel create(CommentRequestModel requestModel) {
         String userId = requestModel.getUserId();
         String reviewId = requestModel.getReviewId();
+        reviewId = "25";
         String content = requestModel.getContent();
         Date datePosted = new Date();
         Review review;
         Comment comment = new Comment(userId, content, datePosted);
 
         try {
-            // review = dataAccess.getReview(reviewID);
-            review = new Review("1", "test100", "Apple", "", 5);
+            review = dataAccess.getReview(reviewId);
+            // review = new Review("1", "test100", "Apple", "", 5);
             if (review == null) {
                 throw new ReviewNotFoundException("Review does not exist.");
             }

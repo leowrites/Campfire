@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Comment {
+    private String id;
     private String userId;
     private String content;
     private Date datePosted;
@@ -12,7 +13,8 @@ public class Comment {
     public Comment(){
     }
 
-    public Comment(String userId, String content, ArrayList<Comment> comments) {
+    public Comment(String id, String userId, String content, ArrayList<Comment> comments) {
+        this.id = id;
         this.userId = userId;
         this.content = content;
         this.datePosted = new Date();
@@ -25,6 +27,9 @@ public class Comment {
         this.datePosted = datePosted;
     }
 
+    public String getId() {
+        return this.id;
+    }
     public String getUserId() {
         return this.userId;
     }
