@@ -15,6 +15,17 @@ public class AcceptConnectionUserResponseModel {
     private final String targetId;
     private Action action;
 
+    /**
+     *
+     * @param message
+     * @param serverStatus
+     * @param incomingConnectionRequests list of connection requests made to the user
+     * @param outgoingConnectionRequests list of connection requests made my user
+     * @param connections list of the users connections
+     * @param userId is the ID of the user
+     * @param targetId is the ID of the target user
+     * @param action
+     */
     public AcceptConnectionUserResponseModel(String message, ServerStatus serverStatus,
                                               ArrayList<String> incomingConnectionRequests,
                                               ArrayList<String> outgoingConnectionRequests,

@@ -7,6 +7,13 @@ public class AcceptConnectionResponseModel {
     private AcceptConnectionUserResponseModel userResponseModel;
     private AcceptConnectionUserResponseModel targetResponseModel;
 
+    /**
+     *
+     * @param serverStatus
+     * @param message
+     * @param userResponseModel
+     * @param targetResponseModel
+     */
     public AcceptConnectionResponseModel(ServerStatus serverStatus,
                                           String message,
                                           AcceptConnectionUserResponseModel userResponseModel,
