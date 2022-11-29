@@ -19,25 +19,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        database-name:
-          - test
-        database-password:
-          - postgres
-        database-user:
-          - postgres
-        database-host:
-          - localhost
-        database-port:
-          - 5433
     services:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: ${{ matrix.database-name }}
-          POSTGRES_USER: ${{ matrix.database-user }}
-          POSTGRES_PASSWORD: ${{ matrix.database-password }}
+          POSTGRES_DB: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5433:5433
         options: >-
