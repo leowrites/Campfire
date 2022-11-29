@@ -2,6 +2,8 @@ package service;
 
 import entity.Review;
 
+import java.util.ArrayList;
+
 public interface IReviewDAO {
     /**
      * Gets the review given the review id
@@ -10,10 +12,12 @@ public interface IReviewDAO {
      */
     Review getReview(String reviewId);
 
+    ArrayList<Review> getAllReviews();
+
     /**
      * Creates a new review in the db given a review object
      * @param review the review to be saved
      * @return the id of the created review
      */
-    long saveReview(Review review);
+    String saveReview(Review review);
 }
