@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Comment {
-    private String id;
+    private String id; // tim - remove once you have fixed
     private String userId;
     private String content;
     private Date datePosted;
