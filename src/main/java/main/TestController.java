@@ -1,11 +1,12 @@
 package main;
 
 import com.google.gson.Gson;
-import entity.User;
+import entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.IReviewDAO;
 import service.IUserDataAccess;
 import user.requestconnect.exceptions.UserNotFoundException;
 import java.security.Principal;
@@ -15,11 +16,8 @@ import java.util.ArrayList;
 public class TestController {
     @Autowired
     private IUserDataAccess userDataAccess;
-
-    @GetMapping("/users")
-    public ResponseEntity<ArrayList<User>> getUser() {
-        return new ResponseEntity<>(userDataAccess.getUsers(), HttpStatus.OK);
-    }
+    @Autowired
+    private IReviewDAO reviewDAO;
 
     @PostMapping("/users/reset")
     public void resetUser() {
@@ -43,5 +41,12 @@ public class TestController {
             return null;
         }
         return new Gson().toJson(userDataAccess.getUser(principal.getName()));
+    }
+
+    // for now, get all reviews to display it
+    // we will remove this route once internships are set up
+    @GetMapping("/reviews")
+    public ResponseEntity<ArrayList<Review>> getReviews() {
+        return new ResponseEntity<>(reviewDAO.getAllReviews(), HttpStatus.OK);
     }
 }
