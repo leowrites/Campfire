@@ -38,7 +38,6 @@ public class ReviewDAOTest {
         Review inputReview = new Review(
                 "leo",
                 "test",
-                "1",
                 1
         );
         String reviewId = reviewDAO.saveReview(inputReview);
@@ -50,15 +49,13 @@ public class ReviewDAOTest {
         Review inputReview = new Review(
                 "leo",
                 "apple",
-                "test",
                 1
         );
         String reviewId = reviewDAO.saveReview(inputReview);
         assertNotNull(reviewId);
         Review outputReview = reviewDAO.getReview(reviewId);
         assertEquals("leo", outputReview.getUserId());
-        assertEquals("apple", outputReview.getCompany());
-        assertEquals("test", outputReview.getContent());
+        assertEquals("apple", outputReview.getContent());
         assertEquals(1, outputReview.getRating());
     }
 }
