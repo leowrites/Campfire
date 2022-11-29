@@ -1,4 +1,4 @@
-package service;
+package service.dao;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

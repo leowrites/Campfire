@@ -1,4 +1,4 @@
-package service;
+package service.dao;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -23,9 +23,9 @@ public class ReviewDaoMapper implements RowMapper<Review> {
      */
     @Override
     public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
-        String userData = rs.getString("data");
+        String reviewData = rs.getString("data");
         Gson gson = new Gson();
-        JsonObject object = (JsonObject) JsonParser.parseString(userData);
+        JsonObject object = (JsonObject) JsonParser.parseString(reviewData);
         return gson.fromJson(object, Review.class);
     }
 }

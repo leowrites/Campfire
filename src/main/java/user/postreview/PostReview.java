@@ -1,8 +1,8 @@
 package user.postreview;
 
 import entity.Review;
-import service.IInternshipDAO;
-import service.IReviewDAO;
+import service.dao.IInternshipDAO;
+import service.dao.IReviewDAO;
 import service.ServerStatus;
 
 public class PostReview implements IPostReview{
@@ -25,7 +25,8 @@ public class PostReview implements IPostReview{
         Review review = new Review(
                 request.getUsername(),
                 request.getReviewContent(),
-                request.getInternshipId()
+                request.getInternshipId(),
+                request.getRating()
         );
         String reviewId = reviewDAO.saveReview(review);
 //        ArrayList<String> reviews = internship.getReviews();

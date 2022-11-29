@@ -1,4 +1,4 @@
-package service;
+package service.dao;
 
 import entity.Review;
 
@@ -20,4 +20,11 @@ public interface IReviewDAO {
      * @return the id of the created review
      */
     String saveReview(Review review);
+
+    /**
+     * Updates a review
+     * @param review the new review object
+     * @param reviewId the id of the review
+     */
+    void updateReview(Review review, int reviewId);
 }

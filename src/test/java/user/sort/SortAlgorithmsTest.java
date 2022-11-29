@@ -21,10 +21,22 @@ public class SortAlgorithmsTest {
 
     @BeforeEach
     public void setUp(){
-        review1 = new Review("1", "user1", "", 3, "company1", new Date(2022, Calendar.JUNE, 24), 3, 3, new ArrayList<>());
-        review2 = new Review("2", "user2", "", 5, "company1", new Date(2022, Calendar.JULY, 24), 5, 5, new ArrayList<>());
-        review3 = new Review("3", "user4", "", 14, "company1", new Date(2022, Calendar.SEPTEMBER, 24), 115, 115, new ArrayList<>());
-        review4 = new Review("4", "user5", "", -3, "company1", new Date(2022, Calendar.MARCH, 24), 0, 10, new ArrayList<>());
+        review1 = new Review("1", "user1", "company1", "", 3);
+        review1.setNumDislikes(3);
+        review1.setNumLikes(3);
+        review1.setDatePosted(new Date(2022, Calendar.JUNE, 24));
+        review2 = new Review("2", "user2", "company2", "", 5);
+        review2.setNumDislikes(5);
+        review2.setNumLikes(5);
+        review2.setDatePosted(new Date(2022, Calendar.JULY, 24));
+        review3 = new Review("3", "user4", "company1", "", 14);
+        review3.setNumDislikes(115);
+        review3.setNumLikes(115);
+        review3.setDatePosted(new Date(2022, Calendar.SEPTEMBER, 24));
+        review4 = new Review("4", "user5", "company1", "", -3);
+        review4.setNumDislikes(10);
+        review4.setNumLikes(0);
+        review4.setDatePosted(new Date(2022, Calendar.MARCH, 24));
         reviews = new ArrayList<Review>(List.of(review1, review2, review3, review4));
 
         correctlySorted = new ArrayList<Review>(List.of(review3, review2, review1, review4));
@@ -53,7 +65,10 @@ public class SortAlgorithmsTest {
 
     @Test
     void testSortTwoValuesEqualCase(){
-        review5 = new Review("3", "user3", "", 3, "company1", new Date(2022, Calendar.JUNE, 24), 3, 3, new ArrayList<>());
+        review5 = new Review("3", "user3", "company1", "", 3);
+        review5.setNumDislikes(3);
+        review5.setNumLikes(3);
+        review5.setDatePosted(new Date(2022, Calendar.JUNE, 24));
         reviews.add(review5);
         ArrayList<Review> reviews1 = new ArrayList<Review>(reviews);
         ArrayList<Review> reviews2 = new ArrayList<Review>(reviews);

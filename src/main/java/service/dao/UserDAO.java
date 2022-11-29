@@ -1,4 +1,4 @@
-package service;
+package service.dao;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import user.requestconnect.exceptions.UserNotFoundException;
 
 @Repository
-public class UserDataAccess implements IUserDataAccess {
+public class UserDAO implements IUserDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     final String INSERT_QUERY = "INSERT INTO users (username, data) values (?, ?)";

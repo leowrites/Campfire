@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
-import service.IReviewDAO;
+import service.dao.IReviewDAO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,7 +38,8 @@ public class ReviewDAOTest {
         Review inputReview = new Review(
                 "leo",
                 "test",
-                "1"
+                "1",
+                1
         );
         String reviewId = reviewDAO.saveReview(inputReview);
         assertNotNull(reviewId);
@@ -48,14 +49,16 @@ public class ReviewDAOTest {
     public void testReviewGetsByIdAndReturnsReviewObject() {
         Review inputReview = new Review(
                 "leo",
+                "apple",
                 "test",
-                "1"
+                1
         );
         String reviewId = reviewDAO.saveReview(inputReview);
         assertNotNull(reviewId);
         Review outputReview = reviewDAO.getReview(reviewId);
-        assertEquals(outputReview.getUserID(), "leo");
-        assertEquals(outputReview.getContent(), "test");
-        assertEquals(outputReview.getCompany(), "1");
+        assertEquals("leo", outputReview.getUserId());
+        assertEquals("apple", outputReview.getCompany());
+        assertEquals("test", outputReview.getContent());
+        assertEquals(1, outputReview.getRating());
     }
 }

@@ -4,11 +4,13 @@ public class PostReviewRequest {
     private final String internshipId;
     private final String reviewContent;
     private final String username;
+    private final int rating;
 
-    public PostReviewRequest(String internshipId, String reviewContent, String username) {
+    public PostReviewRequest(String internshipId, String reviewContent, String username, int rating) {
         this.internshipId = internshipId;
         this.reviewContent = reviewContent;
         this.username = username;
+        this.rating = rating;
     }
 
     public String getInternshipId() {
@@ -21,5 +23,9 @@ public class PostReviewRequest {
 
     public String getUsername() {
         return username;
+    }
+
+    public int getRating() {
+        return rating;
     }
 }

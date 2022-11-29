@@ -1,4 +1,4 @@
-package service;
+package service.dao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,6 +24,7 @@ public class ReviewDAO implements IReviewDAO{
     final String INSERT_QUERY = "INSERT INTO reviews (data) values (?)";
     final String DATA_QUERY = "select data from reviews where id = ? ";
     final String QUERY_ALL = "select * from reviews";
+    final String UPDATE_QUERY = "update reviews set data = ? where id = ?";
 
     /**
      * Gets the review given the review id
@@ -71,5 +72,26 @@ public class ReviewDAO implements IReviewDAO{
             System.out.println("Json process error!");
         }
         return null;
+    }
+
+    /**
+     * Updates a review
+     *
+     * @param review   the new review object
+     * @param reviewId the id of the review
+     */
+    @Override
+    public void updateReview(Review review, int reviewId) {
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+            df.setTimeZone(TimeZone.getTimeZone("UTC"));
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
+            mapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
+            String reviewString = mapper.writeValueAsString(review);
+            jdbcTemplate.update(UPDATE_QUERY, reviewString, reviewId);
+        } catch (JsonProcessingException e) {
+            System.out.println("There was an error in the JSON processing.");
+        }
     }
 }
