@@ -44,6 +44,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         reviewComments.add(Integer.toString(commentId));
         review.setComments(reviewComments);
 
+        // remove the setId part after we've removed id from Review entity
         review.setId(reviewId);
         reviewDAO.updateReview(review, Integer.parseInt(reviewId));
         
@@ -52,3 +53,4 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.");
     }
 }
+

@@ -9,4 +9,24 @@ public interface ICommentDAO {
      * @return an integer representing the id of the comment in the table
      */
     int saveComment(Comment comment);
+
+    /**
+     * Gets the comment given the commentId.
+     * @param commentId the id of the comment
+     * @return a Comment object
+     */
+    Comment getComment(int commentId);
+
+    /**
+     * Updates a comment.
+     * @param comment   the new comment object
+     * @param commentId the id of the comment to be updated
+     */
+    void updateComment(Comment comment, int commentId);
+
+    /**
+     * Deletes a comment.
+     * @param commentId the id of the comment to be deleted
+     */
+    void deleteComment(int commentId);
 }
