@@ -2,48 +2,53 @@ package user.comment;
 
 import entity.Comment;
 import entity.Review;
+import service.dao.ICommentDAO;
+import service.dao.IReviewDAO;
 import user.comment.exceptions.ReviewNotFoundException;
+import service.ServerStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CommentInteractor implements ICommentInputBoundary {
-    private final CommentObservable observable;
-    private final ICommentDataAccess dataAccess;
+public class CommentInteractor extends CommentObservable implements ICommentInputBoundary {
+    private final IReviewDAO reviewDAO;
+    private final ICommentDAO commentDAO;
 
-    public CommentInteractor(CommentObservable observable, ICommentDataAccess dataAccess) {
-        this.observable = observable;
-        this.dataAccess = dataAccess;
+    public CommentInteractor(IReviewDAO reviewDAO, ICommentDAO commentDAO) {
+        this.reviewDAO = reviewDAO;
+        this.commentDAO = commentDAO;
     }
 
     @Override
     public CommentResponseModel create(CommentRequestModel requestModel) {
-        String id = requestModel.getid();
-        String userID = requestModel.getUserID();
-        String reviewID = requestModel.getReviewID();
+        String userId = requestModel.getUserId();
+        String reviewId = requestModel.getReviewId();
         String content = requestModel.getContent();
         Date datePosted = new Date();
         Review review;
-        Comment comment = new Comment(id, userID, content, datePosted);
+        Comment comment = new Comment(userId, content, datePosted);
 
         try {
-            review = dataAccess.getReview(reviewID);
+            review = reviewDAO.getReview(reviewId);
             if (review == null) {
                 throw new ReviewNotFoundException("Review does not exist.");
             }
         }
         catch (ReviewNotFoundException e) {
-            return new CommentResponseModel("Failure");
+            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
         }
+        
+        int commentId = commentDAO.saveComment(comment);
 
-        ArrayList<Comment> reviewComments = review.getComments();
-        reviewComments.add(comment);
+        ArrayList<String> reviewComments = review.getComments();
+        reviewComments.add(Integer.toString(commentId));
         review.setComments(reviewComments);
 
-        CommentObserver observer = new CommentObserver(userID);
-        this.observable.addObserver(observer);
-        this.observable.notifyObservers();
+        review.setId(reviewId);
+        reviewDAO.updateReview(review, Integer.parseInt(reviewId));
+        
+        // notify observers that a new comment has been made
 
-        return new CommentResponseModel("Success");
+        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.");
     }
 }
