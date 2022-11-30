@@ -1,14 +1,12 @@
 package entity;
 
 import user.sort.ISortComparator;
-
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Review implements ISortComparator {
     private String id;
     private String userId;
-    private String company;
     private Date datePosted;
     private int numLikes;
     private int numDislikes;
@@ -19,50 +17,46 @@ public class Review implements ISortComparator {
     public Review() {
     }
 
-    public Review(String reviewId, String userId, String company, String content, int rating) {
-        this.id = reviewId;
+    public Review(String userId, String content, int rating) {
         this.userId = userId;
-        this.company = company;
         this.content = content;
         this.datePosted = new Date();
         this.numLikes = 0;
         this.numDislikes = 0;
         this.comments = new ArrayList<>();
         if (rating > 10){this.rating = 10;}
-        else if (rating < 0){this.rating = 0;}
-        else{this.rating = rating;}
+        else this.rating = Math.max(rating, 0);
+    }
+    public Review(String reviewId, String userId, String content, int rating) {
+        this.id = reviewId;
+        this.userId = userId;
+        this.content = content;
+        this.datePosted = new Date();
+        this.numLikes = 0;
+        this.numDislikes = 0;
+        this.comments = new ArrayList<>();
+        if (rating > 10){this.rating = 10;}
+        else this.rating = Math.max(rating, 0);
     }
 
     public String getId() {
         return this.id;
     }
 
-    public void setId(String newId) {
-        this.id = newId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserId() {
         return this.userId;
     }
 
-    public void setUserId(String newID) {
-        this.userId = newID;
-    }
-
-    public String getCompany() {
-        return this.company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getContent() {
         return this.content;
-    }
-
-    public void setContent(String newContent) {
-        this.content = newContent;
     }
 
     public int getRating() {
@@ -71,8 +65,7 @@ public class Review implements ISortComparator {
 
     public void setRating(int rating) {
         if (rating > 10){this.rating = 10;}
-        else if (rating < 0){this.rating = 0;}
-        else{this.rating = rating;}
+        else this.rating = Math.max(rating, 0);
     }
 
     public Date getDatePosted() {
@@ -103,8 +96,8 @@ public class Review implements ISortComparator {
         return this.comments;
     }
 
-    public void setComments(ArrayList<String> newComments) {
-        this.comments = newComments;
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
     }
 
     public int compareToHelpful(Review otherReview){

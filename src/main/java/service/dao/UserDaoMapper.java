@@ -1,4 +1,4 @@
-package user.acceptconnect;
+package service.dao;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
