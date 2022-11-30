@@ -13,10 +13,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import service.dao.ICommentDAO;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -40,9 +41,37 @@ public class CommentDAOTest {
 
     @Test
     public void testCommentSavesAndReturnsId() {
-        Comment newComment = new Comment("justinli", "i love apple");
-        int commentId = commentDAO.saveComment(newComment);
-        // assertEquals()
+        Comment inputComment = new Comment("justinli", "i love apple");
+        int commentId = commentDAO.saveComment(inputComment);
+        assertNotEquals(0, commentId);
+    }
+
+    @Test
+    public void testCommentGetsByIdAndReturnsCommentObject() {
+        Comment inputComment = new Comment("justinli", "i love apple");
+        int commentId = commentDAO.saveComment(inputComment);
+        assertNotEquals(0, commentId);
+        Comment outputComment = commentDAO.getComment(commentId);
+        assertEquals("justinli", outputComment.getUserId());
+        assertEquals("i love apple", outputComment.getContent());
+    }
+
+    @Test
+    public void testAddCommentToComment() {
+        Comment inputComment = new Comment("justinli", "i love apple");
+        int inputCommentId = commentDAO.saveComment(inputComment);
+        assertNotEquals(0, inputCommentId);
+        Comment commentToAdd = new Comment("stevejobs", "i hate apple");
+        int commentToAddId = commentDAO.saveComment(commentToAdd);
+        assertNotEquals(0, commentToAddId);
+        ArrayList<Integer> comments = inputComment.getComments();
+        comments.add(commentToAddId);
+        inputComment.setComments(comments);
+        commentDAO.updateComment(inputComment, inputCommentId);
+        Comment outputComment = commentDAO.getComment(inputCommentId);
+        ArrayList<Integer> outputCommentComments = outputComment.getComments();
+        assertEquals(1, outputCommentComments.size());
+        assertEquals(commentDAO.getComment(outputCommentComments.get(0)), commentToAdd);
     }
 
 }

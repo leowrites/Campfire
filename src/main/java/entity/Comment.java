@@ -8,12 +8,12 @@ public class Comment {
     private String userId;
     private String content;
     private Date datePosted;
-    private ArrayList<Comment> comments;
+    private ArrayList<Integer> comments;
 
     public Comment(){
     }
 
-    public Comment(String id, String userId, String content, ArrayList<Comment> comments) {
+    public Comment(String id, String userId, String content, ArrayList<Integer> comments) {
         this.id = id;
         this.userId = userId;
         this.content = content;
@@ -32,6 +32,7 @@ public class Comment {
         this.userId = userId;
         this.content = content;
         this.datePosted = new Date();
+        this.comments = new ArrayList<>();
     }
 
     public String getId() {
@@ -62,11 +63,11 @@ public class Comment {
     }
 
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<Integer> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<Comment> newComments) {
+    public void setComments(ArrayList<Integer> newComments) {
         this.comments = newComments;
     }
 
