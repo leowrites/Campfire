@@ -1,51 +1,35 @@
-# using multistage docker build
-# ref: https://docs.docker.com/develop/develop-images/multistage-build/
+# download java 11 image and gradle
+FROM gradle:7.5.1-jdk11
 
-# temp container to build using gradle
-FROM gradle:7.5.1-jdk8 AS GRADLE
-ENV APP_HOME=/app
-WORKDIR $APP_HOME
-COPY build.gradle $APP_HOME
 
-COPY gradle $APP_HOME
-COPY --chown=gradle:gradle . /home/gradle/src
-USER root
-RUN chown -R gradle /home/gradle/src
+RUN apt-get update && apt-get install -y curl gnupg
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
 
-RUN gradle build || return 0
-COPY . .
-RUN gradle clean build
+WORKDIR /app
 
-FROM node:16.13.1 AS NODE
+# copy gradle files to container
+COPY build.gradle gradlew gradlew.bat ./
 
-RUN  apt-get update && apt-get -y install openjdk-11-jdk
-RUN apt-get install -y supervisor
+# copy over all files in src from the root directory to the working directory
+COPY src ./src
 
-ENV APP_HOME=/app
-WORKDIR $APP_HOME
+# copy over everything other than node_modules from frontend to frontend
+COPY frontend ./frontend
 
-COPY . .
-WORKDIR /frontend
-COPY ./frontend/package.json package.json
-RUN npm install
+# install dependencies for frontend
+RUN cd frontend && npm install
 
-WORKDIR $APP_HOME
-CMD npm start
+# build frontend
+RUN cd frontend && npm run build
+
+RUN gradle wrapper
+
+# build gradle project
+RUN ./gradlew build
 
 EXPOSE 8080
 
+# run the jar file
+CMD ./gradlew bootRun
 
-# actual container
-#FROM amazoncorretto:11
-#ENV APP_HOME=/app
-#
-#WORKDIR $APP_HOME
-#COPY . .
-#COPY --from=NODE $APP_HOME/frontend $APP_HOME/frontend
-#
-#WORKDIR frontend
-#RUN npm install
-#
-#EXPOSE 8080
-#
-#CMD ./gradlew bootRun

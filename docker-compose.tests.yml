@@ -1,0 +1,7 @@
+services:
+  tests:
+    build: .
+    command: bash -c "gradle clean test"
+    volumes:
+      - .:/usr/src/app
+      - ~/.gradle:/root/.gradle
