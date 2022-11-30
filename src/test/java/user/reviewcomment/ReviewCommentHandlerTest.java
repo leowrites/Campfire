@@ -27,13 +27,13 @@ public class ReviewCommentHandlerTest {
 
     @BeforeEach
     public void setup(){
-        review1 = new Review("reviewId1", "userId1", "Apple Corp.",
+        review1 = new Review("reviewId1", "userId1",
                 "This is a test 1", 0);
-        review2 = new Review("reviewId2", "userId2", "Apple Corp.",
+        review2 = new Review("reviewId2", "userId2",
                 "This is a test 2", 0);
-        review3 = new Review("reviewId3", "userId3", "Apple Corp.",
+        review3 = new Review("reviewId3", "userId3",
                 "This is a test 3", 0);
-        review4 = new Review("reviewId4", "userId4", "Apple Corp.",
+        review4 = new Review("reviewId4", "userId4",
                 "This is a test 4", 0);
         reviews = new ArrayList<>();
         newReviews = new ArrayList<>();
