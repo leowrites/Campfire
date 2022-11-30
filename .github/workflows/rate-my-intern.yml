@@ -19,20 +19,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_DB: test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5433:5433
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -40,11 +26,9 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-      - name: Run gradle wrapper
-        run: gradle wrapper
-      - name: Run test
-        run: gradle clean test --stacktrace
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
+      - name: Docker Compose Action
+        uses: isbang/compose-action@v1.4.1
+        compose-file: |
+          docker-compose.yml
+          docker-compose.test.yml
+
