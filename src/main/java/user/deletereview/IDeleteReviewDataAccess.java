@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public interface IDeleteReviewDataAccess {
 
-    public Review getReview(String Id);
+    Review getReview(String Id);
 
-    public ArrayList<Review> getReviews();
+    ArrayList<Review> getReviews();
 
-    public void updateReviews(ArrayList<Review> reviews);
+    void updateReviews(ArrayList<Review> reviews);
 
 }

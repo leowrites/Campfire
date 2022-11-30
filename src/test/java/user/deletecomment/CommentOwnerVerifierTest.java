@@ -2,7 +2,6 @@ package user.deletecomment;
 
 import entity.Comment;
 import exceptions.NotOwnCommentException;
-import exceptions.NotOwnReviewException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
-public class OwnerVerifierTest {
+public class CommentOwnerVerifierTest {
 
     ArrayList<Comment> commentsEmpty;
     Comment commentTest;
@@ -19,7 +18,7 @@ public class OwnerVerifierTest {
 
     @BeforeEach
     public void setup(){
-        commentsEmpty = new ArrayList<Comment>();
+        commentsEmpty = new ArrayList<>();
         commentTest = new Comment("commentId1", "userId1", "This is a test", commentsEmpty);
     }
     @Test

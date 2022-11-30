@@ -8,11 +8,11 @@ public class DeleteReviewResponseModel {
 
     private final String message;
 
-    private final ArrayList<Review> reviews;
+    private final ArrayList<Review> newReviews;
 
     public DeleteReviewResponseModel(String message, ArrayList<Review> reviews){
         this.message = message;
-        this.reviews = reviews;
+        this.newReviews = reviews;
     }
 
     public String getMessage(){
@@ -20,7 +20,7 @@ public class DeleteReviewResponseModel {
     }
 
     public ArrayList<Review> getReviews(){
-        return this.reviews;
+        return this.newReviews;
     }
 
 }

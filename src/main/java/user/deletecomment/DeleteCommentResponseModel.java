@@ -21,5 +21,8 @@ public class DeleteCommentResponseModel {
         return this.message;
     }
 
-    public ArrayList<Comment> getNewComments(){return this.newComments;}
+    // This getter is never used as of now, should be used later by data access class
+    public ArrayList<Comment> getNewComments(){
+        return this.newComments;
+    }
 }

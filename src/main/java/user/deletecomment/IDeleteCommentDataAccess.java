@@ -7,20 +7,20 @@ import java.util.ArrayList;
 
 public interface IDeleteCommentDataAccess {
 
-    public ArrayList<Comment> getComments(String parentType, String parentId);
+    ArrayList<Comment> getComments(String parentType, String parentId);
 
-    public ArrayList<Comment> getCommentsComment(String parentId);
+    ArrayList<Comment> getCommentsComment(String parentId);
 
-    public ArrayList<Comment> getCommentsReview(String parentId);
+    ArrayList<Comment> getCommentsReview(String parentId);
 
-    public Comment getComment(String Id);
+    Comment getComment(String Id);
 
-    public Review getReview(String Id);
+    Review getReview(String Id);
 
-    public void updateComments(String parentType, String parentId, ArrayList<Comment> newComments);
+    void updateComments(String parentType, String parentId, ArrayList<Comment> newComments);
 
-    public void updateReview(String Id, ArrayList<Comment> newComments);
+    void updateReview(String Id, ArrayList<Comment> newComments);
 
-    public void updateComment(String Id, ArrayList<Comment> newComments);
+    void updateComment(String Id, ArrayList<Comment> newComments);
 
 }

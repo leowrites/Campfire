@@ -31,10 +31,6 @@ public class DeleteCommentHandler {
         return this.comments;
     }
 
-    public String getCommentId() {
-        return commentId;
-    }
-
     public ArrayList<Comment> getComments() {
         return comments;
     }

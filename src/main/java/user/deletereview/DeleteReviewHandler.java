@@ -27,10 +27,6 @@ public class DeleteReviewHandler {
         return this.reviews;
     }
 
-    public String getReviewId() {
-        return reviewId;
-    }
-
     public ArrayList<Review> getReviews() {
         return reviews;
     }
