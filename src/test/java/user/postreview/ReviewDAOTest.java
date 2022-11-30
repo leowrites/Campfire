@@ -2,7 +2,7 @@ package user.postreview;
 
 import entity.Review;
 import main.Application;
-import org.junit.jupiter.api.*;;;
+import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,46 +17,45 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(classes = Application.class)
 public class ReviewDAOTest {
 
-   @Autowired
-   private IReviewDAO reviewDAO;
+    @Autowired
+    private IReviewDAO reviewDAO;
 
-   @Autowired
-   private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-   @BeforeEach
-   public void init() {
-       jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
-       jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar)");
-   }
+    @BeforeEach
+    public void init() {
+        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar)");
+    }
 
-   @AfterEach
-   public void cleanUp() {
-       jdbcTemplate.execute("DROP TABLE reviews");
-   }
+    @AfterEach
+    public void cleanUp() {
+        jdbcTemplate.execute("DROP TABLE reviews");
+    }
 
-   @Test
-   public void testReviewSavesAndReturnsId() {
-       Review inputReview = new Review(
-               "leo",
-               "test",
-               1
-       );
-       String reviewId = reviewDAO.saveReview(inputReview);
-       assertNotNull(reviewId);
-   }
+    @Test
+    public void testReviewSavesAndReturnsId() {
+        Review inputReview = new Review(
+                "leo",
+                "test",
+                1
+        );
+        String reviewId = reviewDAO.saveReview(inputReview);
+        assertNotNull(reviewId);
+    }
 
-   @Test
-   public void testReviewGetsByIdAndReturnsReviewObject() {
-       Review inputReview = new Review(
-               "leo",
-               "apple",
-               1
-       );
-       String reviewId = reviewDAO.saveReview(inputReview);
-       assertNotNull(reviewId);
-       Review outputReview = reviewDAO.getReview(reviewId);
-       assertEquals("leo", outputReview.getContent());
-       assertEquals("apple", outputReview.getContent());
-       assertEquals(1, outputReview.getRating());
-   }
+    @Test
+    public void testReviewGetsByIdAndReturnsReviewObject() {
+        Review inputReview = new Review(
+                "leo",
+                "apple",
+                1
+        );
+        String reviewId = reviewDAO.saveReview(inputReview);
+        assertNotNull(reviewId);
+        Review outputReview = reviewDAO.getReview(reviewId);
+        assertEquals("leo", outputReview.getUserId());
+        assertEquals("apple", outputReview.getContent());
+        assertEquals(1, outputReview.getRating());
+    }
 }
