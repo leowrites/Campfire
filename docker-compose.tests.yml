@@ -5,3 +5,6 @@ services:
     volumes:
       - .:/usr/src/app
       - ~/.gradle:/root/.gradle
+    depends_on:
+      - "postgres"
+      - "spring"

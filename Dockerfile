@@ -26,7 +26,8 @@ RUN cd frontend && npm run build
 RUN gradle wrapper
 
 # build gradle project
-RUN ./gradlew build
+#RUN ./gradlew build
+RUN gradle build -x test
 
 EXPOSE 8080
 
