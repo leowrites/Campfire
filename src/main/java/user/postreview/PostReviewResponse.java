@@ -18,5 +18,4 @@ public class PostReviewResponse {
     public String getMessage() {
         return message;
     }
-
 }
