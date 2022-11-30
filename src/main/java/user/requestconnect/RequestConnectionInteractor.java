@@ -1,7 +1,7 @@
 package user.requestconnect;
 
 import entity.User;
-import service.IUserDataAccess;
+import service.dao.IUserDAO;
 import service.ServerStatus;
 import user.requestconnect.exceptions.PendingRequestExistsException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
@@ -10,8 +10,8 @@ import user.requestconnect.exceptions.UserNotFoundException;
 
 
 public class RequestConnectionInteractor implements IRequestConnectionInput {
-    private final IUserDataAccess dataAccess;
-    public RequestConnectionInteractor(IUserDataAccess dataAccess) {
+    private final IUserDAO dataAccess;
+    public RequestConnectionInteractor(IUserDAO dataAccess) {
         this.dataAccess = dataAccess;
     }
 
@@ -30,7 +30,10 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
             user = dataAccess.getUser(userId);
             target = dataAccess.getUser(targetId);
         } catch (UserNotFoundException e) {
-            return new RequestConnectionResponseModel(ServerStatus.ERROR, e.getMessage());
+            return new RequestConnectionResponseModel(ServerStatus.ERROR, new RequestConnectionUserResponseModel(
+                    e.getMessage(),
+                    ServerStatus.ERROR
+            ), null);
         }
 
         RequestConnectionVerifier verifier = new RequestConnectionVerifier(user, target);
@@ -39,7 +42,10 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
             verifier.verify();
         } catch (UserAlreadyConnectedException | PendingRequestExistsException | UserConnectSelf e) {
             // prepare failure response model for already connected
-            return new RequestConnectionResponseModel(ServerStatus.ERROR, e.getMessage());
+            return new RequestConnectionResponseModel(ServerStatus.ERROR, new RequestConnectionUserResponseModel(
+                    e.getMessage(),
+                    ServerStatus.ERROR
+            ), null);
         }
 
         RequestConnectionHandler handler = new RequestConnectionHandler(user, target, dataAccess);
@@ -50,7 +56,7 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
             handler.sendConnectionRequestToTarget();
         }
 
-        return new RequestConnectionResponseModel(ServerStatus.SUCCESS, "Success",
+        return new RequestConnectionResponseModel(ServerStatus.SUCCESS,
                 new RequestConnectionUserResponseModel(
                         String.format("You sent a connection request to %s", targetId),
                         ServerStatus.SUCCESS,
@@ -58,7 +64,8 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
                         user.getOutgoingConnectionRequests(),
                         user.getConnections(),
                         userId,
-                        targetId),
+                        targetId,
+                        Action.OUTGOING_CONNECT_REQUEST),
                 new RequestConnectionUserResponseModel(
                         String.format("You have a connection request from %s", userId),
                         ServerStatus.SUCCESS,
@@ -66,7 +73,8 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
                         target.getOutgoingConnectionRequests(),
                         target.getConnections(),
                         targetId,
-                        userId)
+                        userId,
+                        Action.INCOMING_CONNECT_REQUEST)
         );
     }
 }

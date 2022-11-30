@@ -28,10 +28,13 @@ public class AcceptConnectionController {
         System.out.println("received message");
         AcceptConnectionResponseModel responseModel = interactor.acceptConnection(requestModel);
         if (responseModel.getServerStatus() == ServerStatus.SUCCESS) {
-            simpMessagingTemplate.convertAndSend("/topic/users/connections/accept", responseModel.getUserResponseModel());
-            simpMessagingTemplate.convertAndSend("/topic/users/connections/accept", responseModel.getTargetResponseModel());
+            simpMessagingTemplate.convertAndSendToUser(requestModel.getUserId(), "/queue/connections/accept",
+                    responseModel.getUserResponseModel());
+            simpMessagingTemplate.convertAndSendToUser(requestModel.getTargetId(), "/queue/connections/accept",
+                    responseModel.getTargetResponseModel());
         } else {
-            simpMessagingTemplate.convertAndSend("/topic/users/connections/accept", responseModel);
+            simpMessagingTemplate.convertAndSendToUser(requestModel.getUserId(), "/queue/connections/accept",
+                    responseModel);
         }
     }
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Comment {
-    private String id;
-    private String userID;
+    private String id; // tim - remove once you have fixed
+    private String userId;
     private String content;
     private Date datePosted;
     private ArrayList<Comment> comments;
@@ -13,30 +13,29 @@ public class Comment {
     public Comment(){
     }
 
-    public Comment(String id, String userID, String content, ArrayList<Comment> comments) {
+    public Comment(String id, String userId, String content, ArrayList<Comment> comments) {
         this.id = id;
-        this.userID = userID;
+        this.userId = userId;
         this.content = content;
         this.datePosted = new Date();
         this.comments = comments;
     }
 
-    public Comment(String id, String userID, String content, Date datePosted) {
-        this.id = id;
-        this.userID = userID;
+    public Comment(String userId, String content, Date datePosted) {
+        this.userId = userId;
         this.content = content;
         this.datePosted = datePosted;
     }
 
-    public String getId(){
+    public String getId() {
         return this.id;
     }
-    public String getUserID() {
-        return this.userID;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public void setUserID(String newID) {
-        this.userID = newID;
+    public void setUserId(String newId) {
+        this.userId = newId;
     }
 
     public String getContent() {
