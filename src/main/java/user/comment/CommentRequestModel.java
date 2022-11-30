@@ -1,7 +1,5 @@
 package user.comment;
 
-import java.util.Date;
-
 public class CommentRequestModel {
     private final String userId;
     private final String reviewId;

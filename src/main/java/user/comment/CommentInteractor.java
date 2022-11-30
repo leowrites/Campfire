@@ -2,7 +2,8 @@ package user.comment;
 
 import entity.Comment;
 import entity.Review;
-import org.apache.catalina.Server;
+import service.dao.ICommentDAO;
+import service.dao.IReviewDAO;
 import user.comment.exceptions.ReviewNotFoundException;
 import service.ServerStatus;
 
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CommentInteractor extends CommentObservable implements ICommentInputBoundary {
-    private final ICommentDataAccess dataAccess;
+    private final IReviewDAO reviewDAO;
+    private final ICommentDAO commentDAO;
 
-    public CommentInteractor(ICommentDataAccess dataAccess) {
-        this.dataAccess = dataAccess;
+    public CommentInteractor(IReviewDAO reviewDAO, ICommentDAO commentDAO) {
+        this.reviewDAO = reviewDAO;
+        this.commentDAO = commentDAO;
     }
 
     @Override
@@ -26,7 +29,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         Comment comment = new Comment(userId, content, datePosted);
 
         try {
-            review = dataAccess.getReview(reviewId);
+            review = reviewDAO.getReview(reviewId);
             if (review == null) {
                 throw new ReviewNotFoundException("Review does not exist.");
             }
@@ -35,17 +38,17 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
             return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
         }
         
-        String commentId = dataAccess.saveComment(comment);
+        int commentId = commentDAO.saveComment(comment);
 
         ArrayList<String> reviewComments = review.getComments();
-        reviewComments.add(commentId);
+        reviewComments.add(Integer.toString(commentId));
         review.setComments(reviewComments);
 
         review.setId(reviewId);
-        dataAccess.updateReview(review);
+        reviewDAO.updateReview(review, Integer.parseInt(reviewId));
         
         // notify observers that a new comment has been made
 
-        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.", reviewComments);
+        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.");
     }
 }

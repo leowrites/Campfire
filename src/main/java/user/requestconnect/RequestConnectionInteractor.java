@@ -1,7 +1,7 @@
 package user.requestconnect;
 
 import entity.User;
-import service.IUserDataAccess;
+import service.dao.IUserDAO;
 import service.ServerStatus;
 import user.requestconnect.exceptions.PendingRequestExistsException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
@@ -10,8 +10,8 @@ import user.requestconnect.exceptions.UserNotFoundException;
 
 
 public class RequestConnectionInteractor implements IRequestConnectionInput {
-    private final IUserDataAccess dataAccess;
-    public RequestConnectionInteractor(IUserDataAccess dataAccess) {
+    private final IUserDAO dataAccess;
+    public RequestConnectionInteractor(IUserDAO dataAccess) {
         this.dataAccess = dataAccess;
     }
 
