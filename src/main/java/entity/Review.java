@@ -7,21 +7,21 @@ import java.util.Date;
 
 public class Review implements ISortComparator {
     private String id;
-    private String userID;
+    private String userId;
     private String company;
     private Date datePosted;
     private int numLikes;
     private int numDislikes;
     private String content;
-    private ArrayList<Comment> comments;
+    private ArrayList<String> comments;
     private int rating;
 
     public Review() {
     }
 
-    public Review(String reviewID, String userID, String company, String content, int rating) {
-        this.id = reviewID;
-        this.userID = userID;
+    public Review(String reviewId, String userId, String company, String content, int rating) {
+        this.id = reviewId;
+        this.userId = userId;
         this.company = company;
         this.content = content;
         this.datePosted = new Date();
@@ -33,35 +33,20 @@ public class Review implements ISortComparator {
         else{this.rating = rating;}
     }
 
-    public Review(String reviewID, String userID, String content, int rating, String company, Date datePosted, int numLikes, int numDislikes,
-                  ArrayList<Comment> comments) {
-        this.id = reviewID;
-        this.userID = userID;
-        this.content = content;
-        if (rating > 10){this.rating = 10;}
-        else if (rating < 0){this.rating = 0;}
-        else{this.rating = rating;}
-        this.company = company;
-        this.datePosted = datePosted;
-        this.numLikes = numLikes;
-        this.numDislikes = numDislikes;
-        this.comments = comments;
-    }
-
-    public String getid() {
+    public String getId() {
         return this.id;
     }
 
-    public void setid(String newID) {
-        this.id = newID;
+    public void setId(String newId) {
+        this.id = newId;
     }
 
-    public String getUserID() {
-        return this.userID;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public void setUserID(String newID) {
-        this.userID = newID;
+    public void setUserId(String newID) {
+        this.userId = newID;
     }
 
     public String getCompany() {
@@ -114,11 +99,11 @@ public class Review implements ISortComparator {
         this.numDislikes = numDislikes;
     }
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<String> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<Comment> newComments) {
+    public void setComments(ArrayList<String> newComments) {
         this.comments = newComments;
     }
 

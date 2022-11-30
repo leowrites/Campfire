@@ -11,5 +11,6 @@ public interface IUserDataAccess {
     void updateUser(User user);
 
     ArrayList<User> getUsers();
+
     void reset();
 }

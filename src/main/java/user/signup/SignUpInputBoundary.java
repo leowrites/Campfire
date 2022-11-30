@@ -4,5 +4,5 @@ package user.signup;
 
 public interface SignUpInputBoundary {
 
-    SignUpPresenterResponseModelDS validateInputs(SignUpInputDS signUpInputs);
+    SignUpResponseDS validateInputs(SignUpInputDS signUpInputs);
 }
