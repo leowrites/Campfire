@@ -23,11 +23,11 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: test
+          POSTGRES_DB: testDb
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:
-          - 5433:5433
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -44,6 +44,11 @@ jobs:
         run: gradle wrapper
       - name: Run test
         run: gradle clean test --stacktrace
+        env:
+          POSTGRES_DB: testDb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST: localhost
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
