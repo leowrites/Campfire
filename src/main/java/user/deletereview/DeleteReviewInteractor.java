@@ -65,13 +65,15 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
         }
 
         // 1. Delete this review from the Review table
-        // dataAccessReview.delete(reviewId);
+        dataAccessReview.deleteReview(reviewId);
 
         // 2. Delete this review from the internship that holds it
         internship = dataAccessInternship.getInternship(internshipId);
         DeleteReviewHandler deleteReviewHandler = new DeleteReviewHandler(internship, reviewId);
         newInternship = deleteReviewHandler.deleteReview();
 
+
+        // NEED TO CHANGE THIS TO UPDATE
         dataAccessInternship.saveInternship(newInternship);
 
         //return a success message, as well as the new Arraylist of Reviews

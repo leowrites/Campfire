@@ -2,19 +2,19 @@ package user.deletecomment;
 
 public class DeleteCommentRequestModel {
 
-    private final String commentId;
+    private final int commentId;
 
     private final String parentType;
 
-    private final String parentId;
+    private final int parentId;
 
     private final String userId;
 
     private final int accessLevel;
 
-    public DeleteCommentRequestModel(String commentId,
+    public DeleteCommentRequestModel(int commentId,
                                      String parentType,
-                                     String parentId,
+                                     int parentId,
                                      String userId,
                                      int accessLevel){
         this.commentId = commentId;
@@ -24,11 +24,11 @@ public class DeleteCommentRequestModel {
         this.accessLevel = accessLevel;
     }
     // parentType is one of two strings: "Comment" or "Review"
-    public String getCommentId(){ return this.commentId;}
+    public int getCommentId(){ return this.commentId;}
 
     public String getParentType() {return this.parentType;}
 
-    public String getParentId() {return this.parentId;}
+    public int getParentId() {return this.parentId;}
 
     public String getUserId(){return this.userId;}
 

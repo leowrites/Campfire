@@ -10,7 +10,7 @@ public class Review implements ISortComparator {
     private int numLikes;
     private int numDislikes;
     private String content;
-    private ArrayList<String> comments;
+    private ArrayList<Integer> comments;
     private int rating;
 
     public Review() {
@@ -39,7 +39,7 @@ public class Review implements ISortComparator {
         else this.rating = Math.max(rating, 0);
     }
     */
-    
+
     public String getUserId() {
         return this.userId;
     }
@@ -85,11 +85,11 @@ public class Review implements ISortComparator {
         this.numDislikes = numDislikes;
     }
 
-    public ArrayList<String> getComments() {
+    public ArrayList<Integer> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<String> comments) {
+    public void setComments(ArrayList<Integer> comments) {
         this.comments = comments;
     }
 

@@ -1,5 +1,6 @@
 package user.deletecomment;
 
+import entity.Review;
 import exceptions.NotOwnCommentException;
 import entity.Comment;
 import exceptions.CommentNotFoundException;
@@ -7,11 +8,9 @@ import exceptions.NotEnoughAccessLevelException;
 import service.dao.CommentDAO;
 import service.dao.ReviewDAO;
 
-import java.util.ArrayList;
+public class DeleteCommentInteractor implements IDeleteCommentInput {
 
-public class DeleteCommentInteractor implements IDeleteCommentInput{
-
-    private final ReviewDAO dataAccessReview
+    private final ReviewDAO dataAccessReview;
 
     private final CommentDAO dataAccessComment;
 
@@ -21,10 +20,10 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
     }
 
     @Override
-    public DeleteCommentResponseModel createResponseModel(DeleteCommentRequestModel requestModel){
-        String commentId = requestModel.getCommentId();
+    public DeleteCommentResponseModel createResponseModel(DeleteCommentRequestModel requestModel) {
+        int commentId = requestModel.getCommentId();
         String parentType = requestModel.getParentType();
-        String parentId = requestModel.getParentId();
+        int parentId = requestModel.getParentId();
         String userId = requestModel.getUserId();
         int accessLevel = requestModel.getAccessLevel();
 
@@ -40,28 +39,26 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
         // review.getComments() (array list of int ids) - remove commentId
         // reviewDAO.save(review)
 
-        Comment comment
-
+        Comment comment;
 
 
         // See if comment exists in DB
         try {
             comment = dataAccessComment.getComment(commentId);
-            if (comment == null){
+            if (comment == null) {
                 throw new CommentNotFoundException("Comment not found");
             }
-        } catch (CommentNotFoundException e){
-            return new DeleteCommentResponseModel(e.getMessage(), comments);
+        } catch (CommentNotFoundException e) {
+            return new DeleteCommentResponseModel(e.getMessage(), dataAccessComment.getAllComments());
         }
-
 
         // See if user has access-level
         AccessLevelVerifier accessLevelVerifier = new AccessLevelVerifier(accessLevel);
 
         try {
             accessLevelVerifier.verify();
-        } catch (NotEnoughAccessLevelException e){
-            return new DeleteCommentResponseModel(e.getMessage(), comments);
+        } catch (NotEnoughAccessLevelException e) {
+            return new DeleteCommentResponseModel(e.getMessage(), dataAccessComment.getAllComments());
         }
 
 
@@ -70,24 +67,32 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
 
         try {
             ownerVerifierComment.verify();
-        } catch (NotOwnCommentException e){
-            return new DeleteCommentResponseModel(e.getMessage(), comments);
+        } catch (NotOwnCommentException e) {
+            return new DeleteCommentResponseModel(e.getMessage(), dataAccessComment.getAllComments());
         }
 
+        // 1. Delete this comment from the comment table
+        dataAccessComment.deleteComment(commentId);
 
-        // Using parentId, get the list of corresponding comments
-        // Handler will delete the specific comment from the ArrayList, will update the parent
-        // with updated list of comments.
+        // 2. Delete this comment from its parent
 
-        DeleteCommentHandler handler = new DeleteCommentHandler(commentId, comments);
-
-        commentsNew = handler.deleteComment();
-
-        // Update the database with new Arraylist of comments
-        dataAccess.updateComments(parentType, parentId, commentsNew);
+        if (parentType.equals("Review")) {
+            Review parentReview = dataAccessReview.getReview(parentId);
+            DeleteParentReview reviewHandler =
+                    new DeleteParentReview(parentReview, commentId);
+            Review newParentReview = reviewHandler.deleteComment();
+            dataAccessReview.updateReview(newParentReview, parentId);
+        } else {
+            Comment parentComment = dataAccessComment.getComment(parentId);
+            DeleteParentComment commentHandler =
+                    new DeleteParentComment(parentComment, commentId);
+            Comment newParentComment = commentHandler.deleteComment();
+            dataAccessComment.updateComment(newParentComment, parentId);
+        }
 
         // Return a success message, as well as updated Arraylist of comments
-        return new DeleteCommentResponseModel("Comment has been successfully deleted", commentsNew);
-    }
+        return new DeleteCommentResponseModel("Comment has been successfully deleted",
+                dataAccessComment.getAllComments());
 
+    }
 }

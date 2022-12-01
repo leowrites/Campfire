@@ -2,6 +2,8 @@ package service.dao;
 
 import entity.Comment;
 
+import java.util.ArrayList;
+
 public interface ICommentDAO {
     /**
      * Save a new comment as a json
@@ -29,4 +31,9 @@ public interface ICommentDAO {
      * @param commentId the id of the comment to be deleted
      */
     void deleteComment(int commentId);
+
+    /**
+     * @return all comments
+     */
+    public ArrayList<Comment> getAllComments();
 }

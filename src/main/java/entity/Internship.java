@@ -5,10 +5,6 @@ import java.util.ArrayList;
 public class Internship {
     private ArrayList<Integer> reviews;
 
-    public Internship(ArrayList<Integer> reviews){
-        this.reviews = reviews;
-    }
-
     public Internship(){
     }
 

@@ -11,14 +11,14 @@ import java.util.ArrayList;
 
 public class CommentOwnerVerifierTest {
 
-    ArrayList<Comment> commentsEmpty;
+    ArrayList<Integer> commentsEmpty;
     Comment commentTest;
 
     String userIdTest;
 
     @BeforeEach
     public void setup(){
-        commentsEmpty = new ArrayList<>();
+        commentsEmpty = new ArrayList<Integer>();
         commentTest = new Comment("userId1", "This is a test", commentsEmpty);
     }
     @Test
