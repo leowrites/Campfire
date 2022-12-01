@@ -19,4 +19,13 @@ public class InternshipDAO implements IInternshipDAO{
     public void saveInternship(Internship internship) {
 
     }
+
+    /**
+     * @param internship
+     * @param internshipId
+     */
+    @Override
+    public void update(Internship internship, int internshipId) {
+
+    }
 }

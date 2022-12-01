@@ -13,4 +13,5 @@ public interface IInternshipDAO {
      * @param internship an internship object
      */
     void saveInternship(Internship internship);
+    void update(Internship internship, int internshipId);
 }

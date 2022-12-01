@@ -9,6 +9,10 @@ import user.comment.exceptions.ReviewNotFoundException;
 import user.deletecomment.AccessLevelVerifier;
 import exceptions.NotOwnReviewException;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class DeleteReviewInteractor implements IDeleteReviewInput{
 
@@ -23,17 +27,10 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
     public DeleteReviewResponseModel createResponseModel(DeleteReviewRequestModel requestModel){
         int internshipId = requestModel.getInternshipId();
         int reviewId = requestModel.getReviewId();
-        String userId = requestModel.getUserId();
         int accessLevel = requestModel.getAccessLevel();
-
-
+        String userId = requestModel.getUserId();
         Internship internship;
-        Internship newInternship;
         Review review;
-
-        // 2. delete this review from the Internship table
-        //  get internship from
-
 
         //see if Review exists in DB
         try {
@@ -42,26 +39,30 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
                 throw new ReviewNotFoundException("Review not found");
             }
         } catch (ReviewNotFoundException e){
-            return new DeleteReviewResponseModel(e.getMessage(), dataAccessReview.getAllReviews());
+            return new DeleteReviewResponseModel(e.getMessage(), null);
         }
 
         //see if user has accessLevel
 
-        AccessLevelVerifier accessLevelVerifier = new AccessLevelVerifier(accessLevel);
+//        AccessLevelVerifier accessLevelVerifier = new AccessLevelVerifier(accessLevel);
+//
+//        try {
+//            accessLevelVerifier.verify();
+//        } catch (NotEnoughAccessLevelException e){
+//            return new DeleteReviewResponseModel(e.getMessage(), null);
+//        }
+//
+//        //see if Review belongs to user
+//        OwnerVerifierReview ownerVerifierReview = new OwnerVerifierReview(review, userId);
+//
+//        try {
+//            ownerVerifierReview.verify();
+//        } catch (NotOwnReviewException e){
+//            return new DeleteReviewResponseModel(e.getMessage(), null);
+//        }
 
-        try {
-            accessLevelVerifier.verify();
-        } catch (NotEnoughAccessLevelException e){
-            return new DeleteReviewResponseModel(e.getMessage(), dataAccessReview.getAllReviews());
-        }
-
-        //see if Review belongs to user
-        OwnerVerifierReview ownerVerifierReview = new OwnerVerifierReview(review, userId);
-
-        try {
-            ownerVerifierReview.verify();
-        } catch (NotOwnReviewException e){
-            return new DeleteReviewResponseModel(e.getMessage(), dataAccessReview.getAllReviews());
+        if (accessLevel == 0 && !userId.equals(review.getUserId())) {
+            return new DeleteReviewResponseModel("Not authorized!", null);
         }
 
         // 1. Delete this review from the Review table
@@ -69,16 +70,16 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
 
         // 2. Delete this review from the internship that holds it
         internship = dataAccessInternship.getInternship(internshipId);
-        DeleteReviewHandler deleteReviewHandler = new DeleteReviewHandler(internship, reviewId);
-        newInternship = deleteReviewHandler.deleteReview();
-
-
-        // NEED TO CHANGE THIS TO UPDATE
-        dataAccessInternship.saveInternship(newInternship);
+//        DeleteReviewHandler deleteReviewHandler = new DeleteReviewHandler(internship, reviewId);
+//        newInternship = deleteReviewHandler.deleteReview();
+        List<Integer> filteredReviews = internship.getReviews()
+                .stream()
+                .filter(id -> id != reviewId)
+                .collect(Collectors.toList());
+        internship.setReviews((ArrayList<Integer>) filteredReviews);
+        dataAccessInternship.update(internship, internshipId);
 
         //return a success message, as well as the new Arraylist of Reviews
-        return new DeleteReviewResponseModel("Review has successfully been deleted",
-                dataAccessReview.getAllReviews());
-
+        return new DeleteReviewResponseModel("Review has successfully been deleted", null);
     }
 }

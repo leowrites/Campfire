@@ -26,12 +26,11 @@ public class DeleteCommentInteractor implements IDeleteCommentInput {
     @Override
     public DeleteCommentResponseModel createResponseModel(DeleteCommentRequestModel requestModel) {
         int commentId = requestModel.getCommentId();
-        String parentType = requestModel.getParentType();
         int parentId = requestModel.getParentId();
-        String userId = requestModel.getUserId();
         int accessLevel = requestModel.getAccessLevel();
+        String parentType = requestModel.getParentType();
+        String userId = requestModel.getUserId();
         Comment comment;
-
 
         // See if comment exists in DB
         try {
@@ -69,26 +68,19 @@ public class DeleteCommentInteractor implements IDeleteCommentInput {
 
         if (parentType.equals("Review")) {
             Review parentReview = dataAccessReview.getReview(parentId);
-
             List<Integer> filteredComments = parentReview.getComments()
                     .stream()
                     .filter(id -> id != commentId)
                     .collect(Collectors.toList());
-
-//            DeleteParentReview reviewHandler =
-//                    new DeleteParentReview(parentReview, commentId);
-//            Review newParentReview = reviewHandler.deleteComment();
             parentReview.setComments((ArrayList<Integer>) filteredComments);
             dataAccessReview.updateReview(parentReview, parentId);
         } else {
             Comment parentComment = dataAccessComment.getComment(parentId);
-//            DeleteParentComment commentHandler =
-//                    new DeleteParentComment(parentComment, commentId);
-//            Comment newParentComment = commentHandler.deleteComment();
             List<Integer> filteredComments = parentComment.getComments()
                     .stream()
                     .filter(id -> id != commentId)
                     .collect(Collectors.toList());
+            parentComment.setComments((ArrayList<Integer>) filteredComments);
             dataAccessComment.updateComment(parentComment, parentId);
         }
 
