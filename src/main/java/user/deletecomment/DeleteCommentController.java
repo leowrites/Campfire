@@ -13,7 +13,7 @@ public class DeleteCommentController {
         this.interactor = interactor;
     }
 
-    @DeleteMapping("/users/comments")
+    @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}")
     public DeleteCommentResponseModel createDeleteCommentRequestModel(
             @RequestBody DeleteCommentRequestModel requestModel){
         return interactor.createResponseModel(requestModel);

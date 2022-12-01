@@ -2,6 +2,7 @@ package user.deletereview;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,10 +15,12 @@ public class DeleteReviewController {
     public DeleteReviewController(IDeleteReviewInput interactor){
         this.interactor = interactor;
     }
-
-    @DeleteMapping("/users/reviews")
+    @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}")
     public DeleteReviewResponseModel createDeleteReviewRequestModel(
-            @RequestBody DeleteReviewRequestModel requestModel){
+            @RequestBody DeleteReviewRequestModel requestModel,
+            @PathVariable("reviewId") String reviewId,
+            @PathVariable("internshipId") String internshipId){
+
         return interactor.createResponseModel(requestModel);
     }
 }
