@@ -1,23 +1,24 @@
 package user.votehelpful;
 
 import entity.Review;
+import service.dao.IReviewDAO;
 import user.votehelpful.exceptions.ReviewNotFoundException;
 
 public class HelpfulInteractor implements IHelpfulInputBoundary {
-    private final IHelpfulDataAccess dataAccess;
+    private final IReviewDAO reviewDAO;
 
-    public HelpfulInteractor(IHelpfulDataAccess d) {
-        this.dataAccess = d;
+    public HelpfulInteractor(IReviewDAO reviewDAO) {
+        this.reviewDAO = reviewDAO;
     }
 
     @Override
     public HelpfulResponseModel create(HelpfulRequestModel requestModel) {
         boolean isHelpful = requestModel.getIsHelpful();
-        String reviewID = requestModel.getReviewID();
+        int reviewId = requestModel.getReviewId();
         Review review;
 
         try {
-            review = dataAccess.getReview(reviewID);
+            review = reviewDAO.getReview(reviewId);
             if (review == null) {
                 throw new ReviewNotFoundException("Review does not exist.");
             }

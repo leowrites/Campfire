@@ -1,20 +1,17 @@
 package user.votehelpful;
+import service.ServerStatus;
 
 public class HelpfulResponseModel {
-    private String successful;
-    private String message;
+    private final ServerStatus status;
+    private final String message;
 
-    public HelpfulResponseModel(String successful) {
-        this.successful = successful;
-    }
-
-    public HelpfulResponseModel(String successful, String message) {
-        this.successful = successful;
+    public HelpfulResponseModel(ServerStatus status, String message) {
+        this.status = status;
         this.message = message;
     }
 
-    public String getSuccessful() {
-        return this.successful;
+    public ServerStatus getStatus() {
+        return this.status;
     }
 
     public String getMessage() {
