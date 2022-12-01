@@ -31,9 +31,4 @@ public interface ICommentDAO {
      * @param commentId the id of the comment to be deleted
      */
     void deleteComment(int commentId);
-
-    /**
-     * @return all comments
-     */
-    public ArrayList<Comment> getAllComments();
 }

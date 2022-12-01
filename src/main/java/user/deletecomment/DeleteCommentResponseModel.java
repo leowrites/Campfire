@@ -8,12 +8,12 @@ public class DeleteCommentResponseModel {
 
     private final String message;
 
-    private final ArrayList<Comment> newComments;
+    private final ArrayList<Comment> comments;
 
-    public DeleteCommentResponseModel(String message, ArrayList<Comment> newComments){
+    public DeleteCommentResponseModel(String message, ArrayList<Comment> comments){
 
         this.message = message;
-        this.newComments = newComments;
+        this.comments = comments;
 
     }
 
@@ -21,4 +21,7 @@ public class DeleteCommentResponseModel {
         return this.message;
     }
 
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
 }

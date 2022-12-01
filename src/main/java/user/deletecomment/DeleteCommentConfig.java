@@ -2,13 +2,15 @@ package user.deletecomment;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import service.dao.CommentDAO;
-import service.dao.ReviewDAO;
+import service.dao.ICommentDAO;
+import service.dao.IReviewDAO;
 
 @Configuration
 public class DeleteCommentConfig {
     @Bean
-    public IDeleteCommentInput inputDeleteCommentConfig(){
-        return new DeleteCommentInteractor(new ReviewDAO(), new CommentDAO());
+    public IDeleteCommentInput inputDeleteCommentConfig(
+            ICommentDAO commentDAO, IReviewDAO reviewDAO
+    ){
+        return new DeleteCommentInteractor(reviewDAO, commentDAO);
     }
 }
