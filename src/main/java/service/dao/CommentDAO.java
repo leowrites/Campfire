@@ -74,14 +74,6 @@ public class CommentDAO implements ICommentDAO{
     }
 
     /**
-     * @return all comments
-     */
-    @Override
-    public ArrayList<Comment> getAllComments() {
-        return (ArrayList<Comment>) jdbcTemplate.query(QUERY_ALL, new CommentDaoMapper());
-    }
-
-    /**
      * Updates a comment.
      * @param comment   the new comment object
      * @param commentId the id of the comment to be updated
