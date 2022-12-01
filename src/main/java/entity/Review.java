@@ -4,7 +4,7 @@ import user.sort.ISortComparator;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Review implements ISortComparator {
+public class Review implements ISortComparator, IUserPost{
     private String userId;
     private Date datePosted;
     private int numLikes;
@@ -34,7 +34,7 @@ public class Review implements ISortComparator {
         this.datePosted = new Date();
         this.numLikes = 0;
         this.numDislikes = 0;
-        this.comments = new ArrayList<>();
+        this.comments = new ArrayList<Integer>();
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
     }

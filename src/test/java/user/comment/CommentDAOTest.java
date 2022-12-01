@@ -1,6 +1,5 @@
 package user.comment;
 
-
 import entity.Comment;
 import main.Application;
 import org.junit.jupiter.api.*;

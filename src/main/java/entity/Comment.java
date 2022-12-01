@@ -3,7 +3,7 @@ package entity;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Comment {
+public class Comment implements IUserPost {
     private String userId;
     private String content;
     private Date datePosted;
@@ -38,16 +38,16 @@ public class Comment {
         return this.content;
     }
 
-    public void setContent(String newContent) {
-        this.content = newContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getDatePosted() {
         return this.datePosted;
     }
 
-    public void setDatePosted(Date newDate) {
-        this.datePosted = newDate;
+    public void setDatePosted(Date date) {
+        this.datePosted = date;
     }
 
 
@@ -55,8 +55,8 @@ public class Comment {
         return this.comments;
     }
 
-    public void setComments(ArrayList<Integer> newComments) {
-        this.comments = newComments;
+    public void setComments(ArrayList<Integer> comments) {
+        this.comments = comments;
     }
 
 }
