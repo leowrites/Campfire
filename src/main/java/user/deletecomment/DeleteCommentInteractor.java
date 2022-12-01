@@ -40,9 +40,7 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
         // review.getComments() (array list of int ids) - remove commentId
         // reviewDAO.save(review)
 
-        ArrayList<Comment> comments = dataAccess.getComments(parentType, parentId);
-        ArrayList<Comment> commentsNew;
-        Comment comment;
+        Comment comment
 
 
 
