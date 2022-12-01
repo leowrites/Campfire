@@ -46,6 +46,19 @@ Takes two numbers and returns the sum.
 - [@JTP001](https://github.com/JTP001)
 - [@PrimeAce123](https://github.com/PrimeAce123)
 
+## Docker
+Make sure you have docker installed
+
+In the root directory, run
+```bash
+docker compose up -d --build
+```
+To run the tests, run
+```bash
+docker compose run --rm test
+```
+
+
 ## Tech Stack
 
 **Client:** React, MUI

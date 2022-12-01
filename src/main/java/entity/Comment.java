@@ -3,17 +3,17 @@ package entity;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Comment {
+public class Comment implements IUserPost {
     private String id; // tim - remove once you have fixed
     private String userId;
     private String content;
     private Date datePosted;
-    private ArrayList<Comment> comments;
+    private ArrayList<Integer> comments;
 
     public Comment(){
     }
 
-    public Comment(String id, String userId, String content, ArrayList<Comment> comments) {
+    public Comment(String id, String userId, String content, ArrayList<Integer> comments) {
         this.id = id;
         this.userId = userId;
         this.content = content;
@@ -21,10 +21,11 @@ public class Comment {
         this.comments = comments;
     }
 
-    public Comment(String userId, String content, Date datePosted) {
+    public Comment(String userId, String content) {
         this.userId = userId;
         this.content = content;
-        this.datePosted = datePosted;
+        this.datePosted = new Date();
+        this.comments = new ArrayList<>();
     }
 
     public String getId() {
@@ -42,25 +43,25 @@ public class Comment {
         return this.content;
     }
 
-    public void setContent(String newContent) {
-        this.content = newContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getDatePosted() {
         return this.datePosted;
     }
 
-    public void setDatePosted(Date newDate) {
-        this.datePosted = newDate;
+    public void setDatePosted(Date date) {
+        this.datePosted = date;
     }
 
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<Integer> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<Comment> newComments) {
-        this.comments = newComments;
+    public void setComments(ArrayList<Integer> comments) {
+        this.comments = comments;
     }
 
 }

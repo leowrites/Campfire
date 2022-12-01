@@ -3,8 +3,8 @@ package user.comment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import service.ServerStatus;
 
 @RestController
 public class CommentController {
@@ -15,7 +15,7 @@ public class CommentController {
     }
 
     @PostMapping("/comments")
-    public ResponseEntity<CommentResponseModel> create(CommentRequestModel requestModel) {
+    public ResponseEntity<CommentResponseModel> create(@RequestBody CommentRequestModel requestModel) {
         CommentResponseModel responseModel = input.create(requestModel);
         String status = responseModel.getStatus().toString();
         if (status.equals("success")) {

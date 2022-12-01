@@ -1,7 +1,7 @@
 package user.requestconnect;
 
 import entity.User;
-import service.IUserDataAccess;
+import service.dao.IUserDAO;
 
 import java.util.ArrayList;
 
@@ -9,8 +9,8 @@ public class RequestConnectionHandler {
 
     private final User user;
     private final User target;
-    private final IUserDataAccess dataAccess;
-    public RequestConnectionHandler(User user, User target, IUserDataAccess dataAccess) {
+    private final IUserDAO dataAccess;
+    public RequestConnectionHandler(User user, User target, IUserDAO dataAccess) {
         this.user = user;
         this.target = target;
         this.dataAccess = dataAccess;
