@@ -35,7 +35,11 @@ public class CommentDAO implements ICommentDAO{
     public int saveComment(Comment comment) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         try {
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+            df.setTimeZone(TimeZone.getTimeZone("UTC"));
             ObjectMapper m = new ObjectMapper();
+            m.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
+            m.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
             String commentString = m.writeValueAsString(comment);
             jdbcTemplate.update(connection -> {
                 PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
