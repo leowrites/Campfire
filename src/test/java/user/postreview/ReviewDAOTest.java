@@ -10,8 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import service.dao.IReviewDAO;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -40,8 +39,8 @@ public class ReviewDAOTest {
                 "test",
                 1
         );
-        String reviewId = reviewDAO.saveReview(inputReview);
-        assertNotNull(reviewId);
+        int reviewId = reviewDAO.saveReview(inputReview);
+        assertNotEquals(0, reviewId);
     }
 
     @Test
@@ -51,8 +50,8 @@ public class ReviewDAOTest {
                 "apple",
                 1
         );
-        String reviewId = reviewDAO.saveReview(inputReview);
-        assertNotNull(reviewId);
+        int reviewId = reviewDAO.saveReview(inputReview);
+        assertNotEquals(0, reviewId);
         Review outputReview = reviewDAO.getReview(reviewId);
         assertEquals("leo", outputReview.getUserId());
         assertEquals("apple", outputReview.getContent());

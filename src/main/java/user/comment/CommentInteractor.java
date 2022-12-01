@@ -32,7 +32,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
 
         if (parentType.equals("Review")) {
             try {
-                parent = reviewDAO.getReview(String.valueOf(parentId));
+                parent = reviewDAO.getReview(parentId);
                 if (parent == null) {
                     throw new ReviewNotFoundException("Review does not exist.");
                 }
