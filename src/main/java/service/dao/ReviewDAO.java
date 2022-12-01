@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.TimeZone;
 
+import service.dao.DaoHelper;
+
 public class ReviewDAO implements IReviewDAO{
 
     @Autowired
@@ -34,8 +36,8 @@ public class ReviewDAO implements IReviewDAO{
      * @return a review object
      */
     @Override
-    public Review getReview(String reviewId){
-        return jdbcTemplate.queryForObject(DATA_QUERY, new ReviewDaoMapper(), Integer.parseInt(reviewId));
+    public Review getReview(int reviewId){
+        return jdbcTemplate.queryForObject(DATA_QUERY, new ReviewDaoMapper(), reviewId);
     }
 
     /**
@@ -52,28 +54,24 @@ public class ReviewDAO implements IReviewDAO{
      * @return the id of the created review
      */
     @Override
-    public String saveReview(Review review) {
+    public int saveReview(Review review) {
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         try{
             // serialize the date to ISO-8601
-
-            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-            df.setTimeZone(TimeZone.getTimeZone("UTC"));
             ObjectMapper mapper = new ObjectMapper();
-            mapper.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
-            mapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
+            DaoHelper.formatDate(mapper);
             String reviewString = mapper.writeValueAsString(review);
             jdbcTemplate.update(connection -> {
                 PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, reviewString);
                 return statement;
             }, keyHolder);
-            return Objects.requireNonNull(keyHolder.getKeys()).get("id").toString();
+            return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
         } catch(JsonProcessingException e){
             System.out.println("Json process error!");
         }
-        return null;
+        return 0;
     }
 
     /**
@@ -85,11 +83,8 @@ public class ReviewDAO implements IReviewDAO{
     @Override
     public void updateReview(Review review, int reviewId) {
         try {
-            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-            df.setTimeZone(TimeZone.getTimeZone("UTC"));
             ObjectMapper mapper = new ObjectMapper();
-            mapper.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
-            mapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
+            DaoHelper.formatDate(mapper);
             String reviewString = mapper.writeValueAsString(review);
             jdbcTemplate.update(UPDATE_QUERY, reviewString, reviewId);
         } catch (JsonProcessingException e) {
