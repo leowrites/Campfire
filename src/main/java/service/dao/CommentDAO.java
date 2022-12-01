@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.TimeZone;
 
+import service.dao.DaoHelper;
+
 public class CommentDAO implements ICommentDAO{
 
     @Autowired
@@ -38,11 +40,8 @@ public class CommentDAO implements ICommentDAO{
     public int saveComment(Comment comment) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         try {
-            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-            df.setTimeZone(TimeZone.getTimeZone("UTC"));
             ObjectMapper m = new ObjectMapper();
-            m.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
-            m.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
+            DaoHelper.formatDate(m);
             String commentString = m.writeValueAsString(comment);
             jdbcTemplate.update(connection -> {
                 PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
@@ -79,13 +78,10 @@ public class CommentDAO implements ICommentDAO{
      * @param commentId the id of the comment to be updated
      */
     @Override
-    public void updateComment(Comment comment, int commentId) { // any way we can write use inheritance to get rid of duplicate lines of code?
+    public void updateComment(Comment comment, int commentId) {
         try {
-            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-            df.setTimeZone(TimeZone.getTimeZone("UTC"));
             ObjectMapper m = new ObjectMapper();
-            m.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
-            m.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
+            DaoHelper.formatDate(m);
             String commentString = m.writeValueAsString(comment);
             jdbcTemplate.update(UPDATE_QUERY, commentString, commentId);
         }
