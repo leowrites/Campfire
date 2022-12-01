@@ -25,7 +25,7 @@ public class SignUpInteractor implements SignUpInputBoundary {
 
     @Override
     public SignUpResponseDS validateInputs(SignUpInputDS signUpInputs) {
-        List<FieldError> errorMessages = new ArrayList<FieldError>();
+        List<FieldError> errorMessages = new ArrayList<>();
 
 //        System.out.println("test");
 //        //validate email is a valid U of T Email Address
@@ -58,7 +58,6 @@ public class SignUpInteractor implements SignUpInputBoundary {
         //save user in database if there are no errors
         if (errorMessages.size() == 0){
             User user = new User(
-                    signUpInputs.getUsername(),
                     new ArrayList<>(),
                     new ArrayList<>(),
                     new ArrayList<>(),

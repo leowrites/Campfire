@@ -7,15 +7,24 @@ public class User implements Serializable {
     private ArrayList<String> incomingConnectionRequests;
     private ArrayList<String> outgoingConnectionRequests;
     private ArrayList<String> connections;
-    private String id;
     private String name;
     private String username;
     private String email;
     private String password;
     private int access_level;
     public User() {}
-    public User(String id,
-                ArrayList<String> incomingConnectionRequests,
+
+    public User(String username, String email, String password, String name) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.incomingConnectionRequests = new ArrayList<>();
+        this.outgoingConnectionRequests = new ArrayList<>();
+        this.connections = new ArrayList<>();
+        this.access_level = 1;
+    }
+    public User(ArrayList<String> incomingConnectionRequests,
                 ArrayList<String> outgoingConnectionRequests,
                 ArrayList<String> connections,
                 String username,
@@ -27,7 +36,6 @@ public class User implements Serializable {
         this.connections = connections;
         this.username = username;
         this.email = email;
-        this.id = id;
         this.password = password;
         this.name = name;
         this.access_level = 0;
@@ -56,9 +64,6 @@ public class User implements Serializable {
     public void setConnections(ArrayList<String> connections) {
         this.connections = connections;
     }
-    public String getId(){
-        return id;
-    }
     public String getName() {
         return name;
     }
@@ -76,6 +81,10 @@ public class User implements Serializable {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getaccesslevel(){return this.access_level;}
