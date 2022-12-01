@@ -27,4 +27,10 @@ public interface IReviewDAO {
      * @param reviewId the id of the review
      */
     void updateReview(Review review, int reviewId);
+
+    /**
+     * Deletes a review.
+     * @param reviewId the id of the comment to be deleted
+     */
+    void deleteReview(int reviewId);
 }
