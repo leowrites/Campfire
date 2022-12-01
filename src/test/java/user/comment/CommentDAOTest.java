@@ -55,25 +55,26 @@ public class CommentDAOTest {
         assertEquals("i love apple", outputComment.getContent());
     }
 
-//    @Test
-//    public void testAddCommentToComment() {
-//        // create input comment
-//        Comment inputComment = new Comment("justinli", "i love apple");
-//        // add input comment to database
-//        int inputCommentId = commentDAO.saveComment(inputComment);
-//        // make sure that the input comment
-//        assertNotEquals(0, inputCommentId);
-//        Comment commentToAdd = new Comment("stevejobs", "i hate apple");
-//        int commentToAddId = commentDAO.saveComment(commentToAdd);
-//        assertNotEquals(0, commentToAddId);
-//        ArrayList<Integer> comments = inputComment.getComments();
-//        comments.add(commentToAddId);
-//        inputComment.setComments(comments);
-//        commentDAO.updateComment(inputComment, inputCommentId);
-//        Comment outputComment = commentDAO.getComment(inputCommentId);
-//        ArrayList<Integer> outputCommentComments = outputComment.getComments();
-//        assertEquals(1, outputCommentComments.size());
-//        assertEquals(commentDAO.getComment(outputCommentComments.get(0)), commentToAdd);
-//    }
+    @Test
+    public void testAddCommentToComment() {
+        // create input comment
+        Comment inputComment = new Comment("justinli", "i love apple");
+        // add input comment to database
+        int inputCommentId = commentDAO.saveComment(inputComment);
+        // make sure that the input comment
+        assertNotEquals(0, inputCommentId);
+        Comment commentToAdd = new Comment("stevejobs", "i hate apple");
+        int commentToAddId = commentDAO.saveComment(commentToAdd);
+        assertNotEquals(0, commentToAddId);
+        ArrayList<Integer> comments = inputComment.getComments();
+        comments.add(commentToAddId);
+        inputComment.setComments(comments);
+        commentDAO.updateComment(inputComment, inputCommentId);
+        Comment outputComment = commentDAO.getComment(inputCommentId);
+        ArrayList<Integer> outputCommentComments = outputComment.getComments();
+        assertEquals(1, outputCommentComments.size());
+        assertEquals(commentDAO.getComment(outputCommentComments.get(0)).getUserId(), "stevejobs");
+        assertEquals(commentDAO.getComment(outputCommentComments.get(0)).getContent(), "i hate apple");
+    }
 
 }
