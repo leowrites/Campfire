@@ -1,7 +1,9 @@
 package user.comment;
 
 import entity.Comment;
+import entity.IUserPost;
 import entity.Review;
+import user.comment.exceptions.CommentNotFoundException;
 import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
 import user.comment.exceptions.ReviewNotFoundException;
@@ -22,29 +24,47 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
     @Override
     public CommentResponseModel create(CommentRequestModel requestModel) {
         String userId = requestModel.getUserId();
-        String reviewId = requestModel.getReviewId();
+        String parentType = requestModel.getParentType();
+        int parentId = requestModel.getParentId();
+        IUserPost parent;
         String content = requestModel.getContent();
-        Review review;
         Comment comment = new Comment(userId, content);
 
-        try {
-            review = reviewDAO.getReview(reviewId);
-            if (review == null) {
-                throw new ReviewNotFoundException("Review does not exist.");
+        if (parentType.equals("Review")) {
+            try {
+                parent = reviewDAO.getReview(String.valueOf(parentId));
+                if (parent == null) {
+                    throw new ReviewNotFoundException("Review does not exist.");
+                }
+            }
+            catch (ReviewNotFoundException e) {
+                return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
             }
         }
-        catch (ReviewNotFoundException e) {
-            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
+        else {
+            try {
+                parent = commentDAO.getComment(parentId);
+                if (parent == null) {
+                    throw new CommentNotFoundException("Comment does not exist.");
+                }
+            }
+            catch (CommentNotFoundException e) {
+                return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
+            }
         }
-        
+
         int commentId = commentDAO.saveComment(comment);
+        ArrayList<Integer> parentComments = parent.getComments();
+        parentComments.add(commentId);
+        parent.setComments(parentComments);
 
-        ArrayList<String> reviewComments = review.getComments();
-        reviewComments.add(Integer.toString(commentId));
-        review.setComments(reviewComments);
+        if (parentType.equals("Review")) {
+            reviewDAO.updateReview((Review) parent, parentId);
+        }
+        else {
+            commentDAO.updateComment((Comment) parent, parentId);
+        }
 
-        reviewDAO.updateReview(review, Integer.parseInt(reviewId));
-        
         // notify observers that a new comment has been made
 
         return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.");
