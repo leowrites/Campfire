@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
@@ -25,6 +26,7 @@ public class ReviewDAO implements IReviewDAO{
     final String DATA_QUERY = "select data from reviews where id = ? ";
     final String QUERY_ALL = "select * from reviews";
     final String UPDATE_QUERY = "update reviews set data = ? where id = ?";
+    final String DELETE_QUERY = "delete from reviews where id = ?";
 
     /**
      * Gets the review given the review id
@@ -92,6 +94,20 @@ public class ReviewDAO implements IReviewDAO{
             jdbcTemplate.update(UPDATE_QUERY, reviewString, reviewId);
         } catch (JsonProcessingException e) {
             System.out.println("There was an error in the JSON processing.");
+        }
+    }
+
+    /**
+     * Deletes a review.
+     * @param reviewId the id of the comment to be deleted
+     */
+    @Override
+    public void deleteReview(int reviewId) {
+        try {
+            jdbcTemplate.update(DELETE_QUERY, reviewId);
+        }
+        catch (DataAccessException e) {
+            System.out.println("No review with that ID available to delete.");
         }
     }
 }
