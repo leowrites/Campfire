@@ -2,10 +2,10 @@ package user.comment;
 
 public class CommentRequestModel {
     private final String userId;
-    private final String reviewId;
+    private int reviewId;
     private final String content;
 
-    public CommentRequestModel(String userId, String reviewId, String content) {
+    public CommentRequestModel(String userId, int reviewId, String content) {
         this.userId = userId;
         this.reviewId = reviewId;
         this.content = content;
@@ -14,7 +14,7 @@ public class CommentRequestModel {
         return this.userId;
     }
 
-    public String getReviewId() {
+    public int getReviewId() {
         return this.reviewId;
     }
 

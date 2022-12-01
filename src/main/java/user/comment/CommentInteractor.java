@@ -22,7 +22,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
     @Override
     public CommentResponseModel create(CommentRequestModel requestModel) {
         String userId = requestModel.getUserId();
-        String reviewId = requestModel.getReviewId();
+        int reviewId = requestModel.getReviewId();
         String content = requestModel.getContent();
         Review review;
         Comment comment = new Comment(userId, content);
@@ -39,11 +39,11 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         
         int commentId = commentDAO.saveComment(comment);
 
-        ArrayList<String> reviewComments = review.getComments();
-        reviewComments.add(Integer.toString(commentId));
+        ArrayList<Integer> reviewComments = review.getComments();
+        reviewComments.add(commentId);
         review.setComments(reviewComments);
 
-        reviewDAO.updateReview(review, Integer.parseInt(reviewId));
+        reviewDAO.updateReview(review, reviewId);
         
         // notify observers that a new comment has been made
 
