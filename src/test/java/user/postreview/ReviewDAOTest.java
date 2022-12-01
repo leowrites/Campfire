@@ -51,7 +51,7 @@ public class ReviewDAOTest {
                 1
         );
         int reviewId = reviewDAO.saveReview(inputReview);
-        assertNotNull(reviewId);
+        assertNotEquals(0, reviewId);
         Review outputReview = reviewDAO.getReview(reviewId);
         assertEquals("leo", outputReview.getUserId());
         assertEquals("apple", outputReview.getContent());
