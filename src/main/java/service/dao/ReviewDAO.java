@@ -32,8 +32,8 @@ public class ReviewDAO implements IReviewDAO{
      * @return a review object
      */
     @Override
-    public Review getReview(String reviewId){
-        return jdbcTemplate.queryForObject(DATA_QUERY, new ReviewDaoMapper(), Integer.parseInt(reviewId));
+    public Review getReview(int reviewId){
+        return jdbcTemplate.queryForObject(DATA_QUERY, new ReviewDaoMapper(), reviewId);
     }
 
     /**

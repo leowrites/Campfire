@@ -7,7 +7,7 @@ public interface IInternshipDAO {
      * @param internshipId an internship id
      * @return an internship object
      */
-    Internship getInternship(String internshipId);
+    Internship getInternship(int internshipId);
 
     /**
      * @param internship an internship object

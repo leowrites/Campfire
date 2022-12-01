@@ -17,7 +17,7 @@ public class ReviewOwnerVerifierTest {
     @BeforeEach
     public void setup(){
         testUserId = "userId1";
-        testReview = new Review("reviewId1", "userid2",
+        testReview = new Review("userid2",
                 "This is a test", 0);
     }
 

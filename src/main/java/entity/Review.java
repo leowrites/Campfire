@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Review implements ISortComparator {
-    private String id;
     private String userId;
     private Date datePosted;
     private int numLikes;
@@ -27,8 +26,9 @@ public class Review implements ISortComparator {
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
     }
-    public Review(String reviewId, String userId, String content, int rating) {
-        this.id = reviewId;
+
+    /*
+    public Review(String userId, String content, int rating) {
         this.userId = userId;
         this.content = content;
         this.datePosted = new Date();
@@ -38,15 +38,8 @@ public class Review implements ISortComparator {
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
     }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    */
+    
     public String getUserId() {
         return this.userId;
     }

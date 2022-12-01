@@ -2,21 +2,29 @@ package user.deletereview;
 
 public class DeleteReviewRequestModel {
 
-    private final String reviewId;
+    private final int internshipId;
+
+    private final int reviewId;
 
     private final String userId;
 
     private final int accessLevel;
 
-    public DeleteReviewRequestModel(String reviewId,
+    public DeleteReviewRequestModel(int internshipId,
+                                    int reviewId,
                                     String userId,
                                     int accessLevel){
+        this.internshipId = internshipId;
         this.reviewId = reviewId;
         this.userId = userId;
         this.accessLevel = accessLevel;
     }
 
-    public String getReviewId(){
+    public int getInternshipId(){
+        return this.internshipId;
+    }
+
+    public int getReviewId(){
         return this.reviewId;
     }
 

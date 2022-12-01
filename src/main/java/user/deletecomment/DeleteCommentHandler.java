@@ -4,6 +4,8 @@ import entity.Comment;
 
 import java.util.ArrayList;
 
+import static java.lang.Boolean.TRUE;
+
 public class DeleteCommentHandler {
 
     private final String commentId;
@@ -15,12 +17,8 @@ public class DeleteCommentHandler {
         this.comments = comments;
     }
 
-    public ArrayList<Comment> deleteComment(){
+    public boolean deleteComment(){
         /*
-        Takes in a String (commentId) and the Arraylist (comments) that contains the comment
-        Deletes the comment from comments
-        Return new Arraylist of comments
-        */
         int size = this.comments.size();
         for (int i = 0; i < size; i++){
             if (this.commentId.equals(this.comments.get(i).getId())){
@@ -29,6 +27,10 @@ public class DeleteCommentHandler {
             }
         }
         return this.comments;
+
+         */
+        return TRUE;
+
     }
 
     public ArrayList<Comment> getComments() {

@@ -8,8 +8,8 @@ public class InternshipDAO implements IInternshipDAO{
      * @return an internship object
      */
     @Override
-    public Internship getInternship(String internshipId) {
-        return null;
+    public Internship getInternship(int internshipId) {
+        return new Internship();
     }
 
     /**

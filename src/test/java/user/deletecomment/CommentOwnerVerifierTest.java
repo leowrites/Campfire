@@ -19,7 +19,7 @@ public class CommentOwnerVerifierTest {
     @BeforeEach
     public void setup(){
         commentsEmpty = new ArrayList<>();
-        commentTest = new Comment("commentId1", "userId1", "This is a test", commentsEmpty);
+        commentTest = new Comment("userId1", "This is a test", commentsEmpty);
     }
     @Test
     public void testOwnerVerifierNotMatch(){

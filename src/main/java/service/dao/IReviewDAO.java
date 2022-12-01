@@ -10,7 +10,7 @@ public interface IReviewDAO {
      * @param reviewId the id of the review
      * @return a review object
      */
-    Review getReview(String reviewId);
+    Review getReview(int reviewId);
 
     ArrayList<Review> getAllReviews();
 

@@ -4,22 +4,25 @@ import exceptions.NotOwnCommentException;
 import entity.Comment;
 import exceptions.CommentNotFoundException;
 import exceptions.NotEnoughAccessLevelException;
+import service.dao.CommentDAO;
+import service.dao.ReviewDAO;
 
 import java.util.ArrayList;
 
 public class DeleteCommentInteractor implements IDeleteCommentInput{
 
-    private final IDeleteCommentDataAccess dataAccess;
+    private final CommentDAO dataAccessComment;
 
-    public DeleteCommentInteractor(IDeleteCommentDataAccess dataAccess) {
-        this.dataAccess = dataAccess;
+    public DeleteCommentInteractor(ReviewDAO dataAccessReview, CommentDAO dataAccessComment) {
+        this.dataAccessReview = dataAccessReview;
+        this.dataAccessComment = dataAccessComment;
     }
 
     @Override
     public DeleteCommentResponseModel createResponseModel(DeleteCommentRequestModel requestModel){
+        String commentId = requestModel.getCommentId();
         String parentType = requestModel.getParentType();
         String parentId = requestModel.getParentId();
-        String commentId = requestModel.getCommentId();
         String userId = requestModel.getUserId();
         int accessLevel = requestModel.getAccessLevel();
 
@@ -30,7 +33,7 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
 
         // See if comment exists in DB
         try {
-            comment = dataAccess.getComment(commentId);
+            comment = dataAccessComment.getComment(commentId);
             if (comment == null){
                 throw new CommentNotFoundException("Comment not found");
             }
