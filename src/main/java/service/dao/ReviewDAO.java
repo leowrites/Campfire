@@ -52,7 +52,7 @@ public class ReviewDAO implements IReviewDAO{
      * @return the id of the created review
      */
     @Override
-    public String saveReview(Review review) {
+    public int saveReview(Review review) {
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         try{
@@ -69,11 +69,11 @@ public class ReviewDAO implements IReviewDAO{
                 statement.setString(1, reviewString);
                 return statement;
             }, keyHolder);
-            return Objects.requireNonNull(keyHolder.getKeys()).get("id").toString();
+            return (int) Objects.requireNonNull(keyHolder.getKeys()).get("id");
         } catch(JsonProcessingException e){
             System.out.println("Json process error!");
         }
-        return null;
+        return 0;
     }
 
     /**

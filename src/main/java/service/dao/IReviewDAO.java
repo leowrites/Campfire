@@ -19,7 +19,7 @@ public interface IReviewDAO {
      * @param review the review to be saved
      * @return the id of the created review
      */
-    String saveReview(Review review);
+    int saveReview(Review review);
 
     /**
      * Updates a review

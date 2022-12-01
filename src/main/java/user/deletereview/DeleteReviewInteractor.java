@@ -3,8 +3,8 @@ package user.deletereview;
 import entity.Internship;
 import entity.Review;
 import exceptions.NotEnoughAccessLevelException;
-import service.dao.InternshipDAO;
-import service.dao.ReviewDAO;
+import service.dao.IInternshipDAO;
+import service.dao.IReviewDAO;
 import user.comment.exceptions.ReviewNotFoundException;
 import user.deletecomment.AccessLevelVerifier;
 import exceptions.NotOwnReviewException;
@@ -12,10 +12,10 @@ import exceptions.NotOwnReviewException;
 
 public class DeleteReviewInteractor implements IDeleteReviewInput{
 
-    private final InternshipDAO dataAccessInternship;
-    private final ReviewDAO dataAccessReview;
+    private final IInternshipDAO dataAccessInternship;
+    private final IReviewDAO dataAccessReview;
 
-    public DeleteReviewInteractor(ReviewDAO dataAccessReview, InternshipDAO dataAccessInternship){
+    public DeleteReviewInteractor(IReviewDAO dataAccessReview, IInternshipDAO dataAccessInternship){
         this.dataAccessReview = dataAccessReview;
         this.dataAccessInternship = dataAccessInternship;
     }

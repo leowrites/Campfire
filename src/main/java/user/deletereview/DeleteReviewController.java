@@ -2,7 +2,6 @@ package user.deletereview;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,8 +13,6 @@ public class DeleteReviewController {
     public DeleteReviewController(IDeleteReviewInput interactor){
         this.interactor = interactor;
     }
-
-    @GetMapping("/comments/sort")
 
     @DeleteMapping("/user/comments")
     public DeleteReviewResponseModel createDeleteReviewRequestModel(DeleteReviewRequestModel requestModel){
