@@ -32,7 +32,6 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
         Internship internship;
         Review review;
 
-        //see if Review exists in DB
         try {
             review = dataAccessReview.getReview(reviewId);
             if (review == null){
@@ -65,19 +64,20 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
             return new DeleteReviewResponseModel("Not authorized!", null);
         }
 
-        // 1. Delete this review from the Review table
         dataAccessReview.deleteReview(reviewId);
 
-        // 2. Delete this review from the internship that holds it
         internship = dataAccessInternship.getInternship(internshipId);
 //        DeleteReviewHandler deleteReviewHandler = new DeleteReviewHandler(internship, reviewId);
 //        newInternship = deleteReviewHandler.deleteReview();
-        List<Integer> filteredReviews = internship.getReviews()
-                .stream()
-                .filter(id -> id != reviewId)
-                .collect(Collectors.toList());
-        internship.setReviews((ArrayList<Integer>) filteredReviews);
+//        List<Integer> filteredReviews = internship.getReviews()
+//                .stream()
+//                .filter(id -> id != reviewId)
+//                .collect(Collectors.toList());
+//        internship.setReviews((ArrayList<Integer>) filteredReviews);
         dataAccessInternship.update(internship, internshipId);
+
+        // need to recursively delete all comments ...
+
 
         //return a success message, as well as the new Arraylist of Reviews
         return new DeleteReviewResponseModel("Review has successfully been deleted", null);
