@@ -21,7 +21,8 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
     }
 
     public DeleteReviewResponseModel createResponseModel(DeleteReviewRequestModel requestModel){
-        String reviewId = requestModel.getReviewId();
+        int internshipId = requestModel.getInternshipId();
+        int reviewId = requestModel.getReviewId();
         String userId = requestModel.getUserId();
         int accessLevel = requestModel.getAccessLevel();
 

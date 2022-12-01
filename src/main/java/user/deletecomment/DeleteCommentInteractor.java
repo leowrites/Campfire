@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class DeleteCommentInteractor implements IDeleteCommentInput{
 
+    private final ReviewDAO dataAccessReview
+
     private final CommentDAO dataAccessComment;
 
     public DeleteCommentInteractor(ReviewDAO dataAccessReview, CommentDAO dataAccessComment) {
@@ -26,9 +28,22 @@ public class DeleteCommentInteractor implements IDeleteCommentInput{
         String userId = requestModel.getUserId();
         int accessLevel = requestModel.getAccessLevel();
 
+        // 1. delete this comment from the Comment table
+        // commentDAO.delete(commentId)
+        // 2. delete this comment from the parent
+        // 3. differentiate between review and comment
+        // if parentType == comment -> commentDAO.getComment <- get the parent comment object
+        // comment.getComments()
+        // comment will have a list of comments (int ids)
+        // commentDAO.save(comment)
+        // if not comment -> review -> reviewDAO.getReview(parentId)
+        // review.getComments() (array list of int ids) - remove commentId
+        // reviewDAO.save(review)
+
         ArrayList<Comment> comments = dataAccess.getComments(parentType, parentId);
         ArrayList<Comment> commentsNew;
         Comment comment;
+
 
 
         // See if comment exists in DB
