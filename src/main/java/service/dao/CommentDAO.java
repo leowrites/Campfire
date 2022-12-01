@@ -75,7 +75,7 @@ public class CommentDAO implements ICommentDAO{
      * @param commentId the id of the comment to be updated
      */
     @Override
-    public void updateComment(Comment comment, int commentId) { // any way we can write use inheritance to get rid of duplicate lines of code?
+    public void updateComment(Comment comment, int commentId) {
         try {
             ObjectMapper m = new ObjectMapper();
             DaoHelper.formatDate(m);
