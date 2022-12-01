@@ -19,7 +19,7 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
         Review review;
 
         try {
-            review = reviewDAO.getReview(String.valueOf(reviewId));
+            review = reviewDAO.getReview(reviewId);
             if (review == null) {
                 throw new ReviewNotFoundException("Review does not exist.");
             }
