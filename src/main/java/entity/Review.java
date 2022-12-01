@@ -27,19 +27,6 @@ public class Review implements ISortComparator, IUserPost{
         else this.rating = Math.max(rating, 0);
     }
 
-    /*
-    public Review(String userId, String content, int rating) {
-        this.userId = userId;
-        this.content = content;
-        this.datePosted = new Date();
-        this.numLikes = 0;
-        this.numDislikes = 0;
-        this.comments = new ArrayList<Integer>();
-        if (rating > 10){this.rating = 10;}
-        else this.rating = Math.max(rating, 0);
-    }
-    */
-
     public String getUserId() {
         return this.userId;
     }
