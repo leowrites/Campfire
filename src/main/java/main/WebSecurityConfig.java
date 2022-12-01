@@ -57,7 +57,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         //permit routes to / and /home
                         .antMatchers("/", "/signup", "/login", "/ws",
-                                "/users/authenticate", "/users/reset", "/users/comments")
+                                "/users/authenticate", "/users/**")
                         .permitAll()
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .antMatchers("/users/**", "/ws/**")
