@@ -45,12 +45,12 @@ public class PostReviewTest {
                 5
         );
         PostReviewResponse response = postReview.addReviewToCorporate(request);
-        assertEquals(response.getStatus(), ServerStatus.SUCCESS);
-        assertEquals(response.getMessage(), "You have successfully posted a review to reviewId 1");
+        assertEquals(ServerStatus.SUCCESS, response.getStatus());
+        assertEquals("You have successfully posted a review to reviewId 1", response.getMessage());
 
         Review review = reviewDAO.getReview("1");
-        assertEquals(review.getUserId(), "Leo");
-        assertEquals(review.getContent(), "I love Apple");
-        assertEquals(review.getRating(), 5);
+        assertEquals("Leo", review.getUserId());
+        assertEquals("I love Apple", review.getContent());
+        assertEquals(5, review.getRating());
     }
 }

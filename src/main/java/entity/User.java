@@ -22,7 +22,7 @@ public class User implements Serializable {
         this.incomingConnectionRequests = new ArrayList<>();
         this.outgoingConnectionRequests = new ArrayList<>();
         this.connections = new ArrayList<>();
-        this.access_level = 1;
+        this.access_level = 0;
     }
     public User(ArrayList<String> incomingConnectionRequests,
                 ArrayList<String> outgoingConnectionRequests,
