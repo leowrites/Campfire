@@ -4,14 +4,14 @@ import user.sort.ISortComparator;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Review implements ISortComparator {
+public class Review implements ISortComparator, IUserPost{
     private String id;
     private String userId;
     private Date datePosted;
     private int numLikes;
     private int numDislikes;
     private String content;
-    private ArrayList<String> comments;
+    private ArrayList<Integer> comments;
     private int rating;
 
     public Review() {
@@ -23,7 +23,7 @@ public class Review implements ISortComparator {
         this.datePosted = new Date();
         this.numLikes = 0;
         this.numDislikes = 0;
-        this.comments = new ArrayList<>();
+        this.comments = new ArrayList<Integer>();
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
     }
@@ -34,7 +34,7 @@ public class Review implements ISortComparator {
         this.datePosted = new Date();
         this.numLikes = 0;
         this.numDislikes = 0;
-        this.comments = new ArrayList<>();
+        this.comments = new ArrayList<Integer>();
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
     }
@@ -92,11 +92,11 @@ public class Review implements ISortComparator {
         this.numDislikes = numDislikes;
     }
 
-    public ArrayList<String> getComments() {
+    public ArrayList<Integer> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<String> comments) {
+    public void setComments(ArrayList<Integer> comments) {
         this.comments = comments;
     }
 
