@@ -13,6 +13,8 @@ import user.requestconnect.IRequestConnectionInput;
 import user.requestconnect.RequestConnectionInteractor;
 import user.signup.SignUpInputBoundary;
 import user.signup.SignUpInteractor;
+import user.votehelpful.HelpfulInteractor;
+import user.votehelpful.IHelpfulInputBoundary;
 
 @Configuration
 public class BeanConfiguration {
@@ -55,5 +57,10 @@ public class BeanConfiguration {
     @Bean
     public IAcceptConnectionInput acceptConnectionInput(IUserDAO dataAccess) {
         return new AcceptConnectionInteractor(dataAccess);
+    }
+
+    @Bean
+    public IHelpfulInputBoundary helpfulInput(IReviewDAO reviewDAO) {
+        return new HelpfulInteractor(reviewDAO);
     }
 }

@@ -1,6 +1,7 @@
 package user.votehelpful;
 
 import entity.Review;
+import service.ServerStatus;
 import service.dao.IReviewDAO;
 import user.votehelpful.exceptions.ReviewNotFoundException;
 
@@ -18,13 +19,13 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
         Review review;
 
         try {
-            review = reviewDAO.getReview(reviewId);
+            review = reviewDAO.getReview(String.valueOf(reviewId));
             if (review == null) {
                 throw new ReviewNotFoundException("Review does not exist.");
             }
         }
         catch (ReviewNotFoundException e) {
-            return new HelpfulResponseModel("Failure");
+            return new HelpfulResponseModel(ServerStatus.ERROR, e.getMessage());
         }
 
         if (isHelpful) {
@@ -38,6 +39,8 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
             review.setNumDislikes(numDislikes);
         }
 
-        return new HelpfulResponseModel("Success");
+        reviewDAO.updateReview(review, reviewId);
+
+        return new HelpfulResponseModel(ServerStatus.SUCCESS, "Vote received.");
     }
 }

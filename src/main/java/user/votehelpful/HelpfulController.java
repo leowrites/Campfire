@@ -1,6 +1,5 @@
 package user.votehelpful;
 
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +14,7 @@ public class HelpfulController {
         this.input = input;
     }
 
-    @PostMapping("/votehelpful")
+    @PostMapping("/vote-helpful")
     public ResponseEntity<HelpfulResponseModel> create(@RequestBody HelpfulRequestModel requestModel) {
         HelpfulResponseModel responseModel = input.create(requestModel);
         String status = responseModel.getStatus().toString();
