@@ -8,23 +8,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import service.ServerStatus;
+import service.dao.IInternshipDAO;
 import service.dao.IReviewDAO;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class ReviewDAOTest {
+public class PostReviewTest {
 
     @Autowired
     private IReviewDAO reviewDAO;
-
+    @Autowired
+    private IInternshipDAO internshipDAO;
+    private PostReview postReview;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     public void init() {
+        postReview = new PostReview(reviewDAO, internshipDAO);
         jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
         jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar)");
     }
@@ -35,28 +38,19 @@ public class ReviewDAOTest {
     }
 
     @Test
-    public void testReviewSavesAndReturnsId() {
-        Review inputReview = new Review(
-                "leo",
-                "test",
-                1
+    public void testPostReviewWithValidRequestModel() {
+        PostReviewRequest request = new PostReviewRequest(
+                "I love Apple",
+                "Leo",
+                5
         );
-        String reviewId = reviewDAO.saveReview(inputReview);
-        assertNotNull(reviewId);
-    }
+        PostReviewResponse response = postReview.addReviewToCorporate(request);
+        assertEquals(response.getStatus(), ServerStatus.SUCCESS);
+        assertEquals(response.getMessage(), "You have successfully posted a review to reviewId 1");
 
-    @Test
-    public void testReviewGetsByIdAndReturnsReviewObject() {
-        Review inputReview = new Review(
-                "leo",
-                "apple",
-                1
-        );
-        String reviewId = reviewDAO.saveReview(inputReview);
-        assertNotNull(reviewId);
-        Review outputReview = reviewDAO.getReview(reviewId);
-        assertEquals("leo", outputReview.getUserId());
-        assertEquals("apple", outputReview.getContent());
-        assertEquals(1, outputReview.getRating());
+        Review review = reviewDAO.getReview("1");
+        assertEquals(review.getUserId(), "Leo");
+        assertEquals(review.getContent(), "I love Apple");
+        assertEquals(review.getRating(), 5);
     }
 }
