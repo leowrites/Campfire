@@ -10,7 +10,7 @@ public interface IReviewDAO {
      * @param reviewId the id of the review
      * @return a review object
      */
-    Review getReview(String reviewId);
+    Review getReview(int reviewId);
 
     ArrayList<Review> getAllReviews();
 
@@ -19,7 +19,7 @@ public interface IReviewDAO {
      * @param review the review to be saved
      * @return the id of the created review
      */
-    String saveReview(Review review);
+    int saveReview(Review review);
 
     /**
      * Updates a review
