@@ -37,7 +37,13 @@ public class ReviewDAO implements IReviewDAO{
      */
     @Override
     public Review getReview(int reviewId){
-        return jdbcTemplate.queryForObject(DATA_QUERY, new ReviewDaoMapper(), reviewId);
+        try {
+            return jdbcTemplate.queryForObject(DATA_QUERY, new ReviewDaoMapper(), reviewId);
+        }
+        catch (DataAccessException e) {
+            System.out.println("No review found.");
+            return null;
+        }
     }
 
     /**
