@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import service.dao.ICommentDAO;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.Assert.assertNotEquals;

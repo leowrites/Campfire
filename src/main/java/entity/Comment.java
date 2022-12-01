@@ -21,13 +21,6 @@ public class Comment {
         this.comments = comments;
     }
 
-    // do we need this constructor? why would we manually set the date posted?
-    public Comment(String userId, String content, Date datePosted) {
-        this.userId = userId;
-        this.content = content;
-        this.datePosted = datePosted;
-    }
-
     public Comment(String userId, String content) {
         this.userId = userId;
         this.content = content;

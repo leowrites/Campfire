@@ -24,9 +24,8 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         String userId = requestModel.getUserId();
         String reviewId = requestModel.getReviewId();
         String content = requestModel.getContent();
-        Date datePosted = new Date();
         Review review;
-        Comment comment = new Comment(userId, content, datePosted);
+        Comment comment = new Comment(userId, content);
 
         try {
             review = reviewDAO.getReview(reviewId);
@@ -44,8 +43,6 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         reviewComments.add(Integer.toString(commentId));
         review.setComments(reviewComments);
 
-        // remove the setId part after we've removed id from Review entity
-        review.setId(reviewId);
         reviewDAO.updateReview(review, Integer.parseInt(reviewId));
         
         // notify observers that a new comment has been made
