@@ -59,13 +59,13 @@ public class CommentInteractorTest {
         assertEquals("Comment posted successfully.", responseModel.getMessage());
         // test that comment was properly saved in the comments table
         Comment comment = commentDAO.getComment(1);
-        assertEquals(comment.getUserId(), "justinli");
-        assertEquals(comment.getContent(), "i love apple");
+        assertEquals("justinli", comment.getUserId());
+        assertEquals("i love apple", comment.getContent());
         // test that the review's comments are updated accordingly
         ArrayList<Integer> reviewComments = review.getComments();
         assertEquals(reviewComments.size(), 1);
-        assertEquals(commentDAO.getComment(reviewComments.get(0)).getUserId(), "justinli");
-        assertEquals(commentDAO.getComment(reviewComments.get(0)).getContent(), "i love apple");
+        assertEquals("justinli", commentDAO.getComment(reviewComments.get(0)).getUserId());
+        assertEquals("i love apple", commentDAO.getComment(reviewComments.get(0)).getContent());
     }
 
     @Test
@@ -82,13 +82,13 @@ public class CommentInteractorTest {
         assertEquals("Comment posted successfully.", responseModel.getMessage());
         // test that comment was properly saved in the comments table
         Comment comment = commentDAO.getComment(1);
-        assertEquals(comment.getUserId(), "justinli");
-        assertEquals(comment.getContent(), "i love apple");
+        assertEquals("justinli", comment.getUserId());
+        assertEquals("i love apple", comment.getContent());
         // test that the parent comment's comments are updated accordingly
         ArrayList<Integer> comments = parentComment.getComments();
         assertEquals(comments.size(), 1);
-        assertEquals(commentDAO.getComment(comments.get(0)).getUserId(), "justinli");
-        assertEquals(commentDAO.getComment(comments.get(0)).getContent(), "i love apple");
+        assertEquals("justinli", commentDAO.getComment(comments.get(0)).getUserId());
+        assertEquals("i love apple", commentDAO.getComment(comments.get(0)).getContent());
     }
 
 
