@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Review implements ISortComparator, IUserPost{
-    private String id;
     private String userId;
     private Date datePosted;
     private int numLikes;
@@ -23,28 +22,9 @@ public class Review implements ISortComparator, IUserPost{
         this.datePosted = new Date();
         this.numLikes = 0;
         this.numDislikes = 0;
-        this.comments = new ArrayList<Integer>();
+        this.comments = new ArrayList<>();
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
-    }
-    public Review(String reviewId, String userId, String content, int rating) {
-        this.id = reviewId;
-        this.userId = userId;
-        this.content = content;
-        this.datePosted = new Date();
-        this.numLikes = 0;
-        this.numDislikes = 0;
-        this.comments = new ArrayList<Integer>();
-        if (rating > 10){this.rating = 10;}
-        else this.rating = Math.max(rating, 0);
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getUserId() {

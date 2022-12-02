@@ -64,6 +64,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
             commentDAO.updateComment((Comment) parent, parentId);
         }
 
+        
         // notify observers that a new comment has been made
 
         return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.");

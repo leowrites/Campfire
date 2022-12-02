@@ -7,6 +7,10 @@ import user.acceptconnect.AcceptConnectionInteractor;
 import user.acceptconnect.IAcceptConnectionInput;
 import user.comment.CommentInteractor;
 import user.comment.ICommentInputBoundary;
+import user.deletecomment.DeleteCommentInteractor;
+import user.deletecomment.IDeleteCommentInput;
+import user.deletereview.DeleteReviewInteractor;
+import user.deletereview.IDeleteReviewInput;
 import user.postreview.IPostReview;
 import user.postreview.PostReview;
 import user.requestconnect.IRequestConnectionInput;
@@ -62,5 +66,15 @@ public class BeanConfiguration {
     @Bean
     public IHelpfulInputBoundary helpfulInput(IReviewDAO reviewDAO) {
         return new HelpfulInteractor(reviewDAO);
+    }
+
+    @Bean
+    public IDeleteCommentInput inputDeleteCommentConfig(ICommentDAO commentDAO, IReviewDAO reviewDAO, IUserDAO userDAO){
+        return new DeleteCommentInteractor(reviewDAO, commentDAO, userDAO);
+    }
+
+    @Bean
+    public IDeleteReviewInput inputDeleteReviewConfig(IReviewDAO reviewDAO, IInternshipDAO internshipDAO, IUserDAO userDAO){
+        return new DeleteReviewInteractor(reviewDAO, internshipDAO, userDAO);
     }
 }

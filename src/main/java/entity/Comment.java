@@ -4,21 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Comment implements IUserPost {
-    private String id; // tim - remove once you have fixed
     private String userId;
     private String content;
     private Date datePosted;
     private ArrayList<Integer> comments;
 
     public Comment(){
-    }
-
-    public Comment(String id, String userId, String content, ArrayList<Integer> comments) {
-        this.id = id;
-        this.userId = userId;
-        this.content = content;
-        this.datePosted = new Date();
-        this.comments = comments;
     }
 
     public Comment(String userId, String content) {
@@ -28,9 +19,6 @@ public class Comment implements IUserPost {
         this.comments = new ArrayList<>();
     }
 
-    public String getId() {
-        return this.id;
-    }
     public String getUserId() {
         return this.userId;
     }
