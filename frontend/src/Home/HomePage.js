@@ -1,46 +1,31 @@
 import Container from 'react-bootstrap/Container';
 import { useEffect, useState } from 'react';
-import InternshipPaper from './InternshipPaper';
-import ReviewCard from '../Component/ReviewCard';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import ConnectPanel from './ConnectPanel';
 import axios from 'axios';
+import CorporateCard from './CorporateCard';
 
 function HomePage() {
-  const [internships, setInternships] = useState([]);
-  const [reviews, setReviews] = useState([]);
-
+  // get all companies
+  const [companies, setCompanies] = useState([]);
   useEffect(() => {
-    const internships = [];
-    for (let i = 0; i < 1; i++) {
-      internships.push({
-        name: 'Apple',
-        info: 'Pls give me an internship 🙏 ',
-      });
-    }
-    setInternships(internships);
-  }, []);
-
-  useEffect(() => {
-    axios.get('/reviews').then((data) => {
-      // console.log(data);
-      setReviews(data.data);
+    axios.get('/corporates').then((data) => {
+      console.log(data);
+      setCompanies(data.data);
     });
   }, []);
-  // fetch all reviews for now to see the reviews made
+
   return (
     <>
       <Container>
         <Box sx={{ pt: 3 }}>
           <Grid container spacing={4}>
             <Grid item xs={8}>
-              {internships.map((v, i) => (
-                <InternshipPaper key={i} title={v.name} info={v.info} />
+              {companies?.map((company) => (
+                <CorporateCard name={company.name} info={company.info} id={company.id} />
               ))}
-              {reviews?.map((v, i) => (
-                <ReviewCard key={i} {...v} />
-              ))}
+              <CorporateCard name={'Apple'} info={"Who doesn't like Apple?"} id={1} />
             </Grid>
             <Grid item xs={4}>
               <ConnectPanel />
