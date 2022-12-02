@@ -7,6 +7,9 @@ import user.acceptconnect.AcceptConnectionInteractor;
 import user.acceptconnect.IAcceptConnectionInput;
 import user.comment.CommentInteractor;
 import user.comment.ICommentInputBoundary;
+import user.createcorporate.CorporateFactory;
+import user.createcorporate.CorporateGenerateInteractor;
+import user.createcorporate.ICorporateGenerateInput;
 import user.deletecomment.DeleteCommentInteractor;
 import user.deletecomment.IDeleteCommentInput;
 import user.deletereview.DeleteReviewInteractor;
@@ -76,5 +79,15 @@ public class BeanConfiguration {
     @Bean
     public IDeleteReviewInput inputDeleteReviewConfig(IReviewDAO reviewDAO, IInternshipDAO internshipDAO, IUserDAO userDAO){
         return new DeleteReviewInteractor(reviewDAO, internshipDAO, userDAO);
+    }
+
+    @Bean
+    public ICorporateDAO postgresCorporateDAO() {
+        return new CorporateDAO();
+    }
+
+    @Bean
+    public ICorporateGenerateInput createCorporateInput(ICorporateDAO corporateDAO, IUserDAO userDAO){
+        return new CorporateGenerateInteractor(corporateDAO, userDAO, new CorporateFactory());
     }
 }

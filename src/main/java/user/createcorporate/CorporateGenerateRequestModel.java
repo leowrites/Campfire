@@ -1,12 +1,8 @@
-package user.createCorporate;
+package user.createcorporate;
 
-import entity.CorporateRep;
-import entity.User;
-
-// The requestModel frames the input data into an object
 public class CorporateGenerateRequestModel {
 
-    final private CorporateRep owner;
+    final private String userId;
     final private String companyName;
     final private String companyInfo;
 
@@ -14,19 +10,19 @@ public class CorporateGenerateRequestModel {
     /**
      * This requestModel packs the inputs from user and pass them to the interactor
      * This constructor is used for Corporate objects
-     * @param corporateRep is the user who manages the Corporate
+     * @param userId is the ID of the user who manages the Corporate
      * @param companyName indicates the name of the corporate
      * @param companyInfo has a summary of the corporate intro
      */
-    public CorporateGenerateRequestModel(CorporateRep corporateRep, String companyName, String companyInfo){
-        this.owner = corporateRep;
+    public CorporateGenerateRequestModel(String userId, String companyName, String companyInfo){
+        this.userId = userId;
         this.companyName = companyName;
         this.companyInfo = companyInfo;
 
     }
 
-    public User getUser(){
-        return this.owner;
+    public String getUserId(){
+        return this.userId;
     }
 
     public String getCompanyName(){

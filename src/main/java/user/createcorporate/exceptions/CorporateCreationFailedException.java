@@ -1,4 +1,4 @@
-package user.createCorporate.exceptions;
+package user.createcorporate.exceptions;
 
 public class CorporateCreationFailedException extends RuntimeException {
     /**
