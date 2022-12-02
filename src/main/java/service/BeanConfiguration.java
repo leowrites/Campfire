@@ -74,7 +74,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public IDeleteReviewInput inputDeleteReviewConfig(IReviewDAO reviewDAO, IInternshipDAO internshipDAO){
-        return new DeleteReviewInteractor(reviewDAO, internshipDAO);
+    public IDeleteReviewInput inputDeleteReviewConfig(IReviewDAO reviewDAO, IInternshipDAO internshipDAO, IUserDAO userDAO){
+        return new DeleteReviewInteractor(reviewDAO, internshipDAO, userDAO);
     }
 }

@@ -8,16 +8,12 @@ public class DeleteReviewRequestModel {
 
     private final String userId;
 
-    private final int accessLevel;
-
     public DeleteReviewRequestModel(int internshipId,
                                     int reviewId,
-                                    String userId,
-                                    int accessLevel){
+                                    String userId){
         this.internshipId = internshipId;
         this.reviewId = reviewId;
         this.userId = userId;
-        this.accessLevel = accessLevel;
     }
 
     public int getInternshipId(){
@@ -30,9 +26,5 @@ public class DeleteReviewRequestModel {
 
     public String getUserId(){
         return this.userId;
-    }
-
-    public int getAccessLevel(){
-        return this.accessLevel;
     }
 }
