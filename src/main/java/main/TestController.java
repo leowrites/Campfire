@@ -50,7 +50,7 @@ public class TestController {
 
     // for now, get all reviews to display it
     // we will remove this route once internships are set up
-    @GetMapping("/reviews")
+    @GetMapping("/corporates/{corporateId}/internships/{internshipId}/reviews")
     public ResponseEntity<ArrayList<Review>> getReviews() {
         return new ResponseEntity<>(reviewDAO.getAllReviews(), HttpStatus.OK);
     }
