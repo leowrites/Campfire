@@ -35,8 +35,10 @@ public class CommentInteractorTest {
     @BeforeEach
     public void init() {
         interactor = new CommentInteractor(reviewDAO, commentDAO);
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS comments (id serial primary key, data varchar)");
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS reviews (id serial primary key, data varchar)");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS comments");
+        jdbcTemplate.execute("CREATE TABLE comments (id serial primary key, data varchar)");
+        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar)");
     }
 
     @AfterEach
@@ -62,8 +64,9 @@ public class CommentInteractorTest {
         assertEquals("justinli", comment.getUserId());
         assertEquals("i love apple", comment.getContent());
         // test that the review's comments are updated accordingly
+        review = reviewDAO.getReview(reviewId);
         ArrayList<Integer> reviewComments = review.getComments();
-        assertEquals(reviewComments.size(), 1);
+        assertEquals(1, reviewComments.size());
         assertEquals("justinli", commentDAO.getComment(reviewComments.get(0)).getUserId());
         assertEquals("i love apple", commentDAO.getComment(reviewComments.get(0)).getContent());
     }
@@ -73,7 +76,7 @@ public class CommentInteractorTest {
         Comment parentComment = new Comment("stevejobs", "this internship is awesome");
         int parentCommentId = commentDAO.saveComment(parentComment);
         CommentRequestModel requestModel = new CommentRequestModel("justinli",
-                "Review",
+                "Comment",
                 parentCommentId,
                 "i love apple");
         CommentResponseModel responseModel = interactor.create(requestModel);
@@ -81,12 +84,13 @@ public class CommentInteractorTest {
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Comment posted successfully.", responseModel.getMessage());
         // test that comment was properly saved in the comments table
-        Comment comment = commentDAO.getComment(1);
+        Comment comment = commentDAO.getComment(2);
         assertEquals("justinli", comment.getUserId());
         assertEquals("i love apple", comment.getContent());
         // test that the parent comment's comments are updated accordingly
+        parentComment = commentDAO.getComment(parentCommentId);
         ArrayList<Integer> comments = parentComment.getComments();
-        assertEquals(comments.size(), 1);
+        assertEquals(1, comments.size());
         assertEquals("justinli", commentDAO.getComment(comments.get(0)).getUserId());
         assertEquals("i love apple", commentDAO.getComment(comments.get(0)).getContent());
     }

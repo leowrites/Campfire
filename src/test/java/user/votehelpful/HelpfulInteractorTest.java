@@ -28,7 +28,8 @@ public class HelpfulInteractorTest {
     @BeforeEach
     public void init() {
         interactor = new HelpfulInteractor(reviewDAO);
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS reviews (id serial primary key, data varchar)");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
+        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar)");
     }
 
     @AfterEach
@@ -44,8 +45,9 @@ public class HelpfulInteractorTest {
         HelpfulResponseModel responseModel = interactor.create(requestModel);
         // test that the interactor returns a success response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
-        assertEquals("Vote received.", responseModel.getStatus());
+        assertEquals("Vote received.", responseModel.getMessage());
         // test that the review was properly updated
+        review = reviewDAO.getReview(reviewId);
         int numLikes = review.getNumLikes();
         assertEquals(1, numLikes);
     }
@@ -58,8 +60,9 @@ public class HelpfulInteractorTest {
         HelpfulResponseModel responseModel = interactor.create(requestModel);
         // test that the interactor returns a success response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
-        assertEquals("Vote received.", responseModel.getStatus());
+        assertEquals("Vote received.", responseModel.getMessage());
         // test that the review was properly updated
+        review = reviewDAO.getReview(reviewId);
         int numDislikes = review.getNumDislikes();
         assertEquals(1, numDislikes);
     }
@@ -73,16 +76,17 @@ public class HelpfulInteractorTest {
             HelpfulResponseModel responseModel = interactor.create(requestModel);
             // test that the interactor returns a success response model
             assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
-            assertEquals("Vote received.", responseModel.getStatus());
+            assertEquals("Vote received.", responseModel.getMessage());
         }
         requestModel = new HelpfulRequestModel(false, reviewId);
         for (int i = 0; i < 10; i++) {
             HelpfulResponseModel responseModel = interactor.create(requestModel);
             // test that the interactor returns a success response model
             assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
-            assertEquals("Vote received.", responseModel.getStatus());
+            assertEquals("Vote received.", responseModel.getMessage());
         }
         // test that the review was properly updated
+        review = reviewDAO.getReview(reviewId);
         assertEquals(5, review.getNumLikes());
         assertEquals(10, review.getNumDislikes());
     }
