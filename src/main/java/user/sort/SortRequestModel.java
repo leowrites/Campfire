@@ -2,6 +2,9 @@ package user.sort;
 import java.util.*;
 import entity.Review;
 
+/** A request model for the sort use case that frames the input data into an object. It holds
+ * the sorting criteria, the reviews on an internship, and the corresponding sorting algorithm.
+ */
 public class SortRequestModel {
     private final String sortCriteria;
 

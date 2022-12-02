@@ -1,17 +1,14 @@
 package user.requestconnect;
 
 import entity.User;
-import service.IUserDataAccess;
+import service.dao.IUserDAO;
 import service.ServerStatus;
-import user.requestconnect.exceptions.PendingRequestExistsException;
-import user.requestconnect.exceptions.UserAlreadyConnectedException;
-import user.requestconnect.exceptions.UserConnectSelf;
-import user.requestconnect.exceptions.UserNotFoundException;
+import user.requestconnect.exceptions.*;
 
 
 public class RequestConnectionInteractor implements IRequestConnectionInput {
-    private final IUserDataAccess dataAccess;
-    public RequestConnectionInteractor(IUserDataAccess dataAccess) {
+    private final IUserDAO dataAccess;
+    public RequestConnectionInteractor(IUserDAO dataAccess) {
         this.dataAccess = dataAccess;
     }
 
@@ -40,7 +37,8 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
 
         try {
             verifier.verify();
-        } catch (UserAlreadyConnectedException | PendingRequestExistsException | UserConnectSelf e) {
+        } catch (UserAlreadyConnectedException | PendingRequestExistsException | UserConnectSelf |
+                 IncomingRequestException e) {
             // prepare failure response model for already connected
             return new RequestConnectionResponseModel(ServerStatus.ERROR, new RequestConnectionUserResponseModel(
                     e.getMessage(),
@@ -50,11 +48,7 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
 
         RequestConnectionHandler handler = new RequestConnectionHandler(user, target, dataAccess);
 
-        if (verifier.checkIncomingRequest()) {
-            handler.acceptConnectionRequest();
-        } else {
-            handler.sendConnectionRequestToTarget();
-        }
+        handler.sendConnectionRequestToTarget();
 
         return new RequestConnectionResponseModel(ServerStatus.SUCCESS,
                 new RequestConnectionUserResponseModel(

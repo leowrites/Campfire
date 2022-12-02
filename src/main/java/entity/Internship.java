@@ -1,30 +1,18 @@
 package entity;
 
+import java.util.ArrayList;
+
 public class Internship {
-    private String company;
-    private String id;
+    private ArrayList<Integer> reviews;
 
-    public Internship() {
+    public Internship(){
     }
 
-    public Internship(String company, String id) {
-        this.company = company;
-        this.id = id;
+    public ArrayList<Integer> getReviews() {
+        return reviews;
     }
 
-    public String getCompany() {
-        return this.company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setReviews(ArrayList<Integer> reviews) {
+        this.reviews = reviews;
     }
 }

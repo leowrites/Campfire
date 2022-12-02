@@ -1,5 +1,6 @@
 package user.comment;
 
+// the actual "Observer" handles the way the message is delivered
 public class CommentObserver {
     private final String userID;
 

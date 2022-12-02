@@ -1,24 +1,17 @@
 package user.comment;
+import service.ServerStatus;
 
-// add observer stuff
-// right now (11/10) is just a standard response model class
-// ** do I even need this class????
 public class CommentResponseModel {
-    private String successful;
-    private String message;
+    private final ServerStatus status;
+    private final String message;
 
-    public CommentResponseModel(String successful) {
-        this.successful = successful;
-        this.message = "";
-    }
-
-    public CommentResponseModel(String successful, String message) {
-        this.successful = successful;
+    public CommentResponseModel(ServerStatus status, String message) {
+        this.status = status;
         this.message = message;
     }
 
-    public String getSuccessful() {
-        return this.successful;
+    public ServerStatus getStatus() {
+        return this.status;
     }
 
     public String getMessage() {
