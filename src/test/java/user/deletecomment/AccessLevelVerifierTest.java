@@ -1,7 +1,7 @@
 package user.deletecomment;
 
 import entity.User;
-import exceptions.NotEnoughAccessLevelException;
+import user.exceptions.NotEnoughAccessLevelException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

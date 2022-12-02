@@ -1,6 +1,6 @@
 package user.deletecomment;
 
-import exceptions.NotEnoughAccessLevelException;
+import user.exceptions.NotEnoughAccessLevelException;
 
 public class AccessLevelVerifier {
 

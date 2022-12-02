@@ -3,7 +3,7 @@ package user.deletecomment;
 import entity.Review;
 import entity.Comment;
 import entity.User;
-import exceptions.CommentNotFoundException;
+import user.exceptions.CommentNotFoundException;
 import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
 import service.dao.IUserDAO;

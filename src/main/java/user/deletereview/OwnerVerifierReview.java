@@ -1,7 +1,7 @@
 package user.deletereview;
 
 import entity.Review;
-import exceptions.NotOwnReviewException;
+import user.exceptions.NotOwnReviewException;
 
 public class OwnerVerifierReview {
 

@@ -1,7 +1,7 @@
 package user.reviewcomment;
 
 import entity.Review;
-import exceptions.NotOwnReviewException;
+import user.exceptions.NotOwnReviewException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import user.deletereview.OwnerVerifierReview;

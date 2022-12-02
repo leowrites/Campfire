@@ -1,6 +1,6 @@
 package user.deletecomment;
 
-import exceptions.NotOwnCommentException;
+import user.exceptions.NotOwnCommentException;
 import entity.Comment;
 
 public class OwnerVerifierComment {

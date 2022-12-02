@@ -1,7 +1,7 @@
 package user.deletecomment;
 
 import entity.Comment;
-import exceptions.NotOwnCommentException;
+import user.exceptions.NotOwnCommentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

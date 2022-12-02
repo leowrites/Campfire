@@ -1,4 +1,4 @@
-package exceptions;
+package user.exceptions;
 
 public class NotOwnCommentException extends Exception{
 
