@@ -10,7 +10,6 @@ import user.comment.exceptions.ReviewNotFoundException;
 import service.ServerStatus;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CommentInteractor extends CommentObservable implements ICommentInputBoundary {
     private final IReviewDAO reviewDAO;
