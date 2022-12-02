@@ -12,13 +12,6 @@ public class Comment implements IUserPost {
     public Comment(){
     }
 
-    public Comment(String userId, String content, ArrayList<Integer> comments) {
-        this.userId = userId;
-        this.content = content;
-        this.datePosted = new Date();
-        this.comments = comments;
-    }
-
     public Comment(String userId, String content) {
         this.userId = userId;
         this.content = content;
