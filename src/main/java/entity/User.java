@@ -11,34 +11,22 @@ public class User implements Serializable {
     private String username;
     private String email;
     private String password;
-    private int access_level;
+    private int accessLevel;
     public User() {}
 
-    public User(String username, String email, String password, String name) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.incomingConnectionRequests = new ArrayList<>();
-        this.outgoingConnectionRequests = new ArrayList<>();
-        this.connections = new ArrayList<>();
-        this.access_level = 0;
-    }
-    public User(ArrayList<String> incomingConnectionRequests,
-                ArrayList<String> outgoingConnectionRequests,
-                ArrayList<String> connections,
+    public User(
                 String username,
                 String email,
                 String password,
                 String name) {
-        this.incomingConnectionRequests = incomingConnectionRequests;
-        this.outgoingConnectionRequests = outgoingConnectionRequests;
-        this.connections = connections;
+        this.incomingConnectionRequests = new ArrayList<>();
+        this.outgoingConnectionRequests = new ArrayList<>();
+        this.connections = new ArrayList<>();
         this.username = username;
         this.email = email;
         this.password = password;
         this.name = name;
-        this.access_level = 0;
+        this.accessLevel = 0;
     }
 
     public ArrayList<String> getIncomingConnectionRequests() {
@@ -76,20 +64,9 @@ public class User implements Serializable {
     public String getEmail() {
         return email;
     }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
+    public int getAccessLevel(){return this.accessLevel;}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getaccesslevel(){return this.access_level;}
-
-    public void setaccesslevel(int accesslevel){
-        this.access_level = accesslevel;
+    public void setAccessLevel(int accessLevel){
+        this.accessLevel = accessLevel;
     }
 }

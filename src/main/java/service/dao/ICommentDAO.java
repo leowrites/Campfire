@@ -2,6 +2,8 @@ package service.dao;
 
 import entity.Comment;
 
+import java.util.ArrayList;
+
 public interface ICommentDAO {
     /**
      * Save a new comment as a json

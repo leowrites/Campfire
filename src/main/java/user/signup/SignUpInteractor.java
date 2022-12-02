@@ -58,9 +58,6 @@ public class SignUpInteractor implements SignUpInputBoundary {
         //save user in database if there are no errors
         if (errorMessages.size() == 0){
             User user = new User(
-                    new ArrayList<>(),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
                     signUpInputs.getEmail(),
                     signUpInputs.getUsername(),
                     passwordEncoder.encode(signUpInputs.getPassword()),

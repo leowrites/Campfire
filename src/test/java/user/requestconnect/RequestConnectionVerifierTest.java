@@ -16,7 +16,7 @@ class RequestConnectionVerifierTest {
     @BeforeEach
     public void setUp() {
         user1 = new User("leoliu", "leo@gmail.com", "pass", "Leo");
-        user2 = new User ("alex123", "alex@gmail.com", "pass", "Alex");
+        user2 = new User("alex123", "alex@gmail.com", "pass", "Alex");
         verifier = new RequestConnectionVerifier(user1, user2);
     }
 
