@@ -48,7 +48,7 @@ public class PostReviewTest {
         assertEquals(ServerStatus.SUCCESS, response.getStatus());
         assertEquals("You have successfully posted a review to reviewId 1", response.getMessage());
 
-        Review review = reviewDAO.getReview("1");
+        Review review = reviewDAO.getReview(1);
         assertEquals("Leo", review.getUserId());
         assertEquals("I love Apple", review.getContent());
         assertEquals(5, review.getRating());

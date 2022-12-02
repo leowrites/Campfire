@@ -28,12 +28,12 @@ public class CommentDAOTest {
 
     @BeforeEach
     public void init() {
-        jdbcTemplate.execute("CREATE TABLE comments (id serial primary key, data varchar)");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS comments (id serial primary key, data varchar)");
     }
 
     @AfterEach
     public void cleanUp() {
-        jdbcTemplate.execute("DROP TABLE comments");
+        jdbcTemplate.execute("DELETE FROM comments");
     }
 
     @Test
