@@ -1,10 +1,9 @@
 package user.requestconnect;
 import entity.User;
+import user.requestconnect.exceptions.IncomingRequestException;
 import user.requestconnect.exceptions.PendingRequestExistsException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import user.requestconnect.exceptions.UserConnectSelf;
-
-import java.util.Objects;
 
 public class RequestConnectionVerifier {
     private final User user;
@@ -44,10 +43,12 @@ public class RequestConnectionVerifier {
     }
 
     /**
-     * @return check if user has an incoming request from target
+     * @throws IncomingRequestException throws exception if there is an incoming request
      */
-    public boolean checkIncomingRequest(){
-        return user.getIncomingConnectionRequests().contains(target.getUsername());
+    public void checkIncomingRequest() throws IncomingRequestException {
+        if (user.getIncomingConnectionRequests().contains(target.getUsername())) {
+            throw new IncomingRequestException(String.format("You have a request from %s", target.getUsername()));
+        }
     }
 
     /**
@@ -55,9 +56,10 @@ public class RequestConnectionVerifier {
      * @throws UserAlreadyConnectedException if user and target are already connected
      * @throws PendingRequestExistsException if user already has a sent pending request
      */
-    public void verify() throws UserAlreadyConnectedException, PendingRequestExistsException, UserConnectSelf {
+    public void verify() throws UserAlreadyConnectedException, PendingRequestExistsException, UserConnectSelf, IncomingRequestException {
         checkAlreadyConnected();
         checkPendingRequest();
         checkConnectSelf();
+        checkIncomingRequest();
     }
 }
