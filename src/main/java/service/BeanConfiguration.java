@@ -69,8 +69,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public IDeleteCommentInput inputDeleteCommentConfig(ICommentDAO commentDAO, IReviewDAO reviewDAO){
-        return new DeleteCommentInteractor(reviewDAO, commentDAO);
+    public IDeleteCommentInput inputDeleteCommentConfig(ICommentDAO commentDAO, IReviewDAO reviewDAO, IUserDAO userDAO){
+        return new DeleteCommentInteractor(reviewDAO, commentDAO, userDAO);
     }
 
     @Bean
