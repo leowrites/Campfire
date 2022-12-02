@@ -9,36 +9,60 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './Layout';
 import { GlobalContextProvider } from './GlobalContext';
 import { AuthContextProvider } from './AuthContext';
+import Corporate from './Corporate/Corporate';
+import Internship from './Internship/Internship';
+
+const internshipRoutes = [{
+  path: 'internships',
+  children: [
+    {
+      path: ':internshipId',
+      element: <Internship />,
+    },
+  ],
+}];
+
+const routes = [
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <HomePage />,
+      },
+      {
+        path: 'corporates',
+        children: [
+          {
+            path: ':corporateId',
+            element: <Corporate />,
+            children: internshipRoutes,
+          },
+        ],
+      },
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'signup',
+        element: <SignUp />,
+      },
+    ],
+  },
+];
 
 const router = createBrowserRouter([
   {
     element: (
-        <GlobalContextProvider>
-          <App />
-        </GlobalContextProvider>
+      <GlobalContextProvider>
+        <App />
+      </GlobalContextProvider>
     ),
-
-    children: [
-      {
-        element: <Layout />,
-        children: [
-          {
-            path: '/',
-            element: <HomePage />,
-          },
-          {
-            path: 'login',
-            element: <Login />,
-          },
-          {
-            path: 'signup',
-            element: <SignUp />,
-          },
-        ],
-      },
-    ],
+    children: routes,
   },
 ]);
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthContextProvider>
     <RouterProvider router={router} />
