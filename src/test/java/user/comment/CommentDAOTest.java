@@ -56,11 +56,8 @@ public class CommentDAOTest {
 
     @Test
     public void testAddCommentToComment() {
-        // create input comment
         Comment inputComment = new Comment("justinli", "i love apple");
-        // add input comment to database
         int inputCommentId = commentDAO.saveComment(inputComment);
-        // make sure that the input comment
         assertNotEquals(0, inputCommentId);
         Comment commentToAdd = new Comment("stevejobs", "i hate apple");
         int commentToAddId = commentDAO.saveComment(commentToAdd);
