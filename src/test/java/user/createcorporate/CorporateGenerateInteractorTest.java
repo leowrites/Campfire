@@ -13,12 +13,7 @@ import service.ServerStatus;
 import service.dao.ICorporateDAO;
 import service.dao.IUserDAO;
 import user.createcorporate.exceptions.CompanyNotFoundException;
-import user.requestconnect.exceptions.UserNotFoundException;
 
-import javax.management.RuntimeErrorException;
-import java.util.ArrayList;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)

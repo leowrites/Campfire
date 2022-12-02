@@ -7,13 +7,6 @@ public class Corporate {
     private String companyInfo;
     private ArrayList<Integer> internships;
 
-    /**
-     *
-     * @param rep is the CorporateRep user who manages the corporatePage
-     * @param companyName is the name of the corporate, and the identifier of the corporate object
-     * @param companyInfo is the background information displayed on the corporatePage, it can
-     *                    be a summary of the company or the recruitment timeline.
-     */
     public Corporate(User rep,
                      String companyName, String companyInfo){
         this.rep = rep;
