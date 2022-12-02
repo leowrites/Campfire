@@ -16,26 +16,6 @@ public class RequestConnectionHandler {
         this.dataAccess = dataAccess;
     }
 
-    public void acceptConnectionRequest() {
-        ArrayList<String> userIncomingConnectionRequests = user.getIncomingConnectionRequests();
-        userIncomingConnectionRequests.remove(target.getUsername());
-        user.setIncomingConnectionRequests(userIncomingConnectionRequests);
-
-        ArrayList<String> userConnections = user.getConnections();
-        userConnections.add(target.getUsername());
-        user.setConnections(userConnections);
-
-        ArrayList<String> targetOutgoingConnectionRequests = target.getOutgoingConnectionRequests();
-        targetOutgoingConnectionRequests.remove(user.getUsername());
-        target.setOutgoingConnectionRequests(targetOutgoingConnectionRequests);
-
-        ArrayList<String> targetConnections = target.getConnections();
-        targetConnections.add(user.getUsername());
-        target.setConnections(targetConnections);
-
-        dataAccess.updateUser(user);
-        dataAccess.updateUser(target);
-    }
     public void sendConnectionRequestToTarget() {
         ArrayList<String> userOutgoing = user.getOutgoingConnectionRequests();
         ArrayList<String> targetIncoming = target.getIncomingConnectionRequests();

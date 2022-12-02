@@ -4,7 +4,7 @@ import entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
+import user.requestconnect.exceptions.IncomingRequestException;
 import user.requestconnect.exceptions.PendingRequestExistsException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 
@@ -38,12 +38,8 @@ class RequestConnectionVerifierTest {
     @Test
     void testCheckIncomingRequestIncomingRequestExists() {
         user1.getIncomingConnectionRequests().add(user2.getUsername());
-        assertTrue(verifier.checkIncomingRequest());
-    }
-
-    @Test
-    void testCheckIncomingRequestIncomingRequestDoesNotExist() {
-        assertFalse(verifier.checkIncomingRequest());
+        Throwable exception = assertThrows(IncomingRequestException.class, () -> verifier.checkIncomingRequest());
+        assertEquals(String.format("You have a request from %s", user2.getUsername()), exception.getMessage());
     }
 
     @Test
