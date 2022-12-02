@@ -1,11 +1,14 @@
 package main;
 
 import com.google.gson.Gson;
+
+import entity.Comment;
 import entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
 import service.dao.IUserDAO;
 import user.requestconnect.exceptions.UserNotFoundException;
@@ -18,6 +21,8 @@ public class TestController {
     private IUserDAO userDataAccess;
     @Autowired
     private IReviewDAO reviewDAO;
+    @Autowired
+    private ICommentDAO commentDAO;
 
     @PostMapping("/users/reset")
     public void resetUser() {
@@ -48,5 +53,11 @@ public class TestController {
     @GetMapping("/reviews")
     public ResponseEntity<ArrayList<Review>> getReviews() {
         return new ResponseEntity<>(reviewDAO.getAllReviews(), HttpStatus.OK);
+    }
+
+    // get comments by comment id
+    @GetMapping("/comments/{commentId}")
+    public ResponseEntity<Comment> getComment(@PathVariable String commentId) {
+        return new ResponseEntity<>(commentDAO.getComment(Integer.parseInt(commentId)), HttpStatus.OK);
     }
 }
