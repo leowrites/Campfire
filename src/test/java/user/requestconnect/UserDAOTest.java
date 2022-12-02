@@ -25,13 +25,12 @@ public class UserDAOTest {
 
     @BeforeEach
     public void init() {
-        jdbcTemplate.execute("DROP TABLE IF EXISTS users");
-        jdbcTemplate.execute("CREATE TABLE users (username varchar(50) primary key, data varchar)");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users (username varchar(50) primary key, data varchar)");
     }
 
     @AfterEach
     public void cleanUp() {
-        jdbcTemplate.execute("DROP TABLE users");
+        jdbcTemplate.execute("DELETE FROM users");
     }
 
     @Test

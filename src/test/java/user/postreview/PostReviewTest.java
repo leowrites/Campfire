@@ -34,7 +34,7 @@ public class PostReviewTest {
 
     @AfterEach
     public void cleanUp() {
-        jdbcTemplate.execute("DROP TABLE reviews");
+        jdbcTemplate.execute("DELETE FROM reviews");
     }
 
     @Test

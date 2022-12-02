@@ -25,13 +25,12 @@ public class ReviewDAOTest {
 
     @BeforeEach
     public void init() {
-        jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
-        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar)");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS reviews (id serial primary key, data varchar)");
     }
 
     @AfterEach
     public void cleanUp() {
-        jdbcTemplate.execute("DROP TABLE reviews");
+        jdbcTemplate.execute("DELETE FROM reviews");
     }
 
     @Test
