@@ -14,8 +14,8 @@ public class DeleteCommentController {
     }
 
     @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments")
-    public DeleteCommentResponseModel createDeleteCommentRequestModel(
+    public DeleteCommentResponseModel deleteComment(
             @RequestBody DeleteCommentRequestModel requestModel){
-        return interactor.createResponseModel(requestModel);
+        return interactor.deleteComment(requestModel);
     }
 }

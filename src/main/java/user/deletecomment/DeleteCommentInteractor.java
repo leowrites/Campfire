@@ -1,10 +1,8 @@
 package user.deletecomment;
 
 import entity.Review;
-import exceptions.NotOwnCommentException;
 import entity.Comment;
 import exceptions.CommentNotFoundException;
-import exceptions.NotEnoughAccessLevelException;
 import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
 
@@ -24,7 +22,7 @@ public class DeleteCommentInteractor implements IDeleteCommentInput {
     }
 
     @Override
-    public DeleteCommentResponseModel createResponseModel(DeleteCommentRequestModel requestModel) {
+    public DeleteCommentResponseModel deleteComment(DeleteCommentRequestModel requestModel) {
         int commentId = requestModel.getCommentId();
         int parentId = requestModel.getParentId();
         int accessLevel = requestModel.getAccessLevel();

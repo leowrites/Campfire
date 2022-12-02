@@ -2,17 +2,9 @@ package user.deletereview;
 
 import entity.Internship;
 import entity.Review;
-import exceptions.NotEnoughAccessLevelException;
 import service.dao.IInternshipDAO;
 import service.dao.IReviewDAO;
 import user.comment.exceptions.ReviewNotFoundException;
-import user.deletecomment.AccessLevelVerifier;
-import exceptions.NotOwnReviewException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 public class DeleteReviewInteractor implements IDeleteReviewInput{
 
@@ -24,7 +16,7 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
         this.dataAccessInternship = dataAccessInternship;
     }
 
-    public DeleteReviewResponseModel createResponseModel(DeleteReviewRequestModel requestModel){
+    public DeleteReviewResponseModel deleteReview(DeleteReviewRequestModel requestModel){
         int internshipId = requestModel.getInternshipId();
         int reviewId = requestModel.getReviewId();
         int accessLevel = requestModel.getAccessLevel();
