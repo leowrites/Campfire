@@ -9,18 +9,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './Layout';
 import { GlobalContextProvider } from './GlobalContext';
 import { AuthContextProvider } from './AuthContext';
-import Corporate from './Corporate/Corporate';
-import Internship from './Internship/Internship';
-
-const internshipRoutes = [{
-  path: 'internships',
-  children: [
-    {
-      path: ':internshipId',
-      element: <Internship />,
-    },
-  ],
-}];
+import CorporatePage from './Corporate/CorporatePage';
+import InternshipPage from './Internship/InternshipPage';
 
 const routes = [
   {
@@ -31,21 +21,19 @@ const routes = [
         element: <HomePage />,
       },
       {
-        path: 'corporates',
-        children: [
-          {
-            path: ':corporateId',
-            element: <Corporate />,
-            children: internshipRoutes,
-          },
-        ],
+        path: '/corporates/:corporateId',
+        element: <CorporatePage />,
       },
       {
-        path: 'login',
+        path: '/corporates/:corporateId/internships/:internshipId',
+        element: <InternshipPage />,
+      },
+      {
+        path: '/login',
         element: <Login />,
       },
       {
-        path: 'signup',
+        path: '/signup',
         element: <SignUp />,
       },
     ],
