@@ -2,6 +2,7 @@ package user.deletecomment;
 
 import entity.Comment;
 import entity.Review;
+import entity.User;
 import main.Application;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
@@ -11,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
+import service.dao.IUserDAO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,24 +24,30 @@ public class DeleteCommentInteractorTest {
     private IReviewDAO reviewDAO;
     @Autowired
     private ICommentDAO commentDAO;
+    @Autowired
+    private IUserDAO userDAO;
     @Autowired IDeleteCommentInput interactor;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     public void init() {
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users (username varchar(50) primary key, data varchar)");
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS comments (id serial primary key, data varchar)");
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS reviews (id serial primary key, data varchar)");
     }
 
     @AfterEach
     public void cleanUp() {
+        jdbcTemplate.execute("DELETE FROM users");
         jdbcTemplate.execute("DELETE FROM reviews");
         jdbcTemplate.execute("DELETE FROM comments");
     }
 
     @Test
     public void testDeleteCommentWithValidRequestDeleteFromReview() {
+        User user = new User("leo", "mail.com", "pass", "leo");
+        userDAO.saveUser(user);
         Review review = new Review("leo", "Hello World", 5);
         Comment comment = new Comment("leo", "I like this review");
         int commentId = commentDAO.saveComment(comment);
@@ -53,7 +61,7 @@ public class DeleteCommentInteractorTest {
         assertEquals(savedReview.getComments().get(0), commentId);
 
         DeleteCommentResponseModel response = interactor.deleteComment(
-                new DeleteCommentRequestModel(commentId, "Review", reviewId, "leo", 0));
+                new DeleteCommentRequestModel(commentId, "Review", reviewId, "leo"));
         assertEquals("Comment has been successfully deleted" , response.getMessage());
         Review actualReview = reviewDAO.getReview(reviewId);
         assertEquals(actualReview.getComments().size(), 0);
@@ -63,6 +71,8 @@ public class DeleteCommentInteractorTest {
 
     @Test
     public void testDeleteCommentWithValidRequestDeleteFromComment() {
+        User user = new User("leo", "mail.com", "pass", "leo");
+        userDAO.saveUser(user);
         Comment parent = new Comment("leo", "I am parent comment");
         Comment child = new Comment("leo", "I am child comment");
         int childId = commentDAO.saveComment(child);
@@ -76,7 +86,7 @@ public class DeleteCommentInteractorTest {
         assertEquals(savedParent.getComments().get(0), childId);
 
         DeleteCommentResponseModel response = interactor.deleteComment(new DeleteCommentRequestModel(childId,
-                "Comment", parentId, "leo", 0));
+                "Comment", parentId, "leo"));
         assertEquals("Comment has been successfully deleted" , response.getMessage());
         Comment actualParent = commentDAO.getComment(parentId);
         assertEquals(actualParent.getComments().size(), 0);
@@ -86,20 +96,24 @@ public class DeleteCommentInteractorTest {
 
     @Test
     public void testDeleteCommentWithNotFoundComment() {
+        User user = new User("leo", "mail.com", "pass", "leo");
+        userDAO.saveUser(user);
         DeleteCommentResponseModel response = interactor.deleteComment(new DeleteCommentRequestModel(834678398,
-                "Comment", 592348, "leo", 0));
+                "Comment", 592348, "leo"));
         assertEquals("Comment not found" , response.getMessage());
     }
 
     @Test
-    public void testDeleteCommentUnauthorized() {
-        Comment parent = new Comment("leo", "I am parent comment");
-        Comment child = new Comment("leo", "I am child comment");
+    public void testDeleteCommentNotAuthorized() {
+        User user = new User("leo", "mail.com", "pass", "leo");
+        userDAO.saveUser(user);
+        Comment parent = new Comment("definitely not leo", "I am parent comment");
+        Comment child = new Comment("definite not leo", "I am child comment");
         int childId = commentDAO.saveComment(child);
         parent.getComments().add(childId);
         int parentId = commentDAO.saveComment(parent);
         DeleteCommentResponseModel response = interactor.deleteComment(new DeleteCommentRequestModel(childId,
-                "Comment", parentId, "I'm definitely not Leo", 0));
+                "Comment", parentId, "leo"));
         assertEquals("Not authorized!" , response.getMessage());
     }
 }
