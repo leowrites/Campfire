@@ -2,10 +2,7 @@ package service.dao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.util.StdDateFormat;
 import entity.Comment;
-import entity.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,12 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.TimeZone;
-
-import service.dao.DaoHelper;
 
 public class CommentDAO implements ICommentDAO{
 
@@ -28,7 +20,6 @@ public class CommentDAO implements ICommentDAO{
     final String SELECT_QUERY = "select data from comments where id = ?";
     final String UPDATE_QUERY = "update comments set data = ? where id = ?";
     final String DELETE_QUERY = "delete from comments where id = ?";
-    final String QUERY_ALL = "select * from comments";
 
     /**
      * Save a new comment as a json
