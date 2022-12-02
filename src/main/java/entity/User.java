@@ -12,6 +12,8 @@ public class User implements Serializable {
     private String email;
     private String password;
     private int accessLevel;
+    private boolean corporateRep;
+
     public User() {}
 
     public User(
@@ -27,6 +29,7 @@ public class User implements Serializable {
         this.password = password;
         this.name = name;
         this.accessLevel = 0;
+        this.corporateRep = false;
     }
 
     public ArrayList<String> getIncomingConnectionRequests() {
@@ -68,5 +71,13 @@ public class User implements Serializable {
 
     public void setAccessLevel(int accessLevel){
         this.accessLevel = accessLevel;
+    }
+
+    public boolean getCorporateRep() {
+        return this.corporateRep;
+    }
+
+    public void setCorporateRep(boolean corporateRep) {
+        this.corporateRep = corporateRep;
     }
 }
