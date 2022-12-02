@@ -10,7 +10,6 @@ import user.comment.exceptions.ReviewNotFoundException;
 import service.ServerStatus;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CommentInteractor extends CommentObservable implements ICommentInputBoundary {
     private final IReviewDAO reviewDAO;
@@ -65,6 +64,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
             commentDAO.updateComment((Comment) parent, parentId);
         }
 
+        
         // notify observers that a new comment has been made
 
         return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.");

@@ -19,6 +19,7 @@ public class CommentRequestModel {
     public String getParentType() {
         return this.parentType;
     }
+
     public int getParentId() {
         return this.parentId;
     }

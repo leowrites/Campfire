@@ -8,8 +8,8 @@ public class InternshipDAO implements IInternshipDAO{
      * @return an internship object
      */
     @Override
-    public Internship getInternship(String internshipId) {
-        return null;
+    public Internship getInternship(int internshipId) {
+        return new Internship();
     }
 
     /**
@@ -17,6 +17,15 @@ public class InternshipDAO implements IInternshipDAO{
      */
     @Override
     public void saveInternship(Internship internship) {
+
+    }
+
+    /**
+     * @param internship
+     * @param internshipId
+     */
+    @Override
+    public void update(Internship internship, int internshipId) {
 
     }
 }

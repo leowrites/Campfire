@@ -3,13 +3,16 @@ package entity;
 import java.util.ArrayList;
 
 public class Internship {
-    private ArrayList<String> reviews;
+    private ArrayList<Integer> reviews;
 
-    public ArrayList<String> getReviews() {
+    public Internship(){
+    }
+
+    public ArrayList<Integer> getReviews() {
         return reviews;
     }
 
-    public void setReviews(ArrayList<String> reviews) {
+    public void setReviews(ArrayList<Integer> reviews) {
         this.reviews = reviews;
     }
 }

@@ -21,19 +21,19 @@ public class SortAlgorithmsTest {
 
     @BeforeEach
     public void setUp(){
-        review1 = new Review("1", "user1", "", 3);
+        review1 = new Review("user1", "", 3);
         review1.setNumDislikes(3);
         review1.setNumLikes(3);
         review1.setDatePosted(new Date(2022, Calendar.JUNE, 24));
-        review2 = new Review("2", "user2", "", 5);
+        review2 = new Review("user2", "", 5);
         review2.setNumDislikes(5);
         review2.setNumLikes(5);
         review2.setDatePosted(new Date(2022, Calendar.JULY, 24));
-        review3 = new Review("3", "user4", "", 14);
+        review3 = new Review("user4", "", 14);
         review3.setNumDislikes(115);
         review3.setNumLikes(115);
         review3.setDatePosted(new Date(2022, Calendar.SEPTEMBER, 24));
-        review4 = new Review("4", "user5", "", -3);
+        review4 = new Review("user5", "", -3);
         review4.setNumDislikes(10);
         review4.setNumLikes(0);
         review4.setDatePosted(new Date(2022, Calendar.MARCH, 24));
@@ -65,7 +65,7 @@ public class SortAlgorithmsTest {
 
     @Test
     void testSortTwoValuesEqualCase(){
-        review5 = new Review("3", "user3", "", 3);
+        review5 = new Review("user3", "", 3);
         review5.setNumDislikes(3);
         review5.setNumLikes(3);
         review5.setDatePosted(new Date(2022, Calendar.JUNE, 24));
