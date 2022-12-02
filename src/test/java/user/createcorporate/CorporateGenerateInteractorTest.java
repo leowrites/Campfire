@@ -59,6 +59,7 @@ public class CorporateGenerateInteractorTest {
         // test that the interactor returns a successful response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Corporate page created successfully!", responseModel.getMessage());
+        assertEquals(1, responseModel.getCorporateId());
         // test that the corporate page was properly saved in the corporates table
         Corporate corporate;
         try {
@@ -83,6 +84,7 @@ public class CorporateGenerateInteractorTest {
         // test that the interactor returns a failure response model
         assertEquals(ServerStatus.ERROR, responseModel.getStatus());
         assertEquals("User is not a company rep.", responseModel.getMessage());
+        assertEquals(0, responseModel.getCorporateId());
         // test that there is nothing saved in the corporates table
         boolean exists = corporateDAO.companyExists("Apple");
         assertEquals(false, exists);
@@ -102,6 +104,7 @@ public class CorporateGenerateInteractorTest {
         // test that the interactor returns a failure response model
         assertEquals(ServerStatus.ERROR, responseModel.getStatus());
         assertEquals("Company already exists.", responseModel.getMessage());
+        assertEquals(0, responseModel.getCorporateId());
         // test that the company in the database is the original company
         try {
             corporate = corporateDAO.getCorporate("Apple");

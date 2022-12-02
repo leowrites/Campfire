@@ -6,9 +6,13 @@ import entity.Corporate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import user.createcorporate.exceptions.CompanyNotFoundException;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CorporateDAO implements ICorporateDAO {
 
@@ -36,14 +40,22 @@ public class CorporateDAO implements ICorporateDAO {
     }
 
     @Override
-    public void saveCorporate(Corporate corporate) {
+    public int saveCorporate(Corporate corporate) {
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             ObjectMapper m = new ObjectMapper();
             String corporateString = m.writeValueAsString(corporate);
-            jdbcTemplate.update(INSERT_QUERY, corporate.getCompanyName(), corporateString);
+            jdbcTemplate.update(connection -> {
+                PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, corporate.getCompanyName());
+                statement.setString(2, corporateString);
+                return statement;
+            }, keyHolder);
+            return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
         }
         catch (JsonProcessingException e) {
             System.out.println("There was an error in the JSON processing.");
+            return 0;
         }
     }
 

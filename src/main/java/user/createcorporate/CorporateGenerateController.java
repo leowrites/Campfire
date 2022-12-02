@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import service.ServerStatus;
+
+import java.security.Principal;
 
 @RestController
 public class CorporateGenerateController {
@@ -26,11 +29,17 @@ public class CorporateGenerateController {
      * @return interactor is returned
      */
 
-    @PostMapping("/users/createCorporate")
-    public ResponseEntity<CorporateGenerateResponseModel> create(CorporateGenerateRequestModel requestModel){
+    @PostMapping("/corporates")
+    public ResponseEntity<CorporateGenerateResponseModel> create(Principal principal, CorporateGenerateRequestModel requestModel){
+
+        if (principal.getName().equals(null) | principal.getName().equals(requestModel.getUserId())) {
+            CorporateGenerateResponseModel responseModel = new CorporateGenerateResponseModel(ServerStatus.ERROR, "Bad request.");
+            return new ResponseEntity<>(responseModel, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
         CorporateGenerateResponseModel responseModel = this.input.create(requestModel);
-        String status = responseModel.getStatus().toString();
-        if (status.equals("success")){
+
+        if (responseModel.getStatus() == ServerStatus.SUCCESS){
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         }
         else {

@@ -27,6 +27,7 @@ public class CorporateDAOTest {
 
     @BeforeEach
     public void init() {
+        jdbcTemplate.execute("DROP TABLE IF EXISTS corporates");
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS corporates (id serial primary key, company varchar UNIQUE, data varchar)");
     }
 
@@ -39,7 +40,8 @@ public class CorporateDAOTest {
     public void testSaveCorporateAndGetCorporate(){
         User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
         Corporate corporate = new Corporate(rep, "Apple", "Founded by Steve Jobs.");
-        corporateDAO.saveCorporate(corporate);
+        int corporateId = corporateDAO.saveCorporate(corporate);
+        assertEquals(1, corporateId);
         try {
             Corporate dbCorporate = corporateDAO.getCorporate(corporate.getCompanyName());
             assertThat(dbCorporate).usingRecursiveComparison().isEqualTo(corporate);

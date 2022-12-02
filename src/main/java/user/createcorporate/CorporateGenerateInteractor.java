@@ -43,9 +43,9 @@ public class CorporateGenerateInteractor implements ICorporateGenerateInput {
         }
 
         Corporate corporate = corporateFactory.create(user, companyName, companyInfo);
-        corporateDAO.saveCorporate(corporate);
+        int corporateId = corporateDAO.saveCorporate(corporate);
 
-        return new CorporateGenerateResponseModel(ServerStatus.SUCCESS, "Corporate page created successfully!");
+        return new CorporateGenerateResponseModel(ServerStatus.SUCCESS, "Corporate page created successfully!", corporateId);
     }
 
 }
