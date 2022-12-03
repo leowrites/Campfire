@@ -16,6 +16,9 @@ public class UserDaoMapper implements RowMapper<User> {
         String userData = rs.getString("data");
         Gson gson = new Gson();
         JsonObject object = (JsonObject) JsonParser.parseString(userData);
+        System.out.println(object);
+        User user = gson.fromJson(object, User.class);
+        System.out.println(user);
         return gson.fromJson(object, User.class);
     }
 }
