@@ -52,7 +52,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
             }
         }
 
-        int commentId = commentDAO.saveComment(comment);
+        int commentId = commentDAO.saveComment(comment, parentId);
         ArrayList<Integer> parentComments = parent.getComments();
         parentComments.add(commentId);
         parent.setComments(parentComments);

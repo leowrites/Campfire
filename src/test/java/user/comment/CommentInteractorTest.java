@@ -37,7 +37,7 @@ public class CommentInteractorTest {
         interactor = new CommentInteractor(reviewDAO, commentDAO);
         jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
         jdbcTemplate.execute("DROP TABLE IF EXISTS comments");
-        jdbcTemplate.execute("CREATE TABLE comments (id serial primary key, data varchar)");
+        jdbcTemplate.execute("CREATE TABLE comments (id serial primary key, data varchar, parentid integer)");
         jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar, internshipid integer)");
     }
 

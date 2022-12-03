@@ -1,8 +1,5 @@
 package service.dao;
-
 import entity.Comment;
-
-import java.util.ArrayList;
 
 public interface ICommentDAO {
     /**
@@ -11,6 +8,7 @@ public interface ICommentDAO {
      * @return an integer representing the id of the comment in the table
      */
     int saveComment(Comment comment);
+    int saveComment(Comment comment, int parentId);
 
     /**
      * Gets the comment given the commentId.

@@ -17,6 +17,7 @@ public class CommentDAO implements ICommentDAO{
     @Autowired
     JdbcTemplate jdbcTemplate;
     final String INSERT_QUERY = "insert into comments (data) values (?)";
+    final String INSERT_QUERY_WITH_ID = "insert into comments (data, parentid) values (?, ?)";
     final String SELECT_QUERY = "select data from comments where id = ?";
     final String UPDATE_QUERY = "update comments set data = ? where id = ?";
     final String DELETE_QUERY = "delete from comments where id = ?";
@@ -37,6 +38,27 @@ public class CommentDAO implements ICommentDAO{
             jdbcTemplate.update(connection -> {
                 PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, commentString);
+                return statement;
+            }, keyHolder);
+            return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
+        }
+        catch (JsonProcessingException e) {
+            System.out.println("There was an error in the JSON processing.");
+            return 0;
+        }
+    }
+
+    @Override
+    public int saveComment(Comment comment, int parentId) {
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        try {
+            ObjectMapper m = new ObjectMapper();
+            DaoHelper.formatDate(m);
+            String commentString = m.writeValueAsString(comment);
+            jdbcTemplate.update(connection -> {
+                PreparedStatement statement = connection.prepareStatement(INSERT_QUERY_WITH_ID, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, commentString);
+                statement.setInt(2, parentId);
                 return statement;
             }, keyHolder);
             return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
