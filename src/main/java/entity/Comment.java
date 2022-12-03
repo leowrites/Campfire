@@ -3,65 +3,53 @@ package entity;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Comment {
-    private String id;
-    private String userID;
+public class Comment implements IUserPost {
+    private String userId;
     private String content;
     private Date datePosted;
-    private ArrayList<Comment> comments;
+    private ArrayList<Integer> comments;
 
     public Comment(){
     }
 
-    public Comment(String id, String userID, String content, ArrayList<Comment> comments) {
-        this.id = id;
-        this.userID = userID;
+    public Comment(String userId, String content) {
+        this.userId = userId;
         this.content = content;
         this.datePosted = new Date();
-        this.comments = comments;
+        this.comments = new ArrayList<>();
     }
 
-    public Comment(String id, String userID, String content, Date datePosted) {
-        this.id = id;
-        this.userID = userID;
-        this.content = content;
-        this.datePosted = datePosted;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public String getid(){
-        return this.id;
-    }
-    public String getUserID() {
-        return this.userID;
-    }
-
-    public void setUserID(String newID) {
-        this.userID = newID;
+    public void setUserId(String newId) {
+        this.userId = newId;
     }
 
     public String getContent() {
         return this.content;
     }
 
-    public void setContent(String newContent) {
-        this.content = newContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getDatePosted() {
         return this.datePosted;
     }
 
-    public void setDatePosted(Date newDate) {
-        this.datePosted = newDate;
+    public void setDatePosted(Date date) {
+        this.datePosted = date;
     }
 
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<Integer> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<Comment> newComments) {
-        this.comments = newComments;
+    public void setComments(ArrayList<Integer> comments) {
+        this.comments = comments;
     }
 
 }
