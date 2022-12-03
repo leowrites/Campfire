@@ -1,4 +1,3 @@
-import Container from 'react-bootstrap/Container';
 import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,7 +11,6 @@ function HomePage() {
   const [companies, setCompanies] = useState([]);
   useEffect(() => {
     axios.get('/corporates').then((data) => {
-      console.log(data);
       setCompanies(data.data);
     });
   }, []);
@@ -25,9 +23,13 @@ function HomePage() {
       <Grid container spacing={4}>
         <Grid item xs={9}>
           {companies?.map((company) => (
-            <CorporateCard name={company.name} info={company.info} id={company.id} />
+            <CorporateCard
+              key={company.id}
+              name={company.companyName}
+              info={company.companyInfo}
+              id={company.id}
+            />
           ))}
-          <CorporateCard name={'Apple'} info={"Who doesn't like Apple?"} id={1} />
         </Grid>
         <Grid item xs={3}>
           <ConnectPanel />

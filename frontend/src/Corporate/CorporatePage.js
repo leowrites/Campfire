@@ -3,35 +3,41 @@ import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import InternshipCard from './InternshipCard';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function CorporatePage() {
   const { corporateId } = useParams();
-  const { companyDetails, setCompanyDetails } = useState({});
-  const navigate = useNavigate();
+  const [companyDetails, setCompanyDetails] = useState({});
+  const [internships, setInternships] = useState([]);
   useEffect(() => {
     axios.get(`/corporates/${corporateId}`).then((data) => {
       setCompanyDetails(data.data);
     });
-  });
+  }, []);
+  useEffect(() => {
+    axios.get(`/corporates/${corporateId}/internships`).then((data) => {
+      console.log("internships", internships)
+      setInternships(data.data);
+    });
+  }, []);
   return (
     <Box sx={{ my: 2 }} textAlign={'start'}>
       <Box sx={{ my: 2, display: 'flex', alignItems: 'center' }}>
-        <Typography variant='h4' sx={{ display: 'inline-block' }}>
-          Company Id: {corporateId}
-        </Typography>
+        <Typography variant='h4'>{companyDetails?.companyName}</Typography>
         <Typography sx={{ ml: 'auto', display: 'inline-block' }}>
           Company Representitive?{' '}
           <Link to={`internships`} style={{ color: 'gray', textDecoration: 'none' }}>
-            <Typography sx={{ display: 'inline-block' }}> Create an internship</Typography>
+            Create an internship
           </Link>
         </Typography>
       </Box>
-      {companyDetails?.internships?.map((internship) => (
-        <InternshipCard id={internship.id} />
+      <Typography variant='h7' sx={{ display: 'block' }}>
+        {companyDetails?.companyInfo}
+      </Typography>
+      {internships?.map((internship) => (
+        <InternshipCard key={internship.id} id={internship.id} jobTitle={internship.jobTitle} />
       ))}
-      <InternshipCard id={4} />
     </Box>
   );
 }
