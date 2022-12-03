@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import service.IUserDataAccess;
+import service.dao.IUserDAO;
 import service.InternshipDBGateway;
 
 @Configuration
@@ -14,7 +14,7 @@ public class CreateInternshipConfig {
     @Bean
     @Primary
     public CreateInternshipInputBoundary createInternshipInput(InternshipDBGateway internshipDataAccess,
-                                                               IUserDataAccess userDataAccess){
+                                                               IUserDAO userDataAccess){
         return new CreateInternshipInteractor(internshipDataAccess, userDataAccess);
     }
 }
