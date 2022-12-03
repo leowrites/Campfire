@@ -35,7 +35,7 @@ public class CreateInternshipInteractor implements CreateInternshipInputBoundary
             System.out.println(creator.getAccessLevel());
             if (!creator.getCorporateRep()){
                 // if user is not a corporate rep, return failure.
-                return new CreateInternshipResponseDS(ServerStatus.ERROR, "not authorized to create new corporate page");
+                return new CreateInternshipResponseDS(ServerStatus.ERROR, "not authorized to create new internship");
             }
             // create a new internship
             Internship internship = new Internship(inputDS.getCompanyID(), new ArrayList<>(),
