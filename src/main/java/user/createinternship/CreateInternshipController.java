@@ -27,11 +27,5 @@ public class CreateInternshipController {
         }
     }
 
-    @PostMapping("/users/test")
-    public ResponseEntity<CreateInternshipResponseDS> testGetInternship(@RequestBody CreateInternshipInputDS inputDS){
-        System.out.println("?");
-        this.interactor.test_update_review();
-        return new ResponseEntity<>(new CreateInternshipResponseDS("fuck"), HttpStatus.OK);
-    }
 }
 

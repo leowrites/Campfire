@@ -1,19 +1,16 @@
-package service;
+package service.dao;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entity.Internship;
 
 import entity.User;
 import org.springframework.jdbc.core.RowMapper;
-import java.util.ArrayList;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 
-public class InternshipRowMapper implements RowMapper<Internship> {
+public class InternshipDaoMapper implements RowMapper<Internship> {
 
     @Override
     public Internship mapRow(ResultSet rs, int rowNum) throws SQLException {
