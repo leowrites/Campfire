@@ -3,9 +3,9 @@ package user.deletereview;
 import entity.Internship;
 import entity.Review;
 import entity.User;
-import service.dao.IInternshipDAO;
 import service.dao.IReviewDAO;
 import service.dao.IUserDAO;
+import service.dao.IInternshipDAO;
 import user.comment.exceptions.ReviewNotFoundException;
 import user.requestconnect.exceptions.UserNotFoundException;
 
@@ -45,7 +45,11 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
 
         dataAccessReview.deleteReview(reviewId);
 
-        internship = dataAccessInternship.getInternship(internshipId);
+        try{
+            internship = dataAccessInternship.getInternshipByID(internshipId);
+            dataAccessInternship.updateInternship(internshipId, internship);
+        }
+        catch(Exception e){System.out.println(e.getMessage());}
 //        DeleteReviewHandler deleteReviewHandler = new DeleteReviewHandler(internship, reviewId);
 //        newInternship = deleteReviewHandler.deleteReview();
 //        List<Integer> filteredReviews = internship.getReviews()
@@ -53,7 +57,7 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
 //                .filter(id -> id != reviewId)
 //                .collect(Collectors.toList());
 //        internship.setReviews((ArrayList<Integer>) filteredReviews);
-        dataAccessInternship.update(internship, internshipId);
+
 
         // need to recursively delete all comments ...
 

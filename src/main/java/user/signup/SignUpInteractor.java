@@ -23,6 +23,10 @@ public class SignUpInteractor implements SignUpInputBoundary {
         this.dataAccess = dataAccess;
     }
 
+    /**
+     Validates inputs of user and creates a new user in database if inputs are valid. Returns a
+     responseDS that shows the success state of creating a user.
+     * */
     @Override
     public SignUpResponseDS validateInputs(SignUpInputDS signUpInputs) {
         List<FieldError> errorMessages = new ArrayList<>();
@@ -63,6 +67,7 @@ public class SignUpInteractor implements SignUpInputBoundary {
                     passwordEncoder.encode(signUpInputs.getPassword()),
                     signUpInputs.getFirstName()
             );
+            user.setAccessLevel(2);
             dataAccess.saveUser(user);
         }
         return new SignUpResponseDS(errorMessages);

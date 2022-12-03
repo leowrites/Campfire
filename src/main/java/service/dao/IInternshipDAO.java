@@ -1,17 +1,17 @@
 package service.dao;
 
 import entity.Internship;
+import user.exceptions.InternshipNotFoundException;
+import java.util.ArrayList;
+
 
 public interface IInternshipDAO {
-    /**
-     * @param internshipId an internship id
-     * @return an internship object
-     */
-    Internship getInternship(int internshipId);
 
-    /**
-     * @param internship an internship object
-     */
+    Internship getInternshipByID(int InternshipId) throws InternshipNotFoundException;
+
+    ArrayList<Internship> getInternshipsByCompany(int companyID) throws InternshipNotFoundException;
+
     void saveInternship(Internship internship);
-    void update(Internship internship, int internshipId);
+
+    void updateInternship(int id, Internship internship);
 }

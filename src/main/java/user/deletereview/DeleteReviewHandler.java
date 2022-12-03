@@ -3,6 +3,7 @@ package user.deletereview;
 import entity.Internship;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteReviewHandler {
 
@@ -16,7 +17,7 @@ public class DeleteReviewHandler {
     }
 
     public Internship deleteReview(){
-        ArrayList<Integer>  reviewList = internship.getReviews();
+        List<Integer> reviewList = internship.getReviews();
         int size = reviewList.size();
         for (int i = 0; i < size; i++){
             if (reviewId == reviewList.get(i)){

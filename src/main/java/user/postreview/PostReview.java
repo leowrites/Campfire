@@ -1,8 +1,8 @@
 package user.postreview;
 
 import entity.Review;
-import service.dao.IInternshipDAO;
 import service.dao.IReviewDAO;
+import service.dao.IInternshipDAO;
 import service.ServerStatus;
 
 public class PostReview implements IPostReview{
