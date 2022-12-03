@@ -31,10 +31,9 @@ public class SignUpInteractor implements SignUpInputBoundary {
     public SignUpResponseDS validateInputs(SignUpInputDS signUpInputs) {
         List<FieldError> errorMessages = new ArrayList<>();
 
-//        System.out.println("test");
 //        //validate email is a valid U of T Email Address
         if (!signUpInputs.getEmail().matches("^[A-Za-z0-9._%+-]+@mail\\.utoronto\\.ca$")){
-            errorMessages.add(new FieldError("email", "Please enter a valid email"));
+            errorMessages.add(new FieldError("email", "Please enter a valid utoronto.ca email"));
         }
 
         //validate username is unique
@@ -44,8 +43,6 @@ public class SignUpInteractor implements SignUpInputBoundary {
         } catch (UserNotFoundException e) {
             // this is good, we proceed
         }
-
-        //validate email is unique
 
         //validate password and confirmPassword matches
         if (!signUpInputs.getPassword().equals(signUpInputs.getConfirmPassword())){
@@ -62,13 +59,14 @@ public class SignUpInteractor implements SignUpInputBoundary {
         //save user in database if there are no errors
         if (errorMessages.size() == 0){
             User user = new User(
-                    signUpInputs.getEmail(),
                     signUpInputs.getUsername(),
+                    signUpInputs.getEmail(),
                     passwordEncoder.encode(signUpInputs.getPassword()),
-                    signUpInputs.getFirstName()
+                    signUpInputs.getFirstName() + " " + signUpInputs.getLastName()
             );
             user.setAccessLevel(2);
             dataAccess.saveUser(user);
+            System.out.println("User saved");
         }
         return new SignUpResponseDS(errorMessages);
     }
