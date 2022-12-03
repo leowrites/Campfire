@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 
 import entity.Comment;
 import entity.Review;
+import entity.User;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
 import service.dao.IUserDAO;
+import user.deletecomment.DeleteCommentRequestModel;
 import user.requestconnect.exceptions.UserNotFoundException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ import java.util.ArrayList;
 @RestController
 public class ServiceRoutes {
     @Autowired
-    private IUserDAO userDataAccess;
+    private IUserDAO userDAO;
     @Autowired
     private IReviewDAO reviewDAO;
     @Autowired
@@ -26,7 +29,7 @@ public class ServiceRoutes {
 
     @PostMapping("/users/reset")
     public void resetUser() {
-        userDataAccess.reset();
+        userDAO.reset();
     }
 
     @PostMapping("/users/authenticate")
@@ -45,7 +48,7 @@ public class ServiceRoutes {
         if (principal == null || !principal.getName().equals(id)) {
             return null;
         }
-        return new Gson().toJson(userDataAccess.getUser(principal.getName()));
+        return new Gson().toJson(userDAO.getUser(principal.getName()));
     }
 
     // for now, get all reviews to display it
@@ -60,4 +63,19 @@ public class ServiceRoutes {
     public ResponseEntity<Comment> getComment(@PathVariable String commentId) {
         return new ResponseEntity<>(commentDAO.getComment(Integer.parseInt(commentId)), HttpStatus.OK);
     }
+
+//    @PostMapping("/users/access")
+//    public ResponseEntity<User> upgradeAccess(@RequestBody DeleteCommentRequestModel requestModel) {
+//        User user;
+//        try {
+//            user = userDAO.getUser(requestModel.getUserId());
+//        } catch(UserNotFoundException e) {
+//            System.out.println(e);
+//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+//        }
+//        user.setAccessLevel(1);
+//        user.setCorporateRep(true);
+//        userDAO.updateUser(user);
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
 }
