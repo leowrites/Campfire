@@ -1,10 +1,8 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
-import Container from '@mui/material/Container';
 import { useEffect, useState } from 'react';
 import InternshipCard from './InternshipCard';
-import Button from '@mui/material/Button';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -19,11 +17,11 @@ export default function CorporatePage() {
   });
   return (
     <Box sx={{ my: 2 }} textAlign={'start'}>
-      <Box sx={{ my: 2 }}>
-        <Typography variant='h4'>Company Id: {corporateId}</Typography>
-        <Typography>{companyDetails?.name}</Typography>
-        <Typography>{companyDetails?.info}</Typography>
-        <Typography sx={{ ml: 'auto' }}>
+      <Box sx={{ my: 2, display: 'flex', alignItems: 'center' }}>
+        <Typography variant='h4' sx={{ display: 'inline-block' }}>
+          Company Id: {corporateId}
+        </Typography>
+        <Typography sx={{ ml: 'auto', display: 'inline-block' }}>
           Company Representitive?{' '}
           <Link to={`internships`} style={{ color: 'gray', textDecoration: 'none' }}>
             <Typography sx={{ display: 'inline-block' }}> Create an internship</Typography>

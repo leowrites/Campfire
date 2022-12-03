@@ -13,7 +13,7 @@ export default function ConnectPannel() {
 
   return (
     <Box>
-      <Typography variant='h5' textAlign={'start'}>
+      <Typography variant='h6' textAlign={'start'}>
         Search for a connection
       </Typography>
       <Box sx={{ display: 'flex', mt: 1 }}>
@@ -32,7 +32,7 @@ export default function ConnectPannel() {
         </Button>
       </Box>
       <Box sx={{ mt: 2 }}>
-        <Typography variant='h5' textAlign={'start'}>
+        <Typography variant='h6' textAlign={'start'}>
           Your Connections
         </Typography>
         {principal?.user?.connections?.map((connection) => (
@@ -42,7 +42,7 @@ export default function ConnectPannel() {
         ))}
       </Box>
       <Box sx={{ mt: 2 }}>
-        <Typography variant='h5' textAlign={'start'}>
+        <Typography variant='h6' textAlign={'start'}>
           Your Outgoing Requests
         </Typography>
         {principal?.user?.outgoingConnectionRequests?.map((username) => (
@@ -52,7 +52,7 @@ export default function ConnectPannel() {
         ))}
       </Box>
       <Box sx={{ mt: 2 }}>
-        <Typography variant='h5' textAlign={'start'}>
+        <Typography variant='h6' textAlign={'start'}>
           Your Incoming Requests
         </Typography>
         {principal?.user?.incomingConnectionRequests?.map((target) => (
