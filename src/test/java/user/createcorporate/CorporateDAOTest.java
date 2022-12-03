@@ -41,6 +41,7 @@ public class CorporateDAOTest {
 //        User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
         Corporate corporate = new Corporate("justinli", "Apple", "Founded by Steve Jobs.");
         int corporateId = corporateDAO.saveCorporate(corporate);
+        corporate.setId(corporateId);
         assertEquals(1, corporateId);
         try {
             Corporate dbCorporate = corporateDAO.getCorporate(corporate.getCompanyName());

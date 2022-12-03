@@ -14,14 +14,23 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 export default function InternshipPage() {
   const [reviews, setReviews] = useState([]);
   const { corporateId, internshipId } = useParams();
+  const [internshipDetails, setInternshipsDetails] = useState({});
   const [showCommentBox, setShowCommentBox] = useState(false);
   const auth = useAuthContext();
   const handleShowCommentBox = () => {
     setShowCommentBox(!showCommentBox);
   };
+
+  // why is it getting all reviews
+
+  useEffect(() => {
+    axios.get(`/corporates/${corporateId}/internships/${internshipId}`).then((data) => {
+      setInternshipsDetails(data.data);
+    });
+  });
   useEffect(() => {
     axios.get(`/corporates/${corporateId}/internships/${internshipId}/reviews`).then((data) => {
-      console.log(data);
+      console.log(data.data)
       setReviews(data.data);
     });
   }, []);
@@ -36,7 +45,7 @@ export default function InternshipPage() {
 
   return (
     <Box sx={{ my: 2 }} textAlign='start'>
-      <Typography variant='h4'>Internship Id: {internshipId}</Typography>
+      <Typography variant='h4'>{internshipDetails.jobTitle}</Typography>
       <Button onClick={handleShowCommentBox}>Add a review</Button>
       {showCommentBox ? (
         <Box>
@@ -53,8 +62,18 @@ export default function InternshipPage() {
           />
         </Box>
       ) : null}
-      {reviews?.map((review) => (
-        <ReviewCard id={review.id} />
+      {reviews?.map((review, i) => (
+        <ReviewCard
+          key={i}
+          reviewId={review.id}
+          userId={review.userId}
+          datePosted={review.datePosted}
+          numLikes={review.numLikes}
+          numDislikes={review.numDislikes}
+          content={review.content}
+          comments={review.comments}
+          rating={review.rating}
+        />
       ))}
     </Box>
   );

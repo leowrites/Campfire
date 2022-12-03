@@ -2,18 +2,14 @@ package service;
 
 import com.google.gson.Gson;
 
-import entity.Comment;
-import entity.Review;
-import entity.User;
-import org.apache.coyote.Response;
+import entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.dao.ICommentDAO;
-import service.dao.IReviewDAO;
-import service.dao.IUserDAO;
-import user.deletecomment.DeleteCommentRequestModel;
+import service.dao.*;
+import user.createcorporate.exceptions.CompanyNotFoundException;
+import user.exceptions.InternshipNotFoundException;
 import user.requestconnect.exceptions.UserNotFoundException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -26,6 +22,10 @@ public class ServiceRoutes {
     private IReviewDAO reviewDAO;
     @Autowired
     private ICommentDAO commentDAO;
+    @Autowired
+    private ICorporateDAO corporateDAO;
+    @Autowired
+    private IInternshipDAO internshipDAO;
 
     @PostMapping("/users/reset")
     public void resetUser() {
@@ -51,11 +51,16 @@ public class ServiceRoutes {
         return new Gson().toJson(userDAO.getUser(principal.getName()));
     }
 
-    // for now, get all reviews to display it
-    // we will remove this route once internships are set up
-    @GetMapping("/corporate/{corporateId}/internships/{internshipId}/reviews    ")
-    public ResponseEntity<ArrayList<Review>> getReviews() {
-        return new ResponseEntity<>(reviewDAO.getAllReviews(), HttpStatus.OK);
+    // get internship details
+    @GetMapping("/corporates/{corporateId}/internships/{internshipId}")
+    public ResponseEntity<Internship> getInternshipDetails(
+            @PathVariable String internshipId) {
+        try {
+            return new ResponseEntity<>(internshipDAO.getInternshipByID(Integer.parseInt(internshipId))
+                    , HttpStatus.OK);
+        } catch (InternshipNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     // get comments by comment id
@@ -64,18 +69,33 @@ public class ServiceRoutes {
         return new ResponseEntity<>(commentDAO.getComment(Integer.parseInt(commentId)), HttpStatus.OK);
     }
 
-//    @PostMapping("/users/access")
-//    public ResponseEntity<User> upgradeAccess(@RequestBody DeleteCommentRequestModel requestModel) {
-//        User user;
-//        try {
-//            user = userDAO.getUser(requestModel.getUserId());
-//        } catch(UserNotFoundException e) {
-//            System.out.println(e);
-//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//        }
-//        user.setAccessLevel(1);
-//        user.setCorporateRep(true);
-//        userDAO.updateUser(user);
-//        return new ResponseEntity<>(user, HttpStatus.OK);
-//    }
+    // get all corporates
+    @GetMapping("/corporates")
+    public ResponseEntity<ArrayList<Corporate>> getCorporates() {
+        return new ResponseEntity<>(corporateDAO.getAllCorporates(), HttpStatus.OK);
+    }
+
+    @GetMapping("/corporates/{corporateId}")
+    public ResponseEntity<Corporate> getCorporateDetails(
+            @PathVariable String corporateId
+    ){
+        try{
+            Corporate corporate = corporateDAO.getCorporate(Integer.parseInt(corporateId));
+            return new ResponseEntity<>(corporate, HttpStatus.OK);
+        } catch (CompanyNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/corporates/{corporateId}/internships")
+    public ResponseEntity<ArrayList<Internship>> getCorporateInternships(
+            @PathVariable String corporateId
+    ){
+        try{
+            ArrayList<Internship> internships = internshipDAO.getInternshipsByCompany(Integer.parseInt(corporateId));
+            return new ResponseEntity<>(internships, HttpStatus.OK);
+        } catch (InternshipNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

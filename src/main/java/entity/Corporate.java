@@ -5,7 +5,8 @@ public class Corporate {
     private String rep;
     private String companyName;
     private String companyInfo;
-    private ArrayList<Integer> internships;
+    private final ArrayList<Integer> internships;
+    private int id;
 
     public Corporate(String rep,
                      String companyName, String companyInfo){
@@ -13,6 +14,14 @@ public class Corporate {
         this.companyName = companyName;
         this.companyInfo = companyInfo;
         this.internships = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getRep(){ return this.rep; }
