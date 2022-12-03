@@ -1,4 +1,4 @@
-package main;
+package service;
 
 import com.google.gson.Gson;
 
@@ -16,7 +16,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 
 @RestController
-public class TestController {
+public class ServiceRoutes {
     @Autowired
     private IUserDAO userDataAccess;
     @Autowired
