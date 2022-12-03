@@ -17,23 +17,19 @@ function HomePage() {
   }, []);
 
   return (
-    <>
-      <Container>
-        <Box sx={{ pt: 3 }}>
-          <Grid container spacing={4}>
-            <Grid item xs={8}>
-              {companies?.map((company) => (
-                <CorporateCard name={company.name} info={company.info} id={company.id} />
-              ))}
-              <CorporateCard name={'Apple'} info={"Who doesn't like Apple?"} id={1} />
-            </Grid>
-            <Grid item xs={4}>
-              <ConnectPanel />
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
-    </>
+    <Box sx={{ pt: 3 }}>
+      <Grid container spacing={4}>
+        <Grid item xs={8}>
+          {companies?.map((company) => (
+            <CorporateCard name={company.name} info={company.info} id={company.id} />
+          ))}
+          <CorporateCard name={'Apple'} info={"Who doesn't like Apple?"} id={1} />
+        </Grid>
+        <Grid item xs={4}>
+          <ConnectPanel />
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
