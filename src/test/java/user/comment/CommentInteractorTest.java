@@ -38,7 +38,7 @@ public class CommentInteractorTest {
         jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
         jdbcTemplate.execute("DROP TABLE IF EXISTS comments");
         jdbcTemplate.execute("CREATE TABLE comments (id serial primary key, data varchar)");
-        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar)");
+        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar, internshipid integer)");
     }
 
     @AfterEach

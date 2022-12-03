@@ -29,7 +29,7 @@ public class PostReviewTest {
     public void init() {
         postReview = new PostReview(reviewDAO, internshipDAO);
         jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
-        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar)");
+        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar, internshipid integer)");
     }
 
     @AfterEach
@@ -44,7 +44,8 @@ public class PostReviewTest {
                 "Leo",
                 5
         );
-        PostReviewResponse response = postReview.addReviewToCorporate(request);
+        request.setInternshipId("1");
+        PostReviewResponse response = postReview.addReviewToInternship(request);
         assertEquals(ServerStatus.SUCCESS, response.getStatus());
         assertEquals("You have successfully posted a review to reviewId 1", response.getMessage());
 
