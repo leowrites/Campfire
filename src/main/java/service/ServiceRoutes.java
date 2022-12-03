@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.dao.*;
+import user.comment.exceptions.ReviewNotFoundException;
 import user.createcorporate.exceptions.CompanyNotFoundException;
 import user.exceptions.InternshipNotFoundException;
 import user.requestconnect.exceptions.UserNotFoundException;
@@ -95,6 +96,18 @@ public class ServiceRoutes {
             ArrayList<Internship> internships = internshipDAO.getInternshipsByCompany(Integer.parseInt(corporateId));
             return new ResponseEntity<>(internships, HttpStatus.OK);
         } catch (InternshipNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/corporates/{corporateId}/internships/{internshipId}/reviews")
+    public ResponseEntity<ArrayList<Review>> getInternshipReviews(
+            @PathVariable String internshipId
+    ){
+        try{
+            ArrayList<Review> reviews = reviewDAO.getReviewsByInternship(Integer.parseInt(internshipId));
+            return new ResponseEntity<>(reviews, HttpStatus.OK);
+        } catch (ReviewNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
