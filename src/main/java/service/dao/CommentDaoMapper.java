@@ -18,7 +18,7 @@ public class CommentDaoMapper implements RowMapper<Comment> {
         JsonObject object = (JsonObject) JsonParser.parseString(commentData);
         Comment comment = gson.fromJson(object, Comment.class);
         try {
-            rs.getInt("parentId");
+            comment.setId(rs.getInt("id"));
             comment.setParentId(rs.getInt("parentId"));
         } catch (PSQLException e) {
             System.out.println(e);

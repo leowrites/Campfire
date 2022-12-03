@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 
 export default function CommentBox({ handleShowCommentBox, postComment, parentType, parentId }) {
   const [comment, setComment] = useState('');
+  console.log(parentType, parentId)
   const handleValChange = (e) => {
     setComment(e.target.value);
   };

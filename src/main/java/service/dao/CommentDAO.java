@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class CommentDAO implements ICommentDAO{
@@ -19,6 +21,7 @@ public class CommentDAO implements ICommentDAO{
     final String INSERT_QUERY = "insert into comments (data) values (?)";
     final String INSERT_QUERY_WITH_ID = "insert into comments (data, parentid) values (?, ?)";
     final String SELECT_QUERY = "select data from comments where id = ?";
+    final String SELECT_QUERY_WITH_PARENT_ID = "select * from comments where parentid = ?";
     final String UPDATE_QUERY = "update comments set data = ? where id = ?";
     final String DELETE_QUERY = "delete from comments where id = ?";
 
@@ -83,6 +86,17 @@ public class CommentDAO implements ICommentDAO{
             System.out.println("No comment found.");
             return null;
         }
+    }
+
+    @Override
+    public ArrayList<Comment> getCommentsWithParentId(int parentId) {
+            try {
+                return (ArrayList<Comment>) jdbcTemplate.query(SELECT_QUERY_WITH_PARENT_ID, new CommentDaoMapper(),
+                        parentId);
+            } catch (EmptyResultDataAccessException e) {
+                System.out.println("No Internships Under" + parentId + " found");
+            }
+            return  null;
     }
 
     /**

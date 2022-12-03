@@ -40,18 +40,13 @@ export default function ReviewCard({
   }, []);
 
   const fetchComments = () => {
-    const commentRequests = [];
-    comments.forEach((commentId) => commentRequests.push(axios.get(`/comments/${commentId}`)));
-    axios.all(commentRequests).then(
-      axios.spread((...response) => {
-        const commentResponse = response.map(res => res.data);
-        setMoreComments(commentResponse);
-      })
-    );
+    axios.get(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`)
+    .then((res) => setMoreComments(res.data))
   };
 
   const postComment = (parentType, parentId, comment) => {
-    axios.post(`/comments`, {
+    console.log(parentType, parentId, comment, reviewId);
+    axios.post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
         userId: principal.username,
         parentType: parentType,
         parentId: parentId,
@@ -110,12 +105,13 @@ export default function ReviewCard({
 
       {moreComments.length > 0 &&
         moreComments.map((comment, i) => {
+          console.log(comment);
           return (
             <CommentCard
               key={i}
               reviewId={reviewId}
               parentType={'Review'}
-              commentId={comment.commentId}
+              commentId={comment.id}
               parentId={reviewId}
               userId={userId}
               content={comment.content}

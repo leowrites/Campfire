@@ -13,6 +13,7 @@ public class Review implements ISortComparator, IUserPost{
     private ArrayList<Integer> comments;
     private int rating;
     private int internshipId;
+    private int id;
 
     public Review() {
     }
@@ -26,6 +27,14 @@ public class Review implements ISortComparator, IUserPost{
         this.comments = new ArrayList<>();
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getInternshipId() {

@@ -29,7 +29,8 @@ public class ReviewDaoMapper implements RowMapper<Review> {
         JsonObject object = (JsonObject) JsonParser.parseString(reviewData);
         Review review = gson.fromJson(object, Review.class);
         try {
-            rs.getInt("internshipid");
+            review.setId(rs.getInt("id"));
+            System.out.println(rs.getString("id"));
             review.setInternshipId(rs.getInt("internshipid"));
         } catch (PSQLException e) {
             System.out.println(e);

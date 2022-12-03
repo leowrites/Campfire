@@ -1,6 +1,8 @@
 package service.dao;
 import entity.Comment;
 
+import java.util.ArrayList;
+
 public interface ICommentDAO {
     /**
      * Save a new comment as a json
@@ -16,6 +18,8 @@ public interface ICommentDAO {
      * @return a Comment object
      */
     Comment getComment(int commentId);
+
+    ArrayList<Comment> getCommentsWithParentId(int parentId);
 
     /**
      * Updates a comment.

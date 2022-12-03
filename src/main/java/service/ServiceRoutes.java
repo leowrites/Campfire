@@ -111,4 +111,10 @@ public class ServiceRoutes {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{parentId}")
+    public ResponseEntity<ArrayList<Comment>> getCommentsByParent(@PathVariable String parentId){
+        ArrayList<Comment> comment = commentDAO.getCommentsWithParentId(Integer.parseInt(parentId));
+        return new ResponseEntity<>(comment, HttpStatus.OK);
+    }
 }

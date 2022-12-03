@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 import CommentBox from './CommentBox';
+import useAuthContext from '../AuthContext';
 
 export default function CommentCard({
   commentId,
@@ -20,6 +21,7 @@ export default function CommentCard({
   const { corporateId, internshipId } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [moreComments, setMoreComments] = useState([]);
+  const { principal } = useAuthContext();
   const handleDelete = () => {
     axios.delete(
       `/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`,
@@ -40,15 +42,32 @@ export default function CommentCard({
   }, []);
 
   const fetchComments = () => {
-    const commentRequests = [];
-    comments.forEach((commentId) => commentRequests.push(axios.get(`/comments/${commentId}`)));
-    axios.all(commentRequests).then(
-      axios.spread((...response) => {
-        const commentResponse = response.map(res => res.data);
-        setMoreComments(commentResponse);
-      })
-    );
+    console.log(commentId)
+    axios
+      .get(`/corporates/${corporateId}/internships/${internshipId}/reviews/${commentId}`)
+      .then((res) => setMoreComments(res.data));
   };
+
+  const postComment = (parentType, parentId, comment) => {
+    console.log(parentType, parentId, comment, reviewId);
+    axios.post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
+        userId: principal.username,
+        parentType: parentType,
+        parentId: parentId,
+        content: comment,
+    })
+    .then(res => {
+      if (res.data.status === "SUCCESS") {
+        setShowComment(false);
+        setMoreComments([...moreComments, {
+          commentId: res.data.commentId,
+          content: comment,
+          comments: [],
+          datePosted: res.data.datePosted
+        }]);
+      }
+    })
+}
 
   return (
     <Paper elevation={2} sx={{ my: 3, p: 3 }}>
@@ -58,7 +77,6 @@ export default function CommentCard({
         <Box sx={{ display: 'flex' }}>
           <Typography sx={{ ml: 'auto' }}>Date Posted: {datePosted}</Typography>
         </Box>
-
         <Box sx={{ display: 'flex', my: 1 }}>
           <Button
             sx={{ ml: 'auto', mr: 1 }}
@@ -75,18 +93,24 @@ export default function CommentCard({
       </Box>
       {showComment ? (
         <Box sx={{ mt: 2 }}>
-          <CommentBox handleShowCommentBox={handleShowCommentBox} />
+          <CommentBox
+            handleShowCommentBox={handleShowCommentBox}
+            postComment={postComment}
+            parentType={'Comment'}
+            parentId={commentId}
+          />
         </Box>
       ) : undefined}
 
       {moreComments.length > 0 &&
         moreComments.map((comment) => {
+          console.log(comment)
           return (
             <CommentCard
-              key={comment.commentId}
+              key={comment.id}
               reviewId={reviewId}
               parentType={'Review'}
-              commentId={comment.commentId}
+              commentId={comment.id}
               parentId={comment.commentI}
               userId={userId}
               content={comment.content}

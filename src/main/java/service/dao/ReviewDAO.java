@@ -23,6 +23,7 @@ public class ReviewDAO implements IReviewDAO{
     final String INSERT_QUERY_WITH_INTERNSHIP_ID = "INSERT INTO reviews (data, internshipid) values (?, ?)";
     final String QUERY_BY_INTERNSHIP_ID = "SELECT * FROM reviews WHERE internshipid = ?";
     final String DATA_QUERY = "select data from reviews where id = ? ";
+    final String DATA_QUERY_WITH_ID = "select * from reviews where id = ? ";
     final String QUERY_ALL = "select * from reviews";
     final String UPDATE_QUERY = "update reviews set data = ? where id = ?";
     final String DELETE_QUERY = "delete from reviews where id = ?";
@@ -35,7 +36,7 @@ public class ReviewDAO implements IReviewDAO{
     @Override
     public Review getReview(int reviewId){
         try {
-            return jdbcTemplate.queryForObject(DATA_QUERY, new ReviewDaoMapper(), reviewId);
+            return jdbcTemplate.queryForObject(DATA_QUERY_WITH_ID, new ReviewDaoMapper(), reviewId);
         }
         catch (DataAccessException e) {
             System.out.println("No review found.");

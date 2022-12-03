@@ -14,7 +14,7 @@ public class CommentController {
         this.input = input;
     }
 
-    @PostMapping("/corporate/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments")
+    @PostMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments")
     public ResponseEntity<CommentResponseModel> create(@RequestBody CommentRequestModel requestModel) {
         CommentResponseModel responseModel = input.create(requestModel);
         String status = responseModel.getStatus().toString();
