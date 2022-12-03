@@ -1,5 +1,4 @@
 package user.postreview;
-
 import entity.Review;
 import service.dao.IReviewDAO;
 import service.dao.IInternshipDAO;
@@ -20,14 +19,14 @@ public class PostReview implements IPostReview{
      * @return a response model to be sent back to the client
      */
     @Override
-    public PostReviewResponse addReviewToCorporate(PostReviewRequest request) {
+    public PostReviewResponse addReviewToInternship(PostReviewRequest request) {
 //      Internship internship = internshipDAO.getInternship(request.getInternshipId());
         Review review = new Review(
                 request.getUsername(),
                 request.getReviewContent(),
                 request.getRating()
         );
-        int reviewId = reviewDAO.saveReview(review);
+        int reviewId = reviewDAO.saveReview(review, Integer.parseInt(request.getInternshipId()));
 //        ArrayList<String> reviews = internship.getReviews();
 //        reviews.add(reviewId);
 //        internship.setReviews(reviews);

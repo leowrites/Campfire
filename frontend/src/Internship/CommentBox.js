@@ -13,7 +13,8 @@ export default function CommentBox({ handleShowCommentBox, postComment, parentTy
       <TextField fullWidth onChange={handleValChange} />
       <Button
         onClick={() => {
-          postComment(parentType, parentId, comment);
+          parentType === "Internship" ? postComment(comment, 0)
+          : postComment(parentType, parentId, comment);
         }}>
         post
       </Button>

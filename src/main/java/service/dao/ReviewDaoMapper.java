@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entity.Review;
+import org.postgresql.util.PSQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -26,6 +27,13 @@ public class ReviewDaoMapper implements RowMapper<Review> {
         String reviewData = rs.getString("data");
         Gson gson = new Gson();
         JsonObject object = (JsonObject) JsonParser.parseString(reviewData);
-        return gson.fromJson(object, Review.class);
+        Review review = gson.fromJson(object, Review.class);
+        try {
+            rs.getInt("internshipid");
+            review.setInternshipId(rs.getInt("internshipid"));
+        } catch (PSQLException e) {
+            System.out.println(e);
+        }
+        return review;
     }
 }

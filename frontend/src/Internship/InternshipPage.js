@@ -16,7 +16,7 @@ export default function InternshipPage() {
   const { corporateId, internshipId } = useParams();
   const [internshipDetails, setInternshipsDetails] = useState({});
   const [showCommentBox, setShowCommentBox] = useState(false);
-  const auth = useAuthContext();
+  const { principal } = useAuthContext();
   const handleShowCommentBox = () => {
     setShowCommentBox(!showCommentBox);
   };
@@ -27,20 +27,27 @@ export default function InternshipPage() {
     axios.get(`/corporates/${corporateId}/internships/${internshipId}`).then((data) => {
       setInternshipsDetails(data.data);
     });
-  });
-  useEffect(() => {
-    axios.get(`/corporates/${corporateId}/internships/${internshipId}/reviews`).then((data) => {
-      console.log(data.data)
-      setReviews(data.data);
-    });
   }, []);
 
-  const postComment = (comment, rating) => {
-    axios.post(`/corporates/${corporateId}/internships/${internshipId}/reviews`, {
-      reviewContent: comment,
-      username: auth.username,
-      rating: rating,
+  const getReviews = () => {
+    axios.get(`/corporates/${corporateId}/internships/${internshipId}/reviews`).then((data) => {
+      console.log(data.data);
+      setReviews(data.data);
     });
+  };
+  useEffect(() => {
+    getReviews();
+  }, []);
+
+  const postReview = (comment, rating) => {
+    axios
+      .post(`/corporates/${corporateId}/internships/${internshipId}/reviews`, {
+        reviewContent: comment,
+        username: principal.username,
+        rating: rating,
+      })
+      .then((res) => res.data.status === 'SUCCESS' && getReviews())
+      .then(() => setShowCommentBox(false));
   };
 
   return (
@@ -56,8 +63,8 @@ export default function InternshipPage() {
           />
           <CommentCard
             handleShowCommentBox={handleShowCommentBox}
-            postComment={postComment}
-            parentType={'Review'}
+            postComment={postReview}
+            parentType={'Internship'}
             parentId={internshipId}
           />
         </Box>
