@@ -18,7 +18,7 @@ public class CreateInternshipController {
         this.interactor = interactor;
     }
 
-    @PostMapping("/users/createInternship")
+    @PostMapping("/corporates/{corporateId}/internships")
     public ResponseEntity<CreateInternshipResponseDS> receiveCreateInternshipForm(@RequestBody CreateInternshipInputDS inputDS){
         CreateInternshipResponseDS responseDS = this.interactor.createInternship(inputDS);
         if (responseDS.getServerStatus().equals(ServerStatus.SUCCESS)){
