@@ -12,6 +12,7 @@ import { AuthContextProvider } from './AuthContext';
 import CorporatePage from './Corporate/CorporatePage';
 import InternshipPage from './Internship/InternshipPage';
 import AddInternshipForm from './Corporate/AddInternshipForm';
+import CreateCompany from "./Corporate/CreateCompany";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
       {
         path: '/',
         element: <HomePage />,
+      },
+      {
+        path: '/corporates/create',
+        element: <CreateCompany></CreateCompany>
       },
       {
         path: '/corporates/:corporateId',

@@ -2,12 +2,12 @@ package entity;
 import java.util.ArrayList;
 
 public class Corporate {
-    private User rep;
+    private String rep;
     private String companyName;
     private String companyInfo;
     private ArrayList<Integer> internships;
 
-    public Corporate(User rep,
+    public Corporate(String rep,
                      String companyName, String companyInfo){
         this.rep = rep;
         this.companyName = companyName;
@@ -15,7 +15,7 @@ public class Corporate {
         this.internships = new ArrayList<>();
     }
 
-    public User getRep(){ return this.rep; }
+    public String getRep(){ return this.rep; }
 
     public String getCompanyName() {
         return this.companyName;
@@ -27,7 +27,7 @@ public class Corporate {
 
     public ArrayList<Integer> getInternships() { return this.internships; }
 
-    public void setOwner(User rep){this.rep = rep;}
+    public void setRep(String rep){this.rep = rep;}
 
     public void setCompanyName(String companyName){
         this.companyName = companyName;

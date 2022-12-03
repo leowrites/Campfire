@@ -38,8 +38,8 @@ public class CorporateDAOTest {
 
     @Test
     public void testSaveCorporateAndGetCorporate(){
-        User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
-        Corporate corporate = new Corporate(rep, "Apple", "Founded by Steve Jobs.");
+//        User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
+        Corporate corporate = new Corporate("justinli", "Apple", "Founded by Steve Jobs.");
         int corporateId = corporateDAO.saveCorporate(corporate);
         assertEquals(1, corporateId);
         try {
@@ -54,7 +54,7 @@ public class CorporateDAOTest {
     @Test
     public void testCompanyExistsForCompanyThatExists() {
         User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
-        Corporate corporate = new Corporate(rep, "Apple", "Founded by Steve Jobs.");
+        Corporate corporate = new Corporate("justinli", "Apple", "Founded by Steve Jobs.");
         corporateDAO.saveCorporate(corporate);
         boolean exists = corporateDAO.companyExists(corporate.getCompanyName());
         assertEquals(true, exists);
