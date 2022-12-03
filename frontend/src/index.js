@@ -11,6 +11,7 @@ import { GlobalContextProvider } from './GlobalContext';
 import { AuthContextProvider } from './AuthContext';
 import CorporatePage from './Corporate/CorporatePage';
 import InternshipPage from './Internship/InternshipPage';
+import AddInternshipForm from './Corporate/AddInternshipForm';
 
 const routes = [
   {
@@ -27,6 +28,10 @@ const routes = [
       {
         path: '/corporates/:corporateId/internships/:internshipId',
         element: <InternshipPage />,
+      },
+      {
+        path: '/corporates/:corporateId/internships',
+        element: <AddInternshipForm />,
       },
       {
         path: '/login',
