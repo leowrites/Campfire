@@ -2,16 +2,14 @@ package entity;
 import java.util.List;
 
 public class Internship {
-    private int company_id;
-    private int id;
+    private int companyID;
     private List<Integer> reviews;
     private String jobTitle;
     private String creator_username;
 
     // constructor
-    public Internship(int company_id, int id, List<Integer> reviews, String jobTitle, String creator_username) {
-        this.company_id = company_id;
-        this.id = id;
+    public Internship(int companyID, List<Integer> reviews, String jobTitle, String creator_username) {
+        this.companyID = companyID;
         this.reviews = reviews;
         this.jobTitle = jobTitle;
         this.creator_username = creator_username;
@@ -21,11 +19,8 @@ public class Internship {
     }
 
     //getter methods
-    public int getCompany_id() {
-        return company_id;
-    }
-    public int getId() {
-        return id;
+    public int getCompanyID() {
+        return companyID;
     }
     public List<Integer> getReviews() {
         return reviews;
@@ -39,11 +34,8 @@ public class Internship {
 
     //setter methods
 
-    public void setCompany_id(int company_id) {
-        this.company_id = company_id;
-    }
-    public void setId(int id) {
-        this.id = id;
+    public void setCompanyID(int companyID) {
+        this.companyID = companyID;
     }
     public void setReviews(List<Integer> reviews) {
         this.reviews = reviews;
