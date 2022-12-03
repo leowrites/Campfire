@@ -7,50 +7,29 @@ public class User implements Serializable {
     private ArrayList<String> incomingConnectionRequests;
     private ArrayList<String> outgoingConnectionRequests;
     private ArrayList<String> connections;
-    private String id;
     private String name;
     private String username;
     private String email;
     private String password;
-    private int accesslevel;
+    private int accessLevel;
+    private boolean corporateRep;
+
     public User() {}
-    public User(String id,
-                ArrayList<String> incomingConnectionRequests,
-                ArrayList<String> outgoingConnectionRequests,
-                ArrayList<String> connections,
+
+    public User(
                 String username,
                 String email,
                 String password,
                 String name) {
-        this.incomingConnectionRequests = incomingConnectionRequests;
-        this.outgoingConnectionRequests = outgoingConnectionRequests;
-        this.connections = connections;
+        this.incomingConnectionRequests = new ArrayList<>();
+        this.outgoingConnectionRequests = new ArrayList<>();
+        this.connections = new ArrayList<>();
         this.username = username;
         this.email = email;
-        this.id = id;
         this.password = password;
         this.name = name;
-        this.accesslevel = 1;
-    }
-
-    public User(String id,
-                ArrayList<String> incomingConnectionRequests,
-                ArrayList<String> outgoingConnectionRequests,
-                ArrayList<String> connections,
-                String username,
-                String email,
-                String password,
-                String name,
-                int accesslevel) {
-        this.incomingConnectionRequests = incomingConnectionRequests;
-        this.outgoingConnectionRequests = outgoingConnectionRequests;
-        this.connections = connections;
-        this.username = username;
-        this.email = email;
-        this.id = id;
-        this.password = password;
-        this.name = name;
-        this.accesslevel = accesslevel;
+        this.accessLevel = 0;
+        this.corporateRep = false;
     }
 
     public ArrayList<String> getIncomingConnectionRequests() {
@@ -76,9 +55,6 @@ public class User implements Serializable {
     public void setConnections(ArrayList<String> connections) {
         this.connections = connections;
     }
-    public String getId(){
-        return id;
-    }
     public String getName() {
         return name;
     }
@@ -91,16 +67,17 @@ public class User implements Serializable {
     public String getEmail() {
         return email;
     }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setName(String name) {
-        this.name = name;
+    public int getAccessLevel(){return this.accessLevel;}
+
+    public void setAccessLevel(int accessLevel){
+        this.accessLevel = accessLevel;
     }
 
-    public int getaccesslevel(){return this.accesslevel;}
+    public boolean getCorporateRep() {
+        return this.corporateRep;
+    }
 
-    public void setaccesslevel(int accesslevel){
-        this.accesslevel = accesslevel;
+    public void setCorporateRep(boolean corporateRep) {
+        this.corporateRep = corporateRep;
     }
 }

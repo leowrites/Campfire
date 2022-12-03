@@ -4,5 +4,5 @@ public interface CreateInternshipInputBoundary {
 
     CreateInternshipResponseDS createInternship(CreateInternshipInputDS inputDS);
 
-    void test();
+    void test_update_review();
 }

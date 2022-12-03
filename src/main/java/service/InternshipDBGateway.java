@@ -1,10 +1,11 @@
 package service;
 
 import entity.Internship;
-import exceptions.InternshipNotFoundException;
+import user.exceptions.InternshipNotFoundException;
 import java.util.ArrayList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public interface InternshipDBGateway {
@@ -15,4 +16,5 @@ public interface InternshipDBGateway {
 
     void saveInternship(Internship internship);
 
+    void updateInternship(int id, Internship internship);
 }

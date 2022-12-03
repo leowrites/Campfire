@@ -3,33 +3,29 @@ import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import service.IUserDataAccess;
+import service.dao.IUserDAO;
 
 import entity.FieldError;
 import user.requestconnect.exceptions.UserNotFoundException;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import entity.User;
 
 @Component
 public class SignUpInteractor implements SignUpInputBoundary {
 
     @Autowired
-    final IUserDataAccess dataAccess;
+    final IUserDAO dataAccess;
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public SignUpInteractor(IUserDataAccess dataAccess) {
+    public SignUpInteractor(IUserDAO dataAccess) {
         this.dataAccess = dataAccess;
     }
 
     @Override
     public SignUpResponseDS validateInputs(SignUpInputDS signUpInputs) {
-        List<FieldError> errorMessages = new ArrayList<FieldError>();
+        List<FieldError> errorMessages = new ArrayList<>();
 
 //        System.out.println("test");
 //        //validate email is a valid U of T Email Address
@@ -62,16 +58,12 @@ public class SignUpInteractor implements SignUpInputBoundary {
         //save user in database if there are no errors
         if (errorMessages.size() == 0){
             User user = new User(
-                    signUpInputs.getUsername(),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
                     signUpInputs.getEmail(),
                     signUpInputs.getUsername(),
                     passwordEncoder.encode(signUpInputs.getPassword()),
                     signUpInputs.getFirstName()
             );
-            user.setaccesslevel(2);
+            user.setAccessLevel(2);
             dataAccess.saveUser(user);
         }
         return new SignUpResponseDS(errorMessages);

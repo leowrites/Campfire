@@ -1,25 +1,26 @@
 package service;
 import entity.Internship;
 
+import entity.User;
 import org.springframework.jdbc.core.RowMapper;
-
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.List;
 
 public class InternshipRowMapper implements RowMapper<Internship> {
 
     @Override
     public Internship mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Internship internship = new Internship();
-        internship.setId(rs.getInt("internship_id"));
-        internship.setCompany_id(rs.getInt("internship_company"));
-        internship.setJobTitle(rs.getString("internship_job_title"));
-        internship.setCreator_username(rs.getString("creator_username"));
-        int[] reviews_array = (int[]) rs.getArray("reviews").getArray();
-        internship.setReviews(Arrays.stream(reviews_array).boxed().collect(Collectors.toList()));
-
+        String internshipData = rs.getString("data");
+        Gson gson = new Gson();
+        JsonObject object = (JsonObject) JsonParser.parseString(internshipData);
+        System.out.println(object);
+        User user = gson.fromJson(object, User.class);
+        System.out.println(user);
+        Internship internship = gson.fromJson(object, Internship.class);
+        internship.setCompanyID(rs.getInt("companyid"));
         return internship;
     }
 }
