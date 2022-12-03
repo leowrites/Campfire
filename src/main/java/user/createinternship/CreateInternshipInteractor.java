@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.dao.IUserDAO;
 import service.dao.IInternshipDAO;
+import service.ServerStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class CreateInternshipInteractor implements CreateInternshipInputBoundary
             System.out.println(creator.getAccessLevel());
             if (!creator.getCorporateRep()){
                 // if user is not a corporate rep, return failure.
-                return new CreateInternshipResponseDS("Not authorized to create internship");
+                return new CreateInternshipResponseDS(ServerStatus.ERROR, "not authorized to create new corporate page");
             }
             // create a new internship
             Internship internship = new Internship(inputDS.getCompanyID(), new ArrayList<>(),
@@ -42,9 +43,9 @@ public class CreateInternshipInteractor implements CreateInternshipInputBoundary
 
             internshipDataAccess.saveInternship(internship);
 
-            return new CreateInternshipResponseDS("success");
+            return new CreateInternshipResponseDS(ServerStatus.SUCCESS, "success");
         } catch (Exception e){
-            return new CreateInternshipResponseDS(e.getMessage());
+            return new CreateInternshipResponseDS(ServerStatus.ERROR, e.getMessage());
         }
     }
 

@@ -1,13 +1,21 @@
 package user.createinternship;
 
-public class CreateInternshipResponseDS {
-    private final String success_status;
+import service.ServerStatus;
 
-    public CreateInternshipResponseDS(String success_status) {
-        this.success_status = success_status;
+public class CreateInternshipResponseDS {
+    private final ServerStatus serverStatus;
+    private final String message;
+
+    public ServerStatus getServerStatus() {
+        return serverStatus;
     }
 
-    public String getSuccess_status() {
-        return success_status;
+    public String getMessage() {
+        return message;
+    }
+
+    public CreateInternshipResponseDS(ServerStatus serverStatus, String message) {
+        this.serverStatus = serverStatus;
+        this.message = message;
     }
 }
