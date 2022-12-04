@@ -32,7 +32,7 @@ export default function Navbar() {
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
 
-      <AppBar position='static' style={{ background: '#050f04', height: "10vh", width:'100vw'}} elevation={0}>
+      <AppBar position='static' style={{ background: '#050f04', height: "4rem" }} elevation={0}>
         <Toolbar>
           <Link to='/' style={{ textDecoration: 'none', display:'flex' }}>
             <Logo style={{height: 80, padding: 10, marginLeft: '10%'}}></Logo>
