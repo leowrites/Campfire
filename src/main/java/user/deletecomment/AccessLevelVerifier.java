@@ -2,6 +2,8 @@ package user.deletecomment;
 
 import user.exceptions.NotEnoughAccessLevelException;
 
+/** A class in the deletecomment use case that verifies if a user has enough access level.
+ */
 public class AccessLevelVerifier {
 
     private final int accessLevel;
@@ -10,8 +12,8 @@ public class AccessLevelVerifier {
         this.accessLevel = accessLevel;
     }
 
-    /**
-     * raises error if the user does not have access level
+    /** Verifies if the user has enough access level.
+     * @throws NotEnoughAccessLevelException thrown when the user does not have enough access level.
      */
     public void verify() throws NotEnoughAccessLevelException {
         if (this.accessLevel != 1){

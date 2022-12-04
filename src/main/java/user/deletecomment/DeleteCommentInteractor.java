@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/** The deletecomment use case interactor that calls the deleteComment method from the
+ * IDeleteCommentInput input boundary. When initialized, takes in an object that implements
+ * IReviewDAO to access the review database through, an object that implements ICommentDAO
+ * to access the comment database through, and an object that implements IUserDAO to access
+ * the user database through.
+ */
 public class DeleteCommentInteractor implements IDeleteCommentInput {
     private final IReviewDAO dataAccessReview;
     private final ICommentDAO dataAccessComment;
@@ -24,6 +30,10 @@ public class DeleteCommentInteractor implements IDeleteCommentInput {
         this.userDAO = userDAO;
     }
 
+    /** Deletes the comment as specified by the inputs in requestModel from the comment database.
+     * @param requestModel the request model
+     * @return a response model to be sent back to the client
+     */
     @Override
     public DeleteCommentResponseModel deleteComment(DeleteCommentRequestModel requestModel) {
         int commentId = requestModel.getCommentId();
