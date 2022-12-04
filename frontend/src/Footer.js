@@ -13,26 +13,22 @@ export default function Footer() {
     <Box>
       <Box
         sx={{
-          mt: 2,
           p: 2,
-          position: 'fixed',
           left: 0,
           bottom: 0,
           right: 0,
-          backgroundColor: '#eff1f3',
+          backgroundColor: '#131b23',
           minHeight: '5rem',
         }}>
-        <Typography sx={{ display: 'flex' }} variant='h7'>
+        <Typography sx={{ display: 'flex', color: 'white' }} variant='h7'>
           Company representative?
-          {principal ? (
-            <Link to={`/corporates/create`} style={{ color: 'gray', textDecoration: 'none' }}>
-              Add your company
-            </Link>
-          ) : (
-            <></>
-          )}
+          <Link
+            to={principal ? `/corporates/create` : '/login'}
+            style={{ color: 'gray', textDecoration: 'none' }}>
+            Add your company
+          </Link>
         </Typography>
-        <Typography sx={{ display: 'flex' }} variant='h7'>
+        <Typography sx={{ display: 'flex', color: 'white' }} variant='h7'>
           My Intern Days 2022
         </Typography>
       </Box>

@@ -27,7 +27,7 @@ export default function Navbar() {
     axios.post('logout');
   };
 
-  const [open, setOpen] = useState('false');
+  const [open, setOpen] = useState(false);
 
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
