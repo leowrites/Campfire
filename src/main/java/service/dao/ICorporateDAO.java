@@ -6,10 +6,12 @@ import user.createcorporate.exceptions.CompanyNotFoundException;
 import java.util.ArrayList;
 
 public interface ICorporateDAO {
-    Corporate getCorporateFromCompanyName(String companyName) throws CompanyNotFoundException;
+    Corporate getCorporateByName(String companyName) throws CompanyNotFoundException;
+
+
     ArrayList<Corporate> getAllCorporates();
 
-    ArrayList<Corporate> getCorporatesWithSubstring();
+    ArrayList<Corporate> getCorporatesWithSubstring(String search);
     int saveCorporate(Corporate corporate);
 
     boolean companyExists(String companyName);

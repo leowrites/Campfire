@@ -3,6 +3,7 @@ package service.dao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Corporate;
+import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,10 +22,12 @@ public class CorporateDAO implements ICorporateDAO {
     final String INSERT_QUERY = "insert into corporates (company, data) values (?, ?)";
     final String QUERY_ALL = "select * from corporates";
     final String SELECT_QUERY = "select * from corporates where company = ?";
+
+    final String SELECT_SUBSTRING_QUERY = "SELECT * FROM corporates WHERE company LIKE CONCAT('%', ?, '%')";
     final String EXISTS_QUERY = "select count(*) from corporates where company = ?";
 
     @Override
-    public Corporate getCorporateFromCompanyName(String companyName) throws CompanyNotFoundException {
+    public Corporate getCorporateByName(String companyName) throws CompanyNotFoundException {
         try {
             return jdbcTemplate.queryForObject(SELECT_QUERY, new CorporateDaoMapper(), companyName);
         }
@@ -33,7 +36,6 @@ public class CorporateDAO implements ICorporateDAO {
             throw new CompanyNotFoundException("No company found.");
         }
     }
-    
 
     @Override
     public ArrayList<Corporate> getAllCorporates() {
@@ -41,8 +43,13 @@ public class CorporateDAO implements ICorporateDAO {
     }
 
     @Override
-    public ArrayList<Corporate> getCorporatesWithSubstring() {
-        return null;
+    public ArrayList<Corporate> getCorporatesWithSubstring(String search) {
+        try {
+            return (ArrayList<Corporate>) jdbcTemplate.query(SELECT_SUBSTRING_QUERY, new CorporateDaoMapper(), search);
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            throw  e;
+        }
     }
 
     @Override
