@@ -10,7 +10,7 @@ export default function Footer() {
   // has a prompt to allow company representatives to add their company
   // create a beautiful footer with some nice colors
   return (
-    <Box sx={{ mt: '10rem' }}>
+    <Box>
       <Box
         sx={{
           mt: 2,
@@ -23,7 +23,7 @@ export default function Footer() {
           minHeight: '5rem',
         }}>
         <Typography sx={{ display: 'flex' }} variant='h7'>
-          Company representitive?
+          Company representative?
           {principal ? (
             <Link to={`/corporates/create`} style={{ color: 'gray', textDecoration: 'none' }}>
               Add your company
