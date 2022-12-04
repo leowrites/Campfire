@@ -31,10 +31,8 @@ export default function Navbar() {
 
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
-      <Drawer open={open} anchor={"right"} onClose={() => setOpen(false)}>
-        <ConnectPanel />
-      </Drawer>
-      <AppBar position='static' style={{ background: '#050f04', height: "30%" }} elevation={0}>
+
+      <AppBar position='static' style={{ background: '#050f04', height: "10vh", width:'100vw'}} elevation={0}>
         <Toolbar>
           <Link to='/' style={{ textDecoration: 'none', display:'flex' }}>
             <Logo style={{height: 80, padding: 10, marginLeft: '10%'}}></Logo>
@@ -77,6 +75,9 @@ export default function Navbar() {
           </Box>
         </Toolbar>
       </AppBar>
+      <Drawer open={open} anchor={"right"} onClose={() => setOpen(false)}>
+        <ConnectPanel />
+      </Drawer>
     </Stack>
   );
 }
