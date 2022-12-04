@@ -17,12 +17,7 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
         this.reviewDAO = reviewDAO;
     }
 
-    /** Creates a HelpfulResponseModel by first checking if there is a Review with the given
-     * id as in the request model, returning a failure in the ServerStatus and an appropriate
-     * message if the review does not exist. If the review does exist, it either adds to the
-     * number of likes or dislikes based on the isHelpful boolean in the request model, updates
-     * the review in the database through reviewDAO, and returns a response model with a
-     * success in the ServerStatus and an appropriate message.
+    /** Increases the count of helpful or unhelpful by 1.
      * @param requestModel a request model that contains a boolean representation of if
      *                     the review is helpful and an int representing the Review's id
      * @return a response model holding a ServerStatus and a String message
