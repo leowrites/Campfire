@@ -30,9 +30,9 @@ public class ReviewDaoMapper implements RowMapper<Review> {
         Review review = gson.fromJson(object, Review.class);
         try {
             review.setId(rs.getInt("id"));
-            System.out.println(rs.getString("id"));
             review.setInternshipId(rs.getInt("internshipid"));
         } catch (PSQLException e) {
+            System.out.print("at ReviewDaoMapper");
             System.out.println(e);
         }
         return review;

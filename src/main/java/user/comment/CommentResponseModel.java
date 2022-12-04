@@ -6,13 +6,13 @@ import service.ServerStatus;
 public class CommentResponseModel {
     private final ServerStatus status;
     private final String message;
-    private final int commentId;
+    private final int id;
     private final Date datePosted;
 
     public CommentResponseModel(ServerStatus status, String message, int commentId, Date datePosted) {
         this.status = status;
         this.message = message;
-        this.commentId = commentId;
+        this.id = commentId;
         this.datePosted = datePosted;
     }
 
@@ -24,8 +24,8 @@ public class CommentResponseModel {
         return this.message;
     }
 
-    public int getCommentId() {
-        return this.commentId;
+    public int getId() {
+        return this.id;
     }
     
     public Date getDatePosted() {

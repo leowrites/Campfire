@@ -21,6 +21,7 @@ public class CommentDaoMapper implements RowMapper<Comment> {
             comment.setId(rs.getInt("id"));
             comment.setParentId(rs.getInt("parentId"));
         } catch (PSQLException e) {
+            System.out.print("At CommentDaoMapper ");
             System.out.println(e);
         }
         return comment;

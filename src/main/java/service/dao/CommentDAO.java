@@ -20,7 +20,7 @@ public class CommentDAO implements ICommentDAO{
     JdbcTemplate jdbcTemplate;
     final String INSERT_QUERY = "insert into comments (data) values (?)";
     final String INSERT_QUERY_WITH_ID = "insert into comments (data, parentid) values (?, ?)";
-    final String SELECT_QUERY = "select data from comments where id = ?";
+    final String SELECT_QUERY = "select * from comments where id = ?";
     final String SELECT_QUERY_WITH_PARENT_ID = "select * from comments where parentid = ?";
     final String UPDATE_QUERY = "update comments set data = ? where id = ?";
     final String DELETE_QUERY = "delete from comments where id = ?";

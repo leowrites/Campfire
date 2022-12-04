@@ -23,15 +23,22 @@ export default function CommentCard({
   const [moreComments, setMoreComments] = useState([]);
   const { principal } = useAuthContext();
   const handleDelete = () => {
-    axios.delete(
-      `/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`,
-      {
-        commentId: commentId,
-        parentType: parentType,
-        parentId: parentId,
-        userId: userId,
-      }
-    );
+    console.log(commentId, parentType, parentId, userId);
+    axios
+      .delete(
+        `/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`,
+        {
+          data: {
+            commentId: commentId,
+            parentType: parentType,
+            parentId: parentId,
+            userId: userId,
+          },
+        }
+      )
+      .then(() => {
+        window.location.reload();
+      });
   };
   const handleShowCommentBox = () => {
     setShowComment(!showComment);
@@ -42,7 +49,7 @@ export default function CommentCard({
   }, []);
 
   const fetchComments = () => {
-    console.log(commentId)
+    console.log(commentId);
     axios
       .get(`/corporates/${corporateId}/internships/${internshipId}/reviews/${commentId}`)
       .then((res) => setMoreComments(res.data));
@@ -50,24 +57,28 @@ export default function CommentCard({
 
   const postComment = (parentType, parentId, comment) => {
     console.log(parentType, parentId, comment, reviewId);
-    axios.post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
+    axios
+      .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
         userId: principal.username,
         parentType: parentType,
         parentId: parentId,
         content: comment,
-    })
-    .then(res => {
-      if (res.data.status === "SUCCESS") {
-        setShowComment(false);
-        setMoreComments([...moreComments, {
-          commentId: res.data.commentId,
-          content: comment,
-          comments: [],
-          datePosted: res.data.datePosted
-        }]);
-      }
-    })
-}
+      })
+      .then((res) => {
+        if (res.data.status === 'SUCCESS') {
+          setShowComment(false);
+          setMoreComments([
+            ...moreComments,
+            {
+              id: res.data.id,
+              content: comment,
+              comments: [],
+              datePosted: res.data.datePosted,
+            },
+          ]);
+        }
+      });
+  };
 
   return (
     <Paper elevation={2} sx={{ my: 3, p: 3 }}>
@@ -104,14 +115,14 @@ export default function CommentCard({
 
       {moreComments.length > 0 &&
         moreComments.map((comment) => {
-          console.log(comment)
+          console.log(comment);
           return (
             <CommentCard
               key={comment.id}
               reviewId={reviewId}
-              parentType={'Review'}
+              parentType={'Comment'}
               commentId={comment.id}
-              parentId={comment.commentI}
+              parentId={commentId}
               userId={userId}
               content={comment.content}
               datePosted={comment.datePosted}

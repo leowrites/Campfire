@@ -7,7 +7,7 @@ import axios from 'axios';
 import CommentBox from './CommentBox';
 import { useParams } from 'react-router-dom';
 import CommentCard from './CommentCard';
-import useAuthContext from "../AuthContext";
+import useAuthContext from '../AuthContext';
 
 export default function ReviewCard({
   reviewId,
@@ -16,7 +16,6 @@ export default function ReviewCard({
   numLikes,
   numDislikes,
   content,
-  comments,
   rating,
 }) {
   const { corporateId, internshipId } = useParams();
@@ -25,11 +24,17 @@ export default function ReviewCard({
   const authContext = useAuthContext();
   const principal = authContext.principal;
   const handleDelete = () => {
-    axios.delete(`/corporates/${corporateId}/internships/${internshipId}/reviews`, {
-      internshipId: internshipId,
-      reviewId: reviewId,
-      userId: userId,
-    });
+    console.log('called');
+    axios.delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
+      data: {
+        internshipId: internshipId,
+        reviewId: reviewId,
+        userId: userId,
+      },
+    })
+    .then(() => {
+      window.location.reload();
+    })
   };
   const handleShowCommentBox = () => {
     setShowComment(!showComment);
@@ -40,30 +45,35 @@ export default function ReviewCard({
   }, []);
 
   const fetchComments = () => {
-    axios.get(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`)
-    .then((res) => setMoreComments(res.data))
+    axios
+      .get(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`)
+      .then((res) => setMoreComments(res.data));
   };
 
   const postComment = (parentType, parentId, comment) => {
     console.log(parentType, parentId, comment, reviewId);
-    axios.post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
+    axios
+      .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
         userId: principal.username,
         parentType: parentType,
         parentId: parentId,
         content: comment,
-    })
-    .then(res => {
-      if (res.data.status === "SUCCESS") {
-        setShowComment(false);
-        setMoreComments([...moreComments, {
-          commentId: res.data.commentId,
-          content: comment,
-          comments: [],
-          datePosted: res.data.datePosted
-        }]);
-      }
-    })
-}
+      })
+      .then((res) => {
+        if (res.data.status === 'SUCCESS') {
+          setShowComment(false);
+          setMoreComments([
+            ...moreComments,
+            {
+              id: res.data.id,
+              content: comment,
+              comments: [],
+              datePosted: res.data.datePosted,
+            },
+          ]);
+        }
+      });
+  };
 
   return (
     <Paper elevation={2} sx={{ mb: 3, p: 3 }}>
