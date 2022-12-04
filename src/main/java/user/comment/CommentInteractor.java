@@ -11,6 +11,11 @@ import service.ServerStatus;
 
 import java.util.ArrayList;
 
+/** The comment use case interactor that calls the create method from the ICommentInputBoundary
+ * input boundary. When initialized, takes in an object that implements IReviewDAO to acces the
+ * review database through, and an object that implements ICommentDAO to access the comment
+ * database through.
+ */
 public class CommentInteractor extends CommentObservable implements ICommentInputBoundary {
     private final IReviewDAO reviewDAO;
     private final ICommentDAO commentDAO;
@@ -20,6 +25,11 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         this.commentDAO = commentDAO;
     }
 
+    /** Creates a comment as specified by the inputs in requestModel and updates the
+     * corresponding database.
+     * @param requestModel the request model
+     * @return a response model to be sent back to the client
+     */
     @Override
     public CommentResponseModel create(CommentRequestModel requestModel) {
         String userId = requestModel.getUserId();
