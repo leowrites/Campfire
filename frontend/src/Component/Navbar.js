@@ -4,11 +4,14 @@ import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import TextField from "@mui/material/TextField";
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import useAuthContext from '../AuthContext';
 import axios from 'axios';
+import { ReactComponent as YourSvg } from './campfire.svg';
+import './fonts.css';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -22,13 +25,23 @@ export default function Navbar() {
 
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
-      <AppBar position='static' style={{ background: '#556f44' }} elevation={0}>
+      <AppBar position='static' style={{ background: '#050f04', height: "30%" }} elevation={0}>
         <Toolbar>
-          <Link to='/' style={{ textDecoration: 'none' }}>
-            <Typography variant='h6' sx={{ color: 'white' }}>
-              My Intern Days
-            </Typography>
+          <Link to='/' style={{ textDecoration: 'none', display:'flex' }}>
+            <YourSvg style={{height: 80, padding: 10, marginLeft: '10%'}}></YourSvg>
+            <div style={ {display: 'inline-flex', alignItems: 'center', marginLeft: '10%', width: 300, padding: 0}}>
+              <Typography variant='h4' sx={{ color: '#F6F2F2', fontFamily: 'ExtraBold', paddingTop: '3%' }}>
+                CAMP
+              </Typography>
+              <Typography variant='h4' sx={{ color: '#ff5634', fontFamily: 'ExtraBold', marginLeft: '2%', paddingTop: '3%'}}>
+                F I R E
+              </Typography>
+            </div>
+
           </Link>
+
+          <TextField id="outlined-basic" label="Search" variant="outlined"  />
+
           <Box sx={{ ml: 'auto' }}>
             {principal ? (
               <>
@@ -39,10 +52,10 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Button sx={{ color: 'white' }} onClick={() => navigate('login')}>
+                <Button sx={{ color: '#F6F2F2', fontFamily: 'bold', fontSize: 20}} onClick={() => navigate('login')}>
                   Login
                 </Button>
-                <Button sx={{ color: 'white' }} onClick={() => navigate('signup')}>
+                <Button sx={{ color: '#ff5634', fontFamily: 'ExtraBold', fontSize: 20 }} onClick={() => navigate('signup')}>
                   Sign up
                 </Button>
               </>
