@@ -6,6 +6,10 @@ import user.acceptconnect.exceptions.NoRequestFoundException;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import java.util.ArrayList;
 
+/** A class in the acceptconnect use case that handles the connection between the user user and
+ *  the target user target and updates the user database through an object that implements IUserDAO,
+ *  all of which are taken in on initialization.
+ */
 public class AcceptConnectionHandler {
     private final User user;
     private final User target;
@@ -16,6 +20,10 @@ public class AcceptConnectionHandler {
         this.dataAccess = dataAccess;
     }
 
+    /** Accepts the connection between user and target, and updates the database through dataAccess.
+     * @throws UserAlreadyConnectedException thrown when the users are already connected
+     * @throws NoRequestFoundException thrown when no request from the target user is found
+     */
     public void acceptConnection() throws UserAlreadyConnectedException, NoRequestFoundException {
         if (user.getConnections().contains(target.getUsername())) {
             // throw already connected error
