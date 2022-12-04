@@ -1,5 +1,10 @@
 package user.postreview;
 
+/** A request model for the postreview use case that frames the input data into an object.
+ * Holds the String representing the id of the internship in internshipId, the String content of
+ * the review in reviewContent, the String username of the user posting the review in username,
+ * and the int rating on the review in rating.
+ */
 public class PostReviewRequest {
     private String internshipId;
     private final String reviewContent;
