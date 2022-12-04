@@ -2,6 +2,7 @@
 import Grid from '@mui/material/Grid';
 
 import Typography from '@mui/material/Typography';
+import TextField from "@mui/material/TextField";
 import Image from './bannerImage.png';
 
 
@@ -11,6 +12,7 @@ function HomePage() {
   return (
     <>
       <Grid
+
           container
           direction="column"
           justifyContent="center"
@@ -18,12 +20,11 @@ function HomePage() {
           sx={{
               height: '90vh',
               width: '100vw',
-              ml: '-10vw',
               backgroundImage: `url(${Image})`,
               backgroundSize: 'cover'
           }}
       >
-          <Grid>
+
 
           <Typography
               sx={{
@@ -46,10 +47,14 @@ function HomePage() {
               Share your valuable internship experience.
           </Typography>
           <br></br>
-          </Grid>
+          <TextField id="standard-basic" label="Search For Companies" variant="filled" sx={{
+              width: '30vw',
+              backgroundColor: 'white',
+              borderRadius: 4
+          }} />
 
       </Grid>
-        <Grid>
+        <Grid container sx={{backgroundColor:'blue', height: '30vh', width: '100vw'}}>
 
         </Grid>
     </>

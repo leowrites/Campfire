@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <>
       <Navbar />
-      <Container>
+      <Container disableGutters={true} sx={{padding:0, margin: 0, width:'100%'}}>
         <Outlet />
       </Container>
       <Footer />
