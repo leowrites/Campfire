@@ -63,7 +63,7 @@ public class CorporateGenerateInteractorTest {
         // test that the corporate page was properly saved in the corporates table
         Corporate corporate;
         try {
-            corporate = corporateDAO.getCorporate("Apple");
+            corporate = corporateDAO.getCorporateFromCompanyName("Apple");
         }
         catch (CompanyNotFoundException e) {
             throw new RuntimeException(e);
@@ -107,7 +107,7 @@ public class CorporateGenerateInteractorTest {
         assertEquals(0, responseModel.getCorporateId());
         // test that the company in the database is the original company
         try {
-            corporate = corporateDAO.getCorporate("Apple");
+            corporate = corporateDAO.getCorporateFromCompanyName("Apple");
         }
         catch (CompanyNotFoundException e) {
             throw new RuntimeException(e);

@@ -24,7 +24,7 @@ public class CorporateDAO implements ICorporateDAO {
     final String EXISTS_QUERY = "select count(*) from corporates where company = ?";
 
     @Override
-    public Corporate getCorporate(String companyName) throws CompanyNotFoundException {
+    public Corporate getCorporateFromCompanyName(String companyName) throws CompanyNotFoundException {
         try {
             return jdbcTemplate.queryForObject(SELECT_QUERY, new CorporateDaoMapper(), companyName);
         }
@@ -33,10 +33,16 @@ public class CorporateDAO implements ICorporateDAO {
             throw new CompanyNotFoundException("No company found.");
         }
     }
+    
 
     @Override
     public ArrayList<Corporate> getAllCorporates() {
         return (ArrayList<Corporate>) jdbcTemplate.query(QUERY_ALL, new CorporateDaoMapper());
+    }
+
+    @Override
+    public ArrayList<Corporate> getCorporatesWithSubstring() {
+        return null;
     }
 
     @Override
