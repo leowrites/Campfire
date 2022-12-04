@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import ConnectPanel from './ConnectPanel';
 import axios from 'axios';
 import CorporateCard from './CorporateCard';
 import Typography from '@mui/material/Typography';
 
+
+
+
 function HomePage() {
-  // get all companies
-  const [companies, setCompanies] = useState([]);
-  useEffect(() => {
-    axios.get('/corporates').then((data) => {
-      setCompanies(data.data);
-    });
-  }, []);
+
+      // get all companies
+      const [companies, setCompanies] = useState([]);
+      useEffect(() => {
+        axios.get('/corporates').then((data) => {
+          setCompanies(data.data);
+        });
+      }, []);
+
 
   return (
     <Box sx={{ my: 2 }} textAlign='start'>
@@ -31,9 +35,9 @@ function HomePage() {
             />
           ))}
         </Grid>
-        <Grid item xs={3}>
-          <ConnectPanel />
-        </Grid>
+        {/*<Grid item xs={3}>*/}
+        {/*  /!*<ConnectPanel />*!/*/}
+        {/*</Grid>*/}
       </Grid>
     </Box>
   );

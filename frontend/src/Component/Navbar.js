@@ -10,8 +10,12 @@ import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import useAuthContext from '../AuthContext';
 import axios from 'axios';
-import { ReactComponent as YourSvg } from './campfire.svg';
+import { ReactComponent as Logo } from './campfire.svg';
 import './fonts.css';
+import {ReactComponent as ConnectIcon} from "./connectIcon.svg";
+import {useState} from "react";
+import ConnectPanel from "../Home/ConnectPanel";
+import {Drawer} from "@mui/material";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -23,12 +27,17 @@ export default function Navbar() {
     axios.post('logout');
   };
 
+  const [open, setOpen] = useState('false');
+
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
+      <Drawer open={open} anchor={"right"} onClose={() => setOpen(false)}>
+        <ConnectPanel />
+      </Drawer>
       <AppBar position='static' style={{ background: '#050f04', height: "30%" }} elevation={0}>
         <Toolbar>
           <Link to='/' style={{ textDecoration: 'none', display:'flex' }}>
-            <YourSvg style={{height: 80, padding: 10, marginLeft: '10%'}}></YourSvg>
+            <Logo style={{height: 80, padding: 10, marginLeft: '10%'}}></Logo>
             <div style={ {display: 'inline-flex', alignItems: 'center', marginLeft: '10%', width: 300, padding: 0}}>
               <Typography variant='h4' sx={{ color: '#F6F2F2', fontFamily: 'ExtraBold', paddingTop: '3%' }}>
                 CAMP
@@ -44,12 +53,17 @@ export default function Navbar() {
 
           <Box sx={{ ml: 'auto' }}>
             {principal ? (
-              <>
+              <div style={{display: 'inline-flex', alignItems: 'center'}}>
+                <Button onClick={() => setOpen(true)}>
+                  <ConnectIcon style={{height: 70, width: 70, marginLeft: '10%'}}></ConnectIcon>
+                </Button>
+
                 <Typography sx={{ display: 'inline' }}>{principal.username}</Typography>
+
                 <Button sx={{ color: 'white', m: 2 }} onClick={handleLogout}>
                   Logout
                 </Button>
-              </>
+              </div>
             ) : (
               <>
                 <Button sx={{ color: '#F6F2F2', fontFamily: 'bold', fontSize: 20}} onClick={() => navigate('login')}>
