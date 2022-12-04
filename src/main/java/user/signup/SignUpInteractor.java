@@ -3,38 +3,37 @@ import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import service.IUserDataAccess;
+import service.dao.IUserDAO;
 
 import entity.FieldError;
 import user.requestconnect.exceptions.UserNotFoundException;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import entity.User;
 
 @Component
 public class SignUpInteractor implements SignUpInputBoundary {
 
     @Autowired
-    final IUserDataAccess dataAccess;
+    final IUserDAO dataAccess;
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public SignUpInteractor(IUserDataAccess dataAccess) {
+    public SignUpInteractor(IUserDAO dataAccess) {
         this.dataAccess = dataAccess;
     }
 
+    /**
+     Validates inputs of user and creates a new user in database if inputs are valid. Returns a
+     responseDS that shows the success state of creating a user.
+     * */
     @Override
     public SignUpResponseDS validateInputs(SignUpInputDS signUpInputs) {
-        List<FieldError> errorMessages = new ArrayList<FieldError>();
+        List<FieldError> errorMessages = new ArrayList<>();
 
-//        System.out.println("test");
 //        //validate email is a valid U of T Email Address
         if (!signUpInputs.getEmail().matches("^[A-Za-z0-9._%+-]+@mail\\.utoronto\\.ca$")){
-            errorMessages.add(new FieldError("email", "Please enter a valid email"));
+            errorMessages.add(new FieldError("email", "Please enter a valid utoronto.ca email"));
         }
 
         //validate username is unique
@@ -44,8 +43,6 @@ public class SignUpInteractor implements SignUpInputBoundary {
         } catch (UserNotFoundException e) {
             // this is good, we proceed
         }
-
-        //validate email is unique
 
         //validate password and confirmPassword matches
         if (!signUpInputs.getPassword().equals(signUpInputs.getConfirmPassword())){
@@ -63,15 +60,13 @@ public class SignUpInteractor implements SignUpInputBoundary {
         if (errorMessages.size() == 0){
             User user = new User(
                     signUpInputs.getUsername(),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
-                    new ArrayList<>(),
                     signUpInputs.getEmail(),
-                    signUpInputs.getUsername(),
                     passwordEncoder.encode(signUpInputs.getPassword()),
-                    signUpInputs.getFirstName()
+                    signUpInputs.getFirstName() + " " + signUpInputs.getLastName()
             );
+            user.setAccessLevel(2);
             dataAccess.saveUser(user);
+            System.out.println("User saved");
         }
         return new SignUpResponseDS(errorMessages);
     }

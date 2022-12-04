@@ -1,7 +1,8 @@
 package user.comment;
 import java.util.ArrayList;
 
-public class CommentObservable {
+// turn into abstract base class
+public abstract class CommentObservable {
     private final ArrayList<CommentObserver> observers;
 
     public CommentObservable() {
