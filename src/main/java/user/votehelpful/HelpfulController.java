@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /** The votehelpful use case controller that connects to Spring. Takes in a HelpfulRequestModel
- * from the user input in front-end, creates a HelpfulResponseModel by sending the criteria to
- * the interactor, puts the response model in a ResponseEntity with the http status to send
+ * from the user input in front-end, creates a HelpfulResponseModel by sending the request model to
+ * the interactor, and puts the response model in a ResponseEntity with the http status to send
  * back to the front-end.
  */
 @RestController
