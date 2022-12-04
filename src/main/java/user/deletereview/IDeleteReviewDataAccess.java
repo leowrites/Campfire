@@ -10,6 +10,9 @@ public interface IDeleteReviewDataAccess {
 
     ArrayList<Review> getReviews();
 
+    /** Updates the reviews.
+     * @param reviews an ArrayList of Reviews
+     */
     void updateReviews(ArrayList<Review> reviews);
 
 }
