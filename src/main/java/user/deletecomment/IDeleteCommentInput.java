@@ -10,5 +10,5 @@ public interface IDeleteCommentInput {
      * @param requestModel a DeleteCommentRequestModel
      * @return a DeleteCommentResponseModel
      */
-    DeleteCommentResponseModel deleteComment(DeleteCommentRequestModel request_model);
+    DeleteCommentResponseModel deleteComment(DeleteCommentRequestModel requestModel);
 }
