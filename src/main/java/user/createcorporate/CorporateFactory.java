@@ -3,6 +3,8 @@ package user.createcorporate;
 import entity.Corporate;
 import entity.User;
 
+/** A class in the createcorporate use case that serves to create Corporate objects as a factory.
+ */
 public class CorporateFactory {
 
     /**
