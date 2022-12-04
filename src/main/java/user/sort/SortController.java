@@ -15,7 +15,7 @@ public class SortController {
 
     private final ISortInput interactor;
 
-    /** This looks for the SortConfig class to get the interactor.
+    /** Looks for the SortConfig class to get the interactor.
      * @param interactor a sortInteractor.
      */
     @Autowired
@@ -23,7 +23,7 @@ public class SortController {
         this.interactor = interactor;
     }
 
-    /** Sorts the given ArrayList of Reviews in requestModel and returns a sortResponseModel.
+    /** Creates a SortResponseModel using the inputs in requestModel.
      * @param requestModel the requestModel taken in from the front-end.
      * @return a responseModel holding the sorted ArrayList of Reviews.
      */

@@ -3,7 +3,7 @@ package user.sort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** A configuration class for Spring that gets a sortInteractor. It is connected to the Autowired
+/** A configuration class for Spring that gets a sortInteractor, connected to the Autowired
  * constructor in the SortController class.
  */
 @Configuration

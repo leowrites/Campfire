@@ -1,8 +1,8 @@
 package user.sort;
 
-/** An interface that is intended for the SortInteractor class to separate the dependency
- * for Clean Architecture. It holds one method, createSortRepsonseModel, that must be implemented
- * in all classes that implement this interface.
+/** An interface that is intended to be implemented by the SortInteractor class. Holds one
+ * method, createSortResponseModel, that must be implemented in all classes that implement
+ * this interface.
  */
 public interface ISortInput {
 

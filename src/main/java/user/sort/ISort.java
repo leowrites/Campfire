@@ -2,9 +2,8 @@ package user.sort;
 import java.util.*;
 import entity.Review;
 
-/** An interface that is intended for the different sorting algorithms to separate dependency
- * for Clean Architecture. It holds one method, sort, that must be implemented in all classes
- * that implement this interface.
+/** An interface that is intended to be implemented by the different sorting algorithms.
+ * Holds one method, sort, that must be implemented in all classes that implement this interface.
  */
 public interface ISort {
 
