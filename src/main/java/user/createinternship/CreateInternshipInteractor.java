@@ -11,6 +11,11 @@ import service.ServerStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+/** The createinternship use case interactor that calls the createInternship method from the
+ * CreateInternshipInputBoundary input boundary. When initialized, takes in an object that
+ * implements IInternshipDAO to access the internship database through, and an object that
+ * implements IUserDAO to access the user database through.
+ */
 @Component
 public class CreateInternshipInteractor implements CreateInternshipInputBoundary {
 
@@ -25,6 +30,10 @@ public class CreateInternshipInteractor implements CreateInternshipInputBoundary
         this.userDataAccess = userDataAccess;
     }
 
+    /** Creates an Internship and updates the internship database.
+     * @param inputDS a CreateInternshipInputDS request model
+     * @return a CreateInternshipResponseDS response model to be sent back to the client
+     */
     @Override
     public CreateInternshipResponseDS createInternship(CreateInternshipInputDS inputDS) {
 

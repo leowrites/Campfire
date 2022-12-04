@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/** The votehelpful use case controller that connects to Spring. Takes in a HelpfulRequestModel
+ * from the user input in front-end, creates a HelpfulResponseModel by sending the request model to
+ * the interactor, and puts the response model in a ResponseEntity with the http status to send
+ * back to the front-end.
+ */
 @RestController
 public class HelpfulController {
     private final IHelpfulInputBoundary input;
@@ -14,6 +19,10 @@ public class HelpfulController {
         this.input = input;
     }
 
+    /** Creates a HelpfulResponseModel using the inputs in requestModel
+     * @param requestModel the HelpfulRequestModel taken in from the front-end
+     * @return a ResponseEntity holding a HelpfulResponseModel and an HttpStatus
+     */
     @PostMapping("/vote-helpful")
     public ResponseEntity<HelpfulResponseModel> create(@RequestBody HelpfulRequestModel requestModel) {
         HelpfulResponseModel responseModel = input.create(requestModel);

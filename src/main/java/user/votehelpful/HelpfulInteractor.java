@@ -5,6 +5,10 @@ import service.ServerStatus;
 import service.dao.IReviewDAO;
 import user.votehelpful.exceptions.ReviewNotFoundException;
 
+/** The votehelpful use case interactor that calls the create method from the
+ * IHelpfulInputBoundary input boundary. When initialized, takes in an object that
+ * implements IReviewDAO to access the database through.
+ */
 public class HelpfulInteractor implements IHelpfulInputBoundary {
     private final IReviewDAO reviewDAO;
 
@@ -12,6 +16,10 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
         this.reviewDAO = reviewDAO;
     }
 
+    /** Increases the count of helpful or unhelpful by 1.
+     * @param requestModel the request model
+     * @return a response model to be sent back to the client
+     */
     @Override
     public HelpfulResponseModel create(HelpfulRequestModel requestModel) {
         boolean isHelpful = requestModel.getIsHelpful();
