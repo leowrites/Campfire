@@ -2,7 +2,7 @@ package user.votehelpful;
 import service.ServerStatus;
 
 /** A response model for the votehelpful use case that frames the output data into an object.
- * It holds the ServerStatus status of the voting operation done in HelpdulInteractor in status,
+ * Holds the ServerStatus status of the voting operation done in HelpdulInteractor in status,
  * and the String message to go with that status in message.
  */
 public class HelpfulResponseModel {

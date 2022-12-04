@@ -6,9 +6,8 @@ import service.dao.IReviewDAO;
 import user.votehelpful.exceptions.ReviewNotFoundException;
 
 /** The votehelpful use case interactor that calls the create method from the
- * IHelpfulInputBoundary input boundary that separates it from the other layers of Clean
- * Architecture. When initialized this interactor takes in an object that implements
- * IReviewDAO to access the database through.
+ * IHelpfulInputBoundary input boundary. When initialized, takes in an object that
+ * implements IReviewDAO to access the database through.
  */
 public class HelpfulInteractor implements IHelpfulInputBoundary {
     private final IReviewDAO reviewDAO;
@@ -18,9 +17,8 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
     }
 
     /** Increases the count of helpful or unhelpful by 1.
-     * @param requestModel a request model that contains a boolean representation of if
-     *                     the review is helpful and an int representing the Review's id
-     * @return a response model holding a ServerStatus and a String message
+     * @param requestModel the request model
+     * @return a response model to be sent back to the client
      */
     @Override
     public HelpfulResponseModel create(HelpfulRequestModel requestModel) {
