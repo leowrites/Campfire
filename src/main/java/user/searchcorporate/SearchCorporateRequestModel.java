@@ -1,13 +1,17 @@
 package user.searchcorporate;
 
 public class SearchCorporateRequestModel {
-    private final String searchterm;
+    private final String searchTerm;
 
-    public String getSearchterm() {
-        return searchterm;
+    public String getSearchTerm() {
+        return searchTerm;
     }
 
-    public SearchCorporateRequestModel(String searchterm) {
-        this.searchterm = searchterm;
+    public SearchCorporateRequestModel() {
+        this.searchTerm = null;
+    }
+
+    public SearchCorporateRequestModel(String searchTerm) {
+        this.searchTerm = searchTerm;
     }
 }

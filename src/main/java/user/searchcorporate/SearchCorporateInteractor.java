@@ -16,7 +16,7 @@ public class SearchCorporateInteractor implements ISearchCorporateInput {
     }
 
     public SearchCorporateResponseModel search(SearchCorporateRequestModel requestModel){
-        ArrayList<Corporate> corporateList = this.dataAccess.getCorporatesWithSubstring(requestModel.getSearchterm());
+        ArrayList<Corporate> corporateList = this.dataAccess.getCorporatesWithSubstring(requestModel.getSearchTerm());
         ArrayList<String> corporateNames = new ArrayList<String>();
         for (Corporate corporate: corporateList){
             corporateNames.add(corporate.getCompanyName());

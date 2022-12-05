@@ -44,7 +44,7 @@ public class CorporateDAOTest {
         corporate.setId(corporateId);
         assertEquals(1, corporateId);
         try {
-            Corporate dbCorporate = corporateDAO.getCorporateByName(corporate.getCompanyName());
+            Corporate dbCorporate = corporateDAO.getCorporate(corporate.getCompanyName());
             assertThat(dbCorporate).usingRecursiveComparison().isEqualTo(corporate);
         }
         catch (CompanyNotFoundException e) {
