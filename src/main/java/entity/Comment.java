@@ -8,6 +8,8 @@ public class Comment implements IUserPost {
     private String content;
     private Date datePosted;
     private ArrayList<Integer> comments;
+    private int parentId;
+    private int id;
 
     public Comment(){
     }
@@ -17,6 +19,22 @@ public class Comment implements IUserPost {
         this.content = content;
         this.datePosted = new Date();
         this.comments = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 
     public String getUserId() {

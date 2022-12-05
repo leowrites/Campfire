@@ -6,6 +6,7 @@ public class Internship {
     private List<Integer> reviews;
     private String jobTitle;
     private String creator_username;
+    private int id;
 
     // constructor
     public Internship(int companyID, List<Integer> reviews, String jobTitle, String creator_username) {
@@ -14,8 +15,13 @@ public class Internship {
         this.jobTitle = jobTitle;
         this.creator_username = creator_username;
     }
-    public Internship() {
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     //getter methods

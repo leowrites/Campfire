@@ -37,7 +37,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
                 }
             }
             catch (ReviewNotFoundException e) {
-                return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
+                return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), -1, null);
             }
         }
         else {
@@ -48,11 +48,11 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
                 }
             }
             catch (CommentNotFoundException e) {
-                return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
+                return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), -1, null);
             }
         }
 
-        int commentId = commentDAO.saveComment(comment);
+        int commentId = commentDAO.saveComment(comment, parentId);
         ArrayList<Integer> parentComments = parent.getComments();
         parentComments.add(commentId);
         parent.setComments(parentComments);
@@ -67,7 +67,8 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         
         // notify observers that a new comment has been made
 
-        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.");
+        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.", commentId, 
+        comment.getDatePosted());
     }
 }
 
