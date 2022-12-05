@@ -6,6 +6,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import service.dao.*;
 import user.acceptconnect.AcceptConnectionInteractor;
 import user.acceptconnect.IAcceptConnectionInput;
+import user.comment.CommentFactory;
 import user.comment.CommentInteractor;
 import user.comment.ICommentInputBoundary;
 import user.createcorporate.CorporateFactory;
@@ -49,7 +50,7 @@ public class BeanConfiguration {
 
     @Bean
     public ICommentInputBoundary commentInput(IReviewDAO reviewDAO, ICommentDAO commentDAO) {
-        return new CommentInteractor(reviewDAO, commentDAO);
+        return new CommentInteractor(reviewDAO, commentDAO, new CommentFactory());
     }
 
     @Bean

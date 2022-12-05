@@ -14,21 +14,21 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
     private final ICommentDAO commentDAO;
     private final CommentFactory commentFactory;
 
-    public CommentInteractor(IReviewDAO reviewDAO, ICommentDAO commentDAO) {
+    public CommentInteractor(IReviewDAO reviewDAO, ICommentDAO commentDAO, CommentFactory commentFactory) {
         this.reviewDAO = reviewDAO;
         this.commentDAO = commentDAO;
-        this.commentFactory = new CommentFactory();
+        this.commentFactory = commentFactory;
     }
 
     @Override
     public CommentResponseModel create(CommentRequestModel requestModel) {
         String parentType = requestModel.getParentType();
         IParentOperationsStrategy strategy;
-        if (parentType.equals("Review")) {
-            strategy = new ReviewOperations(reviewDAO);
+        try {
+            strategy = ParentOperationsStrategyFactory.getStrategy(parentType, commentDAO, reviewDAO);
         }
-        else {
-            strategy = new CommentOperations(commentDAO);
+        catch (ParentNotFoundException e) {
+            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), -1, null);
         }
 
         int parentId = requestModel.getParentId();

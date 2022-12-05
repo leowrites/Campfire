@@ -31,10 +31,12 @@ public class CommentInteractorTest {
     private JdbcTemplate jdbcTemplate;
 
     private CommentInteractor interactor;
+    private CommentFactory commentFactory;
 
     @BeforeEach
     public void init() {
-        interactor = new CommentInteractor(reviewDAO, commentDAO);
+        this.commentFactory = new CommentFactory();
+        interactor = new CommentInteractor(reviewDAO, commentDAO, commentFactory);
         jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
         jdbcTemplate.execute("DROP TABLE IF EXISTS comments");
         jdbcTemplate.execute("CREATE TABLE comments (id serial primary key, data varchar, parentid integer)");
@@ -104,6 +106,17 @@ public class CommentInteractorTest {
         CommentResponseModel responseModel = interactor.create(requestModel);
         assertEquals(ServerStatus.ERROR, responseModel.getStatus());
         assertEquals("Review does not exist.", responseModel.getMessage());
+    }
+
+    @Test
+    public void testInvalidParentTypeGiven() {
+        CommentRequestModel requestModel = new CommentRequestModel("justinli",
+                "Internship",
+                1,
+                "i love apple");
+        CommentResponseModel responseModel = interactor.create(requestModel);
+        assertEquals(ServerStatus.ERROR, responseModel.getStatus());
+        assertEquals("Invalid parent type.", responseModel.getMessage());
     }
 
 }
