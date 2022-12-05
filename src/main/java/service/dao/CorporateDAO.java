@@ -21,7 +21,7 @@ public class CorporateDAO implements ICorporateDAO {
     final String INSERT_QUERY = "insert into corporates (company, data) values (?, ?)";
     final String QUERY_ALL = "select * from corporates";
     final String SELECT_QUERY = "select * from corporates where company = ?";
-    final String SELECT_SUBSTRING_QUERY = "SELECT * FROM corporates WHERE company LIKE CONCAT('%', ?, '%')";
+    final String SELECT_SUBSTRING_QUERY = "SELECT * FROM corporates WHERE UPPER(company) LIKE UPPER(CONCAT(?, '%'))";
     final String SELECT_QUERY_BY_ID = "select * from corporates where id = ?";
     final String EXISTS_QUERY = "select count(*) from corporates where company = ?";
     final String UPDATE_QUERY = "update corporates set data = ? where id = ?";
