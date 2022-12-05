@@ -95,6 +95,4 @@ public class CommentInteractorTest {
         assertEquals("i love apple", commentDAO.getComment(comments.get(0)).getContent());
     }
 
-
-
 }

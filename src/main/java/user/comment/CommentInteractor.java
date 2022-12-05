@@ -2,11 +2,9 @@ package user.comment;
 
 import entity.Comment;
 import entity.IUserPost;
-import entity.Review;
-import user.comment.exceptions.CommentNotFoundException;
 import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
-import user.comment.exceptions.ReviewNotFoundException;
+import user.comment.exceptions.ParentNotFoundException;
 import service.ServerStatus;
 
 import java.util.ArrayList;
@@ -14,42 +12,37 @@ import java.util.ArrayList;
 public class CommentInteractor extends CommentObservable implements ICommentInputBoundary {
     private final IReviewDAO reviewDAO;
     private final ICommentDAO commentDAO;
+    private final CommentFactory commentFactory;
 
     public CommentInteractor(IReviewDAO reviewDAO, ICommentDAO commentDAO) {
         this.reviewDAO = reviewDAO;
         this.commentDAO = commentDAO;
+        this.commentFactory = new CommentFactory();
     }
 
     @Override
     public CommentResponseModel create(CommentRequestModel requestModel) {
-        String userId = requestModel.getUserId();
         String parentType = requestModel.getParentType();
-        int parentId = requestModel.getParentId();
-        IUserPost parent;
-        String content = requestModel.getContent();
-        Comment comment = new Comment(userId, content);
-
+        IParentOperationsStrategy strategy;
         if (parentType.equals("Review")) {
-            try {
-                parent = reviewDAO.getReview(parentId);
-                if (parent == null) {
-                    throw new ReviewNotFoundException("Review does not exist.");
-                }
-            }
-            catch (ReviewNotFoundException e) {
-                return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
-            }
+            strategy = new ReviewOperations(reviewDAO);
         }
         else {
-            try {
-                parent = commentDAO.getComment(parentId);
-                if (parent == null) {
-                    throw new CommentNotFoundException("Comment does not exist.");
-                }
-            }
-            catch (CommentNotFoundException e) {
-                return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
-            }
+            strategy = new CommentOperations(commentDAO);
+        }
+
+        String userId = requestModel.getUserId();
+        String content = requestModel.getContent();
+        Comment comment = commentFactory.createComment(userId, content);
+
+        int parentId = requestModel.getParentId();
+        IUserPost parent;
+
+        try {
+            parent = strategy.getParent(parentId);
+        }
+        catch (ParentNotFoundException e) {
+            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
         }
 
         int commentId = commentDAO.saveComment(comment);
@@ -57,14 +50,8 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         parentComments.add(commentId);
         parent.setComments(parentComments);
 
-        if (parentType.equals("Review")) {
-            reviewDAO.updateReview((Review) parent, parentId);
-        }
-        else {
-            commentDAO.updateComment((Comment) parent, parentId);
-        }
+        strategy.updateParent(parent, parentId);
 
-        
         // notify observers that a new comment has been made
 
         return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.");
