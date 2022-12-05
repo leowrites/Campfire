@@ -9,7 +9,7 @@ import service.ServerStatus;
 
 import java.util.ArrayList;
 
-public class CommentInteractor extends CommentObservable implements ICommentInputBoundary {
+public class CommentInteractor implements ICommentInputBoundary {
     private final IReviewDAO reviewDAO;
     private final ICommentDAO commentDAO;
     private final CommentFactory commentFactory;
@@ -51,8 +51,6 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
         parent.setComments(parentComments);
 
         strategy.updateParent(parent, parentId);
-
-        // notify observers that a new comment has been made
 
         return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.", commentId, comment.getDatePosted());
     }
