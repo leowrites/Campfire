@@ -18,6 +18,8 @@ import user.postreview.IPostReview;
 import user.postreview.PostReview;
 import user.requestconnect.IRequestConnectionInput;
 import user.requestconnect.RequestConnectionInteractor;
+import user.searchcorporate.ISearchCorporateInput;
+import user.searchcorporate.SearchCorporateInteractor;
 import user.signup.SignUpInputBoundary;
 import user.signup.SignUpInteractor;
 import user.votehelpful.HelpfulInteractor;
@@ -45,6 +47,7 @@ public class BeanConfiguration {
     public IInternshipDAO createInternshipPostgresDAO() {
         return new InternshipDAO();
     }
+
 
     @Bean
     public ICommentInputBoundary commentInput(IReviewDAO reviewDAO, ICommentDAO commentDAO) {
@@ -89,5 +92,10 @@ public class BeanConfiguration {
     @Bean
     public ICorporateGenerateInput createCorporateInput(ICorporateDAO corporateDAO, IUserDAO userDAO){
         return new CorporateGenerateInteractor(corporateDAO, userDAO, new CorporateFactory());
+    }
+
+    @Bean
+    public ISearchCorporateInput createSearchCorporateInteractor(ICorporateDAO corporateDAO) {
+        return new SearchCorporateInteractor(corporateDAO);
     }
 }
