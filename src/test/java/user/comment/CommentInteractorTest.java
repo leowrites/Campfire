@@ -95,4 +95,15 @@ public class CommentInteractorTest {
         assertEquals("i love apple", commentDAO.getComment(comments.get(0)).getContent());
     }
 
+    @Test
+    public void testCannotFindParent() {
+        CommentRequestModel requestModel = new CommentRequestModel("justinli",
+                "Review",
+                1,
+                "i love apple");
+        CommentResponseModel responseModel = interactor.create(requestModel);
+        assertEquals(ServerStatus.ERROR, responseModel.getStatus());
+        assertEquals("Review does not exist.", responseModel.getMessage());
+    }
+
 }
