@@ -2,7 +2,6 @@ package user.deletereview;
 
 import entity.Internship;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DeleteReviewHandler {

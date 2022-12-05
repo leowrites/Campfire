@@ -9,7 +9,6 @@ import service.dao.IInternshipDAO;
 import service.ServerStatus;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class CreateInternshipInteractor implements CreateInternshipInputBoundary {

@@ -1,7 +1,6 @@
 package user.postreview;
 
 import entity.Review;
-import org.springframework.security.core.parameters.P;
 import service.dao.IReviewDAO;
 import service.dao.IInternshipDAO;
 import service.ServerStatus;
