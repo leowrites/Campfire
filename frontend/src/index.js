@@ -5,7 +5,7 @@ import App from './App';
 import Login from './Component/Login';
 import SignUp from './Component/SignUp';
 import HomePage from './Home/HomePage';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, ScrollRestoration } from 'react-router-dom';
 import Layout from './Layout';
 import { GlobalContextProvider } from './GlobalContext';
 import { AuthContextProvider } from './AuthContext';
@@ -13,6 +13,7 @@ import CorporatePage from './Corporate/CorporatePage';
 import InternshipPage from './Internship/InternshipPage';
 import AddInternshipForm from './Corporate/AddInternshipForm';
 import CreateCompany from "./Corporate/CreateCompany";
+import ScrollToTop from './ScrollToTop';
 
 const routes = [
   {
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
   {
     element: (
       <GlobalContextProvider>
+        <ScrollToTop />
         <App />
       </GlobalContextProvider>
     ),
