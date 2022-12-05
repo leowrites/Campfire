@@ -9,12 +9,13 @@ export default function CorporateCard({ name, info, id }) {
     <Paper
       elevation={20}
       sx={{
-        mb: 3,
+        my: 2,
         p: 3,
+        mx: 3,
+        display: 'inline-flex',
         background: 'linear-gradient(to right top, #266126, #296723, #2d6d20, #31721c, #367816)',
         borderRadius: 5,
-        minWidth: '50rem',
-        maxWidth: '50rem',
+        width:'fit-content',
         transition: 'all 0.3s ease-out',
         '&:hover': {
           transform: 'scale(1.02)',

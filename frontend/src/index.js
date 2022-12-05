@@ -14,6 +14,8 @@ import InternshipPage from './Internship/InternshipPage';
 import AddInternshipForm from './Corporate/AddInternshipForm';
 import CreateCompany from "./Corporate/CreateCompany";
 import ScrollToTop from './ScrollToTop';
+import { ThemeProvider } from '@mui/material';
+import theme from './theme';
 
 const routes = [
   {
@@ -55,8 +57,10 @@ const router = createBrowserRouter([
   {
     element: (
       <GlobalContextProvider>
+        <ThemeProvider theme={theme}>
         <ScrollToTop />
         <App />
+        </ThemeProvider>
       </GlobalContextProvider>
     ),
     children: routes,

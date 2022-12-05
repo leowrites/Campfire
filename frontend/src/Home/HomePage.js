@@ -18,7 +18,6 @@ function HomePage() {
   const [corporates, setCorporates] = useState([]);
 
   useEffect(() => {
-    // fetch some companies to display
     axios.get('/corporates').then((res) => setCorporates(res.data));
   }, []);
 
@@ -45,31 +44,6 @@ function HomePage() {
     );
   };
 
-  const TextBlock = () => {
-    return (
-      <Box sx={{ display: 'inline-block' }}>
-        <Typography
-          sx={{
-            fontFamily: 'arial',
-            fontWeight: 'bold',
-            color: 'white',
-          }}
-          variant='h1'>
-          Campfire
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: 'arial',
-            fontWeight: 'bold',
-            color: 'white',
-          }}
-          variant='h5'>
-          Share your valuable internship experience.
-        </Typography>
-      </Box>
-    );
-  };
-
   const TitleText = ({ text }) => {
     return (
       <Typography sx={{ color: 'white', fontWeight: 'bold', mb: 5 }} variant='h3'>
@@ -82,8 +56,6 @@ function HomePage() {
     return (
       <Box
         sx={{
-          // background: 'linear-gradient(to right top, #5a6fbe, #3c6db0, #22689e, #13638b, #165c78)',
-          // background: 'linear-gradient(to right top, #8d8f94, #818995, #728495, #5f8094, #487c91)',
           background: 'linear-gradient(to right top, #091425, #101a2a, #171f30, #1e2535, #252b3b)',
         }}>
         <Container
@@ -103,60 +75,66 @@ function HomePage() {
   };
 
   return (
-    <>
+    <Box>
       <Box
-        justifyContent='center'
         alignItems='center'
         sx={{
+          minHeight: '50rem',
           display: 'flex',
-          height: '70vh',
           backgroundImage: `url(${Image})`,
           backgroundSize: 'cover',
-        }}
-        textAlign='start'>
-        <Container maxWidth='lg'>
-          <Box
+          alignItems: 'center',
+          color: 'white'
+        }}>
+        <Container maxWidth='xl'>
+          <Typography
             sx={{
-              display: 'flex',
-              alignItems: 'end',
-              justifyContent: 'space-evenly',
-            }}>
-            <TextBlock />
-            <Box sx={{ display: 'flex', alignItems: 'end' }}>
-              <TextField
-                id='standard-basic'
-                label='Search For Companies'
-                variant='filled'
-                sx={{
-                  '& .Mui-focused': {
-                    color: 'black',
-                  },
-                  '& .MuiFilledInput-root': {
-                    '&:before': { borderBottomColor: 'transparent' },
-                    '&:after': { borderBottomColor: 'transparent' },
-                    '&:hover fieldset': {
-                      borderColor: 'yellow', // - Set the Input border when parent has :hover
-                    },
-                  },
-                  width: '20rem',
-                  mt: 2,
-                  mr: 2,
-                  backgroundColor: 'white',
-                  borderRadius: 2,
-                }}
-              />
-              <Button variant={'contained'} sx={{ borderRadius: 2 }}>
-                Go
-              </Button>
-            </Box>
+              fontWeight: 'bold',
+            }}
+            variant='h1'>
+            Campfire
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 'bold',
+            }}
+            variant='h5'>
+            Share your valuable internship experience.
+          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'end' }}>
+          <TextField
+            id='standard-basic'
+            label='Search For Companies'
+            variant='filled'
+            InputProps={{ disableUnderline: true }}
+            sx={{
+              '& label.Mui-focused': {
+                color: 'black',
+              },
+              mt: 2,
+              mr: 2,
+              backgroundColor: 'white',
+              borderRadius: 2,
+            }}
+          />
+          <Button variant={'contained'} sx={{ borderRadius: 2 }}>
+            Go
+          </Button>
           </Box>
         </Container>
       </Box>
       <PageWrapper>
-        <Box sx={{ height: '70vh', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-        <TitleText text={'What is Campfire?'} />
+        <Box
+          sx={{
+            minHeight: '50rem',
+            my: 5,
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+          }}>
+          <TitleText text={'What is Campfire?'} />
           <Grid container sx={{ minHeight: 'fit-content' }}>
-            <Grid item sm={6} md={4} sx={{ p: 3 }}>
+            <Grid item sm={6} md={4} sx={{ p: 3, width: '100%' }}>
               <FeaturePaper
                 text={
                   "You've reached an end of an important journey. Stop by and recount your valuable experience."
@@ -164,7 +142,7 @@ function HomePage() {
                 <BonfireSVG style={{ width: '100%', maxWidth: '10rem', height: 'auto' }} />
               </FeaturePaper>
             </Grid>
-            <Grid item sm={6} md={4} sx={{ padding: 3 }}>
+            <Grid item sm={6} md={4} sx={{ padding: 3, width: '100%' }}>
               <FeaturePaper
                 text={
                   "Curious about someone's experience? Interact on our platform by leaving a comment."
@@ -172,7 +150,7 @@ function HomePage() {
                 <CommentsSVG style={{ width: '100%', maxWidth: '10rem', height: 'auto' }} />
               </FeaturePaper>
             </Grid>
-            <Grid item md={4} sx={{ p: 3 }}>
+            <Grid item md={4} sx={{ p: 3, width: '100%' }}>
               <FeaturePaper
                 text={
                   'Connect to other users to ask deeper, or other burning questions privately.'
@@ -182,8 +160,8 @@ function HomePage() {
             </Grid>
           </Grid>
         </Box>
-        <Box textAlign={'start'} sx={{ height: '50vh', width: '100%', display: 'flex', flexDirection: 'column' }}>
-          <TitleText text={'Our Companies'}/>
+        <Box textAlign={'start'} sx={{ minHeight: '30rem', width: '100%', mb: 5 }}>
+          <TitleText text={'Our Companies'} />
           {corporates.map((corporate) => (
             <CorporateCard
               key={corporate.id}
@@ -194,7 +172,7 @@ function HomePage() {
           ))}
         </Box>
       </PageWrapper>
-    </>
+    </Box>
   );
 }
 

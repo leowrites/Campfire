@@ -12,8 +12,26 @@ export default function ConnectPannel() {
   const { principal } = useAuthContext();
 
   return (
-    <Box>
-      <Typography variant='h6' textAlign={'start'}>
+    <Box
+      sx={{
+        p: 5,
+        background: '#212122',
+        height: '100%',
+        color: 'white',
+      }}>
+      <Typography
+        variant='h5'
+        textAlign={'start'}
+        sx={{
+          fontWeight: 'bold',
+          '& .MuiFilledInput-root': {
+            '&:before': { borderBottomColor: 'transparent' },
+            '&:after': { borderBottomColor: 'transparent' },
+            '&:hover fieldset': {
+              borderColor: 'yellow', // - Set the Input border when parent has :hover
+            },
+          },
+        }}>
         Search for a connection
       </Typography>
       <Box sx={{ display: 'flex', mt: 1 }}>
@@ -22,10 +40,19 @@ export default function ConnectPannel() {
           variant='filled'
           size='small'
           fullWidth
+          InputProps={{ disableUnderline: true }}
+          sx={{
+            backgroundColor: 'white',
+            input: { color: 'black' },
+            "& label.Mui-focused": {
+              color: "black"
+            },
+            borderRadius: 2,
+          }}
           onChange={(e) => setConnectionInput(e.target.value)}
         />
         <Button
-          sx={{ mt: 1, ml: 1 }}
+          sx={{ mt: 1, ml: 1, backgroundColor: 'black', borderRadius: 2 }}
           variant='contained'
           onClick={() => globalContext.sendConnectionRequest(principal?.username, connectionInput)}>
           Connect
