@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'ExtraBold';
+    src: local('GearedSlab-ExtraBold'), url("../../public/GearedSlab-Extrabold.ttf") format('truetype');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+}
+
+@font-face {
+    font-family: 'Bold';
+    src: local('GearedSlab-ExtraBold'), url("../../public/GearedSlab-Bold.ttf") format('truetype');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+}
