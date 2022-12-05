@@ -1,6 +1,7 @@
 package service.dao;
 
 import entity.Review;
+import user.comment.exceptions.ReviewNotFoundException;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public interface IReviewDAO {
      */
     int saveReview(Review review);
 
+    int saveReview(Review review, int internshipId);
     /**
      * Updates a review
      * @param review the new review object
@@ -33,4 +35,5 @@ public interface IReviewDAO {
      * @param reviewId the id of the comment to be deleted
      */
     void deleteReview(int reviewId);
+    ArrayList<Review> getReviewsByInternship(int internshipId) throws ReviewNotFoundException;
 }

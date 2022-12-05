@@ -27,7 +27,7 @@ public class SortController {
      * @param requestModel the requestModel taken in from the front-end.
      * @return a responseModel holding the sorted ArrayList of Reviews.
      */
-    @GetMapping("/review/sort")
+    @GetMapping("/reviews/sort")
     public SortResponseModel reviewSort(@RequestBody SortRequestModel requestModel){
         SortAlgorithmFactory factory = new SortAlgorithmFactory(requestModel.getSortCriteria());
         try{

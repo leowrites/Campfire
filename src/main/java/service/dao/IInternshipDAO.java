@@ -13,5 +13,7 @@ public interface IInternshipDAO {
 
     void saveInternship(Internship internship);
 
+    int saveInternshipAndReturnId(Internship internship);
+
     void updateInternship(int id, Internship internship);
 }

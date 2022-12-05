@@ -70,8 +70,8 @@ public class CorporateGenerateInteractorTest {
         }
         assertEquals("Apple", corporate.getCompanyName());
         assertEquals("Founded by Steve Jobs.", corporate.getCompanyInfo());
-        assertEquals("jli@mail.utoronto.ca", corporate.getRep().getEmail());
-        assertEquals("justinli", corporate.getRep().getUsername());
+        assertEquals("jli@mail.utoronto.ca", rep.getEmail());
+        assertEquals("justinli", rep.getUsername());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class CorporateGenerateInteractorTest {
     @Test
     public void testCreateCorporatePageIfCompanyNameNotUnique() {
         User justin = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
-        Corporate corporate = new Corporate(justin, "Apple", "Founded by Steve Jobs.");
+        Corporate corporate = new Corporate("justinli", "Apple", "Founded by Steve Jobs.");
         corporateDAO.saveCorporate(corporate);
         User leo = new User("leoliu", "leo@mail.utoronto.ca", "password", "Leo");
         leo.setCorporateRep(true);
@@ -113,7 +113,7 @@ public class CorporateGenerateInteractorTest {
             throw new RuntimeException(e);
         }
         assertEquals("Founded by Steve Jobs.", corporate.getCompanyInfo());
-        assertEquals("jli@mail.utoronto.ca", corporate.getRep().getEmail());
-        assertEquals("justinli", corporate.getRep().getUsername());
+        assertEquals("jli@mail.utoronto.ca", justin.getEmail());
+        assertEquals("justinli", justin.getUsername());
     }
 }

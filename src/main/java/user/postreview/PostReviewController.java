@@ -29,6 +29,6 @@ public class PostReviewController {
             @PathVariable("internshipId") String internshipId,
             @RequestBody PostReviewRequest request) {
         request.setInternshipId(internshipId);
-        return new ResponseEntity<>(postReview.addReviewToCorporate(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(postReview.addReviewToInternship(request), HttpStatus.CREATED);
     }
 }

@@ -2,6 +2,7 @@ package service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import service.dao.*;
 import user.acceptconnect.AcceptConnectionInteractor;
 import user.acceptconnect.IAcceptConnectionInput;
@@ -47,7 +48,6 @@ public class BeanConfiguration {
     public IInternshipDAO createInternshipPostgresDAO() {
         return new InternshipDAO();
     }
-
 
     @Bean
     public ICommentInputBoundary commentInput(IReviewDAO reviewDAO, ICommentDAO commentDAO) {
@@ -97,5 +97,15 @@ public class BeanConfiguration {
     @Bean
     public ISearchCorporateInput createSearchCorporateInteractor(ICorporateDAO corporateDAO) {
         return new SearchCorporateInteractor(corporateDAO);
+    }
+
+    @Bean
+    public CommonsRequestLoggingFilter requestLoggingFilter() {
+        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+        loggingFilter.setIncludeClientInfo(true);
+        loggingFilter.setIncludeQueryString(true);
+        loggingFilter.setIncludePayload(true);
+        loggingFilter.setMaxPayloadLength(64000);
+        return loggingFilter;
     }
 }
