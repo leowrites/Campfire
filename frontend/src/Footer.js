@@ -29,7 +29,7 @@ export default function Footer() {
           </Link>
         </Typography>
         <Typography sx={{ display: 'flex', color: 'white' }} variant='h7'>
-          My Intern Days 2022
+          Campfire © 2022
         </Typography>
       </Box>
     </Box>

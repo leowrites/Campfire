@@ -30,6 +30,7 @@ function HomePage() {
           p: 5,
           height: '100%',
           background: 'linear-gradient(to right top, #2d3542, #2b323e, #292f3b, #272c37, #252934)',
+          // background: '$005f73'
         }}>
         <Typography
           sx={{
@@ -56,7 +57,8 @@ function HomePage() {
     return (
       <Box
         sx={{
-          background: 'linear-gradient(to right top, #091425, #101a2a, #171f30, #1e2535, #252b3b)',
+          // background: 'linear-gradient(to right top, #091425, #101a2a, #171f30, #1e2535, #252b3b)',
+          background: '#14110f'
         }}>
         <Container
           maxWidth='xl'
@@ -79,12 +81,12 @@ function HomePage() {
       <Box
         alignItems='center'
         sx={{
-          minHeight: '50rem',
+          minHeight: '40rem',
           display: 'flex',
           backgroundImage: `url(${Image})`,
           backgroundSize: 'cover',
           alignItems: 'center',
-          color: 'white'
+          color: 'white',
         }}>
         <Container maxWidth='xl'>
           <Typography
@@ -102,24 +104,25 @@ function HomePage() {
             Share your valuable internship experience.
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'end' }}>
-          <TextField
-            id='standard-basic'
-            label='Search For Companies'
-            variant='filled'
-            InputProps={{ disableUnderline: true }}
-            sx={{
-              '& label.Mui-focused': {
-                color: 'black',
-              },
-              mt: 2,
-              mr: 2,
-              backgroundColor: 'white',
-              borderRadius: 2,
-            }}
-          />
-          <Button variant={'contained'} sx={{ borderRadius: 2 }}>
-            Go
-          </Button>
+            <TextField
+              id='standard-basic'
+              label='Search For Companies'
+              variant='filled'
+              size='small'
+              InputProps={{ disableUnderline: true }}
+              sx={{
+                '& label.Mui-focused': {
+                  color: 'black',
+                },
+                mt: 2,
+                mr: 2,
+                backgroundColor: 'white',
+                borderRadius: 2,
+              }}
+            />
+            <Button variant={'contained'} sx={{ borderRadius: 2, backgroundColor: 'black' }}>
+              <Typography fontWeight={'bold'}>Go</Typography>
+            </Button>
           </Box>
         </Container>
       </Box>
