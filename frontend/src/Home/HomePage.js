@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -9,16 +10,33 @@ import { ReactComponent as ConnectSVG } from './connect.svg';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import CorporateCard from './CorporateCard';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function HomePage() {
+  const [corporates, setCorporates] = useState([]);
+
+  useEffect(() => {
+    // fetch some companies to display
+    axios.get('/corporates').then((res) => setCorporates(res.data));
+  }, []);
+
   const FeaturePaper = ({ text, children }) => {
     return (
-      <Paper elevation={5} sx={{ borderRadius: 5, p: 5, height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+      <Paper
+        elevation={20}
+        sx={{
+          borderRadius: 5,
+          p: 5,
+          height: '100%',
+          background: 'linear-gradient(to right top, #2d3542, #2b323e, #292f3b, #272c37, #252934)',
+        }}>
         <Typography
           sx={{
             fontFamily: 'arial',
             fontWeight: 'bold',
-            color: '#8c1c0d',
+            color: 'white',
           }}>
           {text}
         </Typography>
@@ -52,6 +70,38 @@ function HomePage() {
     );
   };
 
+  const TitleText = ({ text }) => {
+    return (
+      <Typography sx={{ color: 'white', fontWeight: 'bold', mb: 5 }} variant='h3'>
+        {text}
+      </Typography>
+    );
+  };
+
+  const PageWrapper = ({ children }) => {
+    return (
+      <Box
+        sx={{
+          // background: 'linear-gradient(to right top, #5a6fbe, #3c6db0, #22689e, #13638b, #165c78)',
+          // background: 'linear-gradient(to right top, #8d8f94, #818995, #728495, #5f8094, #487c91)',
+          background: 'linear-gradient(to right top, #091425, #101a2a, #171f30, #1e2535, #252b3b)',
+        }}>
+        <Container
+          maxWidth='xl'
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            minHeight: '80vh',
+            display: 'flex',
+          }}>
+          {children}
+        </Container>
+      </Box>
+    );
+  };
+
   return (
     <>
       <Box
@@ -59,7 +109,7 @@ function HomePage() {
         alignItems='center'
         sx={{
           display: 'flex',
-          height: '90vh',
+          height: '70vh',
           backgroundImage: `url(${Image})`,
           backgroundSize: 'cover',
         }}
@@ -102,8 +152,9 @@ function HomePage() {
           </Box>
         </Container>
       </Box>
-      <Box sx={{ backgroundColor: '#131b23', py: 10, minHeight: '50rem', display: 'flex' }}>
-        <Container maxWidth='xl' sx={{ display: 'flex' }}>
+      <PageWrapper>
+        <Box sx={{ height: '70vh', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+        <TitleText text={'What is Campfire?'} />
           <Grid container sx={{ minHeight: 'fit-content' }}>
             <Grid item sm={6} md={4} sx={{ p: 3 }}>
               <FeaturePaper
@@ -130,8 +181,19 @@ function HomePage() {
               </FeaturePaper>
             </Grid>
           </Grid>
-        </Container>
-      </Box>
+        </Box>
+        <Box textAlign={'start'} sx={{ height: '50vh', width: '100%', display: 'flex', flexDirection: 'column' }}>
+          <TitleText text={'Our Companies'}/>
+          {corporates.map((corporate) => (
+            <CorporateCard
+              key={corporate.id}
+              name={corporate.companyName}
+              info={corporate.companyInfo}
+              id={corporate.id}
+            />
+          ))}
+        </Box>
+      </PageWrapper>
     </>
   );
 }
