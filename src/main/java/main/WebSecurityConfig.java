@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                         //permit routes to / and /home
                         .antMatchers("/", "/signup", "/login", "/ws",
                                 "/users/authenticate", "/users/reset", "/users/createInternship", "/users/test",
-                                "/users/**")
+                                "/users/**", "/search")
                         .permitAll()
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .antMatchers("/users/**", "/ws/**")
