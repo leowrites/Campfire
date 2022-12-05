@@ -38,14 +38,14 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
             parent = strategy.getParent(parentId);
         }
         catch (ParentNotFoundException e) {
-            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage());
+            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), -1, null);
         }
 
         String userId = requestModel.getUserId();
         String content = requestModel.getContent();
         Comment comment = commentFactory.createComment(userId, content);
 
-        int commentId = commentDAO.saveComment(comment);
+        int commentId = commentDAO.saveComment(comment, parentId);
         ArrayList<Integer> parentComments = parent.getComments();
         parentComments.add(commentId);
         parent.setComments(parentComments);
@@ -54,7 +54,7 @@ public class CommentInteractor extends CommentObservable implements ICommentInpu
 
         // notify observers that a new comment has been made
 
-        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.");
+        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.", commentId, comment.getDatePosted());
     }
 }
 
