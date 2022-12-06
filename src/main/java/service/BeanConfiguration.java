@@ -1,11 +1,13 @@
 package service;
 
+import org.hibernate.event.spi.PostCollectionRecreateEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import service.dao.*;
 import user.acceptconnect.AcceptConnectionInteractor;
 import user.acceptconnect.IAcceptConnectionInput;
+import user.comment.CommentFactory;
 import user.comment.CommentInteractor;
 import user.comment.ICommentInputBoundary;
 import user.createcorporate.CorporateFactory;
@@ -17,6 +19,7 @@ import user.deletereview.DeleteReviewInteractor;
 import user.deletereview.IDeleteReviewInput;
 import user.postreview.IPostReview;
 import user.postreview.PostReview;
+import user.postreview.PostReviewFactory;
 import user.requestconnect.IRequestConnectionInput;
 import user.requestconnect.RequestConnectionInteractor;
 import user.signup.SignUpInputBoundary;
@@ -33,8 +36,13 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public IPostReview createPostReviewInteractor(IReviewDAO reviewDAO, IInternshipDAO internshipDAO) {
-        return new PostReview(reviewDAO, internshipDAO);
+    public IPostReview createPostReviewInteractor(IReviewDAO reviewDAO, IInternshipDAO internshipDAO, PostReviewFactory reviewFactory) {
+        return new PostReview(reviewDAO, internshipDAO, reviewFactory);
+    }
+
+    @Bean
+    public PostReviewFactory createPostReviewFactory() {
+        return new PostReviewFactory();
     }
 
     @Bean
@@ -48,8 +56,13 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ICommentInputBoundary commentInput(IReviewDAO reviewDAO, ICommentDAO commentDAO) {
-        return new CommentInteractor(reviewDAO, commentDAO);
+    public ICommentInputBoundary commentInput(IReviewDAO reviewDAO, ICommentDAO commentDAO, CommentFactory commentFactory) {
+        return new CommentInteractor(reviewDAO, commentDAO, commentFactory);
+    }
+
+    @Bean
+    public CommentFactory createCommentFactory() {
+        return new CommentFactory();
     }
 
     @Bean
@@ -88,8 +101,12 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ICorporateGenerateInput createCorporateInput(ICorporateDAO corporateDAO, IUserDAO userDAO){
-        return new CorporateGenerateInteractor(corporateDAO, userDAO, new CorporateFactory());
+    public ICorporateGenerateInput createCorporateInput(ICorporateDAO corporateDAO, IUserDAO userDAO, CorporateFactory corporateFactory){
+        return new CorporateGenerateInteractor(corporateDAO, userDAO, corporateFactory);
+    }
+
+    @Bean CorporateFactory createCorporateFactory() {
+        return new CorporateFactory();
     }
 
     @Bean

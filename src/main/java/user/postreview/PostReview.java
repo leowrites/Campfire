@@ -15,9 +15,11 @@ public class PostReview implements IPostReview{
 
     private final IReviewDAO reviewDAO;
     private final IInternshipDAO internshipDAO;
-    public PostReview(IReviewDAO reviewDAO, IInternshipDAO internshipDAO) {
+    private final PostReviewFactory reviewFactory;
+    public PostReview(IReviewDAO reviewDAO, IInternshipDAO internshipDAO, PostReviewFactory reviewFactory) {
         this.reviewDAO = reviewDAO;
         this.internshipDAO = internshipDAO;
+        this.reviewFactory = reviewFactory;
     }
 
     /** Adds a review to the corporate page database.
@@ -32,11 +34,9 @@ public class PostReview implements IPostReview{
         } catch (InternshipNotFoundException e) {
             return new PostReviewResponse(ServerStatus.ERROR, e.getMessage());
         }
-        Review review = new Review(
-                request.getUsername(),
+        Review review = reviewFactory.createReview(request.getUsername(),
                 request.getReviewContent(),
-                request.getRating()
-        );
+                request.getRating());
         int reviewId = reviewDAO.saveReview(review, Integer.parseInt(request.getInternshipId()));
         internship.getReviews().add(reviewId);
         internshipDAO.updateInternship(Integer.parseInt(request.getInternshipId()), internship);
