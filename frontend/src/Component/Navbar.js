@@ -40,7 +40,7 @@ export default function Navbar() {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Logo style={{ height: 60, padding: 12, ml: 2 }} />
               <Typography
-                variant='h4'
+                variant='h5'
                 sx={{
                   color: '#F6F2F2',
                   fontWeight: 'bold',
@@ -48,7 +48,7 @@ export default function Navbar() {
                 CAMP
               </Typography>
               <Typography
-                variant='h4'
+                variant='h5'
                 sx={{
                   color: '#ff5634',
                   fontWeight: 'bold',
