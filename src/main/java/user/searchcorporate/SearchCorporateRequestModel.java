@@ -1,5 +1,9 @@
 package user.searchcorporate;
 
+/**
+ * This class represents the data for a corporate account search request.
+ * It includes the search term that will be used to find matching corporate accounts.
+ */
 public class SearchCorporateRequestModel {
     private final String searchTerm;
 

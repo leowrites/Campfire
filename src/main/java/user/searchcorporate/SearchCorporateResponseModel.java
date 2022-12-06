@@ -4,6 +4,10 @@ import service.ServerStatus;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the response to a corporate account search request.
+ * It includes the list of company names of the matching corporate accounts, the status of the request, and a message.
+ */
 public class SearchCorporateResponseModel {
     private final ArrayList<String> list_of_companies;
     private final ServerStatus status;
