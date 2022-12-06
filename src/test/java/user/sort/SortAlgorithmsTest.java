@@ -3,6 +3,8 @@ package user.sort;
 import entity.Review;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import service.ServerStatus;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,7 +51,7 @@ public class SortAlgorithmsTest {
         for (Review review : sortedReviews) {
             sortedReviewIds.add(review.getId());
         }
-        SortResponseModel responseModel = new SortResponseModel(sortedReviewIds);
+        SortResponseModel responseModel = new SortResponseModel(sortedReviewIds, ServerStatus.SUCCESS, "Reviews sorted successfully");
         assertEquals(correctlySorted, responseModel.getSortedOutput());
     }
 
@@ -61,7 +63,7 @@ public class SortAlgorithmsTest {
         for (Review review : sortedReviews) {
             sortedReviewIds.add(review.getId());
         }
-        SortResponseModel responseModel = new SortResponseModel(sortedReviewIds);
+        SortResponseModel responseModel = new SortResponseModel(sortedReviewIds, ServerStatus.SUCCESS, "Reviews sorted successfully");
         assertEquals(correctlySorted, responseModel.getSortedOutput());
     }
 
@@ -73,7 +75,7 @@ public class SortAlgorithmsTest {
         for (Review review : sortedReviews) {
             sortedReviewIds.add(review.getId());
         }
-        SortResponseModel responseModel = new SortResponseModel(sortedReviewIds);
+        SortResponseModel responseModel = new SortResponseModel(sortedReviewIds, ServerStatus.SUCCESS, "Reviews sorted successfully");
         assertEquals(correctlySorted, responseModel.getSortedOutput());
     }
 }
