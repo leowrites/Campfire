@@ -62,11 +62,10 @@ public class SearchCorporateInteractorTest {
 
         // test that response model contains "No companies found" message if search term doesn't match anything
         SearchCorporateRequestModel requestModel2 = new SearchCorporateRequestModel("sakdfj");
-        SearchCorporateResponseModel responseModel2 = interactor.search(requestModel);
-        // test that the response model contains the company searched for:
+        SearchCorporateResponseModel responseModel2 = interactor.search(requestModel2);
+        // test that the response model contains no companies:
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
-        companyNames.add("testCompany");
-        assertEquals("No companies found", responseModel.getMessage());
+        assertEquals("No companies found", responseModel2.getMessage());
     }
 
 }
