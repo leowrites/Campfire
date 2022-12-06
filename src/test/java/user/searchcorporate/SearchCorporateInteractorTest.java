@@ -43,7 +43,7 @@ public class SearchCorporateInteractorTest {
 
     @AfterEach
     public void cleanUp() {
-        jdbcTemplate.execute("DELETE FROM corporate");
+        jdbcTemplate.execute("DELETE FROM corporates");
     }
 
     @Test
