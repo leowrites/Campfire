@@ -15,12 +15,11 @@ public class SortAlgorithmsTest {
     Review review2;
     Review review3;
     Review review4;
-    Review review5;
     ArrayList<Review> reviews;
-    ArrayList<Review> correctlySorted;
+    ArrayList<Integer> correctlySorted;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         review1 = new Review("user1", "", 3);
         review1.setNumDislikes(3);
         review1.setNumLikes(3);
@@ -37,69 +36,44 @@ public class SortAlgorithmsTest {
         review4.setNumDislikes(10);
         review4.setNumLikes(0);
         review4.setDatePosted(new Date(2022, Calendar.MARCH, 24));
-        reviews = new ArrayList<Review>(List.of(review1, review2, review3, review4));
+        reviews = new ArrayList<>(List.of(review1, review2, review3, review4));
 
-        correctlySorted = new ArrayList<Review>(List.of(review3, review2, review1, review4));
+        correctlySorted = new ArrayList<>(List.of(review3.getId(), review2.getId(), review1.getId(), review4.getId()));
     }
 
     @Test
-    void testHelpfulSort(){
+    void testHelpfulSort() {
         HelpfulSort sortAlgorithm = new HelpfulSort();
-        SortResponseModel responseModel = sortAlgorithm.sort(reviews);
+        ArrayList<Review> sortedReviews = sortAlgorithm.sort(reviews);
+        ArrayList<Integer> sortedReviewIds = new ArrayList<>();
+        for (Review review : sortedReviews) {
+            sortedReviewIds.add(review.getId());
+        }
+        SortResponseModel responseModel = new SortResponseModel(sortedReviewIds);
         assertEquals(correctlySorted, responseModel.getSortedOutput());
     }
 
     @Test
-    void testHighestRatingSort(){
+    void testHighestRatingSort() {
         HighestRatingSort sortAlgorithm = new HighestRatingSort();
-        SortResponseModel responseModel = sortAlgorithm.sort(reviews);
+        ArrayList<Review> sortedReviews = sortAlgorithm.sort(reviews);
+        ArrayList<Integer> sortedReviewIds = new ArrayList<>();
+        for (Review review : sortedReviews) {
+            sortedReviewIds.add(review.getId());
+        }
+        SortResponseModel responseModel = new SortResponseModel(sortedReviewIds);
         assertEquals(correctlySorted, responseModel.getSortedOutput());
     }
 
     @Test
-    void testNewestSort(){
+    void testNewestSort() {
         NewestSort sortAlgorithm = new NewestSort();
-        SortResponseModel responseModel = sortAlgorithm.sort(reviews);
+        ArrayList<Review> sortedReviews = sortAlgorithm.sort(reviews);
+        ArrayList<Integer> sortedReviewIds = new ArrayList<>();
+        for (Review review : sortedReviews) {
+            sortedReviewIds.add(review.getId());
+        }
+        SortResponseModel responseModel = new SortResponseModel(sortedReviewIds);
         assertEquals(correctlySorted, responseModel.getSortedOutput());
-    }
-
-    @Test
-    void testSortTwoValuesEqualCase(){
-        review5 = new Review("user3", "", 3);
-        review5.setNumDislikes(3);
-        review5.setNumLikes(3);
-        review5.setDatePosted(new Date(2022, Calendar.JUNE, 24));
-        reviews.add(review5);
-        ArrayList<Review> reviews1 = new ArrayList<Review>(reviews);
-        ArrayList<Review> reviews2 = new ArrayList<Review>(reviews);
-        ArrayList<Review> reviews3 = new ArrayList<Review>(reviews);
-
-        ArrayList<Integer> correctlySortedHelpful = new ArrayList<Integer>(List.of(115, 5, 3, 3, 0));
-        ArrayList<Integer> correctlySortedHighestRating = new ArrayList<Integer>(List.of(10, 5, 3, 3, 0));
-        ArrayList<Date> correctlySortedNewest = new ArrayList<Date>(List.of(new Date(2022, Calendar.SEPTEMBER, 24),
-                new Date(2022, Calendar.JULY, 24), new Date(2022, Calendar.JUNE, 24),
-                new Date(2022, Calendar.JUNE, 24), new Date(2022, Calendar.MARCH, 24)));
-
-        SortResponseModel helpfulResponse = new HelpfulSort().sort(reviews1);
-        SortResponseModel highestRatingResponse = new HighestRatingSort().sort(reviews2);
-        SortResponseModel newestResponse = new NewestSort().sort(reviews3);
-
-        ArrayList<Integer> sortedValuesHelpful = new ArrayList<Integer>();
-        ArrayList<Integer> sortedValuesHighestRating = new ArrayList<Integer>();
-        ArrayList<Date> sortedValuesNewest = new ArrayList<Date>();
-
-        for (Review review : helpfulResponse.getSortedOutput()){
-            sortedValuesHelpful.add(review.getNumLikes());
-        }
-        for (Review review : highestRatingResponse.getSortedOutput()){
-            sortedValuesHighestRating.add(review.getRating());
-        }
-        for (Review review : newestResponse.getSortedOutput()){
-            sortedValuesNewest.add(review.getDatePosted());
-        }
-
-        assertEquals(correctlySortedHelpful, sortedValuesHelpful);
-        assertEquals(correctlySortedHighestRating, sortedValuesHighestRating);
-        assertEquals(correctlySortedNewest, sortedValuesNewest);
     }
 }

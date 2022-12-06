@@ -1,5 +1,6 @@
 package user.sort;
 
+import service.dao.IReviewDAO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +14,7 @@ public class SortConfig {
      * @return a new sort interactor.
      */
     @Bean
-    public ISortInput sortInput(){
-        return new SortInteractor();
+    public ISortInput sortInput(IReviewDAO reviewDAO){
+        return new SortInteractor(reviewDAO);
     }
 }

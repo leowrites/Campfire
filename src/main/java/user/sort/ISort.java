@@ -12,5 +12,5 @@ public interface ISort {
      * @param reviews an ArrayList of Reviews.
      * @return a SortResponseModel that holds the sorted Reviews.
      */
-    SortResponseModel sort(ArrayList<Review> reviews);
+    ArrayList<Review> sort(ArrayList<Review> reviews);
 }
