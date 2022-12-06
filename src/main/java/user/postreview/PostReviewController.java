@@ -1,5 +1,7 @@
 package user.postreview;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,11 @@ public class PostReviewController {
     @PostMapping("/corporates/{corporateId}/internships/{internshipId}/reviews")
     public ResponseEntity<PostReviewResponse> addReviewToCorporate(
             @PathVariable("internshipId") String internshipId,
-            @RequestBody PostReviewRequest request) {
+            @RequestBody PostReviewRequest request,
+            Principal principal) {
+        if (principal == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
         request.setInternshipId(internshipId);
         return new ResponseEntity<>(postReview.addReviewToInternship(request), HttpStatus.CREATED);
     }

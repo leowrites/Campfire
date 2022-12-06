@@ -60,8 +60,8 @@ public class WebSecurityConfig {
                                 "/users/authenticate", "/users/reset", "/users/createInternship", "/users/test",
                                 "/users/**")
                         .permitAll()
-                        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .antMatchers("/users/**", "/ws/**")
+                        .antMatchers(HttpMethod.GET, "/**").permitAll()
+                        .antMatchers("/users/**", "/ws/**", "/corporates/**")
                         .authenticated()
                 )
                 .formLogin()

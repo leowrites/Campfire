@@ -33,7 +33,7 @@ public class DeleteReviewController {
     public ResponseEntity<DeleteReviewResponseModel> createDeleteReviewRequestModel(
             @RequestBody DeleteReviewRequestModel requestModel,
             Principal principal){
-        if (!principal.getName().equals(requestModel.getUserId())) {
+        if (principal == null || !principal.getName().equals(requestModel.getUserId())) {
             return new ResponseEntity<>(new DeleteReviewResponseModel("Unauthorized!"), HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(interactor.deleteReview(requestModel), HttpStatus.OK);

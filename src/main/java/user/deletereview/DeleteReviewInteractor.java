@@ -61,18 +61,7 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
             dataAccessInternship.updateInternship(internshipId, internship);
         }
         catch(Exception e){System.out.println(e.getMessage());}
-//        DeleteReviewHandler deleteReviewHandler = new DeleteReviewHandler(internship, reviewId);
-//        newInternship = deleteReviewHandler.deleteReview();
-//        List<Integer> filteredReviews = internship.getReviews()
-//                .stream()
-//                .filter(id -> id != reviewId)
-//                .collect(Collectors.toList());
-//        internship.setReviews((ArrayList<Integer>) filteredReviews);
-
-
         // need to recursively delete all comments ...
-
-
         //return a success message, as well as the new Arraylist of Reviews
         return new DeleteReviewResponseModel("Review has successfully been deleted");
     }
