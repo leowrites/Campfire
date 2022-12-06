@@ -5,6 +5,8 @@ let theme = createTheme({
   typography: {
     fontFamily: ['IBM Plex Sans Condensed'],
   },
+  palette: {
+  }
 });
 
 theme = responsiveFontSizes(theme)

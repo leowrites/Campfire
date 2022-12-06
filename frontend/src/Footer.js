@@ -17,11 +17,11 @@ export default function Footer() {
           left: 0,
           bottom: 0,
           right: 0,
-          backgroundColor: '#131b23',
+          backgroundColor: '#14110f',
           minHeight: '5rem',
         }}>
         <Typography sx={{ display: 'flex', color: 'white' }} variant='h7'>
-          Company representative?
+          Company Representative?
           <Link
             to={principal ? `/corporates/create` : '/login'}
             style={{ color: 'gray', textDecoration: 'none' }}>
