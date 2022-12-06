@@ -1,26 +1,19 @@
+import { Outlet } from 'react-router';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import InternshipCard from './InternshipCard';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Container } from '@mui/system';
 import applepark from './applepark.jpg';
 
-export default function CorporatePage() {
+export default function CorporateLayout() {
   const { corporateId } = useParams();
   const [companyDetails, setCompanyDetails] = useState({});
-  const [internships, setInternships] = useState([]);
   useEffect(() => {
     axios.get(`/corporates/${corporateId}`).then((data) => {
       setCompanyDetails(data.data);
-    });
-  }, []);
-  useEffect(() => {
-    axios.get(`/corporates/${corporateId}/internships`).then((data) => {
-      console.log('internships', internships);
-      setInternships(data.data);
     });
   }, []);
   return (
@@ -50,16 +43,14 @@ export default function CorporatePage() {
         </Container>
       </Box>
       <Container>
-        <Box sx={{ mt: 5 }}>
-          {internships?.map((internship) => (
-            <InternshipCard key={internship.id} id={internship.id} jobTitle={internship.jobTitle} />
-          ))}
-        </Box>
+        <Outlet />
       </Container>
       <Box>
         <Typography sx={{ ml: 'auto', mt: 20, display: 'inline-block', color: 'white' }}>
           Company Representitive?{' '}
-          <Link to={`internships`} style={{ color: 'gray', textDecoration: 'none' }}>
+          <Link
+            to={`/corporates/${corporateId}/internships/create`}
+            style={{ color: 'gray', textDecoration: 'none' }}>
             Create an internship
           </Link>
         </Typography>

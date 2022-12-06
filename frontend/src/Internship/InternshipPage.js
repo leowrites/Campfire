@@ -10,12 +10,16 @@ import useAuthContext from '../AuthContext';
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import IconButton from '@mui/material/IconButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function InternshipPage() {
   const [reviews, setReviews] = useState([]);
   const { corporateId, internshipId } = useParams();
   const [internshipDetails, setInternshipsDetails] = useState({});
   const [showCommentBox, setShowCommentBox] = useState(false);
+  const navigate = useNavigate()
   const { principal } = useAuthContext();
   const handleShowCommentBox = () => {
     setShowCommentBox(!showCommentBox);
@@ -51,7 +55,10 @@ export default function InternshipPage() {
   };
 
   return (
-    <Box sx={{ my: 2 }} textAlign='start'>
+    <Box sx={{ my: 2, color: 'white' }} textAlign='start'>
+      <IconButton sx={{ p: 0 }} onClick={() => navigate(-1)}>
+        <KeyboardBackspaceIcon sx={{ color: 'white' }} />
+      </IconButton>
       <Typography variant='h4'>{internshipDetails.jobTitle}</Typography>
       <Button onClick={handleShowCommentBox}>Add a review</Button>
       {showCommentBox ? (

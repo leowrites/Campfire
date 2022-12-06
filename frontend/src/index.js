@@ -12,10 +12,12 @@ import { AuthContextProvider } from './AuthContext';
 import CorporatePage from './Corporate/CorporatePage';
 import InternshipPage from './Internship/InternshipPage';
 import AddInternshipForm from './Corporate/AddInternshipForm';
-import CreateCompany from "./Corporate/CreateCompany";
+import CreateCompany from './Corporate/CreateCompany';
 import ScrollToTop from './ScrollToTop';
 import { ThemeProvider } from '@mui/material';
 import theme from './theme';
+import CorporateLayout from './Corporate/CorporateLayout';
+import InternshipGroup from './Corporate/InternshipGroup';
 
 const routes = [
   {
@@ -27,19 +29,25 @@ const routes = [
       },
       {
         path: '/corporates/create',
-        element: <CreateCompany></CreateCompany>
+        element: <CreateCompany></CreateCompany>,
       },
       {
         path: '/corporates/:corporateId',
-        element: <CorporatePage />,
-      },
-      {
-        path: '/corporates/:corporateId/internships/:internshipId',
-        element: <InternshipPage />,
-      },
-      {
-        path: '/corporates/:corporateId/internships',
-        element: <AddInternshipForm />,
+        element: <CorporateLayout />,
+        children: [
+          {
+            index: true,
+            element: <InternshipGroup />,
+          },
+          {
+            path: 'internships/create',
+            element: <AddInternshipForm />,
+          },
+          {
+            path: 'internships/:internshipId',
+            element: <InternshipPage />,
+          },
+        ],
       },
       {
         path: '/login',
@@ -58,8 +66,8 @@ const router = createBrowserRouter([
     element: (
       <GlobalContextProvider>
         <ThemeProvider theme={theme}>
-        <ScrollToTop />
-        <App />
+          <ScrollToTop />
+          <App />
         </ThemeProvider>
       </GlobalContextProvider>
     ),
