@@ -43,7 +43,7 @@ export default function InternshipPage() {
     axios
       .post(`/corporates/${corporateId}/internships/${internshipId}/reviews`, {
         reviewContent: comment,
-        username: principal.username,
+        username: principal?.username,
         rating: rating,
       })
       .then((res) => res.data.status === 'SUCCESS' && getReviews())

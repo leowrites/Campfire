@@ -25,16 +25,17 @@ export default function ReviewCard({
   const principal = authContext.principal;
   const handleDelete = () => {
     console.log('called');
-    axios.delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
-      data: {
-        internshipId: internshipId,
-        reviewId: reviewId,
-        userId: userId,
-      },
-    })
-    .then(() => {
-      window.location.reload();
-    })
+    axios
+      .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
+        data: {
+          internshipId: internshipId,
+          reviewId: reviewId,
+          userId: userId,
+        },
+      })
+      .then(() => {
+        window.location.reload();
+      });
   };
   const handleShowCommentBox = () => {
     setShowComment(!showComment);
@@ -51,28 +52,32 @@ export default function ReviewCard({
   };
 
   const postComment = (parentType, parentId, comment) => {
-    console.log(parentType, parentId, comment, reviewId);
-    axios
-      .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
-        userId: principal.username,
-        parentType: parentType,
-        parentId: parentId,
-        content: comment,
-      })
-      .then((res) => {
-        if (res.data.status === 'SUCCESS') {
-          setShowComment(false);
-          setMoreComments([
-            ...moreComments,
-            {
-              id: res.data.id,
-              content: comment,
-              comments: [],
-              datePosted: res.data.datePosted,
-            },
-          ]);
-        }
-      });
+    if (principal) {
+      axios
+        .post(
+          `/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`,
+          {
+            userId: principal.username,
+            parentType: parentType,
+            parentId: parentId,
+            content: comment,
+          }
+        )
+        .then((res) => {
+          if (res.data.status === 'SUCCESS') {
+            setShowComment(false);
+            setMoreComments([
+              ...moreComments,
+              {
+                id: res.data.id,
+                content: comment,
+                comments: [],
+                datePosted: res.data.datePosted,
+              },
+            ]);
+          }
+        });
+    }
   };
 
   return (
