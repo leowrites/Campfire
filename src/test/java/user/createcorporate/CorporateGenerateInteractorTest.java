@@ -29,12 +29,13 @@ public class CorporateGenerateInteractorTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private CorporateGenerateInteractor interactor;
+    @Autowired
     private CorporateFactory corporateFactory;
+
+    private CorporateGenerateInteractor interactor;
 
     @BeforeEach
     public void init() {
-        corporateFactory = new CorporateFactory();
         interactor = new CorporateGenerateInteractor(corporateDAO, userDAO, corporateFactory);
         jdbcTemplate.execute("DROP TABLE IF EXISTS corporates");
         jdbcTemplate.execute("DROP TABLE IF EXISTS users");

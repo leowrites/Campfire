@@ -16,10 +16,10 @@ public class PostReview implements IPostReview{
     private final IReviewDAO reviewDAO;
     private final IInternshipDAO internshipDAO;
     private final PostReviewFactory reviewFactory;
-    public PostReview(IReviewDAO reviewDAO, IInternshipDAO internshipDAO) {
+    public PostReview(IReviewDAO reviewDAO, IInternshipDAO internshipDAO, PostReviewFactory reviewFactory) {
         this.reviewDAO = reviewDAO;
         this.internshipDAO = internshipDAO;
-        this.reviewFactory = new PostReviewFactory();
+        this.reviewFactory = reviewFactory;
     }
 
     /** Adds a review to the corporate page database.

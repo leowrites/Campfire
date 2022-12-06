@@ -30,12 +30,13 @@ public class CommentInteractorTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private CommentInteractor interactor;
+    @Autowired
     private CommentFactory commentFactory;
+
+    private CommentInteractor interactor;
 
     @BeforeEach
     public void init() {
-        this.commentFactory = new CommentFactory();
         interactor = new CommentInteractor(reviewDAO, commentDAO, commentFactory);
         jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
         jdbcTemplate.execute("DROP TABLE IF EXISTS comments");
