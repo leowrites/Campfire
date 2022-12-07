@@ -1,8 +1,11 @@
 package entity;
 
 import user.sort.ISortComparator;
+import user.votehelpful.VoteDecision;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Review implements ISortComparator, IUserPost{
     private String userId;
@@ -14,7 +17,7 @@ public class Review implements ISortComparator, IUserPost{
     private int rating;
     private int internshipId;
     private int id;
-    private ArrayList<String> votedUsers;
+    private HashMap<String, VoteDecision> votedUsers;
 
     public Review() {
     }
@@ -28,7 +31,7 @@ public class Review implements ISortComparator, IUserPost{
         this.comments = new ArrayList<>();
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
-        this.votedUsers = new ArrayList<>();
+        this.votedUsers = new HashMap<>();
     }
 
     public int getId() {
@@ -124,11 +127,11 @@ public class Review implements ISortComparator, IUserPost{
         return otherReview.getDatePosted().compareTo(this.datePosted);
     }
 
-    public ArrayList<String> getVotedUsers() {
-        return votedUsers;
+    public HashMap<String, VoteDecision> getVotedUsers() {
+        return this.votedUsers;
     }
 
-    public void setVotedUsers(ArrayList<String> votedUsers) {
+    public void setVotedUsers(HashMap<String, VoteDecision> votedUsers) {
         this.votedUsers = votedUsers;
     }
 }

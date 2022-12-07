@@ -1,12 +1,12 @@
 package user.votehelpful;
 
 import entity.Review;
-import entity.User;
 import service.ServerStatus;
 import service.dao.IReviewDAO;
 import user.votehelpful.exceptions.ReviewNotFoundException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /** The votehelpful use case interactor that calls the create method from the
  * IHelpfulInputBoundary input boundary. When initialized, takes in an object that
@@ -25,7 +25,6 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
      */
     @Override
     public HelpfulResponseModel create(HelpfulRequestModel requestModel) {
-        boolean isHelpful = requestModel.getIsHelpful();
         int reviewId = requestModel.getReviewId();
         Review review;
 
@@ -40,21 +39,22 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
         }
 
         String userId = requestModel.getUserId();
-        ArrayList<String> votedUsers = review.getVotedUsers();
-        if (votedUsers.contains(userId)) {
+        HashMap<String, VoteDecision> votedUsers = review.getVotedUsers();
+        String isHelpful = requestModel.getIsHelpful();
+        if (votedUsers.keySet().contains(userId)) {
             return null;
         }
         else {
-            votedUsers.add(userId);
+            votedUsers.put(userId, HelpfulHandler.toVoteDecision(isHelpful));
             review.setVotedUsers(votedUsers);
         }
 
-        if (isHelpful) {
+        if (isHelpful.equals("Helpful")) {
             int numLikes = review.getNumLikes();
             numLikes = numLikes + 1;
             review.setNumLikes(numLikes);
         }
-        else {
+        if (isHelpful.equals("Unhelpful")) {
             int numDislikes = review.getNumDislikes();
             numDislikes = numDislikes + 1;
             review.setNumDislikes(numDislikes);
