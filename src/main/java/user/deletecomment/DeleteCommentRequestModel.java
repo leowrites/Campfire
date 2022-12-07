@@ -8,7 +8,7 @@ public class DeleteCommentRequestModel {
 
     private final int parentId;
 
-    private final String userId;
+    private String userId;
 
     public DeleteCommentRequestModel(int commentId,
                                      String parentType,
@@ -28,4 +28,7 @@ public class DeleteCommentRequestModel {
 
     public String getUserId(){return this.userId;}
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

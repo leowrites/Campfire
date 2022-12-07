@@ -21,12 +21,14 @@ public class DeleteCommentController {
     public ResponseEntity<DeleteCommentResponseModel> deleteComment(
             @RequestBody DeleteCommentRequestModel requestModel,
             Principal principal){
-        // reject the request right away if principal is not authorized
-        if (!principal.getName().equals(requestModel.getUserId())) {
-            return new ResponseEntity<>(new DeleteCommentResponseModel(
-                    "Unauthorized!"
-            ), HttpStatus.UNAUTHORIZED);
+
+        // this is a temporary fix, this check will go after we start using Spring authorization
+        requestModel.setUserId(principal.getName());
+        DeleteCommentResponseModel responseModel = interactor.deleteComment(requestModel);
+        if (responseModel.getMessage().equals("Comment has been successfully deleted")) {
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(interactor.deleteComment(requestModel), HttpStatus.OK);
     }
 }
