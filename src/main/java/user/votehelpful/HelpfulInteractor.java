@@ -1,9 +1,12 @@
 package user.votehelpful;
 
 import entity.Review;
+import entity.User;
 import service.ServerStatus;
 import service.dao.IReviewDAO;
 import user.votehelpful.exceptions.ReviewNotFoundException;
+
+import java.util.ArrayList;
 
 /** The votehelpful use case interactor that calls the create method from the
  * IHelpfulInputBoundary input boundary. When initialized, takes in an object that
@@ -34,6 +37,16 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
         }
         catch (ReviewNotFoundException e) {
             return new HelpfulResponseModel(ServerStatus.ERROR, e.getMessage());
+        }
+
+        String userId = requestModel.getUserId();
+        ArrayList<String> votedUsers = review.getVotedUsers();
+        if (votedUsers.contains(userId)) {
+            return null;
+        }
+        else {
+            votedUsers.add(userId);
+            review.setVotedUsers(votedUsers);
         }
 
         if (isHelpful) {

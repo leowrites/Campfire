@@ -7,10 +7,12 @@ package user.votehelpful;
 public class HelpfulRequestModel {
     private final boolean isHelpful;
     private final int reviewId;
+    private final String userId;
 
-    public HelpfulRequestModel(boolean isHelpful, int reviewId) {
+    public HelpfulRequestModel(boolean isHelpful, int reviewId, String userId) {
         this.isHelpful = isHelpful;
         this.reviewId = reviewId;
+        this.userId = userId;
     }
 
     public boolean getIsHelpful() {
@@ -19,5 +21,9 @@ public class HelpfulRequestModel {
 
     public int getReviewId() {
         return this.reviewId;
+    }
+
+    public String getUserId() {
+        return this.userId;
     }
 }

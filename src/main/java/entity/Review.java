@@ -14,6 +14,7 @@ public class Review implements ISortComparator, IUserPost{
     private int rating;
     private int internshipId;
     private int id;
+    private ArrayList<String> votedUsers;
 
     public Review() {
     }
@@ -27,6 +28,7 @@ public class Review implements ISortComparator, IUserPost{
         this.comments = new ArrayList<>();
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
+        this.votedUsers = new ArrayList<>();
     }
 
     public int getId() {
@@ -120,5 +122,13 @@ public class Review implements ISortComparator, IUserPost{
         in order to have the highest value come up first in the sort.
          */
         return otherReview.getDatePosted().compareTo(this.datePosted);
+    }
+
+    public ArrayList<String> getVotedUsers() {
+        return votedUsers;
+    }
+
+    public void setVotedUsers(ArrayList<String> votedUsers) {
+        this.votedUsers = votedUsers;
     }
 }

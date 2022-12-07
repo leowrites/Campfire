@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ReviewDaoMapper implements RowMapper<Review> {
     /**
@@ -31,6 +32,7 @@ public class ReviewDaoMapper implements RowMapper<Review> {
         try {
             review.setId(rs.getInt("id"));
             review.setInternshipId(rs.getInt("internshipid"));
+            review.setVotedUsers(new ArrayList<>());
         } catch (PSQLException e) {
             System.out.print("at ReviewDaoMapper");
             System.out.println(e);
