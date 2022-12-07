@@ -6,9 +6,15 @@ let theme = createTheme({
     fontFamily: ['IBM Plex Sans Condensed'],
   },
   palette: {
-  }
+    primary: {
+      main: '#14110f',
+    },
+    secondary: {
+      main: '#ffffff',
+    },
+  },
 });
 
-theme = responsiveFontSizes(theme)
+theme = responsiveFontSizes(theme);
 
 export default theme;
