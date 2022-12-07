@@ -6,6 +6,13 @@ public class RequestConnectionResponseModel {
     private final RequestConnectionUserResponseModel userResponseModel;
     private final RequestConnectionUserResponseModel targetResponseModel;
 
+    /**
+     * The responseModel includes the connection results, and will be passed to the db
+     * @param serverStatus is either error or success, indicates if the connections is processed successfully
+     * @param userResponseModel is the ResponseModel of the principal user
+     * @param targetResponseModel is the ResponseModel of the target user
+     */
+
     public RequestConnectionResponseModel(ServerStatus serverStatus,
                                           RequestConnectionUserResponseModel userResponseModel,
                                           RequestConnectionUserResponseModel targetResponseModel) {

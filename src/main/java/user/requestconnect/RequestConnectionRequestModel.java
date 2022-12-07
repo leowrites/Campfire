@@ -4,6 +4,12 @@ public class RequestConnectionRequestModel {
     private final String userId;
     private final String targetId;
 
+    /**
+     * This is the request model for the connection request
+     * @param userId is the userID of the principal who sends the request
+     * @param targetId is the userID of the target user receives the request
+     */
+
     public RequestConnectionRequestModel(String userId, String targetId) {
         this.userId = userId;
         this.targetId = targetId;

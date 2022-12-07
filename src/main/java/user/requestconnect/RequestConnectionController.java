@@ -11,6 +11,10 @@ import service.ServerStatus;
 
 import java.security.Principal;
 
+/**
+ * The controller connects the use case to database using Spring boot to configure.
+ */
+
 @RestController
 @ComponentScan("main")
 public class RequestConnectionController {
@@ -21,15 +25,30 @@ public class RequestConnectionController {
     @Autowired
     SimpUserRegistry userRegistry;
 
+    /**
+     * Get target users that the principal wishes to connect with from userRegistry
+     */
     public void findThem() {
         System.out.println(userRegistry.getUsers());
     }
+
+    /**
+     *
+     * @param requestConnectionInteractor is the use case interactor
+     * @param simpMessagingTemplate provides methods for sending messages to users
+     */
     @Autowired
     public RequestConnectionController(IRequestConnectionInput requestConnectionInteractor,
                                        SimpMessagingTemplate simpMessagingTemplate) {
         this.requestConnectionInteractor = requestConnectionInteractor;
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
+
+    /**
+     * The requestConnection method returns a reponseModel depending on the ServerStatus
+     * @param user is the principal who requested to connect
+     * @param requestModel has the principal userID and the target userID
+     */
     @MessageMapping("/users/connections/request")
     public void requestConnection(
             Principal user,

@@ -14,6 +14,17 @@ public class RequestConnectionUserResponseModel {
     private String targetId;
     private Action action;
 
+    /**
+     * This is the UserResponseModel if the connection is successful
+     * @param message is the message sent by the principal user
+     * @param serverStatus should be success
+     * @param incomingConnectionRequests is an ArrayList of incoming requests
+     * @param outgoingConnectionRequests is an ArrayList of outgoing requests
+     * @param connections is an ArrayList of the connected users' userID
+     * @param userId is the principal user's userID
+     * @param targetId is the target user's userID
+     * @param action is one of the action types from the enum class
+     */
     public RequestConnectionUserResponseModel(String message, ServerStatus serverStatus,
                                               ArrayList<String> incomingConnectionRequests,
                                               ArrayList<String> outgoingConnectionRequests,
@@ -29,6 +40,11 @@ public class RequestConnectionUserResponseModel {
         this.connections = connections;
     }
 
+    /**
+     * This responseModel overrides the previous one when the connection fails
+     * @param message is the message sent by the principal user
+     * @param serverStatus should be error
+     */
     public RequestConnectionUserResponseModel(String message, ServerStatus serverStatus) {
         this.message = message;
         this.serverStatus = serverStatus;
@@ -63,5 +79,5 @@ public class RequestConnectionUserResponseModel {
 
     public Action getAction() {
         return action;
-    };
+    }
 }

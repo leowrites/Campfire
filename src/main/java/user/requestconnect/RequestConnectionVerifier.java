@@ -52,9 +52,11 @@ public class RequestConnectionVerifier {
     }
 
     /**
-     * verify the connection and raise errors if a condition is not met
+     * the verifier verifies different types of potential errors and throws exceptions when necessary
      * @throws UserAlreadyConnectedException if user and target are already connected
      * @throws PendingRequestExistsException if user already has a sent pending request
+     * @throws UserConnectSelf if user attempts to connect itself
+     * @throws IncomingRequestException if there is an incoming request
      */
     public void verify() throws UserAlreadyConnectedException, PendingRequestExistsException, UserConnectSelf, IncomingRequestException {
         checkAlreadyConnected();
