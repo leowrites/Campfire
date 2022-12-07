@@ -8,16 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-/** The sort use case controller that connects to Spring. It takes in a sortCriteria
- * from the user input in front-end, sorts by sending the criteria to the interactor,
- * and gives the sorted responseModel back to the front-end.
+/** The sort use case controller that connects to Spring. It takes in an object that implements
+ * ISortInput that has interactor methods, sorts by sending the correct algorithm to the that object,
+ * and puts the response model holding the sorted ids in a ResponseEntity with the http status to
+ * send back to the front-end.
  */
 @RestController
 public class SortController {
 
     private final ISortInput interactor;
 
-    /** This looks for the SortConfig class to get the interactor.
+    /** Looks for the BeanConfiguration class to get the interactor.
      * @param interactor a sortInteractor.
      */
     @Autowired
@@ -25,9 +26,9 @@ public class SortController {
         this.interactor = interactor;
     }
 
-    /** Sorts the given ArrayList of Reviews in requestModel and returns a sortResponseModel.
+    /** Creates a SortResponseModel using the inputs in requestModel.
      * @param requestModel the requestModel taken in from the front-end.
-     * @return a responseModel holding the sorted ArrayList of Reviews.
+     * @return a ResponseEntity holding a SortResponseModel and an HttpStatus
      */
     @GetMapping("/reviews/sort")
     public ResponseEntity<SortResponseModel> reviewSort(@RequestBody SortRequestModel requestModel){

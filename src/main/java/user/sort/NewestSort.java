@@ -9,7 +9,7 @@ public class NewestSort implements ISort{
 
     /** Sorts reviews by the most recent date in descending order.
      * @param reviews an ArrayList of Reviews from the page
-     * @return a response model
+     * @return an ArrayList of sorted Reviews
      */
     public ArrayList<Review> sort(ArrayList<Review> reviews){
         reviews.sort(Review::compareToNewest);

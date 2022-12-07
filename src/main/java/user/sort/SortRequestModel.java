@@ -1,7 +1,8 @@
 package user.sort;
 
-/** A request model for the sort use case that frames the input data into an object. It holds
- * the sorting criteria, the reviews on an internship, and the corresponding sorting algorithm.
+/** A request model for the sort use case that frames the input data into an object. Holds
+ * the String sorting criteria in sortCriteria, and the int representation of the id of the parent
+ * internship in parentInternshipId
  */
 public class SortRequestModel {
     private final String sortCriteria;

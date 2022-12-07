@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 import service.ServerStatus;
 
-/** A response model for the sort use case that frames the output data into an object. It holds
- * the newly sorted ArrayList of reviews.
+/** A response model for the sort use case that frames the output data into an object. Holds
+ * the newly sorted Integer ArrayList of review ids in reviews.
  */
 public class SortResponseModel {
 

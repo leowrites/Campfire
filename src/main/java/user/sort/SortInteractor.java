@@ -8,7 +8,7 @@ import user.comment.exceptions.ReviewNotFoundException;
 import user.sort.exceptions.SortCriteriaNotFoundException;
 
 /** The sort use case interactor that calls the createSortResponseModel method from the
- * ISortInput input boundary that separates it from the other layers of Clean Architecture.
+ * ISortInput input boundary.
  */
 public class SortInteractor implements ISortInput{
 
@@ -20,10 +20,9 @@ public class SortInteractor implements ISortInput{
         this.sortAlgorithmFactory = sortAlgorithmFactory;
     }
 
-    /** Sorts the ArrayList of reviews in the requestModel by the sorting algorithm stored in
-     * the requestModel, and returns the SortResponseModel resulting from that sort.
-     * @param requestModel a request model that contains an ArrayList of Reviews to be sorted
-     * @return a response model
+    /** Sorts the reviews in requestModel using the appropriate sorting algorithm.
+     * @param requestModel the request model
+     * @return a response model to be sent back to the client
      */
     @Override
     public SortResponseModel createSortResponseModel(SortRequestModel requestModel){

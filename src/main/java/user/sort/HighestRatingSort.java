@@ -9,7 +9,7 @@ public class HighestRatingSort implements ISort{
 
     /** Sorts reviews by the highest rating in descending order.
      * @param reviews an ArrayList of Reviews from the page
-     * @return a response model
+     * @return an ArrayList of sorted Reviews
      */
     public ArrayList<Review> sort(ArrayList<Review> reviews){
         reviews.sort(Review::compareToHighestRating);
