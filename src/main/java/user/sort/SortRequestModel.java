@@ -8,8 +8,6 @@ public class SortRequestModel {
 
     private final int parentInternshipId;
 
-    private ISort sortingAlgorithm;
-
     public SortRequestModel(String sortCriteria, int parentInternshipId){
         this.sortCriteria = sortCriteria;
         this.parentInternshipId = parentInternshipId;

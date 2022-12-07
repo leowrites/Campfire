@@ -1,6 +1,5 @@
 package user.sort;
 import service.ServerStatus;
-import user.sort.exceptions.SortCriteriaNotFoundException;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;

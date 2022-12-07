@@ -1,7 +1,6 @@
 package user.sort;
 import java.util.ArrayList;
 
-import org.apache.catalina.Server;
 import service.ServerStatus;
 
 /** A response model for the sort use case that frames the output data into an object. It holds
