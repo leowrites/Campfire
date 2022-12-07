@@ -15,7 +15,7 @@ public class CorporateFactory {
      * @return a Corporate object that is newly created
      */
 
-    public Corporate create(User rep, String companyName, String companyInfo) {
+    public Corporate create(String rep, String companyName, String companyInfo) {
         return new Corporate(rep, companyName, companyInfo);
     }
 

@@ -30,7 +30,7 @@ public class CreateInternshipController {
      * @param inputDS the CreateInternshipInputDS request model taken in from the front-end
      * @return a ResponseEntity holding a CreateInternshipResponseDS and an HttpStatus
      */
-    @PostMapping("/users/createInternship")
+    @PostMapping("/corporates/{corporateId}/internships")
     public ResponseEntity<CreateInternshipResponseDS> receiveCreateInternshipForm(@RequestBody CreateInternshipInputDS inputDS){
         CreateInternshipResponseDS responseDS = this.interactor.createInternship(inputDS);
         if (responseDS.getServerStatus().equals(ServerStatus.SUCCESS)){

@@ -1,5 +1,4 @@
 package service.dao;
-
 import entity.Comment;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ public interface ICommentDAO {
      * @return an integer representing the id of the comment in the table
      */
     int saveComment(Comment comment);
+    int saveComment(Comment comment, int parentId);
 
     /**
      * Gets the comment given the commentId.
@@ -18,6 +18,8 @@ public interface ICommentDAO {
      * @return a Comment object
      */
     Comment getComment(int commentId);
+
+    ArrayList<Comment> getCommentsWithParentId(int parentId);
 
     /**
      * Updates a comment.

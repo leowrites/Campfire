@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-@ComponentScan(basePackages = {"user"})
+@ComponentScan(basePackages = {"user", "service"})
 public class Application{
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

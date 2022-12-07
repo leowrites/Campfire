@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import service.ServerStatus;
 
@@ -28,9 +29,11 @@ public class CorporateGenerateController {
      * @return a ResponseEntity holding a CorporateGenerateResponseModel and an HttpStatus
      */
     @PostMapping("/corporates")
-    public ResponseEntity<CorporateGenerateResponseModel> create(Principal principal, CorporateGenerateRequestModel requestModel){
+    public ResponseEntity<CorporateGenerateResponseModel> create(Principal principal,
+                                                                 @RequestBody CorporateGenerateRequestModel requestModel){
 
-        if (principal.getName().equals(null) | principal.getName().equals(requestModel.getUserId())) {
+        //if principal's username is null, or principal's username doesn't match with request model's username
+        if (principal.getName().equals(null) || !principal.getName().equals(requestModel.getUserId())) {
             CorporateGenerateResponseModel responseModel = new CorporateGenerateResponseModel(ServerStatus.ERROR, "Bad request.");
             return new ResponseEntity<>(responseModel, HttpStatus.UNPROCESSABLE_ENTITY);
         }

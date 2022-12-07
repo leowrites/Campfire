@@ -1,5 +1,6 @@
 package user.postreview;
 
+import entity.Internship;
 import entity.Review;
 import main.Application;
 import org.junit.jupiter.api.*;
@@ -11,6 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import service.ServerStatus;
 import service.dao.IReviewDAO;
 import service.dao.IInternshipDAO;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -21,15 +25,20 @@ public class PostReviewTest {
     private IReviewDAO reviewDAO;
     @Autowired
     private IInternshipDAO internshipDAO;
-    private PostReview postReview;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private PostReviewFactory postReviewFactory;
+
+    private PostReview postReview;
 
     @BeforeEach
     public void init() {
-        postReview = new PostReview(reviewDAO, internshipDAO);
+        postReview = new PostReview(reviewDAO, internshipDAO, postReviewFactory);
         jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
-        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar)");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS internships");
+        jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar, internshipid integer)");
+        jdbcTemplate.execute("CREATE TABLE internships (id serial primary key, data varchar, companyid integer)");
     }
 
     @AfterEach
@@ -39,12 +48,20 @@ public class PostReviewTest {
 
     @Test
     public void testPostReviewWithValidRequestModel() {
+        Internship internship = new Internship(
+                0,
+                new ArrayList<>(),
+                "test",
+                "leo"
+        );
+        Integer internshipId = internshipDAO.saveInternshipAndReturnId(internship);
         PostReviewRequest request = new PostReviewRequest(
                 "I love Apple",
                 "Leo",
                 5
         );
-        PostReviewResponse response = postReview.addReviewToCorporate(request);
+        request.setInternshipId(internshipId.toString());
+        PostReviewResponse response = postReview.addReviewToInternship(request);
         assertEquals(ServerStatus.SUCCESS, response.getStatus());
         assertEquals("You have successfully posted a review to reviewId 1", response.getMessage());
 
