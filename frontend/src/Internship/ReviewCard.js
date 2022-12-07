@@ -158,7 +158,7 @@ export default function ReviewCard({
               parentType={'Review'}
               commentId={comment.id}
               parentId={reviewId}
-              userId={userId}
+              userId={comment.userId}
               content={comment.content}
               datePosted={comment.datePosted}
               comments={comment.comments}

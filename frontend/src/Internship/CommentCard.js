@@ -128,7 +128,7 @@ export default function CommentCard({
               parentType={'Comment'}
               commentId={comment.id}
               parentId={commentId}
-              userId={userId}
+              userId={comment.userId}
               content={comment.content}
               datePosted={comment.datePosted}
               comments={comments}
