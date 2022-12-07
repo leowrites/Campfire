@@ -49,7 +49,6 @@ export default function CommentCard({
   }, []);
 
   const fetchComments = () => {
-    console.log(commentId);
     axios
       .get(`/corporates/${corporateId}/internships/${internshipId}/reviews/${commentId}`)
       .then((res) => setMoreComments(res.data));
@@ -86,7 +85,7 @@ export default function CommentCard({
         background: 'rgba(22, 22, 22, 1)',
         borderRadius: 5,
         py: 1,
-        px: 2,
+        pl: 2,
       }}>
       <Box textAlign={'start'}>
         <Typography variant='h5'>{userId}: </Typography>

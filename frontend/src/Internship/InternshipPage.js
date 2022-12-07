@@ -73,11 +73,12 @@ export default function InternshipPage() {
         </Typography>
       </Box>
       {showCommentBox ? (
-        <Box sx={{ background: 'rgba(28, 28, 28, 1)', p: 4, borderRadius: 5, my: 3 }}>
-          <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+        <Box sx={{ background: 'rgba(22, 22, 22, 1)', p: 4, borderRadius: 5, my: 3 }}>
+          <Typography variant='h5' sx={{ fontWeight: 'bold', mb: 2 }}>
             Write a review
           </Typography>
           <Rating
+            sx={{ mb: 2 }}
             defaultValue={0}
             icon={<FavoriteIcon fontSize='inherit' color='white' />}
             emptyIcon={<FavoriteBorderIcon fontSize={'inherit'} sx={{ color: 'white' }} />}
