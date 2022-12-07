@@ -25,13 +25,16 @@ public class PostReviewTest {
     private IReviewDAO reviewDAO;
     @Autowired
     private IInternshipDAO internshipDAO;
-    private PostReview postReview;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private PostReviewFactory postReviewFactory;
+
+    private PostReview postReview;
 
     @BeforeEach
     public void init() {
-        postReview = new PostReview(reviewDAO, internshipDAO);
+        postReview = new PostReview(reviewDAO, internshipDAO, postReviewFactory);
         jdbcTemplate.execute("DROP TABLE IF EXISTS reviews");
         jdbcTemplate.execute("DROP TABLE IF EXISTS internships");
         jdbcTemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar, internshipid integer)");

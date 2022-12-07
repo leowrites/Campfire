@@ -2,7 +2,6 @@ package user.deletereview;
 
 import entity.Internship;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /** A class in the deletereview use case that handles the deletion of the Review whose id is the
