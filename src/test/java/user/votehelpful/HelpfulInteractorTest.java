@@ -50,6 +50,7 @@ public class HelpfulInteractorTest {
         // test that the interactor returns a success response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Vote received.", responseModel.getMessage());
+        assertEquals(VoteDecision.HELPFUL, responseModel.getVote());
 
         // test that the review was properly updated
         review = reviewDAO.getReview(reviewId);
@@ -72,6 +73,7 @@ public class HelpfulInteractorTest {
         // test that the interactor returns a success response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Vote received.", responseModel.getMessage());
+        assertEquals(VoteDecision.UNHELPFUL, responseModel.getVote());
 
         // test that the review was properly updated
         review = reviewDAO.getReview(reviewId);

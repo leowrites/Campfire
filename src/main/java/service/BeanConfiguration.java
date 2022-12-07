@@ -17,6 +17,8 @@ import user.deletecomment.DeleteCommentInteractor;
 import user.deletecomment.IDeleteCommentInput;
 import user.deletereview.DeleteReviewInteractor;
 import user.deletereview.IDeleteReviewInput;
+import user.deletevote.DeleteVoteInteractor;
+import user.deletevote.IDeleteVoteInput;
 import user.postreview.IPostReview;
 import user.postreview.PostReview;
 import user.postreview.PostReviewFactory;
@@ -83,6 +85,11 @@ public class BeanConfiguration {
     @Bean
     public IHelpfulInputBoundary helpfulInput(IReviewDAO reviewDAO) {
         return new HelpfulInteractor(reviewDAO);
+    }
+
+    @Bean
+    public IDeleteVoteInput deleteVoteInput(IReviewDAO reviewDAO) {
+        return new DeleteVoteInteractor(reviewDAO);
     }
 
     @Bean

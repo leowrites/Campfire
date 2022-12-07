@@ -35,17 +35,18 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
             }
         }
         catch (ReviewNotFoundException e) {
-            return new HelpfulResponseModel(ServerStatus.ERROR, e.getMessage());
+            return new HelpfulResponseModel(ServerStatus.ERROR, e.getMessage(), VoteDecision.NONE);
         }
 
         String userId = requestModel.getUserId();
         HashMap<String, VoteDecision> votedUsers = review.getVotedUsers();
         String isHelpful = requestModel.getIsHelpful();
+        VoteDecision vote = HelpfulHandler.toVoteDecision(isHelpful);
         if (votedUsers.keySet().contains(userId)) {
             return null;
         }
         else {
-            votedUsers.put(userId, HelpfulHandler.toVoteDecision(isHelpful));
+            votedUsers.put(userId, vote);
             review.setVotedUsers(votedUsers);
         }
 
@@ -62,6 +63,6 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
 
         reviewDAO.updateReview(review, reviewId);
 
-        return new HelpfulResponseModel(ServerStatus.SUCCESS, "Vote received.");
+        return new HelpfulResponseModel(ServerStatus.SUCCESS, "Vote received.", vote);
     }
 }

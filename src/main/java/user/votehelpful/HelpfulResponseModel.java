@@ -8,10 +8,12 @@ import service.ServerStatus;
 public class HelpfulResponseModel {
     private final ServerStatus status;
     private final String message;
+    private final VoteDecision vote;
 
-    public HelpfulResponseModel(ServerStatus status, String message) {
+    public HelpfulResponseModel(ServerStatus status, String message, VoteDecision vote) {
         this.status = status;
         this.message = message;
+        this.vote = vote;
     }
 
     public ServerStatus getStatus() {
@@ -20,5 +22,9 @@ public class HelpfulResponseModel {
 
     public String getMessage() {
         return this.message;
+    }
+
+    public VoteDecision getVote() {
+        return this.vote;
     }
 }
