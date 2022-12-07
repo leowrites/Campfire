@@ -1,7 +1,11 @@
 package user.signup;
 
-//DS that contains field info of the form user submits
-
+/**
+ * The SignUpRequestModel class is a data structure that represents the information
+ * that a user provides when they are signing up for an account. It includes fields for the user's first and last name,
+ * password, confirm password, email, and username. These fields are provided as input to the ISignUpInteractor
+ * class's validateInputs method for validation.
+ * */
 public class SignUpRequestModel {
 
     private final String firstName;

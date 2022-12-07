@@ -11,15 +11,28 @@ import user.requestconnect.exceptions.UserNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ This SignUpInteractor class provides an implementation of the ISignUp interface to validate inputs provided by a user
+ when they are signing up for an account. It takes a SignUpRequestModel object as input, which contains the user's
+ sign-up information, such as their username, email, password, and name.
+
+ The class first checks the input for validity, including checking that the email is a valid utoronto.ca email address,
+ that the username is unique, that the password and confirm password fields match, and that the password meets certain
+ strength requirements. If the input is valid, the class creates a new User object and saves it to the database using
+ the IUserDAO data access object. If there are any errors in the input, the class returns a SignUpResponseModel object
+ that contains a list of error messages.
+
+ */
 @Component
-public class ISignUpInteractor implements ISignUp {
+public class SignUpInteractor implements ISignUp {
 
     @Autowired
     final IUserDAO dataAccess;
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public ISignUpInteractor(IUserDAO dataAccess) {
+    public SignUpInteractor(IUserDAO dataAccess) {
         this.dataAccess = dataAccess;
     }
 

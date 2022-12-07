@@ -20,7 +20,7 @@ import user.postreview.PostReview;
 import user.requestconnect.IRequestConnectionInput;
 import user.requestconnect.RequestConnectionInteractor;
 import user.signup.ISignUp;
-import user.signup.ISignUpInteractor;
+import user.signup.SignUpInteractor;
 import user.votehelpful.HelpfulInteractor;
 import user.votehelpful.IHelpfulInputBoundary;
 
@@ -59,7 +59,7 @@ public class BeanConfiguration {
 
     @Bean
     public ISignUp SignUpInput(IUserDAO dataAccess){
-        return new ISignUpInteractor(dataAccess);
+        return new SignUpInteractor(dataAccess);
     }
 
     @Bean
