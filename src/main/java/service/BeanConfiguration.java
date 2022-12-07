@@ -24,6 +24,9 @@ import user.requestconnect.IRequestConnectionInput;
 import user.requestconnect.RequestConnectionInteractor;
 import user.signup.SignUpInputBoundary;
 import user.signup.SignUpInteractor;
+import user.sort.ISortInput;
+import user.sort.SortAlgorithmFactory;
+import user.sort.SortInteractor;
 import user.votehelpful.HelpfulInteractor;
 import user.votehelpful.IHelpfulInputBoundary;
 
@@ -43,6 +46,16 @@ public class BeanConfiguration {
     @Bean
     public PostReviewFactory createPostReviewFactory() {
         return new PostReviewFactory();
+    }
+
+    @Bean
+    public SortAlgorithmFactory createSortFactory() {
+        return new SortAlgorithmFactory();
+    }
+
+    @Bean
+    public ISortInput sortInput(IReviewDAO reviewDAO, SortAlgorithmFactory sortAlgorithmFactory){
+        return new SortInteractor(reviewDAO, sortAlgorithmFactory);
     }
 
     @Bean

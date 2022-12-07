@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class SortDAOTest {
+public class SortInteractorTest {
 
     @Autowired
     private IReviewDAO reviewDAO;
@@ -30,13 +30,16 @@ public class SortDAOTest {
     private IInternshipDAO internshipDAO;
 
     @Autowired
+    private SortAlgorithmFactory sortAlgorithmFactory;
+
+    @Autowired
     private JdbcTemplate jdbctemplate;
 
     private SortInteractor interactor;
 
     @BeforeEach
     public void init() {
-        interactor = new SortInteractor(reviewDAO);
+        interactor = new SortInteractor(reviewDAO, sortAlgorithmFactory);
         jdbctemplate.execute("DROP TABLE IF EXISTS reviews");
         jdbctemplate.execute("DROP TABLE IF EXISTS internships");
         jdbctemplate.execute("CREATE TABLE reviews (id serial primary key, data varchar, internshipid integer)");

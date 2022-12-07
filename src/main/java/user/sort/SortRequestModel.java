@@ -18,12 +18,4 @@ public class SortRequestModel {
     public String getSortCriteria(){return sortCriteria;}
 
     public int getParentInternshipId(){return parentInternshipId;}
-
-    public ISort getSortingAlgorithm() {
-        return sortingAlgorithm;
-    }
-
-    public void setSortingAlgorithm(ISort sortingAlgorithm){
-        this.sortingAlgorithm = sortingAlgorithm;
-    }
 }

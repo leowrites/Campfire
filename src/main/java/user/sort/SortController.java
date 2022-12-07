@@ -32,15 +32,7 @@ public class SortController {
      */
     @GetMapping("/reviews/sort")
     public ResponseEntity<SortResponseModel> reviewSort(@RequestBody SortRequestModel requestModel){
-        SortAlgorithmFactory factory = new SortAlgorithmFactory(requestModel.getSortCriteria());
-        try{
-            requestModel.setSortingAlgorithm(factory.createSortAlgorithm());
-        }
-        catch(SortCriteriaNotFoundException e){
-            System.out.println(e.getMessage());
-        }
         SortResponseModel responseModel = interactor.createSortResponseModel(requestModel);
-
         if (responseModel.getStatus() == ServerStatus.SUCCESS){
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         } else{

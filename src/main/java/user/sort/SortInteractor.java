@@ -13,9 +13,11 @@ import user.sort.exceptions.SortCriteriaNotFoundException;
 public class SortInteractor implements ISortInput{
 
     private final IReviewDAO reviewDAO;
+    private final SortAlgorithmFactory sortAlgorithmFactory;
 
-    public SortInteractor(IReviewDAO reviewDAO){
+    public SortInteractor(IReviewDAO reviewDAO, SortAlgorithmFactory sortAlgorithmFactory){
         this.reviewDAO = reviewDAO;
+        this.sortAlgorithmFactory = sortAlgorithmFactory;
     }
 
     /** Sorts the ArrayList of reviews in the requestModel by the sorting algorithm stored in
@@ -27,7 +29,6 @@ public class SortInteractor implements ISortInput{
     public SortResponseModel createSortResponseModel(SortRequestModel requestModel){
         String sortingCriteria = requestModel.getSortCriteria();
         int internshipId = requestModel.getParentInternshipId();
-        SortAlgorithmFactory factory = new SortAlgorithmFactory();
 
         ArrayList<Review> reviews;
         try{
@@ -38,7 +39,7 @@ public class SortInteractor implements ISortInput{
 
         ISort algorithm;
         try {
-            algorithm = factory.createSortAlgorithm(sortingCriteria);
+            algorithm = sortAlgorithmFactory.createSortAlgorithm(sortingCriteria);
         }
         catch (SortCriteriaNotFoundException e) {
             return new SortResponseModel(ServerStatus.ERROR, e.getMessage());
