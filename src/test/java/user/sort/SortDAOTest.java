@@ -70,6 +70,7 @@ public class SortDAOTest {
         int reviewId3 = reviewDAO.saveReview(review3, internshipId);
         int reviewId4 = reviewDAO.saveReview(review4, internshipId);
         int reviewId5 = reviewDAO.saveReview(review5, internshipId);
+        internship.setReviews(List.of(reviewId1, reviewId2, reviewId3, reviewId4, reviewId5));
 
         SortRequestModel requestModel = new SortRequestModel("Helpful", internshipId);
         SortResponseModel responseModel = interactor.createSortResponseModel(requestModel);
@@ -98,6 +99,7 @@ public class SortDAOTest {
         int reviewId3 = reviewDAO.saveReview(review3, internshipId);
         int reviewId4 = reviewDAO.saveReview(review4, internshipId);
         int reviewId5 = reviewDAO.saveReview(review5, internshipId);
+        internship.setReviews(List.of(reviewId1, reviewId2, reviewId3, reviewId4, reviewId5));
 
         SortRequestModel requestModel = new SortRequestModel("Highest Rating", internshipId);
         SortResponseModel responseModel = interactor.createSortResponseModel(requestModel);
@@ -131,6 +133,7 @@ public class SortDAOTest {
         int reviewId3 = reviewDAO.saveReview(review3, internshipId);
         int reviewId4 = reviewDAO.saveReview(review4, internshipId);
         int reviewId5 = reviewDAO.saveReview(review5, internshipId);
+        internship.setReviews(List.of(reviewId1, reviewId2, reviewId3, reviewId4, reviewId5));
 
         SortRequestModel requestModel = new SortRequestModel("Newest", internshipId);
         SortResponseModel responseModel = interactor.createSortResponseModel(requestModel);
