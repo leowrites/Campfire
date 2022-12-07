@@ -46,9 +46,11 @@ public class HelpfulInteractorTest {
         int reviewId = reviewDAO.saveReview(review);
         HelpfulRequestModel requestModel = new HelpfulRequestModel("Helpful", reviewId, "justinli");
         HelpfulResponseModel responseModel = interactor.create(requestModel);
+
         // test that the interactor returns a success response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Vote received.", responseModel.getMessage());
+
         // test that the review was properly updated
         review = reviewDAO.getReview(reviewId);
         int numLikes = review.getNumLikes();
@@ -66,9 +68,11 @@ public class HelpfulInteractorTest {
         int reviewId = reviewDAO.saveReview(review);
         HelpfulRequestModel requestModel = new HelpfulRequestModel("Unhelpful", reviewId, "justinli");
         HelpfulResponseModel responseModel = interactor.create(requestModel);
+
         // test that the interactor returns a success response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Vote received.", responseModel.getMessage());
+
         // test that the review was properly updated
         review = reviewDAO.getReview(reviewId);
         int numDislikes = review.getNumDislikes();
