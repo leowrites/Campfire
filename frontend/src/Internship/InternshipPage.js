@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
-import Button from '@mui/material/Button';
 import CommentCard from '../Internship/CommentBox';
 import useAuthContext from '../AuthContext';
 import Rating from '@mui/material/Rating';
@@ -19,13 +18,11 @@ export default function InternshipPage() {
   const { corporateId, internshipId } = useParams();
   const [internshipDetails, setInternshipsDetails] = useState({});
   const [showCommentBox, setShowCommentBox] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { principal } = useAuthContext();
   const handleShowCommentBox = () => {
     setShowCommentBox(!showCommentBox);
   };
-
-  // why is it getting all reviews
 
   useEffect(() => {
     axios.get(`/corporates/${corporateId}/internships/${internshipId}`).then((data) => {
@@ -59,14 +56,31 @@ export default function InternshipPage() {
       <IconButton sx={{ p: 0 }} onClick={() => navigate(-1)}>
         <KeyboardBackspaceIcon sx={{ color: 'white' }} />
       </IconButton>
-      <Typography variant='h4'>{internshipDetails.jobTitle}</Typography>
-      <Button onClick={handleShowCommentBox}>Add a review</Button>
+      <Box sx={{ display: 'flex', alignItems: 'baseline' }}>
+        <Typography variant='h4' sx={{ display: 'inline-flex' }}>
+          {internshipDetails.jobTitle}
+        </Typography>
+        <Typography
+          sx={{
+            ml: 'auto',
+            display: 'inline-flex',
+            ':hover': {
+              cursor: 'pointer',
+            },
+          }}
+          onClick={handleShowCommentBox}>
+          Add a review
+        </Typography>
+      </Box>
       {showCommentBox ? (
-        <Box>
+        <Box sx={{ background: 'rgba(28, 28, 28, 1)', p: 4, borderRadius: 5, my: 3 }}>
+          <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+            Write a review
+          </Typography>
           <Rating
             defaultValue={0}
-            icon={<FavoriteIcon fontSize='inherit' />}
-            emptyIcon={<FavoriteBorderIcon fontSize={'inherit'} />}
+            icon={<FavoriteIcon fontSize='inherit' color='white' />}
+            emptyIcon={<FavoriteBorderIcon fontSize={'inherit'} sx={{ color: 'white' }} />}
           />
           <CommentCard
             handleShowCommentBox={handleShowCommentBox}

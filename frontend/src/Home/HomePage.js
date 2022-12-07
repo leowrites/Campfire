@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import CustomTextField from '../Component/CustomTextfield';
 import Image from './bannerImage.png';
 import { ReactComponent as BonfireSVG } from './bonfire.svg';
 import { ReactComponent as CommentsSVG } from './comments.svg';
@@ -29,8 +30,7 @@ function HomePage() {
           borderRadius: 5,
           p: 5,
           height: '100%',
-          background: 'linear-gradient(to right top, #2d3542, #2b323e, #292f3b, #272c37, #252934)',
-          // background: '$005f73'
+          background: '-webkit-linear-gradient(bottom left, rgba(226, 98, 51, 1), #E65943)',
         }}>
         <Typography
           sx={{
@@ -57,8 +57,7 @@ function HomePage() {
     return (
       <Box
         sx={{
-          // background: 'linear-gradient(to right top, #091425, #101a2a, #171f30, #1e2535, #252b3b)',
-          background: '#14110f'
+          background: '#14110f',
         }}>
         <Container
           maxWidth='xl'
@@ -77,7 +76,7 @@ function HomePage() {
   };
 
   return (
-    <Box>
+    <Box sx={{ pt: 10 }}>
       <Box
         alignItems='center'
         sx={{
@@ -104,23 +103,29 @@ function HomePage() {
             Share your valuable internship experience.
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'end' }}>
-            <TextField
-              id='standard-basic'
-              label='Search For Companies'
-              variant='filled'
-              size='small'
-              InputProps={{ disableUnderline: true }}
+            <CustomTextField
               sx={{
-                '& label.Mui-focused': {
-                  color: 'black',
-                },
                 mt: 2,
                 mr: 2,
-                backgroundColor: 'white',
+                color: 'white',
+                '& label.Mui-focused': {
+                  color: 'white',
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'white',
+                },
+                backgroundColor: 'rgba(0,0,0,0.3)',
                 borderRadius: 2,
+                '& .MuiInputBase-root': {
+                  color: 'white', // Custom text color
+                },
               }}
+              id='standard-basic'
+              label='Search For Companies'
             />
-            <Button variant={'contained'} sx={{ borderRadius: 2, backgroundColor: 'black' }}>
+            <Button
+              variant={'contained'}
+              sx={{ borderRadius: 2, backgroundColor: 'black', height: 'auto' }}>
               <Typography fontWeight={'bold'}>Go</Typography>
             </Button>
           </Box>
@@ -142,7 +147,7 @@ function HomePage() {
                 text={
                   "You've reached an end of an important journey. Stop by and recount your valuable experience."
                 }>
-                <BonfireSVG style={{ width: '100%', maxWidth: '10rem', height: 'auto' }} />
+                <BonfireSVG style={{ width: '100%', maxWidth: '5rem', height: 'auto' }} />
               </FeaturePaper>
             </Grid>
             <Grid item sm={6} md={4} sx={{ padding: 3, width: '100%' }}>
@@ -150,7 +155,7 @@ function HomePage() {
                 text={
                   "Curious about someone's experience? Interact on our platform by leaving a comment."
                 }>
-                <CommentsSVG style={{ width: '100%', maxWidth: '10rem', height: 'auto' }} />
+                <CommentsSVG style={{ width: '100%', maxWidth: '5rem', height: 'auto' }} />
               </FeaturePaper>
             </Grid>
             <Grid item md={4} sx={{ p: 3, width: '100%' }}>
@@ -158,7 +163,7 @@ function HomePage() {
                 text={
                   'Connect to other users to ask deeper, or other burning questions privately.'
                 }>
-                <ConnectSVG style={{ width: '100%', maxWidth: '10rem', height: 'auto' }} />
+                <ConnectSVG style={{ width: '100%', maxWidth: '5rem', height: 'auto' }} />
               </FeaturePaper>
             </Grid>
           </Grid>

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import useAuthContext from '../AuthContext';
+import CustomTextField from '../Component/CustomTextfield';
 
 export default function ConnectPannel() {
   const globalContext = useGlobalContext();
@@ -35,20 +36,9 @@ export default function ConnectPannel() {
         Search for a connection
       </Typography>
       <Box sx={{ display: 'flex', mt: 1 }}>
-        <TextField
+        <CustomTextField
           label='username'
-          variant='filled'
-          size='small'
           fullWidth
-          InputProps={{ disableUnderline: true }}
-          sx={{
-            backgroundColor: 'white',
-            input: { color: 'black' },
-            "& label.Mui-focused": {
-              color: "black"
-            },
-            borderRadius: 2,
-          }}
           onChange={(e) => setConnectionInput(e.target.value)}
         />
         <Button

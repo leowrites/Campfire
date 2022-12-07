@@ -8,6 +8,9 @@ import CommentBox from './CommentBox';
 import { useParams } from 'react-router-dom';
 import CommentCard from './CommentCard';
 import useAuthContext from '../AuthContext';
+import Rating from '@mui/material/Rating';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 export default function ReviewCard({
   reviewId,
@@ -25,16 +28,17 @@ export default function ReviewCard({
   const principal = authContext.principal;
   const handleDelete = () => {
     console.log('called');
-    axios.delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
-      data: {
-        internshipId: internshipId,
-        reviewId: reviewId,
-        userId: userId,
-      },
-    })
-    .then(() => {
-      window.location.reload();
-    })
+    axios
+      .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
+        data: {
+          internshipId: internshipId,
+          reviewId: reviewId,
+          userId: userId,
+        },
+      })
+      .then(() => {
+        window.location.reload();
+      });
   };
   const handleShowCommentBox = () => {
     setShowComment(!showComment);
@@ -76,24 +80,55 @@ export default function ReviewCard({
   };
 
   return (
-    <Paper elevation={2} sx={{ mb: 3, p: 3 }}>
+    <Box
+      sx={{
+        background: 'rgba(22, 22, 22, 1)',
+        borderRadius: 5,
+        my: 3,
+        py: 3,
+        px: 5,
+      }}>
       <Box textAlign='start'>
         <Box sx={{ display: 'flex' }}>
-          <Typography variant='h5'>{userId}: </Typography>
-          <Typography sx={{ display: 'flex', ml: 'auto' }}>👍 {numLikes}</Typography>
-          <Typography>👎 {numDislikes}</Typography>
+          <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+            {userId}
+          </Typography>
+          <Paper
+            sx={{
+              ml: 'auto',
+              display: 'inline-flex',
+              alignItems: 'center',
+              background: 'rgba(35, 36, 35, 0.4)',
+              color: 'white',
+              px: 2,
+              py: 1,
+              borderRadius: 3,
+            }}
+            elevation={5}>
+            <Typography sx={{ mr: 2, fontWeight: 'bold' }}>👍 {numLikes}</Typography>
+            <Typography sx={{ fontWeight: 'bold' }}>👎 {numDislikes}</Typography>
+          </Paper>
         </Box>
-        <Typography>{content}</Typography>
-        <Typography>Rating: {rating}/10</Typography>
-        <Box sx={{ display: 'flex' }}>
-          <Typography sx={{ display: 'flex', ml: 'auto' }}>Date Posted: {datePosted}</Typography>
+        <Rating
+          value={2}
+          icon={<FavoriteIcon />}
+          emptyIcon={<FavoriteBorderIcon sx={{ color: 'gray' }} />}
+          readOnly
+        />
+        <Box sx={{ ml: 2, my: 1 }}>
+          <Typography variant='h7' style={{ wordWrap: 'break-word' }}>
+            {content}
+          </Typography>
+        </Box>
+        <Box textAlign={'right'}>
+          <Typography sx={{ ml: 'auto' }}>{datePosted.match(/^\d{4}-\d{2}-\d{2}/)}</Typography>
         </Box>
         <Box sx={{ display: 'flex', my: 1 }}>
           <Button
             sx={{ ml: 'auto', mr: 1 }}
             variant='contained'
             onClick={handleShowCommentBox}
-            color='success'
+            color='primary'
             size='small'>
             comment
           </Button>
@@ -130,6 +165,6 @@ export default function ReviewCard({
             />
           );
         })}
-    </Paper>
+    </Box>
   );
 }

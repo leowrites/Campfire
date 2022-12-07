@@ -1,10 +1,8 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -16,10 +14,13 @@ import { ReactComponent as ConnectIcon } from './connectIcon.svg';
 import { useState } from 'react';
 import ConnectPanel from '../Home/ConnectPanel';
 import { Drawer } from '@mui/material';
+import { useTheme } from '@mui/material';
+import CustomTextField from './CustomTextfield';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const authContext = useAuthContext();
+  const theme = useTheme();
   const principal = authContext.principal;
 
   const handleLogout = () => {
@@ -33,7 +34,7 @@ export default function Navbar() {
     <>
       <AppBar
         position='static'
-        style={{ background: '#050f04', minHeight: '4rem', maxHeight: 'fit-content' }}
+        style={{ minHeight: '4rem', maxHeight: 'fit-content' }}
         elevation={0}>
         <Toolbar>
           <Link to='/' style={{ textDecoration: 'none' }}>
@@ -58,15 +59,12 @@ export default function Navbar() {
               </Typography>
             </Box>
           </Link>
-
-          <TextField
-            sx={{ ml: 2 }}
-            id='outlined-basic'
-            label='Search'
-            variant='outlined'
+          <CustomTextField
+            hiddenLabel
             size='small'
+            placeholder='Search For A Company'
+            sx={{ width: '20rem', ml: 'auto', background: '#666666' }}
           />
-
           <Box sx={{ ml: 'auto' }}>
             {principal ? (
               <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
@@ -85,7 +83,9 @@ export default function Navbar() {
             ) : (
               <>
                 <Button onClick={() => navigate('login')}>
-                  <Typography sx={{ color: '#F6F2F2', fontWeight: 'bold' }} variant='h6'>
+                  <Typography
+                    sx={{ color: theme.palette.secondary.main, fontWeight: 'bold' }}
+                    variant='h6'>
                     Login
                   </Typography>
                 </Button>
