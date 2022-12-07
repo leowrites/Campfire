@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SignUpInteractor implements SignUpInputBoundary {
+public class ISignUpInteractor implements ISignUp {
 
     @Autowired
     final IUserDAO dataAccess;
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public SignUpInteractor(IUserDAO dataAccess) {
+    public ISignUpInteractor(IUserDAO dataAccess) {
         this.dataAccess = dataAccess;
     }
 
@@ -28,7 +28,7 @@ public class SignUpInteractor implements SignUpInputBoundary {
      responseDS that shows the success state of creating a user.
      * */
     @Override
-    public SignUpResponseDS validateInputs(SignUpInputDS signUpInputs) {
+    public SignUpResponseModel validateInputs(SignUpRequestModel signUpInputs) {
         List<FieldError> errorMessages = new ArrayList<>();
 
 //        //validate email is a valid U of T Email Address
@@ -67,6 +67,6 @@ public class SignUpInteractor implements SignUpInputBoundary {
             dataAccess.saveUser(user);
             System.out.println("User saved");
         }
-        return new SignUpResponseDS(errorMessages);
+        return new SignUpResponseModel(errorMessages);
     }
 }

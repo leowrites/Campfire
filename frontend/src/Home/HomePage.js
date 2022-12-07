@@ -66,7 +66,6 @@ function HomePage() {
             justifyContent: 'center',
             flexDirection: 'column',
             minHeight: '80vh',
-            display: 'flex',
           }}>
           {children}
         </Container>
@@ -99,7 +98,7 @@ function HomePage() {
               fontWeight: 'bold',
             }}
             variant='h5'>
-            Share your valuable internship experience.
+            Come share your valuable internship experience.
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'end' }}>
           <TextField

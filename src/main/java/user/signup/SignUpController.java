@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class SignUpController{
 
-    private final SignUpInputBoundary interactor;
+    private final ISignUp interactor;
 
     @Autowired
-    public SignUpController(SignUpInputBoundary signUpInteractor) {
+    public SignUpController(ISignUp signUpInteractor) {
         this.interactor = signUpInteractor;
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponseDS> receiveSignUpForm(@RequestBody SignUpInputDS inputdata) {
-        SignUpResponseDS responseDS = this.interactor.validateInputs(inputdata);
+    public ResponseEntity<SignUpResponseModel> receiveSignUpForm(@RequestBody SignUpRequestModel inputdata) {
+        SignUpResponseModel responseDS = this.interactor.validateInputs(inputdata);
         if (responseDS.getErrorMessages().isEmpty()){
             return new ResponseEntity<>(responseDS, HttpStatus.OK);
         } else {return new ResponseEntity<>(responseDS, HttpStatus.UNPROCESSABLE_ENTITY);}

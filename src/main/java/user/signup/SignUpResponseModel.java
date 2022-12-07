@@ -6,9 +6,9 @@ import entity.FieldError;
 
 import java.util.List;
 
-public class SignUpResponseDS {
+public class SignUpResponseModel {
     private final List<FieldError> errorMessages;
-    public SignUpResponseDS(List<FieldError> errorMessages) {
+    public SignUpResponseModel(List<FieldError> errorMessages) {
         this.errorMessages = errorMessages;
     }
     public List<FieldError> getErrorMessages() {

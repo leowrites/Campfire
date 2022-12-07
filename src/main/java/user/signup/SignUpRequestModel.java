@@ -2,7 +2,7 @@ package user.signup;
 
 //DS that contains field info of the form user submits
 
-public class SignUpInputDS {
+public class SignUpRequestModel {
 
     private final String firstName;
 
@@ -37,7 +37,7 @@ public class SignUpInputDS {
         return username;
     }
 
-    public SignUpInputDS(String firstName, String lastName, String password, String confirmPassword, String email, String username) {
+    public SignUpRequestModel(String firstName, String lastName, String password, String confirmPassword, String email, String username) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
