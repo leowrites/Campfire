@@ -69,6 +69,7 @@ export default function ReviewCard({
           setMoreComments([
             ...moreComments,
             {
+              userId: principal.username,
               id: res.data.id,
               content: comment,
               comments: [],

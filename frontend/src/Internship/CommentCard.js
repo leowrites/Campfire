@@ -69,6 +69,7 @@ export default function CommentCard({
           setMoreComments([
             ...moreComments,
             {
+              userId: principal.username,
               id: res.data.id,
               content: comment,
               comments: [],
@@ -82,7 +83,6 @@ export default function CommentCard({
   return (
     <Box
       sx={{
-        background: 'rgba(22, 22, 22, 1)',
         borderRadius: 5,
         py: 1,
         pl: 2,
