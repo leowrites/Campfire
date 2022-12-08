@@ -33,8 +33,12 @@ public class CorporateGenerateController {
                                                                  @RequestBody CorporateGenerateRequestModel requestModel){
 
         //if principal's username is null, or principal's username doesn't match with request model's username
-        if (principal.getName().equals(null) || !principal.getName().equals(requestModel.getUserId())) {
+        // these checks should be added to the pre filter chain
+        if (principal.getName() == null || !principal.getName().equals(requestModel.getUserId())) {
             CorporateGenerateResponseModel responseModel = new CorporateGenerateResponseModel(ServerStatus.ERROR, "Bad request.");
+            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+        } else if (requestModel.getCompanyName().equals("") || requestModel.getCompanyInfo().equals("")) {
+            CorporateGenerateResponseModel responseModel = new CorporateGenerateResponseModel(ServerStatus.ERROR, "Company name or info cannot be empty");
             return new ResponseEntity<>(responseModel, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 

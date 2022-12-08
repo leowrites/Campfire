@@ -1,10 +1,8 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -16,77 +14,85 @@ import { ReactComponent as ConnectIcon } from './connectIcon.svg';
 import { useState } from 'react';
 import ConnectPanel from '../Home/ConnectPanel';
 import { Drawer } from '@mui/material';
+import { useTheme } from '@mui/material';
+import CustomTextField from './CustomTextfield';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const authContext = useAuthContext();
+  const theme = useTheme();
   const principal = authContext.principal;
 
   const handleLogout = () => {
     authContext.setPrincipal();
-    axios.post('logout');
+    axios.post('/logout');
   };
 
   const [open, setOpen] = useState(false);
 
   return (
-    <Stack spacing={2} sx={{ flexGrow: 1 }}>
-      <AppBar position='static' style={{ background: '#050f04', height: '4rem' }} elevation={0}>
+    <>
+      <AppBar
+        position='static'
+        style={{ minHeight: '4rem', maxHeight: 'fit-content' }}
+        elevation={0}>
         <Toolbar>
-          <Link to='/' style={{ textDecoration: 'none', display: 'flex' }}>
-            <Logo style={{ height: 80, padding: 10, marginLeft: '10%' }}></Logo>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                marginLeft: '10%',
-                width: 300,
-                padding: 0,
-              }}>
+          <Link to='/' style={{ textDecoration: 'none' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Logo style={{ height: 60, padding: 12, ml: 2 }} />
               <Typography
-                variant='h4'
-                sx={{ color: '#F6F2F2', fontFamily: 'ExtraBold', paddingTop: '3%' }}>
+                variant='h5'
+                sx={{
+                  color: '#F6F2F2',
+                  fontWeight: 'bold',
+                }}>
                 CAMP
               </Typography>
               <Typography
-                variant='h4'
+                variant='h5'
                 sx={{
                   color: '#ff5634',
-                  fontFamily: 'ExtraBold',
-                  marginLeft: '2%',
-                  paddingTop: '3%',
+                  fontWeight: 'bold',
+                  ml: 1,
                 }}>
-                F I R E
+                FIRE
               </Typography>
-            </div>
+            </Box>
           </Link>
-
-          <TextField id='outlined-basic' label='Search' variant='outlined' />
-
+          <CustomTextField
+            hiddenLabel
+            size='small'
+            placeholder='Search For A Company'
+            sx={{ width: '20rem', ml: 'auto', background: '#666666' }}
+          />
           <Box sx={{ ml: 'auto' }}>
             {principal ? (
-              <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
                 <Button onClick={() => setOpen(true)}>
-                  <ConnectIcon style={{ height: 70, width: 70, marginLeft: '10%' }}></ConnectIcon>
+                  <ConnectIcon style={{ height: 'auto', width: 60 }}></ConnectIcon>
                 </Button>
-                <Typography sx={{ display: 'inline', color: 'white' }}>
+                <Typography sx={{ color: 'white', fontWeight: 'bold' }}>
                   {principal.username}
                 </Typography>
-                <Button sx={{ color: 'white', m: 2 }} onClick={handleLogout}>
-                  Logout
+                <Button onClick={handleLogout}>
+                  <Typography sx={{ fontWeight: 'bold', color: 'white', textTransform: 'none' }}>
+                    Logout
+                  </Typography>
                 </Button>
-              </div>
+              </Box>
             ) : (
               <>
-                <Button
-                  sx={{ color: '#F6F2F2', fontFamily: 'bold', fontSize: 20 }}
-                  onClick={() => navigate('login')}>
-                  Login
+                <Button onClick={() => navigate('login')}>
+                  <Typography
+                    sx={{ color: theme.palette.secondary.main, fontWeight: 'bold' }}
+                    variant='h6'>
+                    Login
+                  </Typography>
                 </Button>
-                <Button
-                  sx={{ color: '#ff5634', fontFamily: 'ExtraBold', fontSize: 20 }}
-                  onClick={() => navigate('signup')}>
-                  Sign up
+                <Button onClick={() => navigate('signup')}>
+                  <Typography sx={{ color: '#ff5634', fontWeight: 'bold' }} variant='h6'>
+                    Sign up
+                  </Typography>
                 </Button>
               </>
             )}
@@ -96,6 +102,6 @@ export default function Navbar() {
       <Drawer open={open} anchor={'right'} onClose={() => setOpen(false)}>
         <ConnectPanel />
       </Drawer>
-    </Stack>
+    </>
   );
 }

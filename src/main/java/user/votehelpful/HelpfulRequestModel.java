@@ -5,19 +5,25 @@ package user.votehelpful;
  * representation of the review's id in reviewId.
  */
 public class HelpfulRequestModel {
-    private final boolean isHelpful;
+    private final String isHelpful;
     private final int reviewId;
+    private final String userId;
 
-    public HelpfulRequestModel(boolean isHelpful, int reviewId) {
+    public HelpfulRequestModel(String isHelpful, int reviewId, String userId) {
         this.isHelpful = isHelpful;
         this.reviewId = reviewId;
+        this.userId = userId;
     }
 
-    public boolean getIsHelpful() {
+    public String getIsHelpful() {
         return this.isHelpful;
     }
 
     public int getReviewId() {
         return this.reviewId;
+    }
+
+    public String getUserId() {
+        return this.userId;
     }
 }

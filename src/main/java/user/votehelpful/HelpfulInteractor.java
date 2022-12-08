@@ -5,6 +5,8 @@ import service.ServerStatus;
 import service.dao.IReviewDAO;
 import user.votehelpful.exceptions.ReviewNotFoundException;
 
+import java.util.HashMap;
+
 /** The votehelpful use case interactor that calls the create method from the
  * IHelpfulInputBoundary input boundary. When initialized, takes in an object that
  * implements IReviewDAO to access the database through.
@@ -22,7 +24,6 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
      */
     @Override
     public HelpfulResponseModel create(HelpfulRequestModel requestModel) {
-        boolean isHelpful = requestModel.getIsHelpful();
         int reviewId = requestModel.getReviewId();
         Review review;
 
@@ -33,22 +34,38 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
             }
         }
         catch (ReviewNotFoundException e) {
-            return new HelpfulResponseModel(ServerStatus.ERROR, e.getMessage());
+            return new HelpfulResponseModel(ServerStatus.ERROR, e.getMessage(), VoteDecision.NONE);
         }
 
-        if (isHelpful) {
-            int numLikes = review.getNumLikes();
-            numLikes = numLikes + 1;
-            review.setNumLikes(numLikes);
+        String userId = requestModel.getUserId();
+        String isHelpful = requestModel.getIsHelpful();
+        VoteDecision newVote = HelpfulHandler.toVoteDecision(isHelpful);
+        HashMap<String, VoteDecision> votedUsers = review.getVotedUsers();
+        VoteDecision previousVote;
+
+        boolean userHasVoted = votedUsers.keySet().contains(userId);
+
+        if (userHasVoted) {
+            previousVote = votedUsers.get(userId);
+            if (newVote.equals(previousVote)) {
+                review = HelpfulHandler.updateCount(newVote, review, "Subtraction");
+                votedUsers.remove(userId);
+                newVote = VoteDecision.NONE;
+            }
+            else {
+                review = HelpfulHandler.updateCount(previousVote, review, "Subtraction");
+                review = HelpfulHandler.updateCount(newVote, review, "Addition");
+                votedUsers.replace(userId, newVote);
+            }
         }
         else {
-            int numDislikes = review.getNumDislikes();
-            numDislikes = numDislikes + 1;
-            review.setNumDislikes(numDislikes);
+            votedUsers.put(userId, newVote);
+            review = HelpfulHandler.updateCount(newVote, review, "Addition");
         }
 
+        review.setVotedUsers(votedUsers);
         reviewDAO.updateReview(review, reviewId);
 
-        return new HelpfulResponseModel(ServerStatus.SUCCESS, "Vote received.");
+        return new HelpfulResponseModel(ServerStatus.SUCCESS, "Vote received.", newVote);
     }
 }

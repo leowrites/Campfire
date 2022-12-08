@@ -33,9 +33,12 @@ public class DeleteReviewController {
     public ResponseEntity<DeleteReviewResponseModel> createDeleteReviewRequestModel(
             @RequestBody DeleteReviewRequestModel requestModel,
             Principal principal){
-        if (!principal.getName().equals(requestModel.getUserId())) {
-            return new ResponseEntity<>(new DeleteReviewResponseModel("Unauthorized!"), HttpStatus.UNAUTHORIZED);
+        requestModel.setUserId(principal.getName());
+        DeleteReviewResponseModel responseModel = interactor.deleteReview(requestModel);
+        if (responseModel.getMessage().equals("Review has successfully been deleted")) {
+            return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(interactor.deleteReview(requestModel), HttpStatus.OK);
     }
 }

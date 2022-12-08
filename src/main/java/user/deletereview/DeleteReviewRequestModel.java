@@ -11,7 +11,7 @@ public class DeleteReviewRequestModel {
 
     private final int reviewId;
 
-    private final String userId;
+    private String userId;
 
     public DeleteReviewRequestModel(int internshipId,
                                     int reviewId,
@@ -31,5 +31,9 @@ public class DeleteReviewRequestModel {
 
     public String getUserId(){
         return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
