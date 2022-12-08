@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
-import user.comment.exceptions.ReviewNotFoundException;
+import usecases.comment.exceptions.ReviewNotFoundException;
 
 public class ReviewDAO implements IReviewDAO{
 
@@ -42,14 +42,6 @@ public class ReviewDAO implements IReviewDAO{
             System.out.println("No review found.");
             return null;
         }
-    }
-
-    /**
-     * @return all reviews
-     */
-    @Override
-    public ArrayList<Review> getAllReviews() {
-        return (ArrayList<Review>) jdbcTemplate.query(QUERY_ALL, new ReviewDaoMapper());
     }
 
     /**

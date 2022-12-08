@@ -1,7 +1,7 @@
 package service.dao;
 
 import entity.Corporate;
-import user.createcorporate.exceptions.CompanyNotFoundException;
+import usecases.createcorporate.exceptions.CompanyNotFoundException;
 
 import java.util.ArrayList;
 

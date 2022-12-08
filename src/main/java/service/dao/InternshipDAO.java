@@ -3,7 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Internship;
 
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import user.exceptions.InternshipNotFoundException;
+import usecases.exceptions.InternshipNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -51,18 +51,6 @@ public class InternshipDAO implements IInternshipDAO {
         } catch (EmptyResultDataAccessException e) {
             System.out.println("No Internships Under" + internship_company + " found");
             throw new InternshipNotFoundException("No Internships Under" + internship_company + " found");
-        }
-    }
-
-    @Override
-    public void saveInternship(Internship internship){
-        try{
-            ObjectMapper mapper = new ObjectMapper();
-            // need to verify username is not duplicated
-            String internshipString = mapper.writeValueAsString(internship);
-            jdbcTemplate.update(INSERT_QUERY, internshipString, internship.getCompanyID());
-        } catch(Exception e){
-            System.out.println(e.getMessage());
         }
     }
 

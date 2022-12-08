@@ -1,7 +1,7 @@
 package entity;
 
-import user.sort.ISortComparator;
-import user.votehelpful.VoteDecision;
+import usecases.sort.ISortComparator;
+import usecases.votehelpful.VoteDecision;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,11 +64,6 @@ public class Review implements ISortComparator, IUserPost{
 
     public int getRating() {
         return this.rating;
-    }
-
-    public void setRating(int rating) {
-        if (rating > 10){this.rating = 10;}
-        else this.rating = Math.max(rating, 0);
     }
 
     public Date getDatePosted() {
