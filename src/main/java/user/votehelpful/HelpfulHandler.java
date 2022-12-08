@@ -34,6 +34,5 @@ public class HelpfulHandler {
             review.setNumDislikes(HelpfulHandler.performOperation(numDislikes, operation));
         }
         return review;
-
     }
 }
