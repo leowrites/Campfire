@@ -26,8 +26,6 @@ export default function ReviewCard({
   const { corporateId, internshipId } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [moreComments, setMoreComments] = useState([]);
-  const [numberLikes, setNumberLikes] = useState(numLikes);
-  const [numberDislikes, setNumberDislikes] = useState(numDislikes);
   const authContext = useAuthContext();
   const principal = authContext.principal;
   const handleDelete = () => {
@@ -85,23 +83,6 @@ export default function ReviewCard({
       });
   };
 
-  const handleLike = () =>{
-      axios.post(`/users/vote-helpful`, {
-          isHelpful: "Helpful",
-          reviewId: reviewId,
-          userId: userId
-      }).then((res) => {
-          if (res.data.status === 'SUCCESS') {
-              if (res.data.vote === 'HELPFUL'){
-                  setNumberLikes(numberLikes + 1);
-              } else if (res.data.vote === 'UNHELPFUL'){
-                  setNumberDislikes(numberDislikes + 1);
-              } else {
-                console.log("do nothing")
-              }
-          }
-      });
-    }
 
   return (
     <Box
@@ -129,9 +110,6 @@ export default function ReviewCard({
               borderRadius: 3,
             }}
             elevation={5}>
-            {/*<Button onClick={handleLike}>*/}
-            {/*    <Typography sx={{ mr: 2, fontWeight: 'bold', color: 'white' }}> 👍 {numberLikes}</Typography>*/}
-            {/*</Button>*/}
               <NumLikes userId={userId} reviewId={reviewId} numLikes={numLikes}></NumLikes>
               <NumDislikes userId={userId} reviewId={reviewId} numDislikes={numDislikes}></NumDislikes>
 
