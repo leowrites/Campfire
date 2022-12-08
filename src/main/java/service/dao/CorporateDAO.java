@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import user.createcorporate.exceptions.CompanyNotFoundException;
+import usecases.createcorporate.exceptions.CompanyNotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;

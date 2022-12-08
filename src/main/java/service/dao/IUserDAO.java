@@ -1,7 +1,7 @@
 package service.dao;
 
 import entity.User;
-import user.requestconnect.exceptions.UserNotFoundException;
+import usecases.requestconnect.exceptions.UserNotFoundException;
 
 import java.util.ArrayList;
 
