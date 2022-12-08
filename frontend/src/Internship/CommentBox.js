@@ -1,25 +1,43 @@
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
+import CustomTextField from '../Component/CustomTextfield';
+import useTheme from '@mui/material/styles/useTheme';
 
 export default function CommentBox({ handleShowCommentBox, postComment, parentType, parentId }) {
   const [comment, setComment] = useState('');
-  console.log(parentType, parentId)
+  const theme = useTheme();
   const handleValChange = (e) => {
     setComment(e.target.value);
   };
   return (
     <Box>
-      <TextField fullWidth onChange={handleValChange} />
-      <Button
-        onClick={() => {
-          parentType === "Internship" ? postComment(comment, 0)
-          : postComment(parentType, parentId, comment);
-        }}>
-        post
-      </Button>
-      <Button onClick={handleShowCommentBox}>Close</Button>
+      <CustomTextField
+        placeholder='Write something...'
+        fullWidth
+        hiddenLabel
+        multiline
+        onChange={handleValChange}
+        sx={{ mb: 2 }}
+      />
+      <Box sx={{ display: 'flex' }}>
+        <Button
+          size='small'
+          sx={{ background: theme.palette.primary.main, color: 'white', mr: 1, ml: 'auto' }}
+          onClick={() => {
+            parentType === 'Internship'
+              ? postComment(comment, 0)
+              : postComment(parentType, parentId, comment);
+          }}>
+          post
+        </Button>
+        <Button
+          size='small'
+          sx={{ background: theme.palette.primary.main, color: 'white' }}
+          onClick={handleShowCommentBox}>
+          Close
+        </Button>
+      </Box>
     </Box>
   );
 }

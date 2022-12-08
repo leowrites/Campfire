@@ -4,24 +4,25 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
-import Button from '@mui/material/Button';
 import CommentCard from '../Internship/CommentBox';
 import useAuthContext from '../AuthContext';
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import IconButton from '@mui/material/IconButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function InternshipPage() {
   const [reviews, setReviews] = useState([]);
   const { corporateId, internshipId } = useParams();
   const [internshipDetails, setInternshipsDetails] = useState({});
   const [showCommentBox, setShowCommentBox] = useState(false);
+  const navigate = useNavigate();
   const { principal } = useAuthContext();
   const handleShowCommentBox = () => {
     setShowCommentBox(!showCommentBox);
   };
-
-  // why is it getting all reviews
 
   useEffect(() => {
     axios.get(`/corporates/${corporateId}/internships/${internshipId}`).then((data) => {
@@ -51,15 +52,36 @@ export default function InternshipPage() {
   };
 
   return (
-    <Box sx={{ my: 2 }} textAlign='start'>
-      <Typography variant='h4'>{internshipDetails.jobTitle}</Typography>
-      <Button onClick={handleShowCommentBox}>Add a review</Button>
+    <Box sx={{ my: 2, color: 'white' }} textAlign='start'>
+      <IconButton sx={{ p: 0 }} onClick={() => navigate(-1)}>
+        <KeyboardBackspaceIcon sx={{ color: 'white' }} />
+      </IconButton>
+      <Box sx={{ display: 'flex', alignItems: 'baseline' }}>
+        <Typography variant='h4' sx={{ display: 'inline-flex' }}>
+          {internshipDetails.jobTitle}
+        </Typography>
+        <Typography
+          sx={{
+            ml: 'auto',
+            display: 'inline-flex',
+            ':hover': {
+              cursor: 'pointer',
+            },
+          }}
+          onClick={handleShowCommentBox}>
+          Add a review
+        </Typography>
+      </Box>
       {showCommentBox ? (
-        <Box>
+        <Box sx={{ background: 'rgba(22, 22, 22, 1)', p: 4, borderRadius: 5, my: 3 }}>
+          <Typography variant='h5' sx={{ fontWeight: 'bold', mb: 2 }}>
+            Write a review
+          </Typography>
           <Rating
+            sx={{ mb: 2 }}
             defaultValue={0}
-            icon={<FavoriteIcon fontSize='inherit' />}
-            emptyIcon={<FavoriteBorderIcon fontSize={'inherit'} />}
+            icon={<FavoriteIcon fontSize='inherit' color='white' />}
+            emptyIcon={<FavoriteBorderIcon fontSize={'inherit'} sx={{ color: 'white' }} />}
           />
           <CommentCard
             handleShowCommentBox={handleShowCommentBox}

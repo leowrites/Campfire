@@ -42,7 +42,8 @@ export function AuthContextProvider({ children }) {
     () => ({
       principal,
       setPrincipal,
-      getUserInfo
+      getUserInfo,
+      login
     }),
     [principal]
   );

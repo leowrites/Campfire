@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAuthContext from '../AuthContext';
 import axios from 'axios';
+import useTheme from '@mui/material/styles/useTheme';
+import CustomTextField from '../Component/CustomTextfield';
 
 export default function AddInternshipForm() {
   // get form data
@@ -13,6 +15,7 @@ export default function AddInternshipForm() {
   const [title, setTitle] = useState('');
   const navigate = useNavigate();
   const { principal } = useAuthContext()
+  const theme = useTheme();
 
   // make request to backend using axios
   const handleSubmit = () => {
@@ -30,16 +33,16 @@ export default function AddInternshipForm() {
   };
 
   return (
-    <Box sx={{ my: 2 }}>
-      <Typography variant='h4'>Add an Internship</Typography>
-      <TextField
-        id='outlined-basic'
+    <Box sx={{ my: 2, color: 'white' }}>
+      <Typography variant='h4' sx={{ my: 2 }}>Add an Internship</Typography>
+      <CustomTextField
+        id='filled-basic'
         label='Job title'
         onChange={(e) => setTitle(e.target.value)}
-        variant='outlined'
-        sx={{ width: '100%', mt: 2 }}
+        variant='filled'
+        sx={{ width: '100%' }}
       />
-      <Button variant='contained' sx={{ mt: 2 }} color='success' onClick={handleSubmit}>
+      <Button variant='contained' sx={{ mt: 2 }} color='primary' onClick={handleSubmit}>
         Submit
       </Button>
     </Box>
