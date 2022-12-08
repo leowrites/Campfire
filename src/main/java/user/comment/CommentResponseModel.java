@@ -5,7 +5,8 @@ import service.ServerStatus;
 
 /** A response model for the comment use case that frames the output data into an object.
  * Holds the ServerStatus status of the create method in CommentInteractor in status,
- * and the String message to go with that status in message.
+ * the String message to go with that status in message, the id representation of the comment in id,
+ * and the date the comment was posted in datePosted.
  */
 public class CommentResponseModel {
     private final ServerStatus status;
