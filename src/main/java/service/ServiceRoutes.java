@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.dao.*;
-import user.comment.exceptions.ReviewNotFoundException;
-import user.createcorporate.exceptions.CompanyNotFoundException;
-import user.exceptions.InternshipNotFoundException;
-import user.requestconnect.exceptions.UserNotFoundException;
+import usecases.comment.exceptions.ReviewNotFoundException;
+import usecases.createcorporate.exceptions.CompanyNotFoundException;
+import usecases.exceptions.InternshipNotFoundException;
+import usecases.requestconnect.exceptions.UserNotFoundException;
 import java.security.Principal;
 import java.util.ArrayList;
 
