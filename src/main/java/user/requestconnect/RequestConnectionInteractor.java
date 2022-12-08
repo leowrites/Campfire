@@ -15,7 +15,7 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
     /**
      * @param requestModel a request model that contains the principal userID and target userID
      * @return a response model with success/error status
-     * error will be returned to the response model if user is not found or users are already connected
+     * Error will be returned to the response model if user is not found or users are already connected,
      * success will be returned otherwise
      */
     @Override

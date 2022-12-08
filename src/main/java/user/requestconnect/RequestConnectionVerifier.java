@@ -14,7 +14,7 @@ public class RequestConnectionVerifier {
     }
 
     /**
-     * raises error if two users are already connected
+     * Raises error if two users are already connected
      @throws UserAlreadyConnectedException if user and target are already connected
      */
     public void checkAlreadyConnected() throws UserAlreadyConnectedException {
@@ -24,7 +24,7 @@ public class RequestConnectionVerifier {
     }
 
     /**
-     * raises error if user has an outgoing request
+     * Raises error if user has an outgoing request
      @throws PendingRequestExistsException if user already has a sent pending request
      */
     public void checkPendingRequest() throws PendingRequestExistsException {

@@ -1,7 +1,7 @@
 package user.requestconnect;
 
 /**
- * define the types of connect requests/accepts using an enum class
+ * Defines the types of connect requests/accepts using an enum class
  */
 
 public enum Action {

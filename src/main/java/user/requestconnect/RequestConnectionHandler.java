@@ -25,7 +25,7 @@ public class RequestConnectionHandler {
     }
 
     /**
-     * Handle the connection request for principal user sending and the target user receiving
+     * Handles the connection request for principal user sending and the target user receiving
      */
     public void sendConnectionRequestToTarget() {
         ArrayList<String> userOutgoing = user.getOutgoingConnectionRequests();
