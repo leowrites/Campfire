@@ -18,16 +18,7 @@ export default function CommentBox({ handleShowCommentBox, postComment, parentTy
         hiddenLabel
         multiline
         onChange={handleValChange}
-        sx={{
-          mb: 2,
-          background: 'rgb(0, 0, 0, 0.3)',
-          color: 'white',
-          backgroundColor: 'rgba(0,0,0,0.3)',
-          borderRadius: 2,
-          '& .MuiInputBase-root': {
-            color: 'white',
-          },
-        }}
+        sx={{ mb: 2 }}
       />
       <Box sx={{ display: 'flex' }}>
         <Button

@@ -76,11 +76,11 @@ function HomePage() {
   };
 
   return (
-    <Box sx={{ pt: 10 }}>
+    <Box>
       <Box
         alignItems='center'
         sx={{
-          minHeight: '40rem',
+          minHeight: '30rem',
           display: 'flex',
           backgroundImage: `url(${Image})`,
           backgroundSize: 'cover',
