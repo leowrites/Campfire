@@ -38,6 +38,12 @@ public class WebSecurityConfig {
     @Autowired
     AuthenticationFailureHandler authenticationFailureHandler;
 
+    /**
+     *
+     * Initialize an instance of AuthenticationManager
+     * @param http is an instance of http security
+     * @return an instance of AAuthenticationManager based on HttpSecurity passed as input
+     */
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
@@ -47,6 +53,13 @@ public class WebSecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
+    /**
+     *
+     * Intializes the http security for the website
+     * @param http is an instance of http security
+     * @return a SecurityFilterChain corresponding to the http Security passed in as the input
+     *
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -85,6 +98,11 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     *
+     * Initializes the configuration of the webapp
+     * @return an instance of CorsConfigurationSource with default values
+     */
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
@@ -97,6 +115,12 @@ public class WebSecurityConfig {
         return source;
     }
 
+    /**
+     *
+     * Initializes the Authentication that is needed for the use case
+     * @return an instance of AuthenticationProvider with the corresponding UserDetails and password encrypted
+     *
+     */
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
