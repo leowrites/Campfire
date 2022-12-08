@@ -41,13 +41,13 @@ public class HelpfulInteractorTest {
     }
 
     @Test
-    public void testUserVotesReviewAsHelpful() {
+    public void testUserWithNoPriorVoteVotesReviewAsHelpful() {
         Review review = new Review("stevejobs", "apple is the best!", 10);
         int reviewId = reviewDAO.saveReview(review);
         HelpfulRequestModel requestModel = new HelpfulRequestModel("Helpful", reviewId, "justinli");
         HelpfulResponseModel responseModel = interactor.create(requestModel);
 
-        // test that the interactor returns a success response model
+        // test that the interactor returns a successful response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Vote received.", responseModel.getMessage());
         assertEquals(VoteDecision.HELPFUL, responseModel.getVote());
@@ -56,15 +56,17 @@ public class HelpfulInteractorTest {
         review = reviewDAO.getReview(reviewId);
         int numLikes = review.getNumLikes();
         assertEquals(1, numLikes);
+        assertEquals(0, review.getNumDislikes());
         HashMap<String, VoteDecision> votedUsers = review.getVotedUsers();
         assertEquals(1, votedUsers.keySet().size());
         assertEquals(true, votedUsers.keySet().contains("justinli"));
         assertEquals(VoteDecision.HELPFUL, votedUsers.get("justinli"));
-
     }
 
+
+
     @Test
-    public void testUserVotesReviewAsUnhelpful() {
+    public void testUserWithNoPriorVotesVotesReviewAsUnhelpful() {
         Review review = new Review("stevejobs", "apple is the best!", 10);
         int reviewId = reviewDAO.saveReview(review);
         HelpfulRequestModel requestModel = new HelpfulRequestModel("Unhelpful", reviewId, "justinli");
@@ -86,51 +88,51 @@ public class HelpfulInteractorTest {
     }
 
     @Test
-    public void testMultipleVotes() {
+    public void testUserVotesTwiceForHelpful() {
         Review review = new Review("stevejobs", "apple is the best!", 10);
         int reviewId = reviewDAO.saveReview(review);
-
-        // create 3 thumbs up reviews
         HelpfulRequestModel requestModel1 = new HelpfulRequestModel("Helpful", reviewId, "justinli");
-        HelpfulRequestModel requestModel2 = new HelpfulRequestModel("Helpful", reviewId, "leoliu");
-        HelpfulRequestModel requestModel3 = new HelpfulRequestModel("Helpful", reviewId, "mingikwon");
+        HelpfulRequestModel requestModel2 = new HelpfulRequestModel("Helpful", reviewId, "justinli");
         interactor.create(requestModel1);
-        interactor.create(requestModel2);
-        interactor.create(requestModel3);
+        HelpfulResponseModel responseModel = interactor.create(requestModel2);
 
-        //create 2 thumbs down reviews
-        HelpfulRequestModel requestModel4 = new HelpfulRequestModel("Unhelpful", reviewId, "timcook");
-        HelpfulRequestModel requestModel5 = new HelpfulRequestModel("Unhelpful", reviewId, "billgates");
-        interactor.create(requestModel4);
-        interactor.create(requestModel5);
-
-        // test that the review was properly updated
+        assertEquals(VoteDecision.NONE, responseModel.getVote());
         review = reviewDAO.getReview(reviewId);
-        assertEquals(3, review.getNumLikes());
-        assertEquals(2, review.getNumDislikes());
-
-        // check that the review's stored data on voted was updated accordingly
-        HashMap<String, VoteDecision> votedUsers = review.getVotedUsers();
-        assertEquals(5, votedUsers.keySet().size());
-        assertEquals(true, votedUsers.keySet().contains("justinli"));
-        assertEquals(true, votedUsers.keySet().contains("leoliu"));
-        assertEquals(true, votedUsers.keySet().contains("mingikwon"));
-        assertEquals(true, votedUsers.keySet().contains("timcook"));
-        assertEquals(true, votedUsers.keySet().contains("billgates"));
-        assertEquals(VoteDecision.HELPFUL, votedUsers.get("justinli"));
-        assertEquals(VoteDecision.HELPFUL, votedUsers.get("leoliu"));
-        assertEquals(VoteDecision.HELPFUL, votedUsers.get("mingikwon"));
-        assertEquals(VoteDecision.UNHELPFUL, votedUsers.get("timcook"));
-        assertEquals(VoteDecision.UNHELPFUL, votedUsers.get("billgates"));
+        assertEquals(0, review.getNumLikes());
+        assertEquals(0, review.getVotedUsers().keySet().size());
     }
 
     @Test
-    public void testUserTriesLeavesMultipleVotesOfSameType() {
+    public void testUserVotesTwiceForUnhelpful() {
         Review review = new Review("stevejobs", "apple is the best!", 10);
         int reviewId = reviewDAO.saveReview(review);
-        HelpfulRequestModel requestModel = new HelpfulRequestModel("Helpful", reviewId, "justinli");
-        interactor.create(requestModel);
-        HelpfulResponseModel responseModel = interactor.create(requestModel);
-        assertNull(responseModel);
+        HelpfulRequestModel requestModel1 = new HelpfulRequestModel("Unhelpful", reviewId, "justinli");
+        HelpfulRequestModel requestModel2 = new HelpfulRequestModel("Unhelpful", reviewId, "justinli");
+        interactor.create(requestModel1);
+        HelpfulResponseModel responseModel = interactor.create(requestModel2);
+
+        assertEquals(VoteDecision.NONE, responseModel.getVote());
+        review = reviewDAO.getReview(reviewId);
+        assertEquals(0, review.getNumDislikes());
+        assertEquals(0, review.getVotedUsers().keySet().size());
     }
+
+    @Test
+    public void testUserSwitchesVote() {
+        Review review = new Review("stevejobs", "apple is the best!", 10);
+        int reviewId = reviewDAO.saveReview(review);
+        HelpfulRequestModel requestModel1 = new HelpfulRequestModel("Helpful", reviewId, "justinli");
+        HelpfulRequestModel requestModel2 = new HelpfulRequestModel("Unhelpful", reviewId, "justinli");
+        interactor.create(requestModel1);
+        review = reviewDAO.getReview(reviewId);
+        assertEquals(1, review.getNumLikes());
+        assertEquals(0, review.getNumDislikes());
+        interactor.create(requestModel2);
+
+        review = reviewDAO.getReview(reviewId);
+        assertEquals(0, review.getNumLikes());
+        assertEquals(1, review.getNumDislikes());
+        assertEquals(VoteDecision.UNHELPFUL, review.getVotedUsers().get("justinli"));
+    }
+
 }
