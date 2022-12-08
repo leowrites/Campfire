@@ -55,7 +55,7 @@ function Login() {
 
   return (
     <Grid container sx={{ mt: 2 }}>
-      <Grid item xs={4}>
+      <Grid item xs={8} sm={6} md={4}>
         <Container sx={{ textAlign: 'start', mt: 6 }}>
           <Box sx={{ mx: 2 }}>
             <Typography variant='h4' sx={{ color: 'white', my: 2 }}>
@@ -72,7 +72,7 @@ function Login() {
           </Box>
         </Container>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={4} sm={6} md={8}>
         <Box
           sx={{
             backgroundImage: `url(${LoginImg})`,
