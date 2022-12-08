@@ -8,6 +8,10 @@ import user.requestconnect.Action;
 import user.requestconnect.exceptions.UserAlreadyConnectedException;
 import user.requestconnect.exceptions.UserNotFoundException;
 
+/** The acceptconnect use case interactor that calls the acceptConnection method from the
+ * IAcceptConnectionInput input boundary. When initialized, takes in an object that implements
+ * IUserDAO to access the user database through.
+ */
 public class AcceptConnectionInteractor implements IAcceptConnectionInput {
     private final IUserDAO dataAccess;
 
@@ -15,9 +19,10 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
         this.dataAccess = dataAccess;
     }
 
-    /**
+    /** Accepts the connection from the target user as specified by the inputs in requestModel and
+     * updates the user database.
      * @param requestModel a request model that contains target
-     * @return a response model
+     * @return a response model to be sent back to the client
      */
     @Override
     public AcceptConnectionResponseModel acceptConnection(AcceptConnectionRequestModel requestModel){
