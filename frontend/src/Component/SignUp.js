@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router';
 import CustomTextField from './CustomTextfield';
 import Grid from '@mui/material/Grid';
 import signupImg from './signupImg.jpg';
-import Box from '@mui/material/Box'
+import Box from '@mui/material/Box';
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -115,34 +115,36 @@ function SignUp() {
     <Grid container sx={{ mt: 2, textAlign: 'start' }}>
       <Grid item xs={8} sm={6} md={4}>
         <Container sx={{ color: 'white', mt: 6 }}>
-          <Typography variant='h4' sx={{ my: 2 }}>
-            SIGN UP
-          </Typography>
-          <Stack spacing={2}>
-            <CustomTextField label='First Name' onChange={onFirstNameChange} />
-            <CustomTextField label='Last Name' onChange={onLastNameChange} />
-            <CustomTextField label='Username' onChange={onUserNameChange} />
-            {usernameError && (
-              <span style={{ color: 'red', fontSize: '12px' }}>{usernameError}</span>
-            )}
-            <CustomTextField label='Email' onChange={onEmailChange} />
-            {emailError && <span style={{ color: 'red', fontSize: '12px' }}>{emailError}</span>}
-            <CustomTextField label='Password' type='password' onChange={onPasswordChange} />
-            {passwordError && (
-              <span style={{ color: 'red', fontSize: '12px' }}>{passwordError}</span>
-            )}
-            <CustomTextField
-              label='Confirm Password'
-              type='password'
-              onChange={onConfirmPasswordChange}
-            />
-            {confirmPasswordError && (
-              <span style={{ color: 'red', fontSize: '12px' }}>{confirmPasswordError}</span>
-            )}
-            <Button variant='contained' onClick={signup}>
-              Sign up
-            </Button>
-          </Stack>
+          <Box sx={{ mx: 2 }}>
+            <Typography variant='h4' sx={{ my: 2 }}>
+              SIGN UP
+            </Typography>
+            <Stack spacing={2}>
+              <CustomTextField label='First Name' onChange={onFirstNameChange} />
+              <CustomTextField label='Last Name' onChange={onLastNameChange} />
+              <CustomTextField label='Username' onChange={onUserNameChange} />
+              {usernameError && (
+                <span style={{ color: 'red', fontSize: '12px' }}>{usernameError}</span>
+              )}
+              <CustomTextField label='Email' onChange={onEmailChange} />
+              {emailError && <span style={{ color: 'red', fontSize: '12px' }}>{emailError}</span>}
+              <CustomTextField label='Password' type='password' onChange={onPasswordChange} />
+              {passwordError && (
+                <span style={{ color: 'red', fontSize: '12px' }}>{passwordError}</span>
+              )}
+              <CustomTextField
+                label='Confirm Password'
+                type='password'
+                onChange={onConfirmPasswordChange}
+              />
+              {confirmPasswordError && (
+                <span style={{ color: 'red', fontSize: '12px' }}>{confirmPasswordError}</span>
+              )}
+              <Button variant='contained' onClick={signup}>
+                Sign up
+              </Button>
+            </Stack>
+          </Box>
         </Container>
       </Grid>
       <Grid item xs={4} sm={6} md={8}>
