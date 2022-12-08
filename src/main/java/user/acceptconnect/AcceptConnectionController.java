@@ -8,6 +8,11 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 import service.ServerStatus;
 
+/** The acceptconnect use case controller that connects to Spring. Takes in an
+ * AcceptConnectionRequestModel from the user input in front-end, creates an
+ * AcceptConnectionResponseModel by sending the request model to the interactor, and maps a message
+ * back to the front-end.
+ */
 @RestController
 @ComponentScan("main")
 public class AcceptConnectionController {
@@ -21,6 +26,9 @@ public class AcceptConnectionController {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
+    /** Creates a message to send back to the front-end using the inputs in requestModel.
+     * @param requestModel the AcceptConnectionRequestModel taken in from the front-end
+     */
     @MessageMapping("/users/connections/accept")
     public void acceptConnection(
             @Payload AcceptConnectionRequestModel requestModel

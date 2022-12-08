@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+/** The deletecomment use case controller that connects to Spring. Takes in a
+ * DeleteCommentRequestModel from the user input in front-end, creates a
+ * DeleteCommentResponseModel by sending the request model to the interactor, and puts the
+ * response model in a ResponseEntity with the http status to send back to the front-end.
+ */
 @RestController
 public class DeleteCommentController {
 
@@ -17,6 +22,11 @@ public class DeleteCommentController {
         this.interactor = interactor;
     }
 
+    /** Creates a DeleteCommentResponseModel using the inputs in requestModel.
+     * @param requestModel the DeleteCommentRequestModel taken in from the front-end
+     * @param principal a Principal object used in Spring security
+     * @return a ResponseEntity holding a DeleteCommentResponseModel and an HttpStatus
+     */
     @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments")
     public ResponseEntity<DeleteCommentResponseModel> deleteComment(
             @RequestBody DeleteCommentRequestModel requestModel,

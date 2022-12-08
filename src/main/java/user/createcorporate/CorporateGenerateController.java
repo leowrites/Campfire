@@ -10,26 +10,24 @@ import service.ServerStatus;
 
 import java.security.Principal;
 
+/** The createcorporate use case controller that connects to Spring. Takes in a
+ * CorporateGenerateRequestModel from the user input in front-end, creates a
+ * CorporateGenerateResponseModel by sending the request model to the interactor, and puts the
+ * response model in a ResponseEntity with the http status to send back to the front-end.
+ */
 @RestController
 public class CorporateGenerateController {
     final ICorporateGenerateInput input;
-
-    /**
-     *
-     * @param input is passed to the controller via input boundary
-     */
 
     @Autowired
     public CorporateGenerateController(ICorporateGenerateInput input) {
         this.input = input;
     }
 
-    /**
-     *
-     * @param requestModel is passed in to the responseModel creation process
-     * @return interactor is returned
+    /** Creates a CorporateGenerateResponseModel using the inputs in requestModel.
+     * @param requestModel the CorporateGenerateRequestModel taken in from the front-end
+     * @return a ResponseEntity holding a CorporateGenerateResponseModel and an HttpStatus
      */
-
     @PostMapping("/corporates")
     public ResponseEntity<CorporateGenerateResponseModel> create(Principal principal,
                                                                  @RequestBody CorporateGenerateRequestModel requestModel){

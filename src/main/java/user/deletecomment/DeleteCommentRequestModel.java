@@ -1,5 +1,10 @@
 package user.deletecomment;
 
+/** A request model for the deletecomment use case that frames the input data into an object. Holds
+ * an int representation of the comment's id in commentId, a String of the type of the parent to the
+ * comment in parentType, an int representation of the parent's id in parentId, and a String
+ * representation of the id of the user who made the comment in userId.
+ */
 public class DeleteCommentRequestModel {
 
     private final int commentId;
