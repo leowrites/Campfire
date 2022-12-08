@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import service.ServerStatus;
 
 /** The votehelpful use case controller that connects to Spring. Takes in a HelpfulRequestModel
  * from the user input in front-end, creates a HelpfulResponseModel by sending the request model to
@@ -26,8 +27,7 @@ public class HelpfulController {
     @PostMapping("users/vote-helpful")
     public ResponseEntity<HelpfulResponseModel> create(@RequestBody HelpfulRequestModel requestModel) {
         HelpfulResponseModel responseModel = input.create(requestModel);
-        String status = responseModel.getStatus().toString();
-        if (status.equals("Success")) {
+        if (responseModel.getStatus() == ServerStatus.SUCCESS) {
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         }
         else {

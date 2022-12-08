@@ -9,11 +9,6 @@ const NumLikes = ({reviewId, userId, numLikes}) => {
 
     const [numberLikes, setNumberLikes] = useState(numLikes);
 
-    useEffect(()=>{
-        console.log("work");
-    }, [])
-
-
     const handleLike = () =>{
         axios.post(`/users/vote-helpful`, {
             isHelpful: "Helpful",
