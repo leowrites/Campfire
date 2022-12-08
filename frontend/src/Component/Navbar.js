@@ -25,7 +25,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     authContext.setPrincipal();
-    axios.post('logout');
+    axios.post('/logout');
   };
 
   const [open, setOpen] = useState(false);
