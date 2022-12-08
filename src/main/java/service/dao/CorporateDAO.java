@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/** A data access object for the Corporate database.
+ */
 public class CorporateDAO implements ICorporateDAO {
 
     @Autowired
@@ -25,6 +27,11 @@ public class CorporateDAO implements ICorporateDAO {
     final String EXISTS_QUERY = "select count(*) from corporates where company = ?";
     final String UPDATE_QUERY = "update corporates set data = ? where id = ?";
 
+    /** Gets a corporate object from the database based on the company name.
+     * @param companyName the name of the company
+     * @return the Corporate object with name companyName
+     * @throws CompanyNotFoundException when the company with name companyName does not exist
+     */
     @Override
     public Corporate getCorporate(String companyName) throws CompanyNotFoundException {
         try {
@@ -36,6 +43,11 @@ public class CorporateDAO implements ICorporateDAO {
         }
     }
 
+    /** Gets a Corporate object from the database based on its id.
+     * @param corporateId the id of the Corporate object
+     * @return the Corporate object with id corporateId
+     * @throws CompanyNotFoundException thrown when the company with id corporateId does not exist
+     */
     public Corporate getCorporate(int corporateId) throws CompanyNotFoundException {
         try {
             return jdbcTemplate.queryForObject(SELECT_QUERY_BY_ID, new CorporateDaoMapper(), corporateId);
@@ -46,11 +58,18 @@ public class CorporateDAO implements ICorporateDAO {
         }
     }
 
+    /** Gets all the Corporate objects in the database.
+     * @return an ArrayList of all Corporate objects
+     */
     @Override
     public ArrayList<Corporate> getAllCorporates() {
         return (ArrayList<Corporate>) jdbcTemplate.query(QUERY_ALL, new CorporateDaoMapper());
     }
 
+    /** Saves a new Corporate object as a json.
+     * @param corporate the Corporate object to be stored
+     * @return an int representing the id of the Corporate object in the table
+     */
     @Override
     public int saveCorporate(Corporate corporate) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -71,6 +90,10 @@ public class CorporateDAO implements ICorporateDAO {
         }
     }
 
+    /** Checks the Corporate database to see if the Corporate object with name companyName exists.
+     * @param companyName the name of the company
+     * @return a boolean corresponding to if the company exists or not
+     */
     @Override
     public boolean companyExists(String companyName) {
         int count;
@@ -83,6 +106,10 @@ public class CorporateDAO implements ICorporateDAO {
         return count > 0;
     }
 
+    /** Updates a Corporate object.
+     * @param corporate the new Corporate object
+     * @param corporateId the id of the Corporate object to be updated
+     */
     @Override
     public void updateCorporate(Corporate corporate, int corporateId) {
         try {

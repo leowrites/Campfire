@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import user.comment.exceptions.ReviewNotFoundException;
 
+/** A data access object for the Review database.
+ */
 public class ReviewDAO implements IReviewDAO{
 
     @Autowired
@@ -28,10 +30,9 @@ public class ReviewDAO implements IReviewDAO{
     final String UPDATE_QUERY = "update reviews set data = ? where id = ?";
     final String DELETE_QUERY = "delete from reviews where id = ?";
 
-    /**
-     * Gets the review given the review id
-     * @param reviewId the id of the review
-     * @return a review object
+    /** Gets a Review object from the database based on its id.
+     * @param reviewId the id of the Review object
+     * @return the Review object with id reviewId
      */
     @Override
     public Review getReview(int reviewId){
@@ -44,18 +45,17 @@ public class ReviewDAO implements IReviewDAO{
         }
     }
 
-    /**
-     * @return all reviews
+    /** Gets all the Review objects in the database.
+     * @return an ArrayList of all Review objects
      */
     @Override
     public ArrayList<Review> getAllReviews() {
         return (ArrayList<Review>) jdbcTemplate.query(QUERY_ALL, new ReviewDaoMapper());
     }
 
-    /**
-     * Creates a new review in the db given a review object
-     * @param review the review to be saved
-     * @return the id of the created review
+    /** Saves a new Review object as a json.
+     * @param review the Review object to be stored
+     * @return an int representing the id of the Review object in the table
      */
     @Override
     public int saveReview(Review review) {
@@ -78,8 +78,13 @@ public class ReviewDAO implements IReviewDAO{
         return 0;
     }
 
+    /** Saves a new Review object as a json.
+     * @param review the Review object to be stored
+     * @param internshipId the id of the Internship object the review is under
+     * @return an int representing the id of the Review object in the table
+     */
     @Override
-    public int saveReview(Review review, int internshipid) {
+    public int saveReview(Review review, int internshipId) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         try{
             // serialize the date to ISO-8601
@@ -89,7 +94,7 @@ public class ReviewDAO implements IReviewDAO{
             jdbcTemplate.update(connection -> {
                 PreparedStatement statement = connection.prepareStatement(INSERT_QUERY_WITH_INTERNSHIP_ID, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, reviewString);
-                statement.setInt(2, internshipid);
+                statement.setInt(2, internshipId);
                 return statement;
             }, keyHolder);
             return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
@@ -98,11 +103,10 @@ public class ReviewDAO implements IReviewDAO{
         }
         return 0;
     }
-    /**
-     * Updates a review
-     *
-     * @param review   the new review object
-     * @param reviewId the id of the review
+
+    /** Updates a Review object.
+     * @param review the new Review object
+     * @param reviewId the id of the Review object to be updated
      */
     @Override
     public void updateReview(Review review, int reviewId) {
@@ -116,9 +120,8 @@ public class ReviewDAO implements IReviewDAO{
         }
     }
 
-    /**
-     * Deletes a review.
-     * @param reviewId the id of the comment to be deleted
+    /** Deletes a Review object.
+     * @param reviewId the id of the Review object to be deleted
      */
     @Override
     public void deleteReview(int reviewId) {
@@ -130,6 +133,11 @@ public class ReviewDAO implements IReviewDAO{
         }
     }
 
+    /** Gets all the reviews under an internship given its internshipId.
+     * @param internshipId the id of the Internship object the reviews are under
+     * @return an ArrayList of Review objects under the parent
+     * @throws ReviewNotFoundException thrown when there are no reviews under the internship
+     */
     @Override
     public ArrayList<Review> getReviewsByInternship(int internshipId) throws ReviewNotFoundException {
         try {

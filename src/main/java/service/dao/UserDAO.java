@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import user.requestconnect.exceptions.UserNotFoundException;
 
+/** A data access object for the User database.
+ */
 @Repository
 public class UserDAO implements IUserDAO {
     @Autowired
@@ -21,9 +23,8 @@ public class UserDAO implements IUserDAO {
     final String DATA_QUERY = "select username, data from users where username = ? ";
     final String QUERY_ALL = "select * from users";
 
-    /**
-     * query from db and return a user object given username
-     * @param username username of the query
+    /** Query from the User database and return a User object given username.
+     * @param username the username of the query
      * @return a User object
      */
     @Override
@@ -36,17 +37,16 @@ public class UserDAO implements IUserDAO {
         }
     }
 
-    /**
-     * @return all users
+    /** Gets all users in the User database.
+     * @return an ArrayList of all the User objects in the database
      */
     @Override
     public ArrayList<User> getUsers() {
         return (ArrayList<User>) jdbcTemplate.query(QUERY_ALL, new UserDaoMapper());
     }
 
-    /**
-     * save a new user object to db
-     * @param user a user object
+    /** Save a new User object as a json.
+     * @param user the User object to be stored
      */
     @Override
     public void saveUser(User user){
@@ -60,9 +60,8 @@ public class UserDAO implements IUserDAO {
         }
     }
 
-    /**
-     * updates a user given a user object
-     * @param user a user object
+    /** Updates a User object.
+     * @param user the new User object
      */
     @Override
     public void updateUser(User user) {
@@ -75,6 +74,8 @@ public class UserDAO implements IUserDAO {
         }
     }
 
+    /** Resets the database of User objects and their connections and connection requests.
+     */
     public void reset() {
         ArrayList<User> users = getUsers();
         for (User user : users){

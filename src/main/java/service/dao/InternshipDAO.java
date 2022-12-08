@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Internship;
 
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import user.createcorporate.exceptions.CompanyNotFoundException;
 import user.exceptions.InternshipNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,7 +15,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+/** A data access object for the Internship database.
+ */
 public class InternshipDAO implements IInternshipDAO {
 
     @Autowired
@@ -26,34 +28,41 @@ public class InternshipDAO implements IInternshipDAO {
 
 
 
-    /**x``
-     * @return a specific internship by ID
+    /** Gets an Internship object from the database based on its id.
+     * @param internshipId the id of the Internship object
+     * @return the Internship object with id internshipId
+     * @throws InternshipNotFoundException thrown when the internship with id internshipId does not exist
      */
     @Override
-    public Internship getInternshipByID(int internshipID) throws InternshipNotFoundException {
+    public Internship getInternshipByID(int internshipId) throws InternshipNotFoundException {
         try {
-            return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, new InternshipDaoMapper(), internshipID);
+            return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, new InternshipDaoMapper(), internshipId);
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("No Internships Under" + internshipID + " found");
-            throw new InternshipNotFoundException("No Internships Under" + internshipID + " found");
+            System.out.println("No Internships Under" + internshipId + " found");
+            throw new InternshipNotFoundException("No Internships Under" + internshipId + " found");
         }
     }
 
 
-    /**
-     * @return all internships under one company ID
+    /** Gets an Internship object from the database based on its id.
+     * @param companyId the id of the Internship object
+     * @return the Internship object with id companyId
+     * @throws InternshipNotFoundException thrown when the internship with id companyId does not exist
      */
     @Override
-    public ArrayList<Internship> getInternshipsByCompany(int internship_company) throws InternshipNotFoundException {
+    public ArrayList<Internship> getInternshipsByCompany(int companyId) throws InternshipNotFoundException {
         try {
             return (ArrayList<Internship>) jdbcTemplate.query(FIND_BY_COMPANY_ID_QUERY, new InternshipDaoMapper(),
-                    internship_company);
+                    companyId);
         } catch (EmptyResultDataAccessException e) {
-            System.out.println("No Internships Under" + internship_company + " found");
-            throw new InternshipNotFoundException("No Internships Under" + internship_company + " found");
+            System.out.println("No Internships Under" + companyId + " found");
+            throw new InternshipNotFoundException("No Internships Under" + companyId + " found");
         }
     }
 
+    /** Saves a new Internship object as a json.
+     * @param internship the Internship object to be stored
+     */
     @Override
     public void saveInternship(Internship internship){
         try{
@@ -66,6 +75,10 @@ public class InternshipDAO implements IInternshipDAO {
         }
     }
 
+    /** Saves a new Internship object as a json and returns its id.
+     * @param internship the Internship object to be stored
+     * @return an int representing the id of the Internship object in the table
+     */
     @Override
     public int saveInternshipAndReturnId(Internship internship) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -86,6 +99,10 @@ public class InternshipDAO implements IInternshipDAO {
         return -1;
     }
 
+    /** Updates an Internship object.
+     * @param id the id of the Internship object to be updated
+     * @param internship the new Internship object
+     */
     @Override
     public void updateInternship(int id, Internship internship){
         try{
