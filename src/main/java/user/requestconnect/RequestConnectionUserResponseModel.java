@@ -15,7 +15,7 @@ public class RequestConnectionUserResponseModel {
     private Action action;
 
     /**
-     * This is the UserResponseModel if the connection is successful
+     * the UserResponseModel if the connection is successful
      * @param message is the message sent by the principal user
      * @param serverStatus should be success
      * @param incomingConnectionRequests is an ArrayList of incoming requests
@@ -41,7 +41,7 @@ public class RequestConnectionUserResponseModel {
     }
 
     /**
-     * This responseModel overrides the previous one when the connection fails
+     * Overloads the previous one when the connection fails
      * @param message is the message sent by the principal user
      * @param serverStatus should be error
      */

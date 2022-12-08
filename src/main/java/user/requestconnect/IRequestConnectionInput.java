@@ -1,12 +1,14 @@
 package user.requestconnect;
 
 /**
- * The inputBoundary of the requestConnect use case, which is implemented in the RequestConnectionInteractor
+ * implemented in the RequestConnectionInteractor
+ *
  */
 public interface IRequestConnectionInput {
     /**
-     * The input boundary specifies the RequestConnectionInteractor to have the requestConnection method
-     * when implementing this input boundary
+     * specifies the RequestConnectionInteractor to have the requestConnection method
+     * when being implemented
+     * Creates a RequestConnectionResponseModel using the input from requestModel
      * @param requestModel holds the connection request with the user ID and the target user ID
      * @return the RequestConnectionResponseModel, which holds the result of the connection request
      */

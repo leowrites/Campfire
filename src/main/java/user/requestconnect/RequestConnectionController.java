@@ -45,7 +45,7 @@ public class RequestConnectionController {
     }
 
     /**
-     * The requestConnection method returns a reponseModel depending on the ServerStatus
+     * Returns a reponseModel depending on the ServerStatus
      * @param user is the principal who requested to connect
      * @param requestModel has the principal userID and the target userID
      */
