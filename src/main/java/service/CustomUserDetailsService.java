@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import entity.User;
 import service.dao.UserDAO;
-import user.requestconnect.exceptions.UserNotFoundException;
+import usecases.requestconnect.exceptions.UserNotFoundException;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

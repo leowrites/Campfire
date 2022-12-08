@@ -1,0 +1,5 @@
+package usecases.requestconnect;
+
+public enum Action {
+    INCOMING_CONNECT_REQUEST, OUTGOING_CONNECT_REQUEST, INCOMING_CONNECT_ACCEPT, OUTGOING_CONNECT_ACCEPT
+}
