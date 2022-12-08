@@ -9,7 +9,6 @@ import { createBrowserRouter, RouterProvider, ScrollRestoration } from 'react-ro
 import Layout from './Layout';
 import { GlobalContextProvider } from './GlobalContext';
 import { AuthContextProvider } from './AuthContext';
-import CorporatePage from './Corporate/CorporatePage';
 import InternshipPage from './Internship/InternshipPage';
 import AddInternshipForm from './Corporate/AddInternshipForm';
 import CreateCompany from './Corporate/CreateCompany';
@@ -18,6 +17,7 @@ import { ThemeProvider } from '@mui/material';
 import theme from './theme';
 import CorporateLayout from './Corporate/CorporateLayout';
 import InternshipGroup from './Corporate/InternshipGroup';
+import RouteProtectionWrapper from './RouteProtectionWrapper';
 
 const routes = [
   {
@@ -29,7 +29,11 @@ const routes = [
       },
       {
         path: '/corporates/create',
-        element: <CreateCompany></CreateCompany>,
+        element: (
+          <RouteProtectionWrapper>
+            <CreateCompany />
+          </RouteProtectionWrapper>
+        ),
       },
       {
         path: '/corporates/:corporateId',
@@ -41,7 +45,11 @@ const routes = [
           },
           {
             path: 'internships/create',
-            element: <AddInternshipForm />,
+            element: (
+              <RouteProtectionWrapper>
+                <AddInternshipForm />
+              </RouteProtectionWrapper>
+            ),
           },
           {
             path: 'internships/:internshipId',
