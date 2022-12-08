@@ -23,7 +23,7 @@ public class HelpfulController {
      * @param requestModel the HelpfulRequestModel taken in from the front-end
      * @return a ResponseEntity holding a HelpfulResponseModel and an HttpStatus
      */
-    @PostMapping("/vote-helpful")
+    @PostMapping("users/vote-helpful")
     public ResponseEntity<HelpfulResponseModel> create(@RequestBody HelpfulRequestModel requestModel) {
         HelpfulResponseModel responseModel = input.create(requestModel);
         String status = responseModel.getStatus().toString();

@@ -11,6 +11,8 @@ import useAuthContext from '../AuthContext';
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import NumLikes from './NumLikes'
+import NumDislikes from "./NumDislikes";
 
 export default function ReviewCard({
   reviewId,
@@ -24,10 +26,13 @@ export default function ReviewCard({
   const { corporateId, internshipId } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [moreComments, setMoreComments] = useState([]);
+  const [numberLikes, setNumberLikes] = useState(numLikes);
+  const [numberDislikes, setNumberDislikes] = useState(numDislikes);
   const authContext = useAuthContext();
   const principal = authContext.principal;
   const handleDelete = () => {
     console.log('called');
+    console.log('numlikes:' + numLikes);
     axios
       .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
         data: {
@@ -80,6 +85,24 @@ export default function ReviewCard({
       });
   };
 
+  const handleLike = () =>{
+      axios.post(`/users/vote-helpful`, {
+          isHelpful: "Helpful",
+          reviewId: reviewId,
+          userId: userId
+      }).then((res) => {
+          if (res.data.status === 'SUCCESS') {
+              if (res.data.vote === 'HELPFUL'){
+                  setNumberLikes(numberLikes + 1);
+              } else if (res.data.vote === 'UNHELPFUL'){
+                  setNumberDislikes(numberDislikes + 1);
+              } else {
+                console.log("do nothing")
+              }
+          }
+      });
+    }
+
   return (
     <Box
       sx={{
@@ -106,8 +129,12 @@ export default function ReviewCard({
               borderRadius: 3,
             }}
             elevation={5}>
-            <Typography sx={{ mr: 2, fontWeight: 'bold' }}>👍 {numLikes}</Typography>
-            <Typography sx={{ fontWeight: 'bold' }}>👎 {numDislikes}</Typography>
+            {/*<Button onClick={handleLike}>*/}
+            {/*    <Typography sx={{ mr: 2, fontWeight: 'bold', color: 'white' }}> 👍 {numberLikes}</Typography>*/}
+            {/*</Button>*/}
+              <NumLikes userId={userId} reviewId={reviewId} numLikes={numLikes}></NumLikes>
+              <NumDislikes userId={userId} reviewId={reviewId} numDislikes={numDislikes}></NumDislikes>
+
           </Paper>
         </Box>
         <Rating

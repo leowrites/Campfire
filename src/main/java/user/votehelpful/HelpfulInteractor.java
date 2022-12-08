@@ -43,7 +43,7 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
         HashMap<String, VoteDecision> votedUsers = review.getVotedUsers();
         VoteDecision previousVote;
 
-        boolean userHasVoted = votedUsers.keySet().contains(userId);
+        boolean userHasVoted = votedUsers.containsKey(userId);
 
         if (userHasVoted) {
             previousVote = votedUsers.get(userId);
