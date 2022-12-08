@@ -1,9 +1,10 @@
 package user.postreview;
-
+import entity.Internship;
 import entity.Review;
 import service.dao.IReviewDAO;
 import service.dao.IInternshipDAO;
 import service.ServerStatus;
+import user.exceptions.InternshipNotFoundException;
 
 /** The postreview use case interactor that calls the addReviewToCorporate from the
  * IPostReview input boundary. When initialized, takes in an object that implements
@@ -14,9 +15,11 @@ public class PostReview implements IPostReview{
 
     private final IReviewDAO reviewDAO;
     private final IInternshipDAO internshipDAO;
-    public PostReview(IReviewDAO reviewDAO, IInternshipDAO internshipDAO) {
+    private final PostReviewFactory reviewFactory;
+    public PostReview(IReviewDAO reviewDAO, IInternshipDAO internshipDAO, PostReviewFactory reviewFactory) {
         this.reviewDAO = reviewDAO;
         this.internshipDAO = internshipDAO;
+        this.reviewFactory = reviewFactory;
     }
 
     /** Adds a review to the corporate page database.
@@ -24,18 +27,19 @@ public class PostReview implements IPostReview{
      * @return a response model to be sent back to the client
      */
     @Override
-    public PostReviewResponse addReviewToCorporate(PostReviewRequest request) {
-//      Internship internship = internshipDAO.getInternship(request.getInternshipId());
-        Review review = new Review(
-                request.getUsername(),
+    public PostReviewResponse addReviewToInternship(PostReviewRequest request) {
+        Internship internship;
+        try {
+            internship = internshipDAO.getInternshipByID(Integer.parseInt(request.getInternshipId()));
+        } catch (InternshipNotFoundException e) {
+            return new PostReviewResponse(ServerStatus.ERROR, e.getMessage());
+        }
+        Review review = reviewFactory.createReview(request.getUsername(),
                 request.getReviewContent(),
-                request.getRating()
-        );
-        int reviewId = reviewDAO.saveReview(review);
-//        ArrayList<String> reviews = internship.getReviews();
-//        reviews.add(reviewId);
-//        internship.setReviews(reviews);
-//        internshipDAO.saveInternship(internship);
+                request.getRating());
+        int reviewId = reviewDAO.saveReview(review, Integer.parseInt(request.getInternshipId()));
+        internship.getReviews().add(reviewId);
+        internshipDAO.updateInternship(Integer.parseInt(request.getInternshipId()), internship);
         return new PostReviewResponse(ServerStatus.SUCCESS,
                 String.format("You have successfully posted a review to reviewId %s", reviewId));
     }

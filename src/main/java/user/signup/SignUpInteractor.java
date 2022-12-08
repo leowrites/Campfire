@@ -64,7 +64,6 @@ public class SignUpInteractor implements SignUpInputBoundary {
                     passwordEncoder.encode(signUpInputs.getPassword()),
                     signUpInputs.getFirstName() + " " + signUpInputs.getLastName()
             );
-            user.setAccessLevel(2);
             dataAccess.saveUser(user);
             System.out.println("User saved");
         }

@@ -23,7 +23,7 @@ public class CommentController {
      * @param requestModel the CommentRequestModel taken in from the front-end
      * @return a ResponseEntity holding a CommentResponseModel and an HttpStatus
      */
-    @PostMapping("/comments")
+    @PostMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments")
     public ResponseEntity<CommentResponseModel> create(@RequestBody CommentRequestModel requestModel) {
         CommentResponseModel responseModel = input.create(requestModel);
         String status = responseModel.getStatus().toString();

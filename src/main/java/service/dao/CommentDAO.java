@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class CommentDAO implements ICommentDAO{
@@ -17,7 +19,9 @@ public class CommentDAO implements ICommentDAO{
     @Autowired
     JdbcTemplate jdbcTemplate;
     final String INSERT_QUERY = "insert into comments (data) values (?)";
-    final String SELECT_QUERY = "select data from comments where id = ?";
+    final String INSERT_QUERY_WITH_ID = "insert into comments (data, parentid) values (?, ?)";
+    final String SELECT_QUERY = "select * from comments where id = ?";
+    final String SELECT_QUERY_WITH_PARENT_ID = "select * from comments where parentid = ?";
     final String UPDATE_QUERY = "update comments set data = ? where id = ?";
     final String DELETE_QUERY = "delete from comments where id = ?";
 
@@ -47,6 +51,27 @@ public class CommentDAO implements ICommentDAO{
         }
     }
 
+    @Override
+    public int saveComment(Comment comment, int parentId) {
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        try {
+            ObjectMapper m = new ObjectMapper();
+            DaoHelper.formatDate(m);
+            String commentString = m.writeValueAsString(comment);
+            jdbcTemplate.update(connection -> {
+                PreparedStatement statement = connection.prepareStatement(INSERT_QUERY_WITH_ID, Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, commentString);
+                statement.setInt(2, parentId);
+                return statement;
+            }, keyHolder);
+            return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
+        }
+        catch (JsonProcessingException e) {
+            System.out.println("There was an error in the JSON processing.");
+            return 0;
+        }
+    }
+
     /**
      * Gets the comment given the commentId.
      * @param commentId the id of the comment
@@ -61,6 +86,17 @@ public class CommentDAO implements ICommentDAO{
             System.out.println("No comment found.");
             return null;
         }
+    }
+
+    @Override
+    public ArrayList<Comment> getCommentsWithParentId(int parentId) {
+            try {
+                return (ArrayList<Comment>) jdbcTemplate.query(SELECT_QUERY_WITH_PARENT_ID, new CommentDaoMapper(),
+                        parentId);
+            } catch (EmptyResultDataAccessException e) {
+                System.out.println("No Internships Under" + parentId + " found");
+            }
+            return  null;
     }
 
     /**
