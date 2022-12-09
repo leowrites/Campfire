@@ -7,36 +7,6 @@ Primarily for prospective ASIP stream University of Toronto students to learn mo
 
 Secondary stakeholders may include companies who can view the experiences of their interns, and respond to reviews/comments left by students, or other miscellaneous students not in ASIP stream to collaborate as well.
 
-
-## API Reference
-
-UNDER CONSTRUCTION
-
-#### Get all items
-
-```http
-  GET /api/items
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
-
-#### Get item
-
-```http
-  GET /api/items/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
-
-#### add(num1, num2)
-
-Takes two numbers and returns the sum.
-
-
 ## Authors
 
 - [@leowrites](https://github.com/leowrites)
@@ -46,19 +16,6 @@ Takes two numbers and returns the sum.
 - [@JTP001](https://github.com/JTP001)
 - [@PrimeAce123](https://github.com/PrimeAce123)
 
-## Docker
-Make sure you have docker installed
-
-In the root directory, run
-```bash
-docker compose up -d --build
-```
-To run the tests, run
-```bash
-docker compose run --rm test
-```
-
-
 ## Tech Stack
 
 **Client:** React, MUI
@@ -66,6 +23,8 @@ docker compose run --rm test
 **Server:** Java, Spring
 
 **Database:** PostgreSQL
+
+**Tools:** Docker, Github Actions, Azure
 
 ## Installation
 
@@ -79,6 +38,19 @@ git clone https://github.com/CSC207-2022F-UofT/rate-my-intern.git
 cd frontend
 npm install
 ```
+
+## To run tests in Docker
+Make sure you have docker installed
+
+In the root directory, run
+```bash
+docker compose up -d --build
+```
+To run the tests, run
+```bash
+docker compose run --rm test
+```
+
 
 ## Run Locally
 To start our app, run

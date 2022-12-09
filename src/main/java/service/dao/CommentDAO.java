@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/** A data access object for the Comment database.
+ */
 public class CommentDAO implements ICommentDAO{
 
     @Autowired
@@ -25,11 +27,9 @@ public class CommentDAO implements ICommentDAO{
     final String UPDATE_QUERY = "update comments set data = ? where id = ?";
     final String DELETE_QUERY = "delete from comments where id = ?";
 
-    /**
-     * Save a new comment as a json
-     *
-     * @param comment the comment object to be stored
-     * @return an integer representing the id of the comment in the table
+    /** Save a new Comment object as a json.
+     * @param comment the Comment object to be stored
+     * @return an int representing the id of the Comment object in the table
      */
     @Override
     public int saveComment(Comment comment) {
@@ -51,6 +51,11 @@ public class CommentDAO implements ICommentDAO{
         }
     }
 
+    /** Save a new Comment object as a json with its parent's id.
+     * @param comment the Comment object to be stored
+     * @param parentId the id of the parent object of the comment
+     * @return an int representing the id of the comment in the table
+     */
     @Override
     public int saveComment(Comment comment, int parentId) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -72,8 +77,7 @@ public class CommentDAO implements ICommentDAO{
         }
     }
 
-    /**
-     * Gets the comment given the commentId.
+    /** Gets the Comment object given by the commentId.
      * @param commentId the id of the comment
      * @return a Comment object
      */
@@ -88,6 +92,10 @@ public class CommentDAO implements ICommentDAO{
         }
     }
 
+    /** Gets all the comments under a parent given its parentId.
+     * @param parentId the id of the parent
+     * @return an ArrayList of Comment objects under the parent
+     */
     @Override
     public ArrayList<Comment> getCommentsWithParentId(int parentId) {
             try {
@@ -99,10 +107,9 @@ public class CommentDAO implements ICommentDAO{
             return  null;
     }
 
-    /**
-     * Updates a comment.
-     * @param comment   the new comment object
-     * @param commentId the id of the comment to be updated
+    /** Updates a Comment object.
+     * @param comment the new Comment object
+     * @param commentId the id of the Comment object to be updated
      */
     @Override
     public void updateComment(Comment comment, int commentId) {
@@ -117,9 +124,8 @@ public class CommentDAO implements ICommentDAO{
         }
     }
 
-    /**
-     * Deletes a comment.
-     * @param commentId the id of the comment to be deleted
+    /** Deletes a Comment object.
+     * @param commentId the id of the Comment object to be deleted
      */
     @Override
     public void deleteComment(int commentId) {
