@@ -49,7 +49,6 @@ export default function CommentCard({
   }, []);
 
   const fetchComments = () => {
-    console.log(commentId);
     axios
       .get(`/corporates/${corporateId}/internships/${internshipId}/reviews/${commentId}`)
       .then((res) => setMoreComments(res.data));
@@ -70,6 +69,7 @@ export default function CommentCard({
           setMoreComments([
             ...moreComments,
             {
+              userId: principal.username,
               id: res.data.id,
               content: comment,
               comments: [],
@@ -81,24 +81,29 @@ export default function CommentCard({
   };
 
   return (
-    <Paper elevation={2} sx={{ my: 3, p: 3 }}>
+    <Box
+      sx={{
+        borderRadius: 5,
+        py: 1,
+        pl: 2,
+      }}>
       <Box textAlign={'start'}>
         <Typography variant='h5'>{userId}: </Typography>
         <Typography>{content}</Typography>
-        <Box sx={{ display: 'flex' }}>
-          <Typography sx={{ ml: 'auto' }}>Date Posted: {datePosted}</Typography>
+        <Box textAlign={'right'}>
+          <Typography sx={{ ml: 'auto' }}>{datePosted.match(/^\d{4}-\d{2}-\d{2}/)}</Typography>
         </Box>
         <Box sx={{ display: 'flex', my: 1 }}>
           <Button
             sx={{ ml: 'auto', mr: 1 }}
             variant='contained'
             onClick={handleShowCommentBox}
-            color='success'
+            color='primary'
             size='small'>
             comment
           </Button>
           <Button variant='contained' onClick={handleDelete} color='error' size='small'>
-            Delete
+            delete
           </Button>
         </Box>
       </Box>
@@ -123,13 +128,13 @@ export default function CommentCard({
               parentType={'Comment'}
               commentId={comment.id}
               parentId={commentId}
-              userId={userId}
+              userId={comment.userId}
               content={comment.content}
               datePosted={comment.datePosted}
               comments={comments}
             />
           );
         })}
-    </Paper>
+    </Box>
   );
 }

@@ -1,8 +1,11 @@
 package entity;
 
-import user.sort.ISortComparator;
+import usecases.sort.ISortComparator;
+import usecases.votehelpful.VoteDecision;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Review implements ISortComparator, IUserPost{
     private String userId;
@@ -14,6 +17,7 @@ public class Review implements ISortComparator, IUserPost{
     private int rating;
     private int internshipId;
     private int id;
+    private HashMap<String, VoteDecision> votedUsers;
 
     public Review() {
     }
@@ -27,6 +31,7 @@ public class Review implements ISortComparator, IUserPost{
         this.comments = new ArrayList<>();
         if (rating > 10){this.rating = 10;}
         else this.rating = Math.max(rating, 0);
+        this.votedUsers = new HashMap<>();
     }
 
     public int getId() {
@@ -59,11 +64,6 @@ public class Review implements ISortComparator, IUserPost{
 
     public int getRating() {
         return this.rating;
-    }
-
-    public void setRating(int rating) {
-        if (rating > 10){this.rating = 10;}
-        else this.rating = Math.max(rating, 0);
     }
 
     public Date getDatePosted() {
@@ -120,5 +120,13 @@ public class Review implements ISortComparator, IUserPost{
         in order to have the highest value come up first in the sort.
          */
         return otherReview.getDatePosted().compareTo(this.datePosted);
+    }
+
+    public HashMap<String, VoteDecision> getVotedUsers() {
+        return this.votedUsers;
+    }
+
+    public void setVotedUsers(HashMap<String, VoteDecision> votedUsers) {
+        this.votedUsers = votedUsers;
     }
 }

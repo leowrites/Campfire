@@ -1,7 +1,7 @@
 package service.dao;
 
 import entity.Review;
-import user.comment.exceptions.ReviewNotFoundException;
+import usecases.comment.exceptions.ReviewNotFoundException;
 
 import java.util.ArrayList;
 
@@ -12,8 +12,6 @@ public interface IReviewDAO {
      * @return a review object
      */
     Review getReview(int reviewId);
-
-    ArrayList<Review> getAllReviews();
 
     /**
      * Creates a new review in the db given a review object

@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import InternshipCard from './InternshipCard';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Container } from '@mui/system';
+import applepark from './applepark.jpg';
 
 export default function CorporatePage() {
   const { corporateId } = useParams();
@@ -17,27 +19,51 @@ export default function CorporatePage() {
   }, []);
   useEffect(() => {
     axios.get(`/corporates/${corporateId}/internships`).then((data) => {
-      console.log("internships", internships)
+      console.log('internships', internships);
       setInternships(data.data);
     });
   }, []);
   return (
-    <Box sx={{ my: 2 }} textAlign={'start'}>
-      <Box sx={{ my: 2, display: 'flex', alignItems: 'center' }}>
-        <Typography variant='h4'>{companyDetails?.companyName}</Typography>
-        <Typography sx={{ ml: 'auto', display: 'inline-block' }}>
+    <>
+      <Box
+        textAlign={'start'}
+        sx={{
+          backgroundImage: `url(${applepark})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          minHeight: '20rem',
+          display: 'flex',
+          alignItems: 'center',
+        }}>
+        <Container sx={{ mx: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'baseline', color: 'white' }}>
+            <Typography variant='h1' sx={{ fontWeight: 'bold' }}>
+              {companyDetails?.companyName}
+            </Typography>
+            <Typography variant='h6' sx={{ fontWeight: 'bold', ml: 5 }}>
+              Cupertino, California, United States.
+            </Typography>
+          </Box>
+          <Typography variant='h4' sx={{ display: 'block', color: 'white', mt: 2 }}>
+            {companyDetails?.companyInfo}
+          </Typography>
+        </Container>
+      </Box>
+      <Container>
+        <Box sx={{ mt: 5 }}>
+          {internships?.map((internship) => (
+            <InternshipCard key={internship.id} id={internship.id} jobTitle={internship.jobTitle} />
+          ))}
+        </Box>
+      </Container>
+      <Box>
+        <Typography sx={{ ml: 'auto', mt: 20, display: 'inline-block', color: 'white' }}>
           Company Representitive?{' '}
           <Link to={`internships`} style={{ color: 'gray', textDecoration: 'none' }}>
             Create an internship
           </Link>
         </Typography>
       </Box>
-      <Typography variant='h7' sx={{ display: 'block' }}>
-        {companyDetails?.companyInfo}
-      </Typography>
-      {internships?.map((internship) => (
-        <InternshipCard key={internship.id} id={internship.id} jobTitle={internship.jobTitle} />
-      ))}
-    </Box>
+    </>
   );
 }
