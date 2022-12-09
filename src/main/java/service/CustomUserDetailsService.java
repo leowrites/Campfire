@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import entity.User;
 import service.dao.UserDAO;
-import user.requestconnect.exceptions.UserNotFoundException;
+import usecases.requestconnect.exceptions.UserNotFoundException;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -15,6 +15,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserDAO userDataAccess;
 
+    /**
+     *
+     * Loads UserDetails based on the username provided
+     * @param username the username identifying the user whose data is required.
+     * @return an instance of UserDetails based on the username provided
+     * @throws UsernameNotFoundException if no user is found
+     *
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try{

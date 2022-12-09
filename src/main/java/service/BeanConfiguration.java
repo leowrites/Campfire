@@ -1,31 +1,30 @@
 package service;
 
-import org.hibernate.event.spi.PostCollectionRecreateEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import service.dao.*;
-import user.acceptconnect.AcceptConnectionInteractor;
-import user.acceptconnect.IAcceptConnectionInput;
-import user.comment.CommentFactory;
-import user.comment.CommentInteractor;
-import user.comment.ICommentInputBoundary;
-import user.createcorporate.CorporateFactory;
-import user.createcorporate.CorporateGenerateInteractor;
-import user.createcorporate.ICorporateGenerateInput;
-import user.deletecomment.DeleteCommentInteractor;
-import user.deletecomment.IDeleteCommentInput;
-import user.deletereview.DeleteReviewInteractor;
-import user.deletereview.IDeleteReviewInput;
-import user.postreview.IPostReview;
-import user.postreview.PostReview;
-import user.postreview.PostReviewFactory;
-import user.requestconnect.IRequestConnectionInput;
-import user.requestconnect.RequestConnectionInteractor;
-import user.signup.SignUpInputBoundary;
-import user.signup.SignUpInteractor;
-import user.votehelpful.HelpfulInteractor;
-import user.votehelpful.IHelpfulInputBoundary;
+import usecases.acceptconnect.AcceptConnectionInteractor;
+import usecases.acceptconnect.IAcceptConnectionInput;
+import usecases.comment.CommentFactory;
+import usecases.comment.CommentInteractor;
+import usecases.comment.ICommentInputBoundary;
+import usecases.createcorporate.CorporateFactory;
+import usecases.createcorporate.CorporateGenerateInteractor;
+import usecases.createcorporate.ICorporateGenerateInput;
+import usecases.deletecomment.DeleteCommentInteractor;
+import usecases.deletecomment.IDeleteCommentInput;
+import usecases.deletereview.DeleteReviewInteractor;
+import usecases.deletereview.IDeleteReviewInput;
+import usecases.postreview.IPostReview;
+import usecases.postreview.PostReview;
+import usecases.postreview.PostReviewFactory;
+import usecases.requestconnect.IRequestConnectionInput;
+import usecases.requestconnect.RequestConnectionInteractor;
+import usecases.signup.ISignUp;
+import usecases.signup.SignUpInteractor;
+import usecases.votehelpful.HelpfulInteractor;
+import usecases.votehelpful.IHelpfulInputBoundary;
 
 @Configuration
 public class BeanConfiguration {
@@ -71,7 +70,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public SignUpInputBoundary SignUpInput(IUserDAO dataAccess){
+    public ISignUp SignUpInput(IUserDAO dataAccess){
         return new SignUpInteractor(dataAccess);
     }
 

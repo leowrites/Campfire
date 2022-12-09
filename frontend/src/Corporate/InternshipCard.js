@@ -1,23 +1,22 @@
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function InternshipCard({ id, jobTitle }) {
   const { corporateId } = useParams();
-  const navigate = useNavigate();
 
   return (
-    <Paper elevation={2} sx={{ mb: 3, p: 3 }}>
-      <Typography>{jobTitle}</Typography>
-      <Button
-        size='medium'
-        onClick={() => {
-          navigate(`/corporates/${corporateId}/internships/${id}`);
-        }}>
-        View this internship
-      </Button>
-    </Paper>
+    <Box textAlign={'start'} sx={{ color: 'white', my: 5, py: 2, borderBottom: '1px solid gray'}}>
+      <Link
+        style={{ textDecoration: 'none', color: 'white' }}
+        to={`/corporates/${corporateId}/internships/${id}`}>
+        <Typography variant='h4' sx={{}}>
+          {id} - {jobTitle}
+        </Typography>
+      </Link>
+    </Box>
   );
 }
 

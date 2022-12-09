@@ -10,7 +10,14 @@ import java.io.IOException;
 
 @Configuration
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
-
+    /**
+     *
+     * Initializes an AuthenticationSuccess if the http request is valid
+     * @param request an HttpServletRequest
+     * @param response an HttpServletResponse that is set up after the Authentication
+     * @param authentication the Authentication object which allows for the response to be made
+     *
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication)
