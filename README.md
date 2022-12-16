@@ -12,9 +12,6 @@ Secondary stakeholders may include companies who can view the experiences of the
 - [@leowrites](https://github.com/leowrites)
 - [@MinGi-K](https://github.com/MinGi-K)
 - [@justinwli930](https://github.com/justinwli930)
-- [@hanyuxin02](https://github.com/hanyuxin02)
-- [@JTP001](https://github.com/JTP001)
-- [@PrimeAce123](https://github.com/PrimeAce123)
 
 ## Tech Stack
 
