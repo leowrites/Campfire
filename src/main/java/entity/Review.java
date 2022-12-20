@@ -1,13 +1,11 @@
 package entity;
-
-import usecases.sort.ISortComparator;
 import usecases.votehelpful.VoteDecision;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Review implements ISortComparator, IUserPost{
+public class Review implements IUserPost{
     private String userId;
     private Date datePosted;
     private int numLikes;
@@ -96,30 +94,6 @@ public class Review implements ISortComparator, IUserPost{
 
     public void setComments(ArrayList<Integer> comments) {
         this.comments = comments;
-    }
-
-    public int compareToHelpful(Review otherReview){
-        /*
-        Note: this sorts them in an order that is the opposite of most default compareTo methods
-        in order to have the highest value come up first in the sort.
-         */
-        return Integer.compare(otherReview.getNumLikes(), this.numLikes);
-    }
-
-    public int compareToHighestRating(Review otherReview){
-        /*
-        Note: this sorts them in an order that is the opposite of most default compareTo methods
-        in order to have the highest value come up first in the sort.
-         */
-        return Integer.compare(otherReview.getRating(), this.rating);
-    }
-
-    public int compareToNewest(Review otherReview){
-        /*
-        Note: this sorts them in an order that is the opposite of most default compareTo methods
-        in order to have the highest value come up first in the sort.
-         */
-        return otherReview.getDatePosted().compareTo(this.datePosted);
     }
 
     public HashMap<String, VoteDecision> getVotedUsers() {
