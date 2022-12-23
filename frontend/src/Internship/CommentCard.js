@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -21,9 +20,11 @@ export default function CommentCard({
   const { corporateId, internshipId } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [moreComments, setMoreComments] = useState([]);
+  const [clickedDelete, setClickedDelete] = useState(false);
   const { principal } = useAuthContext();
   const handleDelete = () => {
     console.log(commentId, parentType, parentId, userId);
+    setClickedDelete(true);
     axios
       .delete(
         `/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`,
@@ -39,6 +40,9 @@ export default function CommentCard({
       .then(() => {
         window.location.reload();
       });
+    setTimeout(() => {
+      setClickedDelete(false);
+    }, 3000);
   };
   const handleShowCommentBox = () => {
     setShowComment(!showComment);
@@ -102,7 +106,12 @@ export default function CommentCard({
             size='small'>
             comment
           </Button>
-          <Button variant='contained' onClick={handleDelete} color='error' size='small'>
+          <Button
+            variant='contained'
+            onClick={handleDelete}
+            color='error'
+            size='small'
+            disabled={clickedDelete}>
             delete
           </Button>
         </Box>

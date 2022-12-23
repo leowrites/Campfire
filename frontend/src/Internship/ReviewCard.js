@@ -24,10 +24,11 @@ export default function ReviewCard({
   const { corporateId, internshipId } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [moreComments, setMoreComments] = useState([]);
+  const [clickedDelete, setClickedDelete] = useState(false);
   const authContext = useAuthContext();
   const principal = authContext.principal;
   const handleDelete = () => {
-    console.log('called');
+    setClickedDelete(true);
     axios
       .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
         data: {
@@ -39,6 +40,9 @@ export default function ReviewCard({
       .then(() => {
         window.location.reload();
       });
+    setTimeout(() => {
+      setClickedDelete(false);
+    }, 3000);
   };
   const handleShowCommentBox = () => {
     setShowComment(!showComment);
@@ -111,7 +115,7 @@ export default function ReviewCard({
           </Paper>
         </Box>
         <Rating
-          value={2}
+          value={rating || 0}
           icon={<FavoriteIcon />}
           emptyIcon={<FavoriteBorderIcon sx={{ color: 'gray' }} />}
           readOnly
@@ -133,7 +137,12 @@ export default function ReviewCard({
             size='small'>
             comment
           </Button>
-          <Button variant='contained' onClick={handleDelete} color='error' size='small'>
+          <Button
+            variant='contained'
+            onClick={handleDelete}
+            color='error'
+            size='small'
+            disabled={clickedDelete}>
             delete
           </Button>
         </Box>
@@ -151,7 +160,6 @@ export default function ReviewCard({
 
       {moreComments.length > 0 &&
         moreComments.map((comment, i) => {
-          console.log(comment);
           return (
             <CommentCard
               key={i}
