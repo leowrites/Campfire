@@ -26,13 +26,11 @@ export default function CommentCard({
     console.log(commentId, parentType, parentId, userId);
     axios
       .delete(
-        `/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`,
+        `/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments/${commentId}`,
         {
           data: {
-            commentId: commentId,
             parentType: parentType,
             parentId: parentId,
-            userId: userId,
           },
         }
       )

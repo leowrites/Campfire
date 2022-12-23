@@ -7,7 +7,7 @@ package usecases.deletecomment;
  */
 public class DeleteCommentRequestModel {
 
-    private final int commentId;
+    private int commentId;
 
     private final String parentType;
 
@@ -35,5 +35,9 @@ public class DeleteCommentRequestModel {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
     }
 }
