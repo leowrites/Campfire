@@ -8,11 +8,13 @@ import { useNavigate } from 'react-router';
 import useTheme from '@mui/material/styles/useTheme';
 import useGlobal from '../GlobalContext';
 import Stack from '@mui/material/Stack';
+import axios from 'axios';
 
 function CreateCompany() {
   const theme = useTheme();
-  const { setMsg, showMsg } = useGlobal()
+  const { setMsg, setShowMsg, setStatus } = useGlobal();
   const { principal } = useAuthContext();
+  const [clicked, setClicked] = useState(false)
 
   const [formData, setFormData] = useState({
     userId: principal?.username,
@@ -21,9 +23,6 @@ function CreateCompany() {
   });
 
   const navigate = useNavigate();
-
-  const [companyName, setCompanyName] = useState('');
-  const [confirmInformation, setCompanyInformation] = useState('');
 
   const onCompanyNameChange = (e) => {
     setFormData({ ...formData, companyName: e.target.value });
@@ -34,20 +33,25 @@ function CreateCompany() {
   };
 
   const create = () => {
-    fetch('/corporates', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((data) => {
-        setMsg('Company created successfully!')
-        showMsg(true)
-        navigate('/')
+    setClicked(true)
+    setTimeout(() => {
+      setClicked(false)
+    }, 3000)
+    axios
+      .post('/corporates', formData, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'application/json' },
       })
-      .catch((err) => console.log(err));
+      .then((data) => {
+        setMsg('Company created successfully!');
+        setShowMsg(true);
+        navigate('/');
+      })
+      .catch((err) => {
+        setMsg(err.response.data.message);
+        setShowMsg(true);
+        setStatus('error')
+      });
   };
 
   return (
@@ -58,7 +62,7 @@ function CreateCompany() {
         </Typography>
         <CustomTextField label='Company Name' fullWidth onChange={onCompanyNameChange} />
         <CustomTextField label='Company Info' fullWidth onChange={onCompanyInfoChange} />
-        <Button variant='contained' onClick={create}>
+        <Button variant='contained' onClick={create} disabled={clicked}>
           Create
         </Button>
       </Stack>

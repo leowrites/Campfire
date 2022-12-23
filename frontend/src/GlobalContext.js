@@ -91,12 +91,15 @@ export function GlobalContextProvider({ children }) {
   const memo = useMemo(
     () => ({
       socketRef,
+      setMsg,
       showMsg,
+      setShowMsg,
       msg,
       onConnected,
       onDisconnect,
       onMessage,
       status,
+      setStatus,
       sendAcceptConnectionRequest,
       sendConnectionRequest,
       handleNotificationClose,

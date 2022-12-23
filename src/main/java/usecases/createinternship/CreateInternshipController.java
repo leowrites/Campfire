@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.ServerStatus;
+import java.security.Principal;
 
 /** The createinternship use case controller that connects to Spring. Takes in a CreateInternshipInputDS
  * request model from the user input in front-end, creates a CreateInternshipOutputDS response model by sending
@@ -31,7 +32,16 @@ public class CreateInternshipController {
      * @return a ResponseEntity holding a CreateInternshipResponseDS and an HttpStatus
      */
     @PostMapping("/corporates/{corporateId}/internships")
-    public ResponseEntity<CreateInternshipResponseDS> receiveCreateInternshipForm(@RequestBody CreateInternshipInputDS inputDS){
+    public ResponseEntity<CreateInternshipResponseDS> receiveCreateInternshipForm(
+            Principal principal,
+            @RequestBody CreateInternshipInputDS inputDS){
+        if (inputDS.getJobTitle().equals("")) {
+            CreateInternshipResponseDS responseModel = new CreateInternshipResponseDS(ServerStatus.ERROR, "Company name cannot be empty");
+            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+        } else if (!inputDS.getCreatorUsername().equals(principal.getName())) {
+            CreateInternshipResponseDS responseModel = new CreateInternshipResponseDS(ServerStatus.ERROR, "Unauthorized");
+            return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
+        }
         CreateInternshipResponseDS responseDS = this.interactor.createInternship(inputDS);
         if (responseDS.getServerStatus().equals(ServerStatus.SUCCESS)){
             return new ResponseEntity<>(responseDS, HttpStatus.OK);

@@ -54,11 +54,11 @@ public class WebSecurityConfig {
     }
 
     /**
+     * Configures a security filter chain for the application.
      *
-     * Intializes the http security for the website
-     * @param http is an instance of http security
-     * @return a SecurityFilterChain corresponding to the http Security passed in as the input
-     *
+     * @param http the HttpSecurity instance to use for configuring the security filter chain
+     * @return a fully configured SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -67,20 +67,14 @@ public class WebSecurityConfig {
                 .and()
                 .csrf()
                 .disable()
-                .authorizeHttpRequests((requests) -> requests
-                        //permit routes to / and /home
-                        .antMatchers("/", "/signup", "/login", "/ws",
-                                "/users/authenticate", "/users/reset", "/users/createInternship", "/users/test",
-                                "/users/**")
-                        .permitAll()
-                        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .antMatchers("/users/**", "/ws/**")
-                        .authenticated()
+                .authorizeHttpRequests((authorizeHttpRequests) ->
+                        authorizeHttpRequests
+                                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                                .antMatchers(HttpMethod.POST, "/**").authenticated()
+                                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 )
                 .formLogin()
                 .loginProcessingUrl("/login")
-                .successHandler(authenticationSuccessHandler)
-                .failureHandler(authenticationFailureHandler)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
