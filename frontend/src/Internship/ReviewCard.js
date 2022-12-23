@@ -29,13 +29,7 @@ export default function ReviewCard({
   const handleDelete = () => {
     console.log('called');
     axios
-      .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
-        data: {
-          internshipId: internshipId,
-          reviewId: reviewId,
-          userId: userId,
-        },
-      })
+      .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`)
       .then(() => {
         window.location.reload();
       });

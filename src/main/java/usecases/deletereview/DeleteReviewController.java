@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -31,9 +31,15 @@ public class DeleteReviewController {
      */
     @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}")
     public ResponseEntity<DeleteReviewResponseModel> createDeleteReviewRequestModel(
-            @RequestBody DeleteReviewRequestModel requestModel,
+            @PathVariable("internshipId") int internshipId,
+            @PathVariable("reviewId") int reviewId,
             Principal principal){
-        requestModel.setUserId(principal.getName());
+        // replace with factory
+        DeleteReviewRequestModel requestModel = new DeleteReviewRequestModel(
+                internshipId,
+                reviewId,
+                principal.getName()
+        );
         DeleteReviewResponseModel responseModel = interactor.deleteReview(requestModel);
         if (responseModel.getMessage().equals("Review has successfully been deleted")) {
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
