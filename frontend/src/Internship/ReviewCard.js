@@ -110,8 +110,8 @@ export default function ReviewCard({
               borderRadius: 3,
             }}
             elevation={5}>
-              <NumLikes userId={userId} reviewId={reviewId} numLikes={numLikes}></NumLikes>
-              <NumDislikes userId={userId} reviewId={reviewId} numDislikes={numDislikes}></NumDislikes>
+              <NumLikes reviewId={reviewId} numLikes={numLikes}></NumLikes>
+              <NumDislikes reviewId={reviewId} numDislikes={numDislikes}></NumDislikes>
 
           </Paper>
         </Box>

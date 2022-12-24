@@ -46,6 +46,7 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
         boolean userHasVoted = votedUsers.containsKey(userId);
 
         if (userHasVoted) {
+            System.out.println("userVoted");
             previousVote = votedUsers.get(userId);
             if (newVote.equals(previousVote)) {
                 review = HelpfulHandler.updateCount(newVote, review, "Subtraction");
@@ -53,17 +54,20 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
                 newVote = VoteDecision.NONE;
             }
             else {
+
                 review = HelpfulHandler.updateCount(previousVote, review, "Subtraction");
                 review = HelpfulHandler.updateCount(newVote, review, "Addition");
                 votedUsers.replace(userId, newVote);
             }
         }
         else {
+            System.out.println("noVote");
             votedUsers.put(userId, newVote);
             review = HelpfulHandler.updateCount(newVote, review, "Addition");
         }
 
         review.setVotedUsers(votedUsers);
+        System.out.println(votedUsers.toString());
         reviewDAO.updateReview(review, reviewId);
 
         return new HelpfulResponseModel(ServerStatus.SUCCESS, "Vote received.", newVote);

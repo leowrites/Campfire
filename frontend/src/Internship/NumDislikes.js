@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import useAuthContext from "../AuthContext";
 
-const NumDislikes = ({reviewId, userId, numDislikes}) => {
+const NumDislikes = ({reviewId, numDislikes}) => {
 
+    const authContext = useAuthContext();
+    const principal = authContext.principal;
     const [numberDislikes, setNumberDislikes] = useState(numDislikes);
 
     useEffect(()=>{
@@ -16,7 +19,7 @@ const NumDislikes = ({reviewId, userId, numDislikes}) => {
         axios.post(`/users/vote-helpful`, {
             isHelpful: "Unhelpful",
             reviewId: reviewId,
-            userId: userId
+            userId: principal.username
         }).then((res) => {
             if (res.data.status === 'SUCCESS') {
                 if (res.data.vote === 'HELPFUL'){
