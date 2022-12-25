@@ -13,6 +13,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NumLikes from './NumLikes'
 import NumDislikes from "./NumDislikes";
+import LikesPanel from './LikesPanel';
 
 export default function ReviewCard({
   reviewId,
@@ -100,22 +101,7 @@ export default function ReviewCard({
           <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
             {userId}
           </Typography>
-          <Paper
-            sx={{
-              ml: 'auto',
-              display: 'inline-flex',
-              alignItems: 'center',
-              background: 'rgba(35, 36, 35, 0.4)',
-              color: 'white',
-              px: 2,
-              py: 1,
-              borderRadius: 3,
-            }}
-            elevation={5}>
-              <NumLikes userId={userId} reviewId={reviewId} numLikes={numLikes}></NumLikes>
-              <NumDislikes userId={userId} reviewId={reviewId} numDislikes={numDislikes}></NumDislikes>
-
-          </Paper>
+          <LikesPanel numLikes={numLikes} numDislikes={numDislikes} userId={userId} reviewId={reviewId}/>
         </Box>
         <Rating
           value={rating || 0}
