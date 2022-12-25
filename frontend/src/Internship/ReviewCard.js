@@ -6,7 +6,6 @@ import axios from 'axios';
 import CommentBox from './CommentBox';
 import { useParams } from 'react-router-dom';
 import CommentCard from './CommentCard';
-import useAuthContext from '../AuthContext';
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -25,8 +24,6 @@ export default function ReviewCard({
   const [showComment, setShowComment] = useState(false);
   const [moreComments, setMoreComments] = useState([]);
   const [clickedDelete, setClickedDelete] = useState(false);
-  const authContext = useAuthContext();
-  const principal = authContext.principal;
   const handleDelete = () => {
     setClickedDelete(true);
     axios
@@ -58,31 +55,9 @@ export default function ReviewCard({
       .then((res) => setMoreComments(res.data));
   };
 
-  const postComment = (parentType, parentId, comment) => {
-    console.log(parentType, parentId, comment, reviewId);
-    axios
-      .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
-        userId: principal.username,
-        parentType: parentType,
-        parentId: parentId,
-        content: comment,
-      })
-      .then((res) => {
-        if (res.data.status === 'SUCCESS') {
-          setShowComment(false);
-          setMoreComments([
-            ...moreComments,
-            {
-              userId: principal.username,
-              id: res.data.id,
-              content: comment,
-              comments: [],
-              datePosted: res.data.datePosted,
-            },
-          ]);
-        }
-      });
-  };
+  const handleAddComments = (comment) => {
+    setMoreComments([...moreComments, comment]);
+  }
 
   return (
     <Box
@@ -139,7 +114,8 @@ export default function ReviewCard({
             handleShowCommentBox={handleShowCommentBox}
             parentType={'Review'}
             parentId={reviewId}
-            postComment={postComment}
+            reviewId={reviewId}
+            handleAddComments={handleAddComments}
           />
         </Box>
       ) : undefined}
