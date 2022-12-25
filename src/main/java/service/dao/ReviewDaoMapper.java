@@ -33,7 +33,6 @@ public class ReviewDaoMapper implements RowMapper<Review> {
         try {
             review.setId(rs.getInt("id"));
             review.setInternshipId(rs.getInt("internshipid"));
-            review.setVotedUsers(new HashMap<>());
         } catch (PSQLException e) {
             System.out.print("at ReviewDaoMapper");
             System.out.println(e);
