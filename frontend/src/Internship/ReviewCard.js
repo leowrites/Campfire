@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import axios from 'axios';
@@ -11,8 +10,6 @@ import useAuthContext from '../AuthContext';
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import NumLikes from './NumLikes'
-import NumDislikes from "./NumDislikes";
 import LikesPanel from './LikesPanel';
 
 export default function ReviewCard({
@@ -149,6 +146,7 @@ export default function ReviewCard({
 
       {moreComments.length > 0 &&
         moreComments.map((comment, i) => {
+          console.log(comment);
           return (
             <CommentCard
               key={i}
