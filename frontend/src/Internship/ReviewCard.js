@@ -13,6 +13,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NumLikes from './NumLikes'
 import NumDislikes from "./NumDislikes";
+import VoteCount from "./VoteCount"
 
 export default function ReviewCard({
   reviewId,
@@ -110,8 +111,7 @@ export default function ReviewCard({
               borderRadius: 3,
             }}
             elevation={5}>
-              <NumLikes reviewId={reviewId} numLikes={numLikes}></NumLikes>
-              <NumDislikes reviewId={reviewId} numDislikes={numDislikes}></NumDislikes>
+              <VoteCount reviewId={reviewId} numDislikes={numDislikes} numLikes={numLikes}></VoteCount>
 
           </Paper>
         </Box>

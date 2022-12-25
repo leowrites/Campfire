@@ -8,12 +8,21 @@ import service.ServerStatus;
 public class HelpfulResponseModel {
     private final ServerStatus status;
     private final String message;
-    private final VoteDecision vote;
+    private final int finalHelpfulVote;
+    private final int finalUnhelpfulVote;
 
-    public HelpfulResponseModel(ServerStatus status, String message, VoteDecision vote) {
+    private final VoteDecision voteDecision;
+
+    public HelpfulResponseModel(ServerStatus status,
+                                String message,
+                                int finalHelpfulVote,
+                                int finalUnhelpfulVote,
+                                VoteDecision voteDecision) {
         this.status = status;
         this.message = message;
-        this.vote = vote;
+        this.finalHelpfulVote = finalHelpfulVote;
+        this.finalUnhelpfulVote = finalUnhelpfulVote;
+        this.voteDecision = voteDecision;
     }
 
     public ServerStatus getStatus() {
@@ -24,7 +33,15 @@ public class HelpfulResponseModel {
         return this.message;
     }
 
-    public VoteDecision getVote() {
-        return this.vote;
+    public int getFinalHelpfulVote() {
+        return finalHelpfulVote;
+    }
+
+    public int getFinalUnhelpfulVote() {
+        return finalUnhelpfulVote;
+    }
+
+    public VoteDecision getVoteDecision() {
+        return voteDecision;
     }
 }
