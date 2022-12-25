@@ -29,6 +29,10 @@ public class CommentResponseModel {
         return this.message;
     }
 
+    public Date getDatePosted() {
+        return datePosted;
+    }
+
     public int getId() {
         return this.id;
     }

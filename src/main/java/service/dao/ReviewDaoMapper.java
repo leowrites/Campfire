@@ -9,12 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-/** The mapper for the Review data access object. Converts review data between object and Json,
- * used for SQL queries.
- */
 public class ReviewDaoMapper implements RowMapper<Review> {
 
     /** Maps the row of the ResultSet to a Review object.
@@ -33,7 +28,6 @@ public class ReviewDaoMapper implements RowMapper<Review> {
         try {
             review.setId(rs.getInt("id"));
             review.setInternshipId(rs.getInt("internshipid"));
-            review.setVotedUsers(new HashMap<>());
         } catch (PSQLException e) {
             System.out.print("at ReviewDaoMapper");
             System.out.println(e);

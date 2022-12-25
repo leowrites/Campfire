@@ -90,7 +90,7 @@ export default function InternshipPage() {
           <CommentCard
             rating={rating}
             handleShowCommentBox={handleShowCommentBox}
-            postComment={postReview}
+            postReview={postReview}
             parentType={'Internship'}
             parentId={internshipId}
           />

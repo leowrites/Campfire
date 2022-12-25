@@ -1,7 +1,7 @@
 package usecases.votehelpful;
 
 /** A request model for the votehelpful use case that frames the input data into an object. Holds
- * a boolean representation of if the review is helpful or not in isHelpful, and an int
+ * a String isHelpful corresponding to an ENUM class, and an int
  * representation of the review's id in reviewId.
  */
 public class HelpfulRequestModel {

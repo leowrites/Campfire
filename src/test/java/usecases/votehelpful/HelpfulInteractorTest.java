@@ -11,10 +11,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import service.ServerStatus;
 import service.dao.IReviewDAO;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -47,10 +47,11 @@ public class HelpfulInteractorTest {
         HelpfulRequestModel requestModel = new HelpfulRequestModel("Helpful", reviewId, "justinli");
         HelpfulResponseModel responseModel = interactor.create(requestModel);
 
+        int[] expectedVotes = {1, 0};
         // test that the interactor returns a successful response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Vote received.", responseModel.getMessage());
-        assertEquals(VoteDecision.HELPFUL, responseModel.getVote());
+        assertArrayEquals(expectedVotes, responseModel.getVotes());
 
         // test that the review was properly updated
         review = reviewDAO.getReview(reviewId);
@@ -72,10 +73,11 @@ public class HelpfulInteractorTest {
         HelpfulRequestModel requestModel = new HelpfulRequestModel("Unhelpful", reviewId, "justinli");
         HelpfulResponseModel responseModel = interactor.create(requestModel);
 
+        int[] expectedVotes = {0, 1};
         // test that the interactor returns a success response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Vote received.", responseModel.getMessage());
-        assertEquals(VoteDecision.UNHELPFUL, responseModel.getVote());
+        assertArrayEquals(expectedVotes, responseModel.getVotes());
 
         // test that the review was properly updated
         review = reviewDAO.getReview(reviewId);
@@ -96,7 +98,8 @@ public class HelpfulInteractorTest {
         interactor.create(requestModel1);
         HelpfulResponseModel responseModel = interactor.create(requestModel2);
 
-        assertEquals(VoteDecision.NONE, responseModel.getVote());
+        int[] expectedVotes = {0, 0};
+        assertArrayEquals(expectedVotes, responseModel.getVotes());
         review = reviewDAO.getReview(reviewId);
         assertEquals(0, review.getNumLikes());
         assertEquals(0, review.getVotedUsers().keySet().size());
@@ -111,7 +114,8 @@ public class HelpfulInteractorTest {
         interactor.create(requestModel1);
         HelpfulResponseModel responseModel = interactor.create(requestModel2);
 
-        assertEquals(VoteDecision.NONE, responseModel.getVote());
+        int[] expectedVotes = {0, 0};
+        assertArrayEquals(expectedVotes, responseModel.getVotes());
         review = reviewDAO.getReview(reviewId);
         assertEquals(0, review.getNumDislikes());
         assertEquals(0, review.getVotedUsers().keySet().size());

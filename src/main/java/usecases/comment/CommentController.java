@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import service.ServerStatus;
 
 /** The comment use case controller that connects to Spring. Takes in a CommentRequestModel
  * from the user input in front-end, creates a CommentResponseModel by sending the request model
@@ -26,8 +27,7 @@ public class CommentController {
     @PostMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments")
     public ResponseEntity<CommentResponseModel> create(@RequestBody CommentRequestModel requestModel) {
         CommentResponseModel responseModel = input.create(requestModel);
-        String status = responseModel.getStatus().toString();
-        if (status.equals("success")) {
+        if (responseModel.getStatus() == ServerStatus.SUCCESS) {
             return new ResponseEntity<>(responseModel, HttpStatus.OK);
         }
         else {
