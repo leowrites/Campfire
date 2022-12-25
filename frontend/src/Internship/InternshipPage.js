@@ -18,6 +18,7 @@ export default function InternshipPage() {
   const { corporateId, internshipId } = useParams();
   const [internshipDetails, setInternshipsDetails] = useState({});
   const [showCommentBox, setShowCommentBox] = useState(false);
+  const [rating, setRating] = useState(0);
   const navigate = useNavigate();
   const { principal } = useAuthContext();
   const handleShowCommentBox = () => {
@@ -80,10 +81,14 @@ export default function InternshipPage() {
           <Rating
             sx={{ mb: 2 }}
             defaultValue={0}
+            onChange={(e, newValue) => {
+              setRating(newValue)
+            }}
             icon={<FavoriteIcon fontSize='inherit' color='white' />}
             emptyIcon={<FavoriteBorderIcon fontSize={'inherit'} sx={{ color: 'white' }} />}
           />
           <CommentCard
+            rating={rating}
             handleShowCommentBox={handleShowCommentBox}
             postComment={postReview}
             parentType={'Internship'}

@@ -1,24 +1,28 @@
 import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAuthContext from '../AuthContext';
 import axios from 'axios';
-import useTheme from '@mui/material/styles/useTheme';
 import CustomTextField from '../Component/CustomTextfield';
+import useGlobal from '../GlobalContext'
 
 export default function AddInternshipForm() {
   // get form data
   const { corporateId } = useParams();
   const [title, setTitle] = useState('');
+  const [clicked, setClicked] = useState(false)
   const navigate = useNavigate();
   const { principal } = useAuthContext()
-  const theme = useTheme();
+  const { setMsg, setShowMsg, setStatus } = useGlobal()
 
   // make request to backend using axios
   const handleSubmit = () => {
+      setClicked(true)
+      setTimeout(() => {
+          setClicked(false)
+      }, 3000)
     axios
       .post(`/corporates/${corporateId}/internships`, {
         jobTitle: title,
@@ -29,7 +33,12 @@ export default function AddInternshipForm() {
         console.log(data);
         // redirect to back to corporate page
         navigate(`/corporates/${corporateId}`);
-      });
+      })
+      .catch((err) => {
+        setMsg(err.response.data.message)
+        setShowMsg(true)
+        setStatus('error')
+      })
   };
 
   return (
@@ -42,7 +51,7 @@ export default function AddInternshipForm() {
         variant='filled'
         sx={{ width: '100%' }}
       />
-      <Button variant='contained' sx={{ mt: 2 }} color='primary' onClick={handleSubmit}>
+      <Button variant='contained' sx={{ mt: 2 }} color='primary' onClick={handleSubmit} disabled={clicked}>
         Submit
       </Button>
     </Box>

@@ -38,6 +38,12 @@ public class WebSecurityConfig {
     @Autowired
     AuthenticationFailureHandler authenticationFailureHandler;
 
+    /**
+     *
+     * Initialize an instance of AuthenticationManager
+     * @param http is an instance of http security
+     * @return an instance of AAuthenticationManager based on HttpSecurity passed as input
+     */
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
@@ -47,6 +53,13 @@ public class WebSecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
+    /**
+     * Configures a security filter chain for the application.
+     *
+     * @param http the HttpSecurity instance to use for configuring the security filter chain
+     * @return a fully configured SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -54,20 +67,14 @@ public class WebSecurityConfig {
                 .and()
                 .csrf()
                 .disable()
-                .authorizeHttpRequests((requests) -> requests
-                        //permit routes to / and /home
-                        .antMatchers("/", "/signup", "/login", "/ws",
-                                "/users/authenticate", "/users/reset", "/users/createInternship", "/users/test",
-                                "/users/**")
-                        .permitAll()
-                        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .antMatchers("/users/**", "/ws/**")
-                        .authenticated()
+                .authorizeHttpRequests((authorizeHttpRequests) ->
+                        authorizeHttpRequests
+                                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                                .antMatchers(HttpMethod.POST, "/**").authenticated()
+                                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 )
                 .formLogin()
                 .loginProcessingUrl("/login")
-                .successHandler(authenticationSuccessHandler)
-                .failureHandler(authenticationFailureHandler)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -85,6 +92,11 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     *
+     * Initializes the configuration of the webapp
+     * @return an instance of CorsConfigurationSource with default values
+     */
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
@@ -97,6 +109,12 @@ public class WebSecurityConfig {
         return source;
     }
 
+    /**
+     *
+     * Initializes the Authentication that is needed for the use case
+     * @return an instance of AuthenticationProvider with the corresponding UserDetails and password encrypted
+     *
+     */
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
