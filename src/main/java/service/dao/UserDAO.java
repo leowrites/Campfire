@@ -60,6 +60,11 @@ public class UserDAO implements IUserDAO {
         }
     }
 
+    @Override
+    public User save(User user) {
+        return null;
+    }
+
     /** Updates a User object.
      * @param user the new User object
      */
@@ -77,12 +82,5 @@ public class UserDAO implements IUserDAO {
     /** Resets the database of User objects and their connections and connection requests.
      */
     public void reset() {
-        ArrayList<User> users = getUsers();
-        for (User user : users){
-            user.setConnections(new ArrayList<>());
-            user.setOutgoingConnectionRequests((new ArrayList<>()));
-            user.setIncomingConnectionRequests(new ArrayList<>());
-            updateUser(user);
-        }
     }
 }
