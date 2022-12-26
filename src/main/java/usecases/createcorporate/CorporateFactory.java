@@ -1,6 +1,7 @@
 package usecases.createcorporate;
 
 import entity.Corporate;
+import entity.User;
 
 /** A class in the createcorporate use case that serves to create Corporate objects as a factory.
  */
@@ -14,7 +15,7 @@ public class CorporateFactory {
      * @return a Corporate object that is newly created
      */
 
-    public Corporate create(String rep, String companyName, String companyInfo) {
+    public Corporate create(User rep, String companyName, String companyInfo) {
         return new Corporate(rep, companyName, companyInfo);
     }
 
