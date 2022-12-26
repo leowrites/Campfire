@@ -1,9 +1,10 @@
 package usecases.acceptconnect;
 
+import entity.User;
 import service.ServerStatus;
 import usecases.requestconnect.Action;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /** A response model for the acceptconnect use case specificcally for users that frames the output
  * data into an object. Holds a String message to go with the status in message, the ServerStatus
@@ -17,18 +18,18 @@ import java.util.ArrayList;
 public class AcceptConnectionUserResponseModel {
     private final String message;
     private final ServerStatus serverStatus;
-    private final ArrayList<String> incomingConnectionRequests;
-    private final ArrayList<String> outgoingConnectionRequests;
-    private final ArrayList<String> connections;
+    private final List<User> incomingConnectionRequests;
+    private final List<User> outgoingConnectionRequests;
+    private final List<User> connections;
     private final String userId;
     private final String targetId;
     private final Action action;
 
     public AcceptConnectionUserResponseModel(String message, ServerStatus serverStatus,
-                                              ArrayList<String> incomingConnectionRequests,
-                                              ArrayList<String> outgoingConnectionRequests,
-                                              ArrayList<String> connections, String userId,
-                                              String targetId, Action action) {
+                                             List<User> incomingConnectionRequests,
+                                             List<User> outgoingConnectionRequests,
+                                             List<User> connections, String userId,
+                                             String targetId, Action action) {
         this.serverStatus = serverStatus;
         this.message = message;
         this.userId = userId;
@@ -43,8 +44,28 @@ public class AcceptConnectionUserResponseModel {
         return message;
     }
 
-    public ArrayList<String> getIncomingConnectionRequests() {
+    public List<User> getIncomingConnectionRequests() {
         return incomingConnectionRequests;
+    }
+
+    public ServerStatus getServerStatus() {
+        return serverStatus;
+    }
+
+    public List<User> getOutgoingConnectionRequests() {
+        return outgoingConnectionRequests;
+    }
+
+    public List<User> getConnections() {
+        return connections;
+    }
+
+    public String getTargetId() {
+        return targetId;
+    }
+
+    public Action getAction() {
+        return action;
     }
 
     public String getUserId() {

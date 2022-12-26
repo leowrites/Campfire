@@ -51,7 +51,7 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
                         ServerStatus.SUCCESS,
                         user.getIncomingConnectionRequests(),
                         user.getOutgoingConnectionRequests(),
-                        user.getConnections(),
+                        user.getConnectedUsers(),
                         userId,
                         targetId,
                         Action.OUTGOING_CONNECT_ACCEPT),
@@ -60,7 +60,7 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
                         ServerStatus.SUCCESS,
                         target.getIncomingConnectionRequests(),
                         target.getOutgoingConnectionRequests(),
-                        target.getConnections(),
+                        target.getConnectedUsers(),
                         targetId,
                         userId,
                         Action.INCOMING_CONNECT_ACCEPT)

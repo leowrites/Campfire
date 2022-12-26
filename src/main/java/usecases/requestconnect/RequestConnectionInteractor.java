@@ -56,7 +56,7 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
                         ServerStatus.SUCCESS,
                         user.getIncomingConnectionRequests(),
                         user.getOutgoingConnectionRequests(),
-                        user.getConnections(),
+                        user.getConnectedUsers(),
                         userId,
                         targetId,
                         Action.OUTGOING_CONNECT_REQUEST),
@@ -65,7 +65,7 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
                         ServerStatus.SUCCESS,
                         target.getIncomingConnectionRequests(),
                         target.getOutgoingConnectionRequests(),
-                        target.getConnections(),
+                        target.getConnectedUsers(),
                         targetId,
                         userId,
                         Action.INCOMING_CONNECT_REQUEST)

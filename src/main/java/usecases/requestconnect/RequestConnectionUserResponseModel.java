@@ -1,23 +1,24 @@
 package usecases.requestconnect;
 
+import entity.User;
 import service.ServerStatus;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class RequestConnectionUserResponseModel {
     private final String message;
     private final ServerStatus serverStatus;
-    private ArrayList<String> incomingConnectionRequests;
-    private ArrayList<String> outgoingConnectionRequests;
-    private ArrayList<String> connections;
+    private List<User> incomingConnectionRequests;
+    private List<User> outgoingConnectionRequests;
+    private List<User> connections;
     private String userId;
     private String targetId;
     private Action action;
 
     public RequestConnectionUserResponseModel(String message, ServerStatus serverStatus,
-                                              ArrayList<String> incomingConnectionRequests,
-                                              ArrayList<String> outgoingConnectionRequests,
-                                              ArrayList<String> connections, String userId,
+                                              List<User> incomingConnectionRequests,
+                                              List<User> outgoingConnectionRequests,
+                                              List<User> connections, String userId,
                                               String targetId, Action action) {
         this.serverStatus = serverStatus;
         this.message = message;
@@ -38,15 +39,15 @@ public class RequestConnectionUserResponseModel {
         return message;
     }
 
-    public ArrayList<String> getIncomingConnectionRequests() {
+    public List<User> getIncomingConnectionRequests() {
         return incomingConnectionRequests;
     }
 
-    public ArrayList<String> getOutgoingConnectionRequests() {
+    public List<User> getOutgoingConnectionRequests() {
         return outgoingConnectionRequests;
     }
 
-    public ArrayList<String> getConnections() {
+    public List<User> getConnections() {
         return connections;
     }
 
