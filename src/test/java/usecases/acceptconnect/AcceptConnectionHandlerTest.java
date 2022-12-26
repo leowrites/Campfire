@@ -32,13 +32,13 @@ public class AcceptConnectionHandlerTest {
         user = new User("leo", "leo@gmail.com", "pass", "Leo");
         target = new User("justin", "justin@gmail.com", "pass", "Justin");
         acceptConnectionHandler = new AcceptConnectionHandler(user, target, userDAO);
+        userDAO.saveUser(user);
+        userDAO.saveUser(target);
     }
 
     @Test
     @Transactional
     public void testAcceptConnectionWithValidInputs() {
-        userDAO.saveUser(user);
-        userDAO.saveUser(target);
         user.getIncomingConnectionRequests().add(target);
         target.getOutgoingConnectionRequests().add(user);
         userDAO.saveUser(user);
@@ -61,8 +61,6 @@ public class AcceptConnectionHandlerTest {
     @Test
     @Transactional
     public void testAcceptConnectionThrowsUserAlreadyConnectedException() {
-        userDAO.saveUser(user);
-        userDAO.saveUser(target);
         user.getConnectedUsers().add(target);
         target.getConnectedUsers().add(user);
         userDAO.saveUser(user);
@@ -76,8 +74,6 @@ public class AcceptConnectionHandlerTest {
     @Test
     @Transactional
     public void testAcceptConnectionThrowsNoRequestFoundException() {
-        userDAO.saveUser(user);
-        userDAO.saveUser(target);
         Throwable exception = assertThrows(NoRequestFoundException.class, () ->
                 acceptConnectionHandler.acceptConnection());
         assertEquals(String.format("No request from %s found!", target.getUsername()), exception.getMessage());
