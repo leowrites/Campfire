@@ -12,7 +12,9 @@ import usecases.createcorporate.exceptions.CompanyNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /** A data access object for the Corporate database.
  */
@@ -33,7 +35,7 @@ public class CorporateDAO implements ICorporateDAO {
      * @throws CompanyNotFoundException when the company with name companyName does not exist
      */
     @Override
-    public Corporate getCorporate(String companyName) throws CompanyNotFoundException {
+    public Corporate get(String companyName) throws CompanyNotFoundException {
         try {
             return jdbcTemplate.queryForObject(SELECT_QUERY, new CorporateDaoMapper(), companyName);
         }
@@ -48,7 +50,7 @@ public class CorporateDAO implements ICorporateDAO {
      * @return the Corporate object with id corporateId
      * @throws CompanyNotFoundException thrown when the company with id corporateId does not exist
      */
-    public Corporate getCorporate(int corporateId) throws CompanyNotFoundException {
+    public Corporate get(UUID corporateId) throws CompanyNotFoundException {
         try {
             return jdbcTemplate.queryForObject(SELECT_QUERY_BY_ID, new CorporateDaoMapper(), corporateId);
         }
@@ -62,7 +64,7 @@ public class CorporateDAO implements ICorporateDAO {
      * @return an ArrayList of all Corporate objects
      */
     @Override
-    public ArrayList<Corporate> getAllCorporates() {
+    public List<Corporate> getAllCorporates() {
         return (ArrayList<Corporate>) jdbcTemplate.query(QUERY_ALL, new CorporateDaoMapper());
     }
 
@@ -70,7 +72,6 @@ public class CorporateDAO implements ICorporateDAO {
      * @param corporate the Corporate object to be stored
      * @return an int representing the id of the Corporate object in the table
      */
-    @Override
     public int saveCorporate(Corporate corporate) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         try {
@@ -88,6 +89,17 @@ public class CorporateDAO implements ICorporateDAO {
             System.out.println("There was an error in the JSON processing.");
             return 0;
         }
+    }
+
+    /**
+     * Saves a new Corporate object.
+     *
+     * @param corporate the Corporate object to be stored
+     * @return the saved Corporate object
+     */
+    @Override
+    public Corporate save(Corporate corporate) {
+        return null;
     }
 
     /** Checks the Corporate database to see if the Corporate object with name companyName exists.
@@ -110,7 +122,6 @@ public class CorporateDAO implements ICorporateDAO {
      * @param corporate the new Corporate object
      * @param corporateId the id of the Corporate object to be updated
      */
-    @Override
     public void updateCorporate(Corporate corporate, int corporateId) {
         try {
             ObjectMapper m = new ObjectMapper();
@@ -121,5 +132,16 @@ public class CorporateDAO implements ICorporateDAO {
         catch (JsonProcessingException e) {
             System.out.println("There was an error in the JSON processing.");
         }
+    }
+
+    /**
+     * Updates a Corporate object.
+     *
+     * @param corporate   the new Corporate object
+     * @param corporateId the id of the Corporate object to be updated
+     */
+    @Override
+    public Corporate update(Corporate corporate, UUID corporateId) {
+        return null;
     }
 }
