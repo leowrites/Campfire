@@ -1,5 +1,6 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,14 +14,17 @@ public class User implements Serializable {
 
     @OneToMany
     @CollectionTable(joinColumns = @JoinColumn(name = "FK_USERNAME"))
+    @JsonIgnoreProperties({"connectedUsers", "incomingConnectionRequests", "outgoingConnectionRequests"})
     private List<User> connectedUsers;
 
     @OneToMany
     @CollectionTable(joinColumns = @JoinColumn(name = "FK_USERNAME"))
+    @JsonIgnoreProperties({"connectedUsers", "incomingConnectionRequests", "outgoingConnectionRequests"})
     private List<User> incomingConnectionRequests;
 
     @OneToMany
     @CollectionTable(joinColumns = @JoinColumn(name = "FK_USERNAME"))
+    @JsonIgnoreProperties({"connectedUsers", "incomingConnectionRequests", "outgoingConnectionRequests"})
     private List<User> outgoingConnectionRequests;
     @Column
     private String name;
