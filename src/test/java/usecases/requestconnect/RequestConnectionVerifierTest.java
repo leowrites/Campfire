@@ -22,30 +22,30 @@ class RequestConnectionVerifierTest {
 
     @Test
     void testCheckAlreadyConnectedAlreadyConnected() {
-        user1.getConnections().add(user2.getUsername());
-        user2.getConnections().add(user1.getUsername());
+        user1.getConnectedUsers().add(user2);
+        user2.getConnectedUsers().add(user1);
         Throwable exception = assertThrows(UserAlreadyConnectedException.class, () -> verifier.checkAlreadyConnected());
         assertEquals("You are already connected!", exception.getMessage());
     }
 
     @Test
     void testCheckPendingRequestExists() {
-        user2.getIncomingConnectionRequests().add(user1.getUsername());
+        user2.getIncomingConnectionRequests().add(user1);
         Throwable exception = assertThrows(PendingRequestExistsException.class, () -> verifier.checkPendingRequest());
         assertEquals("Pending request!", exception.getMessage());
     }
 
     @Test
     void testCheckIncomingRequestIncomingRequestExists() {
-        user1.getIncomingConnectionRequests().add(user2.getUsername());
+        user1.getIncomingConnectionRequests().add(user2);
         Throwable exception = assertThrows(IncomingRequestException.class, () -> verifier.checkIncomingRequest());
         assertEquals(String.format("You have a request from %s", user2.getUsername()), exception.getMessage());
     }
 
     @Test
     void testVerifyAlreadyConnected() {
-        user1.getConnections().add(user2.getUsername());
-        user2.getConnections().add(user1.getUsername());
+        user1.getConnectedUsers().add(user2);
+        user2.getConnectedUsers().add(user1);
         Throwable exception = assertThrows(UserAlreadyConnectedException.class, () -> verifier.checkAlreadyConnected());
         assertEquals("You are already connected!", exception.getMessage());
     }
