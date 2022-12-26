@@ -20,6 +20,8 @@ public interface IUserDAO {
      */
     void saveUser(User user);
 
+    User save(User user);
+
     /** Updates a User object.
      * @param user the new User object
      */

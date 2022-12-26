@@ -65,10 +65,15 @@ public class WebSecurityConfig {
         http
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
+                .and()
                 .csrf()
                 .disable()
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
+                                .antMatchers("/h2-console/**").permitAll()
                                 .antMatchers(HttpMethod.GET, "/**").permitAll()
                                 .antMatchers(HttpMethod.POST, "/**").authenticated()
                                 .antMatchers(HttpMethod.POST, "/login").permitAll()
