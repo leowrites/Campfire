@@ -3,7 +3,8 @@ package service.dao;
 import entity.Corporate;
 import usecases.createcorporate.exceptions.CompanyNotFoundException;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /** An interface for the Corporate data access object.
  */
@@ -14,25 +15,25 @@ public interface ICorporateDAO {
      * @return the Corporate object with name companyName
      * @throws CompanyNotFoundException when the company with name companyName does not exist
      */
-    Corporate getCorporate(String companyName) throws CompanyNotFoundException;
+    Corporate get(String companyName) throws CompanyNotFoundException;
 
     /** Gets a Corporate object based on its id.
      * @param corporateId the id of the Corporate object
      * @return the Corporate object with id corporateId
      * @throws CompanyNotFoundException thrown when the company with id corporateId does not exist
      */
-    Corporate getCorporate(int corporateId) throws CompanyNotFoundException;
+    Corporate get(UUID corporateId) throws CompanyNotFoundException;
 
     /** Gets all the Corporate objects in the database.
      * @return an ArrayList of all Corporate objects
      */
-    ArrayList<Corporate> getAllCorporates();
+    List<Corporate> getAllCorporates();
 
     /** Saves a new Corporate object.
      * @param corporate the Corporate object to be stored
-     * @return an int representing the id of the Corporate object
+     * @return the saved Corporate object
      */
-    int saveCorporate(Corporate corporate);
+    Corporate save(Corporate corporate);
 
     /** Checks to see if the Corporate object with name companyName exists.
      * @param companyName the name of the company
@@ -44,5 +45,5 @@ public interface ICorporateDAO {
      * @param corporate the new Corporate object
      * @param corporateId the id of the Corporate object to be updated
      */
-    void updateCorporate(Corporate corporate, int corporateId);
+    Corporate update(Corporate corporate, UUID corporateId);
 }
