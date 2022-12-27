@@ -67,6 +67,7 @@ public class CorporateGenerateInteractorTest {
     @Transactional
     public void testCreateCorporatePageIfUserIsNotCorporateRep() {
         User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
+        rep.setCorporateRep(false);
         userDAO.save(rep);
         CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("justinli",
                 "Apple", "Founded by Steve Jobs.");

@@ -100,6 +100,7 @@ public class DeleteCommentInteractorTest {
     }
 
     @Test
+    @Transactional
     public void testDeleteCommentNotAuthorized() {
         User user1 = new User();
         user1.setUsername("leo");

@@ -27,14 +27,7 @@ public class SignUpInteractorTest {
 
     @BeforeEach
     public void init() {
-        signUpInteractor= new SignUpInteractor(userDAO);
-        jdbcTemplate.execute("DROP TABLE IF EXISTS users");
-        jdbcTemplate.execute("CREATE TABLE users (id serial primary key, username varchar, data varchar)");
-    }
-
-    @AfterEach
-    public void cleanUp() {
-        jdbcTemplate.execute("DELETE FROM users");
+        signUpInteractor = new SignUpInteractor(userDAO);
     }
 
     //Test validateInputs with a weak password
