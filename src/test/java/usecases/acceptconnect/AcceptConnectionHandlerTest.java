@@ -1,13 +1,14 @@
 package usecases.acceptconnect;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import entity.User;
 import main.Application;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import service.dao.IUserDAO;
 import usecases.acceptconnect.exceptions.NoRequestFoundException;
 import usecases.requestconnect.exceptions.UserAlreadyConnectedException;
@@ -22,8 +23,6 @@ public class AcceptConnectionHandlerTest {
 
     @Autowired
     private IUserDAO userDAO;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
     private AcceptConnectionHandler acceptConnectionHandler;
     private User user;
     private User target;
@@ -33,18 +32,15 @@ public class AcceptConnectionHandlerTest {
         user = new User("leo", "leo@gmail.com", "pass", "Leo");
         target = new User("justin", "justin@gmail.com", "pass", "Justin");
         acceptConnectionHandler = new AcceptConnectionHandler(user, target, userDAO);
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users (username varchar(50) primary key, data varchar)");
-    }
-
-    @AfterEach
-    public void cleanUp() {
-        jdbcTemplate.execute("DELETE FROM users");
+        userDAO.saveUser(user);
+        userDAO.saveUser(target);
     }
 
     @Test
+    @Transactional
     public void testAcceptConnectionWithValidInputs() {
-        user.getIncomingConnectionRequests().add(target.getUsername());
-        target.getOutgoingConnectionRequests().add(user.getUsername());
+        user.getIncomingConnectionRequests().add(target);
+        target.getOutgoingConnectionRequests().add(user);
         userDAO.saveUser(user);
         userDAO.saveUser(target);
         try {
@@ -55,17 +51,18 @@ public class AcceptConnectionHandlerTest {
         try {
             User dbUser = userDAO.getUser(user.getUsername());
             User dbTarget = userDAO.getUser(target.getUsername());
-            assertEquals(target.getUsername(), dbUser.getConnections().get(0));
-            assertEquals(user.getUsername(), dbTarget.getConnections().get(0));
+            assertThat(user).usingRecursiveComparison().isEqualTo(dbUser);
+            assertThat(target).usingRecursiveComparison().isEqualTo(dbTarget);
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Test
+    @Transactional
     public void testAcceptConnectionThrowsUserAlreadyConnectedException() {
-        user.getConnections().add(target.getUsername());
-        target.getConnections().add(user.getUsername());
+        user.getConnectedUsers().add(target);
+        target.getConnectedUsers().add(user);
         userDAO.saveUser(user);
         userDAO.saveUser(target);
         Throwable exception = assertThrows(UserAlreadyConnectedException.class, () ->
@@ -75,8 +72,8 @@ public class AcceptConnectionHandlerTest {
     }
 
     @Test
+    @Transactional
     public void testAcceptConnectionThrowsNoRequestFoundException() {
-        userDAO.saveUser(user);
         Throwable exception = assertThrows(NoRequestFoundException.class, () ->
                 acceptConnectionHandler.acceptConnection());
         assertEquals(String.format("No request from %s found!", target.getUsername()), exception.getMessage());

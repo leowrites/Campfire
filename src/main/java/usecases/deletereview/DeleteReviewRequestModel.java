@@ -1,30 +1,32 @@
 package usecases.deletereview;
 
+import java.util.UUID;
+
 /**
  * The DeleteReviewRequestModel class represents a request to delete a review.
  * It contains information about the internship for which the review was written and the review itself.
  */
 public class DeleteReviewRequestModel {
 
-    private final int internshipId;
+    private final UUID internshipId;
 
-    private final int reviewId;
+    private final UUID reviewId;
 
     private String userId;
 
-    public DeleteReviewRequestModel(int internshipId,
-                                    int reviewId,
+    public DeleteReviewRequestModel(UUID internshipId,
+                                    UUID reviewId,
                                     String userId){
         this.internshipId = internshipId;
         this.reviewId = reviewId;
         this.userId = userId;
     }
 
-    public int getInternshipId(){
+    public UUID getInternshipId(){
         return this.internshipId;
     }
 
-    public int getReviewId(){
+    public UUID getReviewId(){
         return this.reviewId;
     }
 

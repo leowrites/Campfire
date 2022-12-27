@@ -1,6 +1,8 @@
 package usecases.createcorporate;
 import service.ServerStatus;
 
+import java.util.UUID;
+
 /** A response model for the createcorporate use case that frames the output data into an object.
  * Holds a String message to go with the status in message, the ServerStatus status of the corporate
  * creation done in CorporateGenerateInteractor in status, and an int representation of the
@@ -9,7 +11,7 @@ import service.ServerStatus;
 public class CorporateGenerateResponseModel {
     private final String message;
     private final ServerStatus status;
-    private final int corporateId;
+    private UUID corporateId;
 
     /** A constructor for CorporateGeneralResponseModel that takes in only two parameters, status
      * and message.
@@ -19,7 +21,6 @@ public class CorporateGenerateResponseModel {
     public CorporateGenerateResponseModel(ServerStatus status, String message) {
         this.status = status;
         this.message = message;
-        this.corporateId = 0;
     }
 
     /** A constructor for CorporateGeneralResponseModel that takes in all three parameters, status,
@@ -28,7 +29,7 @@ public class CorporateGenerateResponseModel {
      * @param message the message to go with the status
      * @param corporateId the id of the corporate
      */
-    public CorporateGenerateResponseModel(ServerStatus status, String message, int corporateId) {
+    public CorporateGenerateResponseModel(ServerStatus status, String message, UUID corporateId) {
         this.status = status;
         this.message = message;
         this.corporateId = corporateId;
@@ -42,7 +43,7 @@ public class CorporateGenerateResponseModel {
         return this.message;
     }
 
-    public int getCorporateId() {
+    public UUID getCorporateId() {
         return this.corporateId;
     }
 }

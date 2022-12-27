@@ -11,7 +11,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+
 import usecases.comment.exceptions.ReviewNotFoundException;
 
 public class ReviewDAO implements IReviewDAO{
@@ -40,6 +43,11 @@ public class ReviewDAO implements IReviewDAO{
             System.out.println("No review found.");
             return null;
         }
+    }
+
+    @Override
+    public Review getReview(UUID reviewID) throws ReviewNotFoundException {
+        return null;
     }
 
     /**
@@ -88,6 +96,12 @@ public class ReviewDAO implements IReviewDAO{
         }
         return 0;
     }
+
+    @Override
+    public Review save(Review review) {
+        return null;
+    }
+
     /**
      * Updates a review
      *
@@ -106,6 +120,11 @@ public class ReviewDAO implements IReviewDAO{
         }
     }
 
+    @Override
+    public Review update(Review review) {
+        return null;
+    }
+
     /**
      * Deletes a review.
      * @param reviewId the id of the comment to be deleted
@@ -121,6 +140,11 @@ public class ReviewDAO implements IReviewDAO{
     }
 
     @Override
+    public void delete(UUID reviewId) {
+
+    }
+
+    @Override
     public ArrayList<Review> getReviewsByInternship(int internshipId) throws ReviewNotFoundException {
         try {
             return (ArrayList<Review>) jdbcTemplate.query(QUERY_BY_INTERNSHIP_ID, new ReviewDaoMapper(),
@@ -129,5 +153,10 @@ public class ReviewDAO implements IReviewDAO{
             System.out.println("No reviews under" + internshipId + " found");
             throw new ReviewNotFoundException("No reviews under internship" + internshipId + " found");
         }
+    }
+
+    @Override
+    public List<Review> getReviewsByInternship(UUID internshipId) throws ReviewNotFoundException {
+        return null;
     }
 }

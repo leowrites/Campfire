@@ -4,6 +4,9 @@ import entity.Comment;
 import entity.IUserPost;
 import service.dao.ICommentDAO;
 import usecases.comment.exceptions.ParentNotFoundException;
+import usecases.exceptions.CommentNotFoundException;
+
+import java.util.UUID;
 
 /** One of the operations strategy classes in the comment use case, for Comments. Takes in an
  * object that implements ICommentDAO to access the comment database through.
@@ -21,12 +24,12 @@ public class CommentOperations implements IParentOperationsStrategy {
      * @throws ParentNotFoundException thrown when the parent with id parentId cannot be found
      */
     @Override
-    public IUserPost getParent(int parentId) throws ParentNotFoundException {
-        Comment comment = commentDAO.getComment(parentId);
-        if (comment == null) {
+    public IUserPost getParent(UUID parentId) throws ParentNotFoundException {
+        try {
+            return commentDAO.getComment(parentId);
+        } catch (CommentNotFoundException e) {
             throw new ParentNotFoundException("Comment does not exist.");
         }
-        return comment;
     }
 
     /** Updates the corresponding database with the parent object and its id.
@@ -36,6 +39,11 @@ public class CommentOperations implements IParentOperationsStrategy {
     @Override
     public void updateParent(IUserPost parent, int parentId) {
         commentDAO.updateComment((Comment) parent, parentId);
+    }
+
+    @Override
+    public void updateParent(IUserPost parent) {
+        commentDAO.save((Comment) parent);
     }
 
 }

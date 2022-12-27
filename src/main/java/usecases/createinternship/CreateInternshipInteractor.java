@@ -9,7 +9,8 @@ import service.dao.ICorporateDAO;
 import service.dao.IUserDAO;
 import service.dao.IInternshipDAO;
 import service.ServerStatus;
-import java.util.ArrayList;
+import usecases.createcorporate.exceptions.CompanyNotFoundException;
+import usecases.requestconnect.exceptions.UserNotFoundException;
 
 /** The createinternship use case interactor that calls the createInternship method from the
  * CreateInternshipInputBoundary input boundary. When initialized, takes in an object that
@@ -42,25 +43,21 @@ public class CreateInternshipInteractor implements CreateInternshipInputBoundary
         try {
             //check if user has right to create a company
             User creator = userDataAccess.getUser(inputDS.getCreatorUsername());
-            System.out.println(creator.getUsername());
-            System.out.println(creator.getAccessLevel());
             if (!creator.getCorporateRep()){
                 // if user is not a corporate rep, return failure.
                 return new CreateInternshipResponseDS(ServerStatus.ERROR, "not authorized to create new internship");
             }
             // create a new internship
-            Internship internship = new Internship(inputDS.getCompanyID(), new ArrayList<>(),
+            Internship internship = new Internship(inputDS.getCompanyID(),
                     inputDS.getJobTitle(), inputDS.getCreatorUsername());
+            Internship savedInternship = internshipDataAccess.save(internship);
 
-            int internshipId = internshipDataAccess.saveInternshipAndReturnId(internship);
-            Corporate corporate = corporateDAO.getCorporate(inputDS.getCompanyID());
-            corporate.getInternships().add(internshipId);
-            corporateDAO.updateCorporate(corporate, corporate.getId());
-
+            Corporate corporate = corporateDAO.get(inputDS.getCompanyID());
+            corporate.getInternships().add(savedInternship);
+            corporateDAO.save(corporate);
             return new CreateInternshipResponseDS(ServerStatus.SUCCESS, "success");
-        } catch (Exception e){
+        } catch (UserNotFoundException | CompanyNotFoundException e){
             return new CreateInternshipResponseDS(ServerStatus.ERROR, e.getMessage());
         }
     }
-
 }

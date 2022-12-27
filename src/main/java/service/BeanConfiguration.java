@@ -35,8 +35,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public IPostReview createPostReviewInteractor(IReviewDAO reviewDAO, IInternshipDAO internshipDAO, PostReviewFactory reviewFactory) {
-        return new PostReview(reviewDAO, internshipDAO, reviewFactory);
+    public IPostReview createPostReviewInteractor(IReviewDAO reviewDAO, IInternshipDAO internshipDAO, IUserDAO userDAO, PostReviewFactory reviewFactory) {
+        return new PostReview(reviewDAO, internshipDAO, userDAO, reviewFactory);
     }
 
     @Bean
@@ -55,8 +55,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ICommentInputBoundary commentInput(IReviewDAO reviewDAO, ICommentDAO commentDAO, CommentFactory commentFactory) {
-        return new CommentInteractor(reviewDAO, commentDAO, commentFactory);
+    public ICommentInputBoundary commentInput(IReviewDAO reviewDAO, ICommentDAO commentDAO, IUserDAO userDAO, CommentFactory commentFactory) {
+        return new CommentInteractor(reviewDAO, commentDAO, userDAO, commentFactory);
     }
 
     @Bean

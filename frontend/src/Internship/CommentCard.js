@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -19,7 +19,7 @@ export default function CommentCard({
 }) {
   const { corporateId, internshipId } = useParams();
   const [showComment, setShowComment] = useState(false);
-  const [moreComments, setMoreComments] = useState([]);
+  const [moreComments, setMoreComments] = useState(comments);
   const [clickedDelete, setClickedDelete] = useState(false);
   const { principal } = useAuthContext();
   const handleDelete = () => {
@@ -46,16 +46,6 @@ export default function CommentCard({
     setShowComment(!showComment);
   };
 
-  useEffect(() => {
-    fetchComments();
-  }, []);
-
-  const fetchComments = () => {
-    axios
-      .get(`/corporates/${corporateId}/internships/${internshipId}/reviews/${commentId}`)
-      .then((res) => setMoreComments(res.data));
-  };
-
   const postComment = (parentType, parentId, comment) => {
     console.log(parentType, parentId, comment, reviewId);
     axios
@@ -71,7 +61,9 @@ export default function CommentCard({
           setMoreComments([
             ...moreComments,
             {
-              userId: principal.username,
+              user: {
+                username: principal.username
+              },
               id: res.data.id,
               content: comment,
               comments: [],
@@ -135,10 +127,10 @@ export default function CommentCard({
               parentType={'Comment'}
               commentId={comment.id}
               parentId={commentId}
-              userId={comment.userId}
+              userId={comment.user.username}
               content={comment.content}
               datePosted={comment.datePosted}
-              comments={comments}
+              comments={comment.comments}
             />
           );
         })}

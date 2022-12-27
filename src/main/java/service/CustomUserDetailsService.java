@@ -6,14 +6,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import entity.User;
-import service.dao.UserDAO;
+import service.dao.IUserDAO;
 import usecases.requestconnect.exceptions.UserNotFoundException;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserDAO userDataAccess;
+    private IUserDAO userDataAccess;
 
     /**
      *

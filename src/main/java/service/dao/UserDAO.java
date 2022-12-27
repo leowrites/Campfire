@@ -50,6 +50,11 @@ public class UserDAO implements IUserDAO {
         }
     }
 
+    @Override
+    public User save(User user) {
+        return null;
+    }
+
     /** Updates a User object.
      * @param user the new User object
      */
@@ -62,5 +67,10 @@ public class UserDAO implements IUserDAO {
         } catch(JsonProcessingException e){
             System.out.println("Json process error!");
         }
+    }
+
+    /** Resets the database of User objects and their connections and connection requests.
+     */
+    public void reset() {
     }
 }

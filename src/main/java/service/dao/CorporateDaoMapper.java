@@ -27,7 +27,6 @@ public class CorporateDaoMapper implements RowMapper<Corporate> {
         Gson gson = new Gson();
         JsonObject object = (JsonObject) JsonParser.parseString(corporateData);
         Corporate corporate = gson.fromJson(object, Corporate.class);
-        corporate.setId(rs.getInt("id"));
         return corporate;
     }
 }

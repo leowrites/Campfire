@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.UUID;
 
 /** The deletecomment use case controller that connects to Spring. Takes in a
  * DeleteCommentRequestModel from the user input in front-end, creates a
@@ -30,7 +31,7 @@ public class DeleteCommentController {
     @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments/{commentId}")
     public ResponseEntity<DeleteCommentResponseModel> deleteComment(
             @RequestBody DeleteCommentRequestModel requestModel,
-            @PathVariable("commentId") int commentId,
+            @PathVariable("commentId") UUID commentId,
             Principal principal){
 
         // this is a temporary fix, this check will go after we start using Spring authorization

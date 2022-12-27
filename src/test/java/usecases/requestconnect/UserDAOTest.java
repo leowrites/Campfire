@@ -2,14 +2,12 @@ package usecases.requestconnect;
 
 import entity.User;
 import main.Application;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import service.dao.IUserDAO;
 import usecases.requestconnect.exceptions.UserNotFoundException;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,20 +18,8 @@ public class UserDAOTest {
     @Autowired
     IUserDAO userDAO;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @BeforeEach
-    public void init() {
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users (username varchar(50) primary key, data varchar)");
-    }
-
-    @AfterEach
-    public void cleanUp() {
-        jdbcTemplate.execute("DELETE FROM users");
-    }
-
     @Test
+    @Transactional
     public void testSaveUserAndGetUser() {
         User user = new User(
                 "leo", "leo@gmail.com", "pass", "Leo"

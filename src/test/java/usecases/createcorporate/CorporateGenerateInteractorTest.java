@@ -7,15 +7,14 @@ import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import service.ServerStatus;
 import service.dao.ICorporateDAO;
 import service.dao.IUserDAO;
 import usecases.createcorporate.exceptions.CompanyNotFoundException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -28,9 +27,6 @@ public class CorporateGenerateInteractorTest {
     private IUserDAO userDAO;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private CorporateFactory corporateFactory;
 
     private CorporateGenerateInteractor interactor;
@@ -38,34 +34,25 @@ public class CorporateGenerateInteractorTest {
     @BeforeEach
     public void init() {
         interactor = new CorporateGenerateInteractor(corporateDAO, userDAO, corporateFactory);
-        jdbcTemplate.execute("DROP TABLE IF EXISTS corporates");
-        jdbcTemplate.execute("DROP TABLE IF EXISTS users");
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS corporates (id serial primary key, company varchar UNIQUE, data varchar)");
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users (username varchar(50) primary key, data varchar)");
-    }
-
-    @AfterEach
-    public void cleanUp() {
-        jdbcTemplate.execute("DELETE FROM corporates");
-        jdbcTemplate.execute("DELETE FROM users");
     }
 
     @Test
+    @Transactional
     public void testCreateCorporatePageIfUserIsCorporateRepAndCompanyNameUnique() {
         User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
         rep.setCorporateRep(true);
-        userDAO.saveUser(rep);
+        userDAO.save(rep);
         CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("justinli",
                 "Apple", "Founded by Steve Jobs.");
         CorporateGenerateResponseModel responseModel = interactor.create(requestModel);
         // test that the interactor returns a successful response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
         assertEquals("Corporate page created successfully!", responseModel.getMessage());
-        assertEquals(1, responseModel.getCorporateId());
+        assertNotNull( responseModel.getCorporateId());
         // test that the corporate page was properly saved in the corporates table
         Corporate corporate;
         try {
-            corporate = corporateDAO.getCorporate("Apple");
+            corporate = corporateDAO.get("Apple");
         }
         catch (CompanyNotFoundException e) {
             throw new RuntimeException(e);
@@ -77,39 +64,42 @@ public class CorporateGenerateInteractorTest {
     }
 
     @Test
+    @Transactional
     public void testCreateCorporatePageIfUserIsNotCorporateRep() {
         User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
-        userDAO.saveUser(rep);
+        rep.setCorporateRep(false);
+        userDAO.save(rep);
         CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("justinli",
                 "Apple", "Founded by Steve Jobs.");
         CorporateGenerateResponseModel responseModel = interactor.create(requestModel);
         // test that the interactor returns a failure response model
         assertEquals(ServerStatus.ERROR, responseModel.getStatus());
         assertEquals("User is not a company rep.", responseModel.getMessage());
-        assertEquals(0, responseModel.getCorporateId());
+        assertNull(responseModel.getCorporateId());
         // test that there is nothing saved in the corporates table
         boolean exists = corporateDAO.companyExists("Apple");
         assertFalse(exists);
     }
 
     @Test
+    @Transactional
     public void testCreateCorporatePageIfCompanyNameNotUnique() {
         User justin = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
-        Corporate corporate = new Corporate("justinli", "Apple", "Founded by Steve Jobs.");
-        corporateDAO.saveCorporate(corporate);
+        Corporate corporate = new Corporate(justin, "Apple", "Founded by Steve Jobs.");
+        corporateDAO.save(corporate);
         User leo = new User("leoliu", "leo@mail.utoronto.ca", "password", "Leo");
         leo.setCorporateRep(true);
-        userDAO.saveUser(leo);
+        userDAO.save(leo);
         CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("leoliu",
                 "Apple", "Founded by Bill Gates.");
         CorporateGenerateResponseModel responseModel = interactor.create(requestModel);
         // test that the interactor returns a failure response model
         assertEquals(ServerStatus.ERROR, responseModel.getStatus());
         assertEquals("Company already exists.", responseModel.getMessage());
-        assertEquals(0, responseModel.getCorporateId());
+        assertNull(responseModel.getCorporateId());
         // test that the company in the database is the original company
         try {
-            corporate = corporateDAO.getCorporate("Apple");
+            corporate = corporateDAO.get("Apple");
         }
         catch (CompanyNotFoundException e) {
             throw new RuntimeException(e);

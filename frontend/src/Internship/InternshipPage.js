@@ -25,21 +25,19 @@ export default function InternshipPage() {
     setShowCommentBox(!showCommentBox);
   };
 
-  useEffect(() => {
+  const fetchInternshipDetails = () => {
     axios.get(`/corporates/${corporateId}/internships/${internshipId}`).then((data) => {
+      console.log(data)
       setInternshipsDetails(data.data);
+      setReviews(data.data.reviews);
+      console.log(data.data.reviews)
     });
+  }
+
+  useEffect(() => {
+    fetchInternshipDetails()
   }, []);
 
-  const getReviews = () => {
-    axios.get(`/corporates/${corporateId}/internships/${internshipId}/reviews`).then((data) => {
-      console.log(data.data);
-      setReviews(data.data);
-    });
-  };
-  useEffect(() => {
-    getReviews();
-  }, []);
 
   const postReview = (comment, rating) => {
     axios
@@ -48,7 +46,7 @@ export default function InternshipPage() {
         username: principal.username,
         rating: rating,
       })
-      .then((res) => res.data.status === 'SUCCESS' && getReviews())
+      .then((res) => res.data.status === 'SUCCESS' && fetchInternshipDetails())
       .then(() => setShowCommentBox(false));
   };
 
@@ -100,7 +98,7 @@ export default function InternshipPage() {
         <ReviewCard
           key={i}
           reviewId={review.id}
-          userId={review.userId}
+          userId={review.user.username}
           datePosted={review.datePosted}
           numLikes={review.numLikes}
           numDislikes={review.numDislikes}

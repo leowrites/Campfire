@@ -11,6 +11,7 @@ import usecases.requestconnect.exceptions.UserNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /** The deletecomment use case interactor that calls the deleteComment method from the
@@ -36,8 +37,8 @@ public class DeleteCommentInteractor implements IDeleteCommentInput {
      */
     @Override
     public DeleteCommentResponseModel deleteComment(DeleteCommentRequestModel requestModel) {
-        int commentId = requestModel.getCommentId();
-        int parentId = requestModel.getParentId();
+        UUID commentId = requestModel.getCommentId();
+        UUID parentId = requestModel.getParentId();
         String parentType = requestModel.getParentType();
         String userId = requestModel.getUserId();
         Comment comment;
@@ -47,36 +48,36 @@ public class DeleteCommentInteractor implements IDeleteCommentInput {
         try {
             comment = dataAccessComment.getComment(commentId);
             user = userDAO.getUser(userId);
-            if (comment == null) {
+            if (comment == null || user == null) {
                 throw new CommentNotFoundException("Comment not found");
             }
         } catch (CommentNotFoundException | UserNotFoundException e) {
             return new DeleteCommentResponseModel(e.getMessage());
         }
 
-        if (user.getAccessLevel() == 0 && !userId.equals(comment.getUserId())){
+        if (user.getAccessLevel() == 0 && !userId.equals(comment.getUser().getUsername())){
             return new DeleteCommentResponseModel("Not authorized!");
         }
 
-        dataAccessComment.deleteComment(commentId);
-
         if (parentType.equals("Review")) {
             Review parentReview = dataAccessReview.getReview(parentId);
-            List<Integer> filteredComments = parentReview.getComments()
+            parentReview.setComments(
+                    parentReview.getComments()
                     .stream()
-                    .filter(id -> id != commentId)
-                    .collect(Collectors.toList());
-            parentReview.setComments((ArrayList<Integer>) filteredComments);
-            dataAccessReview.updateReview(parentReview, parentId);
+                    .filter(c -> c.getId() != commentId)
+                    .collect(Collectors.toList()));
+            dataAccessReview.update(parentReview);
         } else {
             Comment parentComment = dataAccessComment.getComment(parentId);
-            List<Integer> filteredComments = parentComment.getComments()
-                    .stream()
-                    .filter(id -> id != commentId)
-                    .collect(Collectors.toList());
-            parentComment.setComments((ArrayList<Integer>) filteredComments);
-            dataAccessComment.updateComment(parentComment, parentId);
+            parentComment.setComments(
+                    parentComment.getComments()
+                            .stream()
+                            .filter(c -> c.getId() != commentId)
+                            .collect(Collectors.toList()));
+            dataAccessComment.update(parentComment);
         }
+
+        dataAccessComment.deleteComment(commentId);
 
         // Return a success message, as well as updated Arraylist of comments
         return new DeleteCommentResponseModel("Comment has been successfully deleted");

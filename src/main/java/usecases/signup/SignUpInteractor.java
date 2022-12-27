@@ -77,7 +77,7 @@ public class SignUpInteractor implements ISignUp {
                     passwordEncoder.encode(signUpInputs.getPassword()),
                     signUpInputs.getFirstName() + " " + signUpInputs.getLastName()
             );
-            dataAccess.saveUser(user);
+            dataAccess.save(user);
             System.out.println("User saved");
         }
         return new SignUpResponseModel(errorMessages);

@@ -1,5 +1,7 @@
 package usecases.createinternship;
 
+import java.util.UUID;
+
 /** A request model for the createinternship use case that frames the input data into an object.
  * Holds a String of the job title of the internship, an int representation of the id of the
  * company giving the internship, and a String representation of the username of the user who
@@ -7,10 +9,10 @@ package usecases.createinternship;
  */
 public class CreateInternshipInputDS {
     private final String jobTitle;
-    private final int companyID;
+    private final UUID companyID;
     private final String creatorUsername;
 
-    public CreateInternshipInputDS(String jobTitle, int companyID, String creatorUsername) {
+    public CreateInternshipInputDS(String jobTitle, UUID companyID, String creatorUsername) {
         this.jobTitle = jobTitle;
         this.companyID = companyID;
         this.creatorUsername = creatorUsername;
@@ -20,7 +22,7 @@ public class CreateInternshipInputDS {
         return jobTitle;
     }
 
-    public int getCompanyID() {
+    public UUID getCompanyID() {
         return companyID;
     }
 

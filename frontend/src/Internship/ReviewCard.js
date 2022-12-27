@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -19,11 +19,12 @@ export default function ReviewCard({
   numLikes,
   numDislikes,
   content,
+  comments,
   rating,
 }) {
   const { corporateId, internshipId } = useParams();
   const [showComment, setShowComment] = useState(false);
-  const [moreComments, setMoreComments] = useState([]);
+  const [moreComments, setMoreComments] = useState(comments);
   const [clickedDelete, setClickedDelete] = useState(false);
   const authContext = useAuthContext();
   const principal = authContext.principal;
@@ -42,18 +43,7 @@ export default function ReviewCard({
     setShowComment(!showComment);
   };
 
-  useEffect(() => {
-    fetchComments();
-  }, []);
-
-  const fetchComments = () => {
-    axios
-      .get(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`)
-      .then((res) => setMoreComments(res.data));
-  };
-
   const postComment = (parentType, parentId, comment) => {
-    console.log(parentType, parentId, comment, reviewId);
     axios
       .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
         userId: principal.username,
@@ -67,7 +57,9 @@ export default function ReviewCard({
           setMoreComments([
             ...moreComments,
             {
-              userId: principal.username,
+              user: {
+                username: principal.username
+              },
               id: res.data.id,
               content: comment,
               comments: [],
@@ -161,7 +153,7 @@ export default function ReviewCard({
               parentType={'Review'}
               commentId={comment.id}
               parentId={reviewId}
-              userId={comment.userId}
+              userId={comment.user.username}
               content={comment.content}
               datePosted={comment.datePosted}
               comments={comment.comments}

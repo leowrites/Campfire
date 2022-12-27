@@ -13,7 +13,8 @@ import usecases.createcorporate.exceptions.CompanyNotFoundException;
 import usecases.exceptions.InternshipNotFoundException;
 import usecases.requestconnect.exceptions.UserNotFoundException;
 import java.security.Principal;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class ServiceRoutes {
@@ -21,8 +22,6 @@ public class ServiceRoutes {
     private IUserDAO userDAO;
     @Autowired
     private IReviewDAO reviewDAO;
-    @Autowired
-    private ICommentDAO commentDAO;
     @Autowired
     private ICorporateDAO corporateDAO;
     @Autowired
@@ -50,33 +49,27 @@ public class ServiceRoutes {
     // get internship details
     @GetMapping("/corporates/{corporateId}/internships/{internshipId}")
     public ResponseEntity<Internship> getInternshipDetails(
-            @PathVariable String internshipId) {
+            @PathVariable UUID internshipId) {
         try {
-            return new ResponseEntity<>(internshipDAO.getInternshipByID(Integer.parseInt(internshipId))
+            return new ResponseEntity<>(internshipDAO.getInternship(internshipId)
                     , HttpStatus.OK);
         } catch (InternshipNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    // get comments by comment id
-    @GetMapping("/comments/{commentId}")
-    public ResponseEntity<Comment> getComment(@PathVariable String commentId) {
-        return new ResponseEntity<>(commentDAO.getComment(Integer.parseInt(commentId)), HttpStatus.OK);
-    }
-
     // get all corporates
     @GetMapping("/corporates")
-    public ResponseEntity<ArrayList<Corporate>> getCorporates() {
+    public ResponseEntity<List<Corporate>> getCorporates() {
         return new ResponseEntity<>(corporateDAO.getAllCorporates(), HttpStatus.OK);
     }
 
     @GetMapping("/corporates/{corporateId}")
     public ResponseEntity<Corporate> getCorporateDetails(
-            @PathVariable String corporateId
+            @PathVariable UUID corporateId
     ){
         try{
-            Corporate corporate = corporateDAO.getCorporate(Integer.parseInt(corporateId));
+            Corporate corporate = corporateDAO.get(corporateId);
             return new ResponseEntity<>(corporate, HttpStatus.OK);
         } catch (CompanyNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -84,32 +77,22 @@ public class ServiceRoutes {
     }
 
     @GetMapping("/corporates/{corporateId}/internships")
-    public ResponseEntity<ArrayList<Internship>> getCorporateInternships(
-            @PathVariable String corporateId
+    public ResponseEntity<List<Internship>> getCorporateInternships(
+            @PathVariable UUID corporateId
     ){
-        try{
-            ArrayList<Internship> internships = internshipDAO.getInternshipsByCompany(Integer.parseInt(corporateId));
-            return new ResponseEntity<>(internships, HttpStatus.OK);
-        } catch (InternshipNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        List<Internship> internships = internshipDAO.getInternshipByCompanyId(corporateId);
+        return new ResponseEntity<>(internships, HttpStatus.OK);
     }
 
     @GetMapping("/corporates/{corporateId}/internships/{internshipId}/reviews")
-    public ResponseEntity<ArrayList<Review>> getInternshipReviews(
-            @PathVariable String internshipId
+    public ResponseEntity<List<Review>> getInternshipReviews(
+            @PathVariable UUID internshipId
     ){
         try{
-            ArrayList<Review> reviews = reviewDAO.getReviewsByInternship(Integer.parseInt(internshipId));
+            List<Review> reviews = reviewDAO.getReviewsByInternship(internshipId);
             return new ResponseEntity<>(reviews, HttpStatus.OK);
         } catch (ReviewNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @GetMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{parentId}")
-    public ResponseEntity<ArrayList<Comment>> getCommentsByParent(@PathVariable String parentId){
-        ArrayList<Comment> comment = commentDAO.getCommentsWithParentId(Integer.parseInt(parentId));
-        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 }

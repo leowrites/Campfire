@@ -8,11 +8,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import usecases.exceptions.CommentNotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /** A data access object for the Comment database.
  */
@@ -77,6 +80,16 @@ public class CommentDAO implements ICommentDAO{
         }
     }
 
+    @Override
+    public Comment save(Comment comment) {
+        return null;
+    }
+
+    @Override
+    public Comment save(Comment comment, UUID parentId) {
+        return null;
+    }
+
     /** Gets the Comment object given by the commentId.
      * @param commentId the id of the comment
      * @return a Comment object
@@ -92,6 +105,11 @@ public class CommentDAO implements ICommentDAO{
         }
     }
 
+    @Override
+    public Comment getComment(UUID commentId) throws CommentNotFoundException {
+        return null;
+    }
+
     /** Gets all the comments under a parent given its parentId.
      * @param parentId the id of the parent
      * @return an ArrayList of Comment objects under the parent
@@ -105,6 +123,11 @@ public class CommentDAO implements ICommentDAO{
                 System.out.println("No Internships Under" + parentId + " found");
             }
             return  null;
+    }
+
+    @Override
+    public List<Comment> getCommentsWithParentId(UUID parentId) {
+        return null;
     }
 
     /** Updates a Comment object.
@@ -124,11 +147,16 @@ public class CommentDAO implements ICommentDAO{
         }
     }
 
+    @Override
+    public Comment update(Comment comment) {
+        return null;
+    }
+
     /** Deletes a Comment object.
      * @param commentId the id of the Comment object to be deleted
      */
     @Override
-    public void deleteComment(int commentId) {
+    public void deleteComment(UUID commentId) {
         try {
             jdbcTemplate.update(DELETE_QUERY, commentId);
         }

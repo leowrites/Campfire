@@ -1,9 +1,8 @@
 package entity;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IUserPost {
-    ArrayList<Integer> getComments();
+    List<Comment> getComments();
 
-    void setComments(ArrayList<Integer> comments);
+    void setComments(List<Comment> comments);
 }

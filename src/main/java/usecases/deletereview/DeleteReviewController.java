@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.UUID;
 
 /** The deletereview use case controller that connects to Spring. Takes in a
  * DeleteReviewRequestModel from the user input in front-end, creates a
@@ -25,14 +26,13 @@ public class DeleteReviewController {
     }
 
     /** Creates a DeleteReviewResponseModel using the inputs in requestModel.
-     * @param requestModel the DeleteReviewRequestModel taken in from the front-end
      * @param principal a Principal object used in Spring security
      * @return a ResponseEntity holding a DeleteReviewResponseModel and an HttpStatus
      */
     @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}")
     public ResponseEntity<DeleteReviewResponseModel> createDeleteReviewRequestModel(
-            @PathVariable("internshipId") int internshipId,
-            @PathVariable("reviewId") int reviewId,
+            @PathVariable("internshipId") UUID internshipId,
+            @PathVariable("reviewId") UUID reviewId,
             Principal principal){
         // replace with factory
         DeleteReviewRequestModel requestModel = new DeleteReviewRequestModel(

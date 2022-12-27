@@ -3,7 +3,7 @@ package usecases.requestconnect;
 import entity.User;
 import service.dao.IUserDAO;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class RequestConnectionHandler {
 
@@ -17,11 +17,11 @@ public class RequestConnectionHandler {
     }
 
     public void sendConnectionRequestToTarget() {
-        ArrayList<String> userOutgoing = user.getOutgoingConnectionRequests();
-        ArrayList<String> targetIncoming = target.getIncomingConnectionRequests();
+        List<User> userOutgoing = user.getOutgoingConnectionRequests();
+        List<User> targetIncoming = target.getIncomingConnectionRequests();
 
-        userOutgoing.add(target.getUsername());
-        targetIncoming.add(user.getUsername());
+        userOutgoing.add(target);
+        targetIncoming.add(user);
 
         user.setOutgoingConnectionRequests(userOutgoing);
         target.setIncomingConnectionRequests(targetIncoming);

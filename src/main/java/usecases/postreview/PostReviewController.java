@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /** The postreview use case controller that connects to Spring. Takes in an InternshipId and a
  * PostReviewRequest from the user input in front-end, creates a PostReviewResponse by sending
  * the request model to the interactor, and puts the response model in a ResponseEntity with the
@@ -26,7 +28,7 @@ public class PostReviewController {
      */
     @PostMapping("/corporates/{corporateId}/internships/{internshipId}/reviews")
     public ResponseEntity<PostReviewResponse> addReviewToCorporate(
-            @PathVariable("internshipId") String internshipId,
+            @PathVariable("internshipId") UUID internshipId,
             @RequestBody PostReviewRequest request) {
         request.setInternshipId(internshipId);
         return new ResponseEntity<>(postReview.addReviewToInternship(request), HttpStatus.CREATED);

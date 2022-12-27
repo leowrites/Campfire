@@ -24,9 +24,6 @@ public class InternshipDaoMapper implements RowMapper<Internship> {
         String internshipData = rs.getString("data");
         Gson gson = new Gson();
         JsonObject object = (JsonObject) JsonParser.parseString(internshipData);
-        Internship internship = gson.fromJson(object, Internship.class);
-        internship.setCompanyID(rs.getInt("companyid"));
-        internship.setId(rs.getInt("id"));
-        return internship;
+        return gson.fromJson(object, Internship.class);
     }
 }

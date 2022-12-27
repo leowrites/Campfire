@@ -9,6 +9,9 @@ import service.dao.IInternshipDAO;
 import usecases.comment.exceptions.ReviewNotFoundException;
 import usecases.requestconnect.exceptions.UserNotFoundException;
 
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 /** The deletereview use case interactor that calls the deleteReview method from the
  * IDeleteReviewInput input boundary. When initialized, takes in an object that implements
  * IInternshipDAO to acces the internship database through, an object that implements IReviewDAO
@@ -33,8 +36,8 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
      */
     @Override
     public DeleteReviewResponseModel deleteReview(DeleteReviewRequestModel requestModel){
-        int internshipId = requestModel.getInternshipId();
-        int reviewId = requestModel.getReviewId();
+        UUID internshipId = requestModel.getInternshipId();
+        UUID reviewId = requestModel.getReviewId();
         String userId = requestModel.getUserId();
         Internship internship;
         Review review;
@@ -50,17 +53,22 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
             return new DeleteReviewResponseModel(e.getMessage());
         }
 
-        if (user.getAccessLevel() == 0 && !userId.equals(review.getUserId())){
+        if (user.getAccessLevel() == 0 && !userId.equals(review.getUser().getUsername())){
             return new DeleteReviewResponseModel("Not authorized!");
         }
 
-        dataAccessReview.deleteReview(reviewId);
-
         try{
-            internship = dataAccessInternship.getInternshipByID(internshipId);
-            dataAccessInternship.updateInternship(internshipId, internship);
+            internship = dataAccessInternship.getInternship(internshipId);
+            internship.setReviews(internship.getReviews().stream().filter(
+                    r -> !r.getId().equals(reviewId)
+            ).collect(Collectors.toList()));
+            dataAccessInternship.save(internship);
         }
-        catch(Exception e){System.out.println(e.getMessage());}
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        dataAccessReview.delete(reviewId);
         // need to recursively delete all comments ...
         // will do in the future
         //return a success message, as well as the new Arraylist of Reviews

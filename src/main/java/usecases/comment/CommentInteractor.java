@@ -2,12 +2,17 @@ package usecases.comment;
 
 import entity.Comment;
 import entity.IUserPost;
+import entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
+import service.dao.IUserDAO;
 import usecases.comment.exceptions.ParentNotFoundException;
 import service.ServerStatus;
+import usecases.requestconnect.exceptions.UserNotFoundException;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /** The comment use case interactor that calls the create method from the ICommentInputBoundary
  * input boundary. When initialized, takes in an object that implements IReviewDAO to acces the
@@ -20,7 +25,10 @@ public class CommentInteractor implements ICommentInputBoundary {
     private final ICommentDAO commentDAO;
     private final CommentFactory commentFactory;
 
-    public CommentInteractor(IReviewDAO reviewDAO, ICommentDAO commentDAO, CommentFactory commentFactory) {
+    private final IUserDAO userDAO;
+
+    public CommentInteractor(IReviewDAO reviewDAO, ICommentDAO commentDAO, IUserDAO userDAO, CommentFactory commentFactory) {
+        this.userDAO = userDAO;
         this.reviewDAO = reviewDAO;
         this.commentDAO = commentDAO;
         this.commentFactory = commentFactory;
@@ -33,37 +41,43 @@ public class CommentInteractor implements ICommentInputBoundary {
      */
     @Override
     public CommentResponseModel create(CommentRequestModel requestModel) {
+        User user;
         String parentType = requestModel.getParentType();
         IParentOperationsStrategy strategy;
         try {
             strategy = ParentOperationsStrategyFactory.getStrategy(parentType, commentDAO, reviewDAO);
         }
         catch (ParentNotFoundException e) {
-            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), -1, null);
+            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), null, null);
         }
 
-        int parentId = requestModel.getParentId();
+        UUID parentId = requestModel.getParentId();
         IUserPost parent;
 
         try {
             parent = strategy.getParent(parentId);
         }
         catch (ParentNotFoundException e) {
-            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), -1, null);
+            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), null, null);
         }
 
-        String userId = requestModel.getUserId();
+        try {
+            user = userDAO.getUser(requestModel.getUserId());
+        } catch(UserNotFoundException e) {
+            return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), null, null);
+        }
+
         String content = requestModel.getContent();
-        Comment comment = commentFactory.createComment(userId, content);
+        Comment comment = commentFactory.createComment(content);
+        comment.setUser(user);
+        comment.setParentId(parentId);
 
-        int commentId = commentDAO.saveComment(comment, parentId);
-        ArrayList<Integer> parentComments = parent.getComments();
-        parentComments.add(commentId);
-        parent.setComments(parentComments);
+        Comment savedComment = commentDAO.save(comment, parentId);
+        parent.getComments().add(savedComment);
+        strategy.updateParent(parent);
 
-        strategy.updateParent(parent, parentId);
-
-        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.", commentId, comment.getDatePosted());
+        return new CommentResponseModel(ServerStatus.SUCCESS, "Comment posted successfully.", savedComment.getId(),
+                comment.getDatePosted());
     }
 }
 

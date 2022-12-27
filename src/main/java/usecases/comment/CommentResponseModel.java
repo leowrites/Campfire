@@ -1,5 +1,6 @@
 package usecases.comment;
 import java.util.Date;
+import java.util.UUID;
 
 import service.ServerStatus;
 
@@ -11,10 +12,10 @@ import service.ServerStatus;
 public class CommentResponseModel {
     private final ServerStatus status;
     private final String message;
-    private final int id;
+    private final UUID id;
     private final Date datePosted;
 
-    public CommentResponseModel(ServerStatus status, String message, int commentId, Date datePosted) {
+    public CommentResponseModel(ServerStatus status, String message, UUID commentId, Date datePosted) {
         this.status = status;
         this.message = message;
         this.id = commentId;
@@ -29,7 +30,8 @@ public class CommentResponseModel {
         return this.message;
     }
 
-    public int getId() {
+    public Date getDatePosted() {return this.datePosted;}
+    public UUID getId() {
         return this.id;
     }
 

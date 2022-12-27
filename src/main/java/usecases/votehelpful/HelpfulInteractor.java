@@ -6,6 +6,7 @@ import service.dao.IReviewDAO;
 import usecases.votehelpful.exceptions.ReviewNotFoundException;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 /** The votehelpful use case interactor that calls the create method from the
  * IHelpfulInputBoundary input boundary. When initialized, takes in an object that
@@ -24,7 +25,7 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
      */
     @Override
     public HelpfulResponseModel create(HelpfulRequestModel requestModel) {
-        int reviewId = requestModel.getReviewId();
+        UUID reviewId = requestModel.getReviewId();
         Review review;
 
         try {
@@ -48,23 +49,23 @@ public class HelpfulInteractor implements IHelpfulInputBoundary {
         if (userHasVoted) {
             previousVote = votedUsers.get(userId);
             if (newVote.equals(previousVote)) {
-                review = HelpfulHandler.updateCount(newVote, review, "Subtraction");
+                HelpfulHandler.updateCount(newVote, review, "Subtraction");
                 votedUsers.remove(userId);
                 newVote = VoteDecision.NONE;
             }
             else {
-                review = HelpfulHandler.updateCount(previousVote, review, "Subtraction");
-                review = HelpfulHandler.updateCount(newVote, review, "Addition");
+                HelpfulHandler.updateCount(previousVote, review, "Subtraction");
+                HelpfulHandler.updateCount(newVote, review, "Addition");
                 votedUsers.replace(userId, newVote);
             }
         }
         else {
             votedUsers.put(userId, newVote);
-            review = HelpfulHandler.updateCount(newVote, review, "Addition");
+            HelpfulHandler.updateCount(newVote, review, "Addition");
         }
 
         review.setVotedUsers(votedUsers);
-        reviewDAO.updateReview(review, reviewId);
+        reviewDAO.update(review);
 
         return new HelpfulResponseModel(ServerStatus.SUCCESS, "Vote received.", newVote);
     }
