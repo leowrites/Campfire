@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:h2:mem:testdb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="hhuncvkl@suleiman.db.elephantsql.com" uuid="7065f481-1c49-48f5-beac-fd6d34148ee6">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://suleiman.db.elephantsql.com/hhuncvkl</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
