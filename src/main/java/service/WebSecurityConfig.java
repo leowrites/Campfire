@@ -74,12 +74,15 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
                                 .antMatchers("/h2-console/**").permitAll()
+                                .antMatchers(HttpMethod.POST, "/signup").permitAll()
                                 .antMatchers(HttpMethod.GET, "/**").permitAll()
                                 .antMatchers(HttpMethod.POST, "/**").authenticated()
                                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 )
                 .formLogin()
                 .loginProcessingUrl("/login")
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
