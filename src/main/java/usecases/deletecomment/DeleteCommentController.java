@@ -27,13 +27,15 @@ public class DeleteCommentController {
      * @param principal a Principal object used in Spring security
      * @return a ResponseEntity holding a DeleteCommentResponseModel and an HttpStatus
      */
-    @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments")
+    @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments/{commentId}")
     public ResponseEntity<DeleteCommentResponseModel> deleteComment(
             @RequestBody DeleteCommentRequestModel requestModel,
+            @PathVariable("commentId") int commentId,
             Principal principal){
 
         // this is a temporary fix, this check will go after we start using Spring authorization
         requestModel.setUserId(principal.getName());
+        requestModel.setCommentId(commentId);
         DeleteCommentResponseModel responseModel = interactor.deleteComment(requestModel);
         if (responseModel.getMessage().equals("Comment has been successfully deleted")) {
             return new ResponseEntity<>(responseModel, HttpStatus.OK);

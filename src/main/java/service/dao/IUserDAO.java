@@ -24,13 +24,4 @@ public interface IUserDAO {
      * @param user the new User object
      */
     void updateUser(User user);
-
-    /** Gets all users in the User database.
-     * @return an ArrayList of all the User objects in the database
-     */
-    ArrayList<User> getUsers();
-
-    /** Resets all the User objects.
-     */
-    void reset();
 }
