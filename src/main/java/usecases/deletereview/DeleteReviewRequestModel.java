@@ -1,5 +1,7 @@
 package usecases.deletereview;
 
+import java.util.UUID;
+
 /** A request model for the deletereview use case that frames the input data into an object.
  * Holds an int representation of the id of the internship with the review, an int representation
  * of the id of the review being deleted, and a String representation of the id of the user
@@ -7,25 +9,25 @@ package usecases.deletereview;
  */
 public class DeleteReviewRequestModel {
 
-    private final int internshipId;
+    private final UUID internshipId;
 
-    private final int reviewId;
+    private final UUID reviewId;
 
     private String userId;
 
-    public DeleteReviewRequestModel(int internshipId,
-                                    int reviewId,
+    public DeleteReviewRequestModel(UUID internshipId,
+                                    UUID reviewId,
                                     String userId){
         this.internshipId = internshipId;
         this.reviewId = reviewId;
         this.userId = userId;
     }
 
-    public int getInternshipId(){
+    public UUID getInternshipId(){
         return this.internshipId;
     }
 
-    public int getReviewId(){
+    public UUID getReviewId(){
         return this.reviewId;
     }
 
