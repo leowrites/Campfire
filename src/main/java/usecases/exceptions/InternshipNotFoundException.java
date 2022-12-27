@@ -1,5 +1,5 @@
 package usecases.exceptions;
 
-public class InternshipNotFoundException extends Exception {
+public class InternshipNotFoundException extends RuntimeException {
     public InternshipNotFoundException(String message){super(message);}
 }
