@@ -2,10 +2,9 @@ package usecases.deletereview;
 
 import java.util.UUID;
 
-/** A request model for the deletereview use case that frames the input data into an object.
- * Holds an int representation of the id of the internship with the review, an int representation
- * of the id of the review being deleted, and a String representation of the id of the user
- * deleting the review.
+/**
+ * The DeleteReviewRequestModel class represents a request to delete a review.
+ * It contains information about the internship for which the review was written and the review itself.
  */
 public class DeleteReviewRequestModel {
 
