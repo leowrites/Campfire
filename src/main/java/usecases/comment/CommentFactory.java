@@ -7,12 +7,11 @@ import entity.Comment;
 public class CommentFactory {
 
     /** Creates a Comment.
-     * @param userId the id of the user creating the comment
      * @param content the content of the comment
      * @return a Comment object that is newly created
      */
-    public Comment createComment(String userId, String content) {
-        return new Comment(userId, content);
+    public Comment createComment(String content) {
+        return new Comment(content);
     }
 
 }
