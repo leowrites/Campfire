@@ -12,7 +12,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 
 public class InternshipDAO implements IInternshipDAO {
@@ -39,6 +41,11 @@ public class InternshipDAO implements IInternshipDAO {
         }
     }
 
+    @Override
+    public Internship getInternship(UUID internshipId) throws InternshipNotFoundException {
+        return null;
+    }
+
 
     /**
      * @return all internships under one company ID
@@ -55,6 +62,11 @@ public class InternshipDAO implements IInternshipDAO {
     }
 
     @Override
+    public List<Internship> getInternshipByCompanyId(UUID companyId) {
+        return null;
+    }
+
+    @Override
     public int saveInternshipAndReturnId(Internship internship) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         try{
@@ -64,7 +76,7 @@ public class InternshipDAO implements IInternshipDAO {
             jdbcTemplate.update(connection -> {
                 PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, internshipString);
-                statement.setInt(2, internship.getCompanyID());
+                statement.setObject(2, internship.getCompanyId());
                 return statement;
             }, keyHolder);
             return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
@@ -75,11 +87,16 @@ public class InternshipDAO implements IInternshipDAO {
     }
 
     @Override
+    public Internship save(Internship internship) {
+        return null;
+    }
+
+    @Override
     public void updateInternship(int id, Internship internship){
         try{
             ObjectMapper mapper = new ObjectMapper();
             String internshipString = mapper.writeValueAsString(internship);
-            jdbcTemplate.update(UPDATE_QUERY, internshipString, internship.getCompanyID(), id);
+            jdbcTemplate.update(UPDATE_QUERY, internshipString, internship.getCompanyId(), id);
         } catch(Exception e){
             System.out.println(e.getMessage());
         }

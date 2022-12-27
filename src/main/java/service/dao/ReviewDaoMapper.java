@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 /** The mapper for the Review data access object. Converts review data between object and Json,
  * used for SQL queries.
@@ -31,8 +32,8 @@ public class ReviewDaoMapper implements RowMapper<Review> {
         JsonObject object = (JsonObject) JsonParser.parseString(reviewData);
         Review review = gson.fromJson(object, Review.class);
         try {
-            review.setId(rs.getInt("id"));
-            review.setInternshipId(rs.getInt("internshipid"));
+            review.setId(rs.getObject("id", UUID.class));
+            review.setInternshipId(rs.getObject("internshipid", UUID.class));
             review.setVotedUsers(new HashMap<>());
         } catch (PSQLException e) {
             System.out.print("at ReviewDaoMapper");

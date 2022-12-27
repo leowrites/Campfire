@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 /** The mapper for the Comment data access object. Converts comment data between object and Json,
  * used for SQL queries.
@@ -29,8 +30,8 @@ public class CommentDaoMapper implements RowMapper<Comment> {
         JsonObject object = (JsonObject) JsonParser.parseString(commentData);
         Comment comment = gson.fromJson(object, Comment.class);
         try {
-            comment.setId(rs.getInt("id"));
-            comment.setParentId(rs.getInt("parentId"));
+            comment.setId(rs.getObject("id", UUID.class));
+            comment.setParentId(rs.getObject("parentId", UUID.class));
         } catch (PSQLException e) {
             System.out.print("At CommentDaoMapper ");
             System.out.println(e);
