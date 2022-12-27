@@ -4,7 +4,7 @@ import entity.Review;
 
 public class PostReviewFactory {
 
-    public Review createReview(String userId, String content, int rating) {
-        return new Review(userId, content, rating);
+    public Review createReview(String content, int rating) {
+        return new Review(content, rating);
     }
 }

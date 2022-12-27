@@ -1,27 +1,31 @@
 package usecases.postreview;
 
+import java.util.UUID;
+
 /** A request model for the postreview use case that frames the input data into an object.
  * Holds the String representing the id of the internship in internshipId, the String content of
  * the review in reviewContent, the String username of the user posting the review in username,
  * and the int rating on the review in rating.
  */
 public class PostReviewRequest {
-    private String internshipId;
+    private UUID internshipId;
     private final String reviewContent;
     private final String username;
     private final int rating;
 
     public PostReviewRequest(String reviewContent,
                              String username,
+                             UUID internshipId,
                              int rating) {
         this.reviewContent = reviewContent;
         this.username = username;
+        this.internshipId = internshipId;
         this.rating = rating;
     }
-    public void setInternshipId(String internshipId) {
+    public void setInternshipId(UUID internshipId) {
         this.internshipId = internshipId;
     }
-    public String getInternshipId() {
+    public UUID getInternshipId() {
         return internshipId;
     }
 
