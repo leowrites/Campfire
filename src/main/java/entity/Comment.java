@@ -1,49 +1,62 @@
 package entity;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
+@Entity
+@Table(name="comments")
 public class Comment implements IUserPost {
-    private String userId;
+
+    @OneToOne
+    private User user;
+
+    @Column
     private String content;
+
+    @Column
     private Date datePosted;
-    private ArrayList<Integer> comments;
-    private int parentId;
-    private int id;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    @Column
+    private UUID parentId;
+
+    @Id
+    @GeneratedValue
+    private UUID id;
 
     public Comment(){
     }
 
-    public Comment(String userId, String content) {
-        this.userId = userId;
+    public Comment(String content) {
         this.content = content;
         this.datePosted = new Date();
         this.comments = new ArrayList<>();
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public int getParentId() {
+    public UUID getParent() {
         return parentId;
     }
 
-    public void setParentId(int parentId) {
+    public void setParentId(UUID parentId) {
         this.parentId = parentId;
     }
 
-    public String getUserId() {
-        return this.userId;
-    }
+    public User getUser() {return user;}
 
-    public void setUserId(String newId) {
-        this.userId = newId;
-    }
+    public void setUser(User user) {this.user = user;}
 
     public String getContent() {
         return this.content;
@@ -62,12 +75,12 @@ public class Comment implements IUserPost {
     }
 
 
-    public ArrayList<Integer> getComments() {
+    public List<Comment> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<Integer> comments) {
+    @Override
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-
 }

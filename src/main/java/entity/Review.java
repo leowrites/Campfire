@@ -2,60 +2,73 @@ package entity;
 
 import usecases.sort.ISortComparator;
 import usecases.votehelpful.VoteDecision;
+import javax.persistence.*;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
+@Entity
+@Table(name="reviews")
 public class Review implements ISortComparator, IUserPost{
-    private String userId;
+
+    @OneToOne
+    private User user;
     private Date datePosted;
     private int numLikes;
     private int numDislikes;
     private String content;
-    private ArrayList<Integer> comments;
+
+    @OneToMany
+    private List<Comment> comments;
     private int rating;
-    private int internshipId;
-    private int id;
+    private UUID internshipId;
+    @Id
+    @GeneratedValue
+    private UUID id;
     private HashMap<String, VoteDecision> votedUsers;
 
     public Review() {
     }
 
-    public Review(String userId, String content, int rating) {
-        this.userId = userId;
+    public Review(String content, int rating) {
         this.content = content;
         this.datePosted = new Date();
         this.numLikes = 0;
         this.numDislikes = 0;
         this.comments = new ArrayList<>();
-        if (rating > 10){this.rating = 10;}
+        if (rating > 5){this.rating = 5;}
         else this.rating = Math.max(rating, 0);
         this.votedUsers = new HashMap<>();
     }
 
-    public int getId() {
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public int getInternshipId() {
+    public UUID getInternshipId() {
         return internshipId;
     }
 
-    public void setInternshipId(int internshipId) {
+    public void setInternshipId(UUID internshipId) {
         this.internshipId = internshipId;
     }
 
-    public String getUserId() {
-        return this.userId;
+    public User getUser() {
+        return this.user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getContent() {
@@ -90,11 +103,11 @@ public class Review implements ISortComparator, IUserPost{
         this.numDislikes = numDislikes;
     }
 
-    public ArrayList<Integer> getComments() {
+    public List<Comment> getComments() {
         return this.comments;
     }
 
-    public void setComments(ArrayList<Integer> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 

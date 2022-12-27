@@ -1,5 +1,6 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name="users")
 public class User implements Serializable {
     @Id
     @Column(name="username")
@@ -28,9 +30,10 @@ public class User implements Serializable {
     private List<User> outgoingConnectionRequests;
     @Column
     private String name;
-    @Column(nullable = false, length = 200)
+    @Column(length = 200)
     private String email;
-    @Column(nullable = false)
+    @Column
+    @JsonIgnore
     private String password;
     @Column
     private int accessLevel;
@@ -51,8 +54,8 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.accessLevel = 0;
-        this.corporateRep = false;
+        this.accessLevel = 1;
+        this.corporateRep = true;
     }
 
     public String getName() {
