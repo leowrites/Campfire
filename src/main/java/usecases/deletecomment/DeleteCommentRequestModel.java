@@ -9,7 +9,7 @@ import java.util.UUID;
  */
 public class DeleteCommentRequestModel {
 
-    private final UUID commentId;
+    private UUID commentId;
 
     private final String parentType;
 
@@ -37,5 +37,9 @@ public class DeleteCommentRequestModel {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public void setCommentId(UUID commentId) {
+        this.commentId = commentId;
     }
 }

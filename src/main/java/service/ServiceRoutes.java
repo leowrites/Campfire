@@ -27,11 +27,6 @@ public class ServiceRoutes {
     @Autowired
     private IInternshipDAO internshipDAO;
 
-    @PostMapping("/users/reset")
-    public void resetUser() {
-        userDAO.reset();
-    }
-
     @PostMapping("/users/authenticate")
     public ResponseEntity<String> authenticate(Principal principal) {
         if (principal == null) {

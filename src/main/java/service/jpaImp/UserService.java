@@ -65,7 +65,6 @@ public class UserService implements IUserDAO {
      *
      * @return an ArrayList of all the User objects in the database
      */
-    @Override
     public ArrayList<User> getUsers() {
         return null;
     }
@@ -73,7 +72,6 @@ public class UserService implements IUserDAO {
     /**
      * Resets all the User objects.
      */
-    @Override
     public void reset() {
 
     }

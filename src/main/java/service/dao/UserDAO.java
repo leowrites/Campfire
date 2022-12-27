@@ -21,7 +21,6 @@ public class UserDAO implements IUserDAO {
     final String INSERT_QUERY = "INSERT INTO users (username, data) values (?, ?)";
     final String UPDATE_QUERY = "update users set data = ? where username = ?";
     final String DATA_QUERY = "select username, data from users where username = ? ";
-    final String QUERY_ALL = "select * from users";
 
     /** Query from the User database and return a User object given username.
      * @param username the username of the query
@@ -37,14 +36,6 @@ public class UserDAO implements IUserDAO {
         }
     }
 
-    /** Gets all users in the User database.
-     * @return an ArrayList of all the User objects in the database
-     */
-    @Override
-    public ArrayList<User> getUsers() {
-        return (ArrayList<User>) jdbcTemplate.query(QUERY_ALL, new UserDaoMapper());
-    }
-
     /** Save a new User object as a json.
      * @param user the User object to be stored
      */
@@ -52,7 +43,6 @@ public class UserDAO implements IUserDAO {
     public void saveUser(User user){
         try{
             ObjectMapper mapper = new ObjectMapper();
-            // need to verify username is not duplicated
             String userString = mapper.writeValueAsString(user);
             jdbcTemplate.update(INSERT_QUERY, user.getUsername(), userString);
         } catch(JsonProcessingException e){
