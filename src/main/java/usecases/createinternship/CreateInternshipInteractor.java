@@ -9,6 +9,8 @@ import service.dao.ICorporateDAO;
 import service.dao.IUserDAO;
 import service.dao.IInternshipDAO;
 import service.ServerStatus;
+import usecases.createcorporate.exceptions.CompanyNotFoundException;
+import usecases.requestconnect.exceptions.UserNotFoundException;
 
 /** The createinternship use case interactor that calls the createInternship method from the
  * CreateInternshipInputBoundary input boundary. When initialized, takes in an object that
@@ -53,9 +55,8 @@ public class CreateInternshipInteractor implements CreateInternshipInputBoundary
             Corporate corporate = corporateDAO.get(inputDS.getCompanyID());
             corporate.getInternships().add(savedInternship);
             corporateDAO.save(corporate);
-
             return new CreateInternshipResponseDS(ServerStatus.SUCCESS, "success");
-        } catch (Exception e){
+        } catch (UserNotFoundException | CompanyNotFoundException e){
             return new CreateInternshipResponseDS(ServerStatus.ERROR, e.getMessage());
         }
     }
