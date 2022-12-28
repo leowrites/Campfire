@@ -3,6 +3,7 @@ package usecases.deletecomment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -29,6 +30,7 @@ public class DeleteCommentController {
      * @return a ResponseEntity holding a DeleteCommentResponseModel and an HttpStatus
      */
     @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments/{commentId}")
+    @PreAuthorize("hasAuthority('ROLE_AUTHENTICATED_USER')")
     public ResponseEntity<DeleteCommentResponseModel> deleteComment(
             @RequestBody DeleteCommentRequestModel requestModel,
             @PathVariable("commentId") UUID commentId,

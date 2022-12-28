@@ -3,6 +3,7 @@ package usecases.createcorporate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,21 +30,9 @@ public class CorporateGenerateController {
      * @return a ResponseEntity holding a CorporateGenerateResponseModel and an HttpStatus
      */
     @PostMapping("/corporates")
+    @PreAuthorize("hasRole('ROLE_COMPANY_REP')")
     public ResponseEntity<CorporateGenerateResponseModel> create(Principal principal,
                                                                  @RequestBody CorporateGenerateRequestModel requestModel){
-
-        //if principal's username is null, or principal's username doesn't match with request model's username
-        // these checks should be added to the pre filter chain
-        if (principal.getName() == null || !principal.getName().equals(requestModel.getUserId())) {
-            CorporateGenerateResponseModel responseModel = new CorporateGenerateResponseModel(ServerStatus.ERROR,
-                    "Bad request.");
-            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
-        } else if (requestModel.getCompanyName().equals("") || requestModel.getCompanyInfo().equals("")) {
-            CorporateGenerateResponseModel responseModel = new CorporateGenerateResponseModel(ServerStatus.ERROR,
-                    "Company name or info cannot be empty");
-            return new ResponseEntity<>(responseModel, HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-
         CorporateGenerateResponseModel responseModel = this.input.create(requestModel);
 
         if (responseModel.getStatus() == ServerStatus.SUCCESS){

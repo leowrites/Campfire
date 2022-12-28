@@ -2,9 +2,13 @@ package usecases.comment;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import service.ServerStatus;
+
+import java.security.Principal;
 
 /** The comment use case controller that connects to Spring. Takes in a CommentRequestModel
  * from the user input in front-end, creates a CommentResponseModel by sending the request model
@@ -24,7 +28,14 @@ public class CommentController {
      * @return a ResponseEntity holding a CommentResponseModel and an HttpStatus
      */
     @PostMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments")
-    public ResponseEntity<CommentResponseModel> create(@RequestBody CommentRequestModel requestModel) {
+    @PreAuthorize("hasRole('ROLE_AUTHENTICATED_USER')")
+    public ResponseEntity<CommentResponseModel> create(
+            Principal principal,
+            @RequestBody CommentRequestModel requestModel) {
+        if (!principal.getName().equals(requestModel.getUserId())) {
+            return new ResponseEntity<>(new CommentResponseModel(ServerStatus.ERROR, "Not Authorized",
+                    null, null), HttpStatus.UNAUTHORIZED);
+        }
         CommentResponseModel responseModel = input.create(requestModel);
         String status = responseModel.getStatus().toString();
         if (status.equals("success")) {

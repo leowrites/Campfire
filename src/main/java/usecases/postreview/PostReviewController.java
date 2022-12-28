@@ -3,6 +3,7 @@ package usecases.postreview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -27,6 +28,7 @@ public class PostReviewController {
      * @return a ResponseEntity holding a PostReviewResponse and an HttpStatus
      */
     @PostMapping("/corporates/{corporateId}/internships/{internshipId}/reviews")
+    @PreAuthorize("hasRole('ROLE_AUTHENTICATED_USER')")
     public ResponseEntity<PostReviewResponse> addReviewToCorporate(
             @PathVariable("internshipId") UUID internshipId,
             @RequestBody PostReviewRequest request) {

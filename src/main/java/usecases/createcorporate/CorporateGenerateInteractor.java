@@ -40,11 +40,6 @@ public class CorporateGenerateInteractor implements ICorporateGenerateInput {
             return new CorporateGenerateResponseModel(ServerStatus.ERROR, e.getMessage());
         }
 
-        // validate that user is a corporate rep
-        if (!user.getCorporateRep()) {
-            return new CorporateGenerateResponseModel(ServerStatus.ERROR, "User is not a company rep.");
-        }
-
         String companyName = requestModel.getCompanyName();
         String companyInfo = requestModel.getCompanyInfo();
 

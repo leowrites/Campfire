@@ -2,7 +2,6 @@ package usecases.createinternship;
 
 import entity.Corporate;
 import entity.Internship;
-import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.dao.ICorporateDAO;
@@ -10,7 +9,6 @@ import service.dao.IUserDAO;
 import service.dao.IInternshipDAO;
 import service.ServerStatus;
 import usecases.createcorporate.exceptions.CompanyNotFoundException;
-import usecases.requestconnect.exceptions.UserNotFoundException;
 
 /** The createinternship use case interactor that calls the createInternship method from the
  * CreateInternshipInputBoundary input boundary. When initialized, takes in an object that
@@ -41,12 +39,6 @@ public class CreateInternshipInteractor implements CreateInternshipInputBoundary
     public CreateInternshipResponseDS createInternship(CreateInternshipInputDS inputDS) {
 
         try {
-            //check if user has right to create a company
-            User creator = userDataAccess.getUser(inputDS.getCreatorUsername());
-            if (!creator.getCorporateRep()){
-                // if user is not a corporate rep, return failure.
-                return new CreateInternshipResponseDS(ServerStatus.ERROR, "not authorized to create new internship");
-            }
             // create a new internship
             Internship internship = new Internship(inputDS.getCompanyID(),
                     inputDS.getJobTitle(), inputDS.getCreatorUsername());
@@ -56,7 +48,7 @@ public class CreateInternshipInteractor implements CreateInternshipInputBoundary
             corporate.getInternships().add(savedInternship);
             corporateDAO.save(corporate);
             return new CreateInternshipResponseDS(ServerStatus.SUCCESS, "success");
-        } catch (UserNotFoundException | CompanyNotFoundException e){
+        } catch (CompanyNotFoundException e){
             return new CreateInternshipResponseDS(ServerStatus.ERROR, e.getMessage());
         }
     }

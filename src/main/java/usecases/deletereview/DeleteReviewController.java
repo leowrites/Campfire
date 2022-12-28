@@ -3,6 +3,7 @@ package usecases.deletereview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,7 @@ public class DeleteReviewController {
      * @return a ResponseEntity holding a DeleteReviewResponseModel and an HttpStatus
      */
     @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}")
+    @PreAuthorize("hasRole('ROLE_AUTHENTICATED_USER')")
     public ResponseEntity<DeleteReviewResponseModel> createDeleteReviewRequestModel(
             @PathVariable("internshipId") UUID internshipId,
             @PathVariable("reviewId") UUID reviewId,

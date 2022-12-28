@@ -2,12 +2,10 @@ package usecases.deletereview;
 
 import entity.Internship;
 import entity.Review;
-import entity.User;
 import service.dao.IReviewDAO;
 import service.dao.IUserDAO;
 import service.dao.IInternshipDAO;
 import usecases.comment.exceptions.ReviewNotFoundException;
-import usecases.requestconnect.exceptions.UserNotFoundException;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -38,23 +36,16 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
     public DeleteReviewResponseModel deleteReview(DeleteReviewRequestModel requestModel){
         UUID internshipId = requestModel.getInternshipId();
         UUID reviewId = requestModel.getReviewId();
-        String userId = requestModel.getUserId();
         Internship internship;
         Review review;
-        User user;
 
         try {
             review = dataAccessReview.getReview(reviewId);
-            user = userDAO.getUser(userId);
             if (review == null){
                 throw new ReviewNotFoundException("Review not found");
             }
-        } catch (ReviewNotFoundException | UserNotFoundException e){
+        } catch (ReviewNotFoundException e){
             return new DeleteReviewResponseModel(e.getMessage());
-        }
-
-        if (user.getAccessLevel() == 0 && !userId.equals(review.getUser().getUsername())){
-            return new DeleteReviewResponseModel("Not authorized!");
         }
 
         try{
@@ -69,9 +60,6 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
         }
 
         dataAccessReview.delete(reviewId);
-        // need to recursively delete all comments ...
-        // will do in the future
-        //return a success message, as well as the new Arraylist of Reviews
         return new DeleteReviewResponseModel("Review has successfully been deleted");
     }
 }
