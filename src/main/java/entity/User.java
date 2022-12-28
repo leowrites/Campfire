@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -35,10 +36,10 @@ public class User implements Serializable {
     @Column
     @JsonIgnore
     private String password;
-    @Column
-    private int accessLevel;
-    @Column
-    private boolean corporateRep;
+
+    @ManyToMany
+
+    private Collection<Role> role;
 
     public User() {}
 
@@ -54,8 +55,6 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.accessLevel = 1;
-        this.corporateRep = true;
     }
 
     public String getName() {
@@ -69,19 +68,6 @@ public class User implements Serializable {
     }
     public String getEmail() {
         return email;
-    }
-    public int getAccessLevel(){return this.accessLevel;}
-
-    public void setAccessLevel(int accessLevel){
-        this.accessLevel = accessLevel;
-    }
-
-    public boolean getCorporateRep() {
-        return this.corporateRep;
-    }
-
-    public void setCorporateRep(boolean corporateRep) {
-        this.corporateRep = corporateRep;
     }
 
     public void setName(String name) {
@@ -98,10 +84,6 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isCorporateRep() {
-        return corporateRep;
     }
 
     public List<User> getConnectedUsers() {
@@ -126,5 +108,13 @@ public class User implements Serializable {
 
     public void setOutgoingConnectionRequests(List<User> outgoingConnectionRequestUsers) {
         this.outgoingConnectionRequests = outgoingConnectionRequestUsers;
+    }
+
+    public Collection<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(Collection<Role> role) {
+        this.role = role;
     }
 }
