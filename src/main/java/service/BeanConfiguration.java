@@ -70,8 +70,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ISignUp SignUpInput(IUserDAO dataAccess){
-        return new SignUpInteractor(dataAccess);
+    public ISignUp SignUpInput(IUserDAO dataAccess, IRoleDAO roleDAO){
+        return new SignUpInteractor(dataAccess, roleDAO);
     }
 
     @Bean
