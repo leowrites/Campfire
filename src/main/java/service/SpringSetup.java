@@ -43,7 +43,7 @@ public class SpringSetup implements ApplicationListener<ContextRefreshedEvent> {
         Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
         Privilege deletePrivilege = createPrivilegeIfNotFound("DELETE_PRIVILEGE");
         Privilege writeInternshipPrivilege = createPrivilegeIfNotFound("WRITE_INTERNSHIP_PRIVILEGE");
-        createRoleIfNotFound("ROLE_ADMIN", List.of(writePrivilege, deletePrivilege));
+        createRoleIfNotFound("ROLE_ADMIN", List.of(writePrivilege, deletePrivilege, readPrivilege));
         createRoleIfNotFound("ROLE_COMPANY_REP", List.of(writeInternshipPrivilege));
         createRoleIfNotFound("ROLE_AUTHENTICATED_USER", List.of(readPrivilege));
         alreadySetup = true;
@@ -76,7 +76,7 @@ public class SpringSetup implements ApplicationListener<ContextRefreshedEvent> {
     @Bean
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        String hierarchy = "ROLE_ADMIN > ROLE_COMPANY_REP ROLE_COMPANY_REP > ROLE_AUTHENTICATED_USER";
+        String hierarchy = "ROLE_ADMIN > ROLE_COMPANY_REP > ROLE_AUTHENTICATED_USER";
         roleHierarchy.setHierarchy(hierarchy);
         return roleHierarchy;
     }

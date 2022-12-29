@@ -1,8 +1,4 @@
 package service;
-
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -11,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class MultiReadFilter extends OncePerRequestFilter {
     /**
      * Same contract as for {@code doFilter}, but guaranteed to be
@@ -26,8 +20,9 @@ public class MultiReadFilter extends OncePerRequestFilter {
      * @param filterChain current filter chain
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        CachedBodyHttpServletRequest cachedBodyHttpServletRequest = new CachedBodyHttpServletRequest(request);
-        filterChain.doFilter(cachedBodyHttpServletRequest, response);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+            CachedBodyHttpServletRequest cachedBodyHttpServletRequest = new CachedBodyHttpServletRequest(request);
+            filterChain.doFilter(cachedBodyHttpServletRequest, response);
     }
 }

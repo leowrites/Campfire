@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,9 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import service.dao.IReviewDAO;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,13 +40,17 @@ public class WebSecurityConfig {
 
     private final AuthenticationFailureHandler authenticationFailureHandler;
 
+    private final IReviewDAO reviewDAO;
+
     @Autowired
     public WebSecurityConfig(UserDetailsService userDetailsService,
                              AuthenticationSuccessHandler authenticationSuccessHandler,
-                             AuthenticationFailureHandler authenticationFailureHandler) {
+                             AuthenticationFailureHandler authenticationFailureHandler,
+                             IReviewDAO reviewDAO) {
         this.userDetailsService = userDetailsService;
         this.authenticationSuccessHandler = authenticationSuccessHandler;
         this.authenticationFailureHandler = authenticationFailureHandler;
+        this.reviewDAO = reviewDAO;
     }
 
     /**
@@ -101,9 +110,30 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SecurityFilterChain deleteReviewSecurityChain (HttpSecurity http) throws Exception{
+        http
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
+                .and()
+                .csrf()
+                .disable()
+                .requestMatchers((requests) -> requests.antMatchers(HttpMethod.DELETE,
+                        "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}"
+                ))
+                .addFilterAfter(new MultiReadFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AdminOrOwnerFilter(reviewDAO), MultiReadFilter.class)
+        ;
+        return http.build();
+    }
+
 //    @Bean
 //    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    public SecurityFilterChain postReviewSecurity (HttpSecurity http) throws Exception{
+//    public SecurityFilterChain deleteCommentSeucirtyChain (HttpSecurity http) throws Exception{
 //        http
 //                .cors().configurationSource(corsConfigurationSource())
 //                .and()
@@ -114,12 +144,12 @@ public class WebSecurityConfig {
 //                .csrf()
 //                .disable()
 //                .requestMatchers((requests) -> {
-//                    requests.antMatchers(HttpMethod.POST,
-//                            "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments"
+//                    requests.antMatchers(HttpMethod.DELETE,
+//                            "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}"
 //                    );
 //                })
 //                .addFilterAfter(new MultiReadFilter(), BasicAuthenticationFilter.class)
-//                .addFilterAfter(new PrincipalValidatorFilter(), MultiReadFilter.class)
+//                .addFilterAfter(new AdminOrOwnerFilter(reviewDAO), MultiReadFilter.class)
 //        ;
 //        return http.build();
 //    }
