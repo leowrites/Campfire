@@ -35,14 +35,13 @@ public class CreateInternshipController {
     @PostMapping("/corporates/{corporateId}/internships")
     @PreAuthorize("hasRole('ROLE_COMPANY_REP')")
     public ResponseEntity<CreateInternshipResponseDS> receiveCreateInternshipForm(
-            Principal principal,
-            @RequestBody CreateInternshipInputDS inputDS){
+            @RequestBody CreateInternshipInputDS inputDS,
+            Principal principal
+    ){
+        inputDS.setUsername(principal.getName());
         if (inputDS.getJobTitle().equals("")) {
             CreateInternshipResponseDS responseModel = new CreateInternshipResponseDS(ServerStatus.ERROR, "Company name cannot be empty");
             return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
-        } else if (!inputDS.getCreatorUsername().equals(principal.getName())) {
-            CreateInternshipResponseDS responseModel = new CreateInternshipResponseDS(ServerStatus.ERROR, "Unauthorized");
-            return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
         }
         CreateInternshipResponseDS responseDS = this.interactor.createInternship(inputDS);
         if (responseDS.getServerStatus().equals(ServerStatus.SUCCESS)){

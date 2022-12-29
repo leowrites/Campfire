@@ -49,9 +49,9 @@ public class CreateInternshipInteractorTest {
 
         CreateInternshipInputDS inputDS = new CreateInternshipInputDS(
                 "test job",
-                savedCorporate.getId(),
-                user.getUsername()
+                savedCorporate.getId()
         );
+        inputDS.setUsername(user.getUsername());
         CreateInternshipResponseDS response = internshipCreator.createInternship(inputDS);
         assertEquals(ServerStatus.SUCCESS, response.getServerStatus());
 

@@ -18,16 +18,12 @@ import usecases.createcorporate.exceptions.CompanyNotFoundException;
 @Component
 public class CreateInternshipInteractor implements CreateInternshipInputBoundary {
 
-    @Autowired
     private final IInternshipDAO internshipDataAccess;
-    @Autowired
-    private final IUserDAO userDataAccess;
-    @Autowired
     private final ICorporateDAO corporateDAO;
 
+    @Autowired
     public CreateInternshipInteractor(IInternshipDAO internshipDataAccess, IUserDAO userDataAccess, ICorporateDAO corporateDAO){
         this.internshipDataAccess = internshipDataAccess;
-        this.userDataAccess = userDataAccess;
         this.corporateDAO = corporateDAO;
     }
 
@@ -41,7 +37,7 @@ public class CreateInternshipInteractor implements CreateInternshipInputBoundary
         try {
             // create a new internship
             Internship internship = new Internship(inputDS.getCompanyID(),
-                    inputDS.getJobTitle(), inputDS.getCreatorUsername());
+                    inputDS.getJobTitle(), inputDS.getUsername());
             Internship savedInternship = internshipDataAccess.save(internship);
 
             Corporate corporate = corporateDAO.get(inputDS.getCompanyID());
