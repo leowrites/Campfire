@@ -1,17 +1,26 @@
 package usecases.requestconnect;
 
 public class RequestConnectionRequestModel {
-    private final String userId;
+    private String username;
     private final String targetId;
 
-    public RequestConnectionRequestModel(String userId, String targetId) {
-        this.userId = userId;
+    public RequestConnectionRequestModel(String targetId) {
         this.targetId = targetId;
     }
 
-    public String getUserId() {
-        return userId;
+    public RequestConnectionRequestModel(String username, String targetId) {
+        this.username = username;
+        this.targetId = targetId;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getTargetId() {
         return targetId;
     }
