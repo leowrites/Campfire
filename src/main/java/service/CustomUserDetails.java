@@ -1,10 +1,12 @@
 package service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@JsonIgnoreProperties({"password", "enabled", "accountNonExpired", "credentialNonExpired", "accountNonLocked"})
 public class CustomUserDetails implements UserDetails {
     private final String password;
     private final String username;

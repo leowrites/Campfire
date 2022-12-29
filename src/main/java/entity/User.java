@@ -1,7 +1,8 @@
 package entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,26 +16,26 @@ public class User implements Serializable {
     @Column(name="username")
     private String username;
 
-    @OneToMany
+    @ManyToMany
     @CollectionTable(joinColumns = @JoinColumn(name = "FK_USERNAME"))
-    @JsonIgnoreProperties({"connectedUsers", "incomingConnectionRequests", "outgoingConnectionRequests"})
+    @JsonIncludeProperties({"username"})
     private List<User> connectedUsers;
 
-    @OneToMany
+    @ManyToMany
     @CollectionTable(joinColumns = @JoinColumn(name = "FK_USERNAME"))
-    @JsonIgnoreProperties({"connectedUsers", "incomingConnectionRequests", "outgoingConnectionRequests"})
+    @JsonIncludeProperties({"username"})
     private List<User> incomingConnectionRequests;
 
-    @OneToMany
+    @ManyToMany
     @CollectionTable(joinColumns = @JoinColumn(name = "FK_USERNAME"))
-    @JsonIgnoreProperties({"connectedUsers", "incomingConnectionRequests", "outgoingConnectionRequests"})
+    @JsonIncludeProperties({"username"})
     private List<User> outgoingConnectionRequests;
     @Column
     private String name;
     @Column(length = 200)
     private String email;
     @Column
-    @JsonIgnore
+    @JsonIgnoreProperties
     private String password;
 
     @ManyToMany
