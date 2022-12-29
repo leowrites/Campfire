@@ -29,14 +29,20 @@ import java.util.List;
 @ComponentScan("service")
 public class WebSecurityConfig {
 
-    @Autowired
-    UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    private final AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
-    AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    @Autowired
-    AuthenticationFailureHandler authenticationFailureHandler;
+    public WebSecurityConfig(UserDetailsService userDetailsService,
+                             AuthenticationSuccessHandler authenticationSuccessHandler,
+                             AuthenticationFailureHandler authenticationFailureHandler) {
+        this.userDetailsService = userDetailsService;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.authenticationFailureHandler = authenticationFailureHandler;
+    }
 
     /**
      *
@@ -75,9 +81,9 @@ public class WebSecurityConfig {
                         authorizeHttpRequests
                                 .antMatchers("/h2-console/**").permitAll()
                                 .antMatchers(HttpMethod.POST, "/signup").permitAll()
-                                .antMatchers(HttpMethod.GET, "/**").permitAll()
-                                .antMatchers(HttpMethod.POST, "/**").authenticated()
                                 .antMatchers(HttpMethod.POST, "/login").permitAll()
+                                .antMatchers(HttpMethod.POST, "/**").authenticated()
+                                .antMatchers(HttpMethod.GET, "/**").permitAll()
                 )
                 .formLogin()
                 .loginProcessingUrl("/login")
@@ -94,6 +100,29 @@ public class WebSecurityConfig {
                 .key("AbcdefghiJklmNoPqRstUvXyz");
         return http.build();
     }
+
+//    @Bean
+//    @Order(Ordered.HIGHEST_PRECEDENCE)
+//    public SecurityFilterChain postReviewSecurity (HttpSecurity http) throws Exception{
+//        http
+//                .cors().configurationSource(corsConfigurationSource())
+//                .and()
+//                .headers()
+//                .frameOptions()
+//                .sameOrigin()
+//                .and()
+//                .csrf()
+//                .disable()
+//                .requestMatchers((requests) -> {
+//                    requests.antMatchers(HttpMethod.POST,
+//                            "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments"
+//                    );
+//                })
+//                .addFilterAfter(new MultiReadFilter(), BasicAuthenticationFilter.class)
+//                .addFilterAfter(new PrincipalValidatorFilter(), MultiReadFilter.class)
+//        ;
+//        return http.build();
+//    }
 
     @Bean
     public PasswordEncoder bCryptPasswordEncoder() {
