@@ -58,7 +58,8 @@ public class DeleteReviewInteractorTest {
     public void testDeleteReviewWithValidReview() {
         assertNotNull(reviewDAO.getReview(reviewId));
 
-        DeleteReviewRequestModel request = new DeleteReviewRequestModel(internshipId, reviewId, username);
+        DeleteReviewRequestModel request = new DeleteReviewRequestModel(internshipId, reviewId);
+        request.setUsername(username);
 
         DeleteReviewResponseModel response = reviewDeleter.deleteReview(request);
 

@@ -5,11 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.util.UUID;
 
 /** The deletereview use case controller that connects to Spring. Takes in a
  * DeleteReviewRequestModel from the user input in front-end, creates a
@@ -33,15 +32,10 @@ public class DeleteReviewController {
     @DeleteMapping("/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}")
     @PreAuthorize("hasRole('ROLE_AUTHENTICATED_USER')")
     public ResponseEntity<DeleteReviewResponseModel> createDeleteReviewRequestModel(
-            @PathVariable("internshipId") UUID internshipId,
-            @PathVariable("reviewId") UUID reviewId,
+            @RequestBody DeleteReviewRequestModel requestModel,
             Principal principal){
         // replace with factory
-        DeleteReviewRequestModel requestModel = new DeleteReviewRequestModel(
-                internshipId,
-                reviewId,
-                principal.getName()
-        );
+        requestModel.setUsername(principal.getName());
         DeleteReviewResponseModel responseModel = interactor.deleteReview(requestModel);
         if (responseModel.getMessage().equals("Review has successfully been deleted")) {
             return new ResponseEntity<>(responseModel, HttpStatus.OK);

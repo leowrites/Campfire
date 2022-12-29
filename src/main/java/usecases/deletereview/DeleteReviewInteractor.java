@@ -20,12 +20,10 @@ public class DeleteReviewInteractor implements IDeleteReviewInput{
 
     private final IInternshipDAO dataAccessInternship;
     private final IReviewDAO dataAccessReview;
-    private final IUserDAO userDAO;
 
     public DeleteReviewInteractor(IReviewDAO dataAccessReview, IInternshipDAO dataAccessInternship, IUserDAO userDAO){
         this.dataAccessReview = dataAccessReview;
         this.dataAccessInternship = dataAccessInternship;
-        this.userDAO = userDAO;
     }
 
     /** Deletes the review as specified by the inputs in requestModel from the review database.
