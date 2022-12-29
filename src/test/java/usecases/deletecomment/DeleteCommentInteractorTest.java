@@ -53,8 +53,13 @@ public class DeleteCommentInteractorTest {
                 .usingRecursiveComparison()
                 .isEqualTo(savedComment);
 
-        DeleteCommentResponseModel response = interactor.deleteComment(
-                new DeleteCommentRequestModel(savedComment.getId(), "Review", savedReview.getId(), "leo"));
+        DeleteCommentRequestModel request = new DeleteCommentRequestModel(
+                savedComment.getId(),
+                "Review",
+                savedReview.getId()
+        );
+        request.setUsername("leo");
+        DeleteCommentResponseModel response = interactor.deleteComment(request);
 
         assertEquals("Comment has been successfully deleted" , response.getMessage());
         Review actualReview = reviewDAO.getReview(savedReview.getId());
@@ -85,8 +90,14 @@ public class DeleteCommentInteractorTest {
                 .usingRecursiveComparison()
                 .isEqualTo(child);
 
-        DeleteCommentResponseModel response = interactor.deleteComment(new DeleteCommentRequestModel(savedChild.getId(),
-                "Comment", savedParent.getId(), user.getUsername()));
+        DeleteCommentRequestModel request = new DeleteCommentRequestModel(
+                savedChild.getId(),
+                "Comment",
+                savedParent.getId()
+        );
+        request.setUsername(user.getUsername());
+
+        DeleteCommentResponseModel response = interactor.deleteComment(request);
         assertEquals("Comment has been successfully deleted" , response.getMessage());
     }
 
@@ -94,8 +105,11 @@ public class DeleteCommentInteractorTest {
     public void testDeleteCommentWithNotFoundComment() {
         User user = new User("leo", "mail.com", "pass", "leo");
         userDAO.saveUser(user);
-        DeleteCommentResponseModel response = interactor.deleteComment(new DeleteCommentRequestModel(UUID.randomUUID(),
-                "Comment", UUID.randomUUID(), "leo"));
+        DeleteCommentRequestModel requestModel = new DeleteCommentRequestModel(UUID.randomUUID(),
+                "Comment", UUID.randomUUID());
+        requestModel.setUsername(user.getUsername());
+
+        DeleteCommentResponseModel response = interactor.deleteComment(requestModel);
         assertEquals("No Comment Found!" , response.getMessage());
     }
 

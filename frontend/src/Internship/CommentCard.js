@@ -32,6 +32,7 @@ export default function CommentCard({
           data: {
             parentType: parentType,
             parentId: parentId,
+            commentId: commentId
           },
         }
       )
@@ -50,7 +51,7 @@ export default function CommentCard({
     console.log(parentType, parentId, comment, reviewId);
     axios
       .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
-        userId: principal.username,
+        username: principal.username,
         parentType: parentType,
         parentId: parentId,
         content: comment,
@@ -119,7 +120,6 @@ export default function CommentCard({
 
       {moreComments.length > 0 &&
         moreComments.map((comment) => {
-          console.log(comment);
           return (
             <CommentCard
               key={comment.id}

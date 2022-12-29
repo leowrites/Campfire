@@ -7,7 +7,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.UUID;
 
 /** The deletecomment use case controller that connects to Spring. Takes in a
  * DeleteCommentRequestModel from the user input in front-end, creates a
@@ -33,12 +32,10 @@ public class DeleteCommentController {
     @PreAuthorize("hasAuthority('ROLE_AUTHENTICATED_USER')")
     public ResponseEntity<DeleteCommentResponseModel> deleteComment(
             @RequestBody DeleteCommentRequestModel requestModel,
-            @PathVariable("commentId") UUID commentId,
             Principal principal){
 
         // this is a temporary fix, this check will go after we start using Spring authorization
-        requestModel.setUserId(principal.getName());
-        requestModel.setCommentId(commentId);
+        requestModel.setUsername(principal.getName());
         DeleteCommentResponseModel responseModel = interactor.deleteComment(requestModel);
         if (responseModel.getMessage().equals("Comment has been successfully deleted")) {
             return new ResponseEntity<>(responseModel, HttpStatus.OK);

@@ -37,7 +37,7 @@ public class DeleteCommentInteractor implements IDeleteCommentInput {
         UUID commentId = requestModel.getCommentId();
         UUID parentId = requestModel.getParentId();
         String parentType = requestModel.getParentType();
-        String userId = requestModel.getUserId();
+        String userId = requestModel.getUsername();
         Comment comment;
         User user;
 
