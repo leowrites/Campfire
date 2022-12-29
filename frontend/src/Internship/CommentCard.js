@@ -51,7 +51,6 @@ export default function CommentCard({
     console.log(parentType, parentId, comment, reviewId);
     axios
       .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
-        username: principal.username,
         parentType: parentType,
         parentId: parentId,
         content: comment,

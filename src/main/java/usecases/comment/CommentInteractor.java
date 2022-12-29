@@ -3,7 +3,6 @@ package usecases.comment;
 import entity.Comment;
 import entity.IUserPost;
 import entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
 import service.dao.IUserDAO;
@@ -11,7 +10,6 @@ import usecases.comment.exceptions.ParentNotFoundException;
 import service.ServerStatus;
 import usecases.requestconnect.exceptions.UserNotFoundException;
 
-import java.util.List;
 import java.util.UUID;
 
 /** The comment use case interactor that calls the create method from the ICommentInputBoundary
@@ -62,7 +60,7 @@ public class CommentInteractor implements ICommentInputBoundary {
         }
 
         try {
-            user = userDAO.getUser(requestModel.getUserId());
+            user = userDAO.getUser(requestModel.getUsername());
         } catch(UserNotFoundException e) {
             return new CommentResponseModel(ServerStatus.ERROR, e.getMessage(), null, null);
         }

@@ -6,7 +6,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import service.ServerStatus;
 
 import java.security.Principal;
 
@@ -32,10 +31,7 @@ public class CommentController {
     public ResponseEntity<CommentResponseModel> create(
             Principal principal,
             @RequestBody CommentRequestModel requestModel) {
-        if (!principal.getName().equals(requestModel.getUserId())) {
-            return new ResponseEntity<>(new CommentResponseModel(ServerStatus.ERROR, "Not Authorized",
-                    null, null), HttpStatus.UNAUTHORIZED);
-        }
+        requestModel.setUsername(principal.getName());
         CommentResponseModel responseModel = input.create(requestModel);
         String status = responseModel.getStatus().toString();
         if (status.equals("success")) {
