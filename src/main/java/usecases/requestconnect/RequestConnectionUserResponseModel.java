@@ -1,15 +1,20 @@
 package usecases.requestconnect;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import entity.User;
 import service.ServerStatus;
-
 import java.util.List;
 
 public class RequestConnectionUserResponseModel {
     private final String message;
     private final ServerStatus serverStatus;
+    @JsonIncludeProperties("username")
     private List<User> incomingConnectionRequests;
+
+    @JsonIncludeProperties("username")
     private List<User> outgoingConnectionRequests;
+
+    @JsonIncludeProperties("username")
     private List<User> connections;
     private String userId;
     private String targetId;
