@@ -31,8 +31,10 @@ public class CorporateGenerateController {
      */
     @PostMapping("/corporates")
     @PreAuthorize("hasRole('ROLE_COMPANY_REP')")
-    public ResponseEntity<CorporateGenerateResponseModel> create(Principal principal,
-                                                                 @RequestBody CorporateGenerateRequestModel requestModel){
+    public ResponseEntity<CorporateGenerateResponseModel> create(
+            Principal principal,
+            @RequestBody CorporateGenerateRequestModel requestModel){
+        requestModel.setUsername(principal.getName());
         CorporateGenerateResponseModel responseModel = this.input.create(requestModel);
 
         if (responseModel.getStatus() == ServerStatus.SUCCESS){

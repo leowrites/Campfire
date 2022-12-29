@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import CustomTextField from '../Component/CustomTextfield';
-import useAuthContext from '../AuthContext';
 import { useNavigate } from 'react-router';
 import useTheme from '@mui/material/styles/useTheme';
 import useGlobal from '../GlobalContext';
@@ -13,11 +12,9 @@ import axios from 'axios';
 function CreateCompany() {
   const theme = useTheme();
   const { setMsg, setShowMsg, setStatus } = useGlobal();
-  const { principal } = useAuthContext();
   const [clicked, setClicked] = useState(false)
 
   const [formData, setFormData] = useState({
-    userId: principal?.username,
     companyName: '',
     companyInfo: '',
   });

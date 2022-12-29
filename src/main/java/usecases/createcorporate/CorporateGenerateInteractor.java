@@ -31,7 +31,7 @@ public class CorporateGenerateInteractor implements ICorporateGenerateInput {
      */
     public CorporateGenerateResponseModel create(CorporateGenerateRequestModel requestModel){
 
-        String userId = requestModel.getUserId();
+        String userId = requestModel.getUsername();
         User user;
         try {
             user = userDAO.getUser(userId);

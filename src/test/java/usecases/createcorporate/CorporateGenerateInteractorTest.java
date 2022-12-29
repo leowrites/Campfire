@@ -41,8 +41,9 @@ public class CorporateGenerateInteractorTest {
     public void testCreateCorporatePageIfUserIsCorporateRepAndCompanyNameUnique() {
         User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
         userDAO.save(rep);
-        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("justinli",
+        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel(
                 "Apple", "Founded by Steve Jobs.");
+        requestModel.setUsername(rep.getUsername());
         CorporateGenerateResponseModel responseModel = interactor.create(requestModel);
         // test that the interactor returns a successful response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
@@ -87,8 +88,9 @@ public class CorporateGenerateInteractorTest {
         corporateDAO.save(corporate);
         User leo = new User("leoliu", "leo@mail.utoronto.ca", "password", "Leo");
         userDAO.save(leo);
-        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("leoliu",
+        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel(
                 "Apple", "Founded by Bill Gates.");
+        requestModel.setUsername(leo.getUsername());
         CorporateGenerateResponseModel responseModel = interactor.create(requestModel);
         // test that the interactor returns a failure response model
         assertEquals(ServerStatus.ERROR, responseModel.getStatus());
