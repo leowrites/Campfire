@@ -1,12 +1,13 @@
 package service;
 
 import com.google.gson.Gson;
-import entity.Review;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
+import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
+import usecases.deletecomment.DeleteCommentRequestModel;
 import usecases.deletereview.DeleteReviewRequestModel;
 
 import javax.servlet.*;
@@ -17,9 +18,12 @@ public class AdminOrOwnerFilter extends GenericFilterBean {
 
 
     private final IReviewDAO reviewDAO;
+    private final ICommentDAO commentDAO;
 
-    public AdminOrOwnerFilter(IReviewDAO reviewDAO) {
+    public AdminOrOwnerFilter(IReviewDAO reviewDAO, ICommentDAO commentDAO) {
+
         this.reviewDAO = reviewDAO;
+        this.commentDAO = commentDAO;
     }
     /**
      * Determines whether the authenticated user is an admin or an owner for the target item.
@@ -38,11 +42,18 @@ public class AdminOrOwnerFilter extends GenericFilterBean {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        DeleteReviewRequestModel requestModel = new Gson().fromJson(request.getReader(), DeleteReviewRequestModel.class);
-        Review review = reviewDAO.getReview(requestModel.getReviewId());
+        boolean isDeleteComment = ((CachedBodyHttpServletRequest) request).getRequestURI().matches(".*/comments/.*");
+        String ownerName;
+        if (isDeleteComment) {
+            DeleteCommentRequestModel requestModel = new Gson().fromJson(request.getReader(), DeleteCommentRequestModel.class);
+            ownerName = commentDAO.getComment(requestModel.getCommentId()).getUser().getUsername();
+        } else {
+            DeleteReviewRequestModel requestModel = new Gson().fromJson(request.getReader(), DeleteReviewRequestModel.class);
+            ownerName = reviewDAO.getReview(requestModel.getReviewId()).getUser().getUsername();
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        if (review.getUser().getUsername().equals(authentication.getName())
+        if (ownerName.equals(authentication.getName())
                 || authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
         ) {
             chain.doFilter(request, response);

@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
 
 import java.util.Arrays;
@@ -42,15 +43,20 @@ public class WebSecurityConfig {
 
     private final IReviewDAO reviewDAO;
 
+    private final ICommentDAO commentDAO;
+
     @Autowired
     public WebSecurityConfig(UserDetailsService userDetailsService,
                              AuthenticationSuccessHandler authenticationSuccessHandler,
                              AuthenticationFailureHandler authenticationFailureHandler,
-                             IReviewDAO reviewDAO) {
+                             IReviewDAO reviewDAO,
+                             ICommentDAO commentDAO
+    ) {
         this.userDetailsService = userDetailsService;
         this.authenticationSuccessHandler = authenticationSuccessHandler;
         this.authenticationFailureHandler = authenticationFailureHandler;
         this.reviewDAO = reviewDAO;
+        this.commentDAO = commentDAO;
     }
 
     /**
@@ -122,11 +128,14 @@ public class WebSecurityConfig {
                 .and()
                 .csrf()
                 .disable()
-                .requestMatchers((requests) -> requests.antMatchers(HttpMethod.DELETE,
-                        "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}"
-                ))
+                .requestMatchers((requests) ->
+                        requests.antMatchers(HttpMethod.DELETE,
+                        "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}")
+                                .antMatchers(HttpMethod.DELETE,
+                                        "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments/{commentId}")
+                )
                 .addFilterAfter(new MultiReadFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new AdminOrOwnerFilter(reviewDAO), MultiReadFilter.class)
+                .addFilterAfter(new AdminOrOwnerFilter(reviewDAO, commentDAO), MultiReadFilter.class)
         ;
         return http.build();
     }
