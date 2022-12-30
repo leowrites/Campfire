@@ -12,14 +12,12 @@ public class DeleteReviewRequestModel {
 
     private final UUID reviewId;
 
-    private String userId;
+    private String username;
 
     public DeleteReviewRequestModel(UUID internshipId,
-                                    UUID reviewId,
-                                    String userId){
+                                    UUID reviewId){
         this.internshipId = internshipId;
         this.reviewId = reviewId;
-        this.userId = userId;
     }
 
     public UUID getInternshipId(){
@@ -30,11 +28,11 @@ public class DeleteReviewRequestModel {
         return this.reviewId;
     }
 
-    public String getUserId(){
-        return this.userId;
+    public String getUsername(){
+        return this.username;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

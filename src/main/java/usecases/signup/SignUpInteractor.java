@@ -1,8 +1,10 @@
 package usecases.signup;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import service.dao.IRoleDAO;
 import service.dao.IUserDAO;
 
 import entity.FieldError;
@@ -25,15 +27,21 @@ import java.util.List;
 
  */
 @Component
+@ComponentScan("service")
 public class SignUpInteractor implements ISignUp {
 
-    @Autowired
-    final IUserDAO dataAccess;
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
-    public SignUpInteractor(IUserDAO dataAccess) {
+    private final IUserDAO dataAccess;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final IRoleDAO roleDAO;
+
+    @Autowired
+    public SignUpInteractor(IUserDAO dataAccess, IRoleDAO roleDAO, PasswordEncoder passwordEncoder) {
         this.dataAccess = dataAccess;
+        this.roleDAO = roleDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -44,7 +52,7 @@ public class SignUpInteractor implements ISignUp {
     public SignUpResponseModel validateInputs(SignUpRequestModel signUpInputs) {
         List<FieldError> errorMessages = new ArrayList<>();
 
-//        //validate email is a valid U of T Email Address
+        //validate email is a valid U of T Email Address
         if (!signUpInputs.getEmail().matches("^[A-Za-z0-9._%+-]+@mail\\.utoronto\\.ca$")){
             errorMessages.add(new FieldError("email", "Please enter a valid utoronto.ca email"));
         }
@@ -77,6 +85,7 @@ public class SignUpInteractor implements ISignUp {
                     passwordEncoder.encode(signUpInputs.getPassword()),
                     signUpInputs.getFirstName() + " " + signUpInputs.getLastName()
             );
+            user.setRole(List.of(roleDAO.getBy("ROLE_AUTHENTICATED_USER")));
             dataAccess.save(user);
             System.out.println("User saved");
         }

@@ -31,18 +31,13 @@ public class CorporateGenerateInteractor implements ICorporateGenerateInput {
      */
     public CorporateGenerateResponseModel create(CorporateGenerateRequestModel requestModel){
 
-        String userId = requestModel.getUserId();
+        String userId = requestModel.getUsername();
         User user;
         try {
             user = userDAO.getUser(userId);
         }
         catch (UserNotFoundException e) {
             return new CorporateGenerateResponseModel(ServerStatus.ERROR, e.getMessage());
-        }
-
-        // validate that user is a corporate rep
-        if (!user.getCorporateRep()) {
-            return new CorporateGenerateResponseModel(ServerStatus.ERROR, "User is not a company rep.");
         }
 
         String companyName = requestModel.getCompanyName();

@@ -18,7 +18,7 @@ public class RequestConnectionInteractor implements IRequestConnectionInput {
      */
     @Override
     public RequestConnectionResponseModel requestConnection(RequestConnectionRequestModel requestModel){
-        String userId = requestModel.getUserId();
+        String userId = requestModel.getUsername();
         String targetId = requestModel.getTargetId();
         User user;
         User target;

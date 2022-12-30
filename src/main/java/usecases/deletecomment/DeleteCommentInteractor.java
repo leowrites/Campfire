@@ -8,9 +8,6 @@ import service.dao.ICommentDAO;
 import service.dao.IReviewDAO;
 import service.dao.IUserDAO;
 import usecases.requestconnect.exceptions.UserNotFoundException;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -40,7 +37,7 @@ public class DeleteCommentInteractor implements IDeleteCommentInput {
         UUID commentId = requestModel.getCommentId();
         UUID parentId = requestModel.getParentId();
         String parentType = requestModel.getParentType();
-        String userId = requestModel.getUserId();
+        String userId = requestModel.getUsername();
         Comment comment;
         User user;
 
@@ -53,10 +50,6 @@ public class DeleteCommentInteractor implements IDeleteCommentInput {
             }
         } catch (CommentNotFoundException | UserNotFoundException e) {
             return new DeleteCommentResponseModel(e.getMessage());
-        }
-
-        if (user.getAccessLevel() == 0 && !userId.equals(comment.getUser().getUsername())){
-            return new DeleteCommentResponseModel("Not authorized!");
         }
 
         if (parentType.equals("Review")) {

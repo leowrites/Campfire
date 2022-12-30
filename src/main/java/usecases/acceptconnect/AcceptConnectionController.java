@@ -5,8 +5,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import service.ServerStatus;
+
+import java.security.Principal;
 
 /** The acceptconnect use case controller that connects to Spring. Takes in an
  * AcceptConnectionRequestModel from the user input in front-end, creates an
@@ -30,18 +33,20 @@ public class AcceptConnectionController {
      * @param requestModel the AcceptConnectionRequestModel taken in from the front-end
      */
     @MessageMapping("/users/connections/accept")
+    @Transactional
     public void acceptConnection(
+            Principal principal,
             @Payload AcceptConnectionRequestModel requestModel
     ){
-        System.out.println("received message");
+        requestModel.setUsername(principal.getName());
         AcceptConnectionResponseModel responseModel = interactor.acceptConnection(requestModel);
         if (responseModel.getServerStatus() == ServerStatus.SUCCESS) {
-            simpMessagingTemplate.convertAndSendToUser(requestModel.getUserId(), "/queue/connections/accept",
+            simpMessagingTemplate.convertAndSendToUser(requestModel.getUsername(), "/queue/connections/accept",
                     responseModel.getUserResponseModel());
             simpMessagingTemplate.convertAndSendToUser(requestModel.getTargetId(), "/queue/connections/accept",
                     responseModel.getTargetResponseModel());
         } else {
-            simpMessagingTemplate.convertAndSendToUser(requestModel.getUserId(), "/queue/connections/accept",
+            simpMessagingTemplate.convertAndSendToUser(requestModel.getUsername(), "/queue/connections/accept",
                     responseModel);
         }
     }

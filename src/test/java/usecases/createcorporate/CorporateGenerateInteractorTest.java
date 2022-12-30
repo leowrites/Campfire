@@ -40,10 +40,10 @@ public class CorporateGenerateInteractorTest {
     @Transactional
     public void testCreateCorporatePageIfUserIsCorporateRepAndCompanyNameUnique() {
         User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
-        rep.setCorporateRep(true);
         userDAO.save(rep);
-        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("justinli",
+        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel(
                 "Apple", "Founded by Steve Jobs.");
+        requestModel.setUsername(rep.getUsername());
         CorporateGenerateResponseModel responseModel = interactor.create(requestModel);
         // test that the interactor returns a successful response model
         assertEquals(ServerStatus.SUCCESS, responseModel.getStatus());
@@ -63,23 +63,22 @@ public class CorporateGenerateInteractorTest {
         assertEquals("justinli", rep.getUsername());
     }
 
-    @Test
-    @Transactional
-    public void testCreateCorporatePageIfUserIsNotCorporateRep() {
-        User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
-        rep.setCorporateRep(false);
-        userDAO.save(rep);
-        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("justinli",
-                "Apple", "Founded by Steve Jobs.");
-        CorporateGenerateResponseModel responseModel = interactor.create(requestModel);
-        // test that the interactor returns a failure response model
-        assertEquals(ServerStatus.ERROR, responseModel.getStatus());
-        assertEquals("User is not a company rep.", responseModel.getMessage());
-        assertNull(responseModel.getCorporateId());
-        // test that there is nothing saved in the corporates table
-        boolean exists = corporateDAO.companyExists("Apple");
-        assertFalse(exists);
-    }
+//    @Test
+//    @Transactional
+//    public void testCreateCorporatePageIfUserIsNotCorporateRep() {
+//        User rep = new User("justinli", "jli@mail.utoronto.ca", "password", "Justin");
+//        userDAO.save(rep);
+//        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("justinli",
+//                "Apple", "Founded by Steve Jobs.");
+//        CorporateGenerateResponseModel responseModel = interactor.create(requestModel);
+//        // test that the interactor returns a failure response model
+//        assertEquals(ServerStatus.ERROR, responseModel.getStatus());
+//        assertEquals("User is not a company rep.", responseModel.getMessage());
+//        assertNull(responseModel.getCorporateId());
+//        // test that there is nothing saved in the corporates table
+//        boolean exists = corporateDAO.companyExists("Apple");
+//        assertFalse(exists);
+//    }
 
     @Test
     @Transactional
@@ -88,10 +87,10 @@ public class CorporateGenerateInteractorTest {
         Corporate corporate = new Corporate(justin, "Apple", "Founded by Steve Jobs.");
         corporateDAO.save(corporate);
         User leo = new User("leoliu", "leo@mail.utoronto.ca", "password", "Leo");
-        leo.setCorporateRep(true);
         userDAO.save(leo);
-        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel("leoliu",
+        CorporateGenerateRequestModel requestModel = new CorporateGenerateRequestModel(
                 "Apple", "Founded by Bill Gates.");
+        requestModel.setUsername(leo.getUsername());
         CorporateGenerateResponseModel responseModel = interactor.create(requestModel);
         // test that the interactor returns a failure response model
         assertEquals(ServerStatus.ERROR, responseModel.getStatus());

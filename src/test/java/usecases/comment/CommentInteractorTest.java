@@ -51,10 +51,11 @@ public class CommentInteractorTest {
         review.setUser(user);
         Review savedReview = reviewDAO.save(review);
 
-        CommentRequestModel requestModel = new CommentRequestModel("justinli",
+        CommentRequestModel requestModel = new CommentRequestModel(
                 "Review",
                 savedReview.getId(),
                 "i love apple");
+        requestModel.setUsername(user.getUsername());
         CommentResponseModel responseModel = interactor.create(requestModel);
 
         // test that the interactor returns a success response model
@@ -85,10 +86,11 @@ public class CommentInteractorTest {
         parentComment.setUser(user);
         Comment savedParentComment = commentDAO.save(parentComment);
 
-        CommentRequestModel requestModel = new CommentRequestModel("justinli",
+        CommentRequestModel requestModel = new CommentRequestModel(
                 "Comment",
                 savedParentComment.getId(),
                 "i love apple");
+        requestModel.setUsername(user.getUsername());
         CommentResponseModel responseModel = interactor.create(requestModel);
 
         // test that the interactor returns a success response model
@@ -111,10 +113,11 @@ public class CommentInteractorTest {
 
     @Test
     public void testCannotFindParent() {
-        CommentRequestModel requestModel = new CommentRequestModel("justinli",
+        CommentRequestModel requestModel = new CommentRequestModel(
                 "Review",
                 UUID.randomUUID(),
                 "i love apple");
+        requestModel.setUsername("justinli");
         CommentResponseModel responseModel = interactor.create(requestModel);
         assertEquals(ServerStatus.ERROR, responseModel.getStatus());
         assertEquals("Review does not exist.", responseModel.getMessage());
@@ -122,10 +125,11 @@ public class CommentInteractorTest {
 
     @Test
     public void testInvalidParentTypeGiven() {
-        CommentRequestModel requestModel = new CommentRequestModel("justinli",
+        CommentRequestModel requestModel = new CommentRequestModel(
                 "Internship",
                 UUID.randomUUID(),
                 "i love apple");
+        requestModel.setUsername("justinli");
         CommentResponseModel responseModel = interactor.create(requestModel);
         assertEquals(ServerStatus.ERROR, responseModel.getStatus());
         assertEquals("Invalid parent type.", responseModel.getMessage());

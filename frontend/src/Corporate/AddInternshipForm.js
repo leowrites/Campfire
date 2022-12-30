@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useParams, useNavigate } from 'react-router-dom';
-import useAuthContext from '../AuthContext';
 import axios from 'axios';
 import CustomTextField from '../Component/CustomTextfield';
 import useGlobal from '../GlobalContext'
@@ -14,7 +13,6 @@ export default function AddInternshipForm() {
   const [title, setTitle] = useState('');
   const [clicked, setClicked] = useState(false)
   const navigate = useNavigate();
-  const { principal } = useAuthContext()
   const { setMsg, setShowMsg, setStatus } = useGlobal()
 
   // make request to backend using axios
@@ -27,7 +25,6 @@ export default function AddInternshipForm() {
       .post(`/corporates/${corporateId}/internships`, {
         jobTitle: title,
         companyID: corporateId,
-        creatorUsername: principal.username
       })
       .then((data) => {
         console.log(data);

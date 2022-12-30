@@ -2,6 +2,7 @@ package service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import service.dao.*;
 import usecases.acceptconnect.AcceptConnectionInteractor;
@@ -70,8 +71,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ISignUp SignUpInput(IUserDAO dataAccess){
-        return new SignUpInteractor(dataAccess);
+    public ISignUp SignUpInput(IUserDAO dataAccess, IRoleDAO roleDAO, PasswordEncoder passwordEncoder){
+        return new SignUpInteractor(dataAccess, roleDAO, passwordEncoder);
     }
 
     @Bean

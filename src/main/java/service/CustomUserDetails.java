@@ -1,22 +1,37 @@
 package service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@JsonIgnoreProperties({"password", "enabled", "accountNonExpired", "credentialNonExpired", "accountNonLocked"})
 public class CustomUserDetails implements UserDetails {
     private final String password;
     private final String username;
+    private final boolean enabled;
+    private final boolean accountNonExpired;
+    private final boolean credentialNonExpired;
+    private final boolean accountNonLocked;
+    private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(String password, String username) {
+
+    public CustomUserDetails(String password, String username,
+                             boolean enabled, boolean accountNonExpired, boolean credentialNonExpired,
+                             boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         this.password = password;
         this.username = username;
+        this.enabled = enabled;
+        this.accountNonExpired = accountNonExpired;
+        this.credentialNonExpired = credentialNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.authorities = authorities;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.authorities;
     }
 
     @Override
@@ -31,21 +46,21 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return this.accountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return this.credentialNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 }

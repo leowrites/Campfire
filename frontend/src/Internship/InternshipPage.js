@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
 import CommentCard from '../Internship/CommentBox';
-import useAuthContext from '../AuthContext';
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -20,7 +19,6 @@ export default function InternshipPage() {
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [rating, setRating] = useState(0);
   const navigate = useNavigate();
-  const { principal } = useAuthContext();
   const handleShowCommentBox = () => {
     setShowCommentBox(!showCommentBox);
   };
@@ -43,7 +41,7 @@ export default function InternshipPage() {
     axios
       .post(`/corporates/${corporateId}/internships/${internshipId}/reviews`, {
         reviewContent: comment,
-        username: principal.username,
+        internshipId: internshipId,
         rating: rating,
       })
       .then((res) => res.data.status === 'SUCCESS' && fetchInternshipDetails())
