@@ -36,9 +36,8 @@ public class RequestConnectionInteractorTest {
     @Test
     @Transactional
     public void testRequestConnectionWithValidConnectionRequest() {
-        RequestConnectionRequestModel requestModel = new RequestConnectionRequestModel(
-                user.getUsername(), target.getUsername()
-        );
+        RequestConnectionRequestModel requestModel = new RequestConnectionRequestModel(target.getUsername());
+        requestModel.setUsername(user.getUsername());
         RequestConnectionResponseModel responseModel = requestConnectionInteractor.requestConnection(requestModel);
         assertEquals(ServerStatus.SUCCESS, responseModel.getServerStatus());
         assertThat(target.getOutgoingConnectionRequests())
@@ -58,9 +57,8 @@ public class RequestConnectionInteractorTest {
         target.getConnectedUsers().add(user);
         userDAO.saveUser(user);
         userDAO.saveUser(target);
-        RequestConnectionRequestModel requestModel = new RequestConnectionRequestModel(
-                user.getUsername(), target.getUsername()
-        );
+        RequestConnectionRequestModel requestModel = new RequestConnectionRequestModel(target.getUsername());
+        requestModel.setUsername(user.getUsername());
         RequestConnectionResponseModel responseModel = requestConnectionInteractor.requestConnection(requestModel);
         assertEquals( ServerStatus.ERROR, responseModel.getServerStatus());
         assertEquals("You are already connected!", responseModel.getUserResponseModel().getMessage());
@@ -69,9 +67,8 @@ public class RequestConnectionInteractorTest {
     @Test
     @Transactional
     public void testRequestConnectionWithPendingRequest() {
-        RequestConnectionRequestModel requestModel = new RequestConnectionRequestModel(
-                user.getUsername(), target.getUsername()
-        );
+        RequestConnectionRequestModel requestModel = new RequestConnectionRequestModel(target.getUsername());
+        requestModel.setUsername(user.getUsername());
         requestConnectionInteractor.requestConnection(requestModel);
         RequestConnectionResponseModel responseModel = requestConnectionInteractor.requestConnection(requestModel);
         assertEquals( ServerStatus.ERROR, responseModel.getServerStatus());
@@ -82,9 +79,8 @@ public class RequestConnectionInteractorTest {
     @Transactional
     public void testRequestConnectionWhenConnectSelf() {
         userDAO.saveUser(user);
-        RequestConnectionRequestModel requestModel = new RequestConnectionRequestModel(
-                user.getUsername(), user.getUsername()
-        );
+        RequestConnectionRequestModel requestModel = new RequestConnectionRequestModel(user.getUsername());
+        requestModel.setUsername(user.getUsername());
         requestConnectionInteractor.requestConnection(requestModel);
         RequestConnectionResponseModel responseModel = requestConnectionInteractor.requestConnection(requestModel);
         assertEquals( ServerStatus.ERROR, responseModel.getServerStatus());

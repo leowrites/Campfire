@@ -10,15 +10,13 @@ import java.util.UUID;
 public class PostReviewRequest {
     private UUID internshipId;
     private final String reviewContent;
-    private final String username;
+    private String username;
     private final int rating;
 
     public PostReviewRequest(String reviewContent,
-                             String username,
                              UUID internshipId,
                              int rating) {
         this.reviewContent = reviewContent;
-        this.username = username;
         this.internshipId = internshipId;
         this.rating = rating;
     }
@@ -39,5 +37,9 @@ public class PostReviewRequest {
 
     public int getRating() {
         return rating;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

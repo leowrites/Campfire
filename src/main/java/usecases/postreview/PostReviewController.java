@@ -3,9 +3,10 @@ package usecases.postreview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.security.Principal;
 
 /** The postreview use case controller that connects to Spring. Takes in an InternshipId and a
  * PostReviewRequest from the user input in front-end, creates a PostReviewResponse by sending
@@ -21,16 +22,15 @@ public class PostReviewController {
     }
 
     /** Creates a PostReviewResponse using the inputs in request.
-     * @param internshipId the String representation of the id of the internship taken in from the
-     *                     front-end
      * @param request the PostReviewRequest taken in from the front-end
      * @return a ResponseEntity holding a PostReviewResponse and an HttpStatus
      */
     @PostMapping("/corporates/{corporateId}/internships/{internshipId}/reviews")
+    @PreAuthorize("hasRole('ROLE_AUTHENTICATED_USER')")
     public ResponseEntity<PostReviewResponse> addReviewToCorporate(
-            @PathVariable("internshipId") UUID internshipId,
+            Principal principal,
             @RequestBody PostReviewRequest request) {
-        request.setInternshipId(internshipId);
+        request.setUsername(principal.getName());
         return new ResponseEntity<>(postReview.addReviewToInternship(request), HttpStatus.CREATED);
     }
 }

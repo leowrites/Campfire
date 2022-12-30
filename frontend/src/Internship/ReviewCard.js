@@ -31,7 +31,12 @@ export default function ReviewCard({
   const handleDelete = () => {
     setClickedDelete(true);
     axios
-      .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`)
+      .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
+        data: {
+          internshipId: internshipId,
+          reviewId: reviewId,
+        },
+      })
       .then(() => {
         window.location.reload();
       });
@@ -46,7 +51,7 @@ export default function ReviewCard({
   const postComment = (parentType, parentId, comment) => {
     axios
       .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
-        userId: principal.username,
+        username: principal.username,
         parentType: parentType,
         parentId: parentId,
         content: comment,
@@ -58,7 +63,7 @@ export default function ReviewCard({
             ...moreComments,
             {
               user: {
-                username: principal.username
+                username: principal.username,
               },
               id: res.data.id,
               content: comment,

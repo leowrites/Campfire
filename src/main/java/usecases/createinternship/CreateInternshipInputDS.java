@@ -10,12 +10,11 @@ import java.util.UUID;
 public class CreateInternshipInputDS {
     private final String jobTitle;
     private final UUID companyID;
-    private final String creatorUsername;
+    private String username;
 
-    public CreateInternshipInputDS(String jobTitle, UUID companyID, String creatorUsername) {
+    public CreateInternshipInputDS(String jobTitle, UUID companyID) {
         this.jobTitle = jobTitle;
         this.companyID = companyID;
-        this.creatorUsername = creatorUsername;
     }
 
     public String getJobTitle() {
@@ -26,8 +25,11 @@ public class CreateInternshipInputDS {
         return companyID;
     }
 
-    public String getCreatorUsername() {
-        return creatorUsername;
+    public String getUsername() {
+        return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

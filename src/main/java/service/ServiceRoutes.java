@@ -1,7 +1,7 @@
 package service;
 
-import com.google.gson.Gson;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,22 +28,22 @@ public class ServiceRoutes {
     private IInternshipDAO internshipDAO;
 
     @PostMapping("/users/authenticate")
-    public ResponseEntity<String> authenticate(Principal principal) {
+    public ResponseEntity<String> authenticate(Principal principal) throws JsonProcessingException {
         if (principal == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        String response = new Gson().toJson(principal);
+        String response = new ObjectMapper().writeValueAsString(principal);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // get authenticated user info here
     // only allow user to access their own info for now
     @GetMapping("/users/{id}")
-    public String getUserInfo(Principal principal, @PathVariable String id) throws UserNotFoundException {
+    public String getUserInfo(Principal principal, @PathVariable String id) throws UserNotFoundException, JsonProcessingException {
         if (principal == null || !principal.getName().equals(id)) {
             return null;
         }
-        return new Gson().toJson(userDAO.getUser(principal.getName()));
+        return new ObjectMapper().writeValueAsString(userDAO.getUser(id));
     }
 
     // get internship details

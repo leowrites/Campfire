@@ -1,5 +1,6 @@
 package usecases.acceptconnect;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import entity.User;
 import service.ServerStatus;
 import usecases.requestconnect.Action;
@@ -18,8 +19,12 @@ import java.util.List;
 public class AcceptConnectionUserResponseModel {
     private final String message;
     private final ServerStatus serverStatus;
+
+    @JsonIncludeProperties("username")
     private final List<User> incomingConnectionRequests;
+    @JsonIncludeProperties("username")
     private final List<User> outgoingConnectionRequests;
+    @JsonIncludeProperties("username")
     private final List<User> connections;
     private final String userId;
     private final String targetId;

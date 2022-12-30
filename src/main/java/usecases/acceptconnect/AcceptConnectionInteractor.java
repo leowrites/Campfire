@@ -26,7 +26,7 @@ public class AcceptConnectionInteractor implements IAcceptConnectionInput {
      */
     @Override
     public AcceptConnectionResponseModel acceptConnection(AcceptConnectionRequestModel requestModel){
-        String userId = requestModel.getUserId();
+        String userId = requestModel.getUsername();
         String targetId = requestModel.getTargetId();
         User user;
         User target;

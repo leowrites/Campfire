@@ -5,7 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.user.SimpUserRegistry;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import service.ServerStatus;
 
@@ -19,24 +19,19 @@ public class RequestConnectionController {
     private final IRequestConnectionInput requestConnectionInteractor;
 
     @Autowired
-    SimpUserRegistry userRegistry;
-
-    public void findThem() {
-        System.out.println(userRegistry.getUsers());
-    }
-    @Autowired
     public RequestConnectionController(IRequestConnectionInput requestConnectionInteractor,
                                        SimpMessagingTemplate simpMessagingTemplate) {
         this.requestConnectionInteractor = requestConnectionInteractor;
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
     @MessageMapping("/users/connections/request")
+    @Transactional
     public void requestConnection(
             Principal user,
             @Payload RequestConnectionRequestModel requestModel){
+        requestModel.setUsername(user.getName());
         RequestConnectionResponseModel requestConnectionResponseModel =
                 requestConnectionInteractor.requestConnection(requestModel);
-        findThem();
         if (requestConnectionResponseModel.getServerStatus() == ServerStatus.SUCCESS) {
             simpMessagingTemplate.convertAndSendToUser(user.getName(), "/queue/connections/request",
                     requestConnectionResponseModel.getUserResponseModel());

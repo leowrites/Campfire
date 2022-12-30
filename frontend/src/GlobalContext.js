@@ -51,28 +51,24 @@ export function GlobalContextProvider({ children }) {
     }
   };
 
-  const sendAcceptConnectionRequest = (user, target) => {
-    console.log('message sent');
+  const sendAcceptConnectionRequest = (target) => {
     socketRef.current.sendMessage(
       ['/app/users/connections/accept'],
       JSON.stringify({
-        userId: user,
         targetId: target,
       })
     );
   };
 
-  const sendConnectionRequest = (user, target) => {
-    if (!target || !user) {
+  const sendConnectionRequest = (target) => {
+    if (!target) {
       setMsg('Please provide a valid input!');
       setShowMsg(true);
       setStatus('warning');
     } else {
-      console.log(`Connection request sent from ${user} to ${target}`);
       socketRef.current.sendMessage(
         ['/app/users/connections/request'],
         JSON.stringify({
-          userId: user,
           targetId: target,
         })
       );

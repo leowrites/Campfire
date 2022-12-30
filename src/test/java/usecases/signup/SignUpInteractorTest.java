@@ -2,14 +2,14 @@ package usecases.signup;
 
 import entity.User;
 import main.Application;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+import service.dao.IRoleDAO;
 import service.dao.IUserDAO;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,11 +23,13 @@ public class SignUpInteractorTest {
     @Autowired
     private ISignUp signUpInteractor;
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private IRoleDAO roleDAO;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     public void init() {
-        signUpInteractor = new SignUpInteractor(userDAO);
+        signUpInteractor = new SignUpInteractor(userDAO, roleDAO, passwordEncoder);
     }
 
     //Test validateInputs with a weak password

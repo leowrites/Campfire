@@ -54,10 +54,10 @@ public class PostReviewTest {
         userDAO.save(user);
         PostReviewRequest request = new PostReviewRequest(
                 "I love Apple",
-                "leo",
                 savedInternship.getId(),
                 5
         );
+        request.setUsername(user.getUsername());
         PostReviewResponse response = postReview.addReviewToInternship(request);
         assertEquals(ServerStatus.SUCCESS, response.getStatus());
 
