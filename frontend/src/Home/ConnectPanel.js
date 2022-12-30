@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import useAuthContext from '../AuthContext';
 import CustomTextField from '../Component/CustomTextfield';
+import React from 'react';
 
 export default function ConnectPannel() {
   const globalContext = useGlobalContext();

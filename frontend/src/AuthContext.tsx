@@ -1,10 +1,18 @@
 import React, { useContext, useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 
-export const AuthContext = React.createContext();
+interface AuthContext{
+  principal: User
+}
 
-export function AuthContextProvider({ children }) {
-  const [principal, setPrincipal] = useState();
+interface Props {
+  children: React.ReactNode
+}
+
+export const AuthContext = React.createContext<Partial<AuthContext>>({})
+
+export function AuthContextProvider({ children } : Props) {
+  const [principal, setPrincipal] = useState<User>()
 
   useEffect(() => {
     login();
@@ -27,11 +35,14 @@ export function AuthContextProvider({ children }) {
       });
   };
 
-  const getUserInfo = ({username, principal}) => {
+  const getUserInfo = ({username, principal}: {
+    username: string,
+    principal: User
+  }) => {
     axios
-      .get(`/users/${username}`)
-      .then((data) => {
-        setPrincipal({...principal, user: data.data});
+      .get<User>(`/users/${username}`)
+      .then((response) => {
+        setPrincipal({...principal, ...response.data});
       })
       .catch((err) => {
         console.log(err);

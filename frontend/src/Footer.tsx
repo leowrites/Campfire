@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import useAuthContext from './AuthContext';
+import React from 'react';
 
 export default function Footer() {
   const { principal } = useAuthContext();
@@ -20,7 +21,7 @@ export default function Footer() {
           backgroundColor: '#14110f',
           minHeight: '5rem',
         }}>
-        <Typography sx={{ display: 'flex', color: 'white' }} variant='h7'>
+        <Typography sx={{ display: 'flex', color: 'white' }} variant='h6'>
           Company Representative?
           <Link
             to={principal ? `/corporates/create` : '/login'}
@@ -28,7 +29,7 @@ export default function Footer() {
             Add your company
           </Link>
         </Typography>
-        <Typography sx={{ display: 'flex', color: 'white' }} variant='h7'>
+        <Typography sx={{ display: 'flex', color: 'white' }} variant='h6'>
           Campfire © 2022
         </Typography>
       </Box>
