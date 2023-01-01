@@ -6,6 +6,19 @@ import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 import CommentBox from './CommentBox';
 import useAuthContext from '../AuthContext';
+import { usePostComment } from './hooks';
+import React from 'react';
+
+interface CommentCardProps {
+  commentId: string;
+  userId: string;
+  parentType: string;
+  reviewId: string;
+  parentId: string;
+  content: string;
+  datePosted: string;
+  comments: Comment[];
+}
 
 export default function CommentCard({
   commentId,
@@ -16,14 +29,14 @@ export default function CommentCard({
   content,
   datePosted,
   comments,
-}) {
+}: CommentCardProps) {
   const { corporateId, internshipId } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [moreComments, setMoreComments] = useState(comments);
   const [clickedDelete, setClickedDelete] = useState(false);
   const { principal } = useAuthContext();
+  const { postComment } = usePostComment();
   const handleDelete = () => {
-    console.log(commentId, parentType, parentId, userId);
     setClickedDelete(true);
     axios
       .delete(
@@ -32,7 +45,7 @@ export default function CommentCard({
           data: {
             parentType: parentType,
             parentId: parentId,
-            commentId: commentId
+            commentId: commentId,
           },
         }
       )
@@ -47,31 +60,25 @@ export default function CommentCard({
     setShowComment(!showComment);
   };
 
-  const postComment = (parentType, parentId, comment) => {
-    console.log(parentType, parentId, comment, reviewId);
-    axios
-      .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
-        parentType: parentType,
-        parentId: parentId,
-        content: comment,
-      })
-      .then((res) => {
-        if (res.data.status === 'SUCCESS') {
+  const handlePost = (comment: string): void => {
+    if (!principal || !corporateId || !internshipId) return;
+    postComment(corporateId, internshipId, reviewId, 'Comment', comment, commentId)
+      .then((result) => {
+        if (result.status === 'SUCCESS') {
           setShowComment(false);
           setMoreComments([
             ...moreComments,
             {
-              user: {
-                username: principal.username
-              },
-              id: res.data.id,
-              content: comment,
-              comments: [],
-              datePosted: res.data.datePosted,
-            },
+              user: principal,
+              id: result.id,
+              content: result.content,
+              comments: [] as Comment[],
+              datePosted: result.datePosted,
+            } as Comment,
           ]);
         }
-      });
+      })
+      .catch((err) => {});
   };
 
   return (
@@ -110,9 +117,7 @@ export default function CommentCard({
         <Box sx={{ mt: 2 }}>
           <CommentBox
             handleShowCommentBox={handleShowCommentBox}
-            postComment={postComment}
-            parentType={'Comment'}
-            parentId={commentId}
+            handlePost={handlePost}
           />
         </Box>
       ) : undefined}

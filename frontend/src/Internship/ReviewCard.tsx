@@ -11,9 +11,22 @@ import useAuthContext from '../AuthContext';
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import React from 'react';
+import { usePostComment } from './hooks';
+
+interface ReviewCardProps{
+  id: string;
+  userId: string
+  datePosted: string;
+  numLikes: number;
+  numDislikes: number;
+  content: string;
+  comments: Comment[];
+  rating: number;
+}
 
 export default function ReviewCard({
-  reviewId,
+  id,
   userId,
   datePosted,
   numLikes,
@@ -21,20 +34,21 @@ export default function ReviewCard({
   content,
   comments,
   rating,
-}) {
+}: ReviewCardProps) {
   const { corporateId, internshipId } = useParams();
+  const { postComment } = usePostComment();
   const [showComment, setShowComment] = useState(false);
-  const [moreComments, setMoreComments] = useState(comments);
+  const [moreComments, setMoreComments] = useState<Comment[]>(comments);
   const [clickedDelete, setClickedDelete] = useState(false);
   const authContext = useAuthContext();
   const principal = authContext.principal;
   const handleDelete = () => {
     setClickedDelete(true);
     axios
-      .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}`, {
+      .delete(`/corporates/${corporateId}/internships/${internshipId}/reviews/${id}`, {
         data: {
           internshipId: internshipId,
-          reviewId: reviewId,
+          reviewId: id,
         },
       })
       .then(() => {
@@ -48,31 +62,25 @@ export default function ReviewCard({
     setShowComment(!showComment);
   };
 
-  const postComment = (parentType, parentId, comment) => {
-    axios
-      .post(`/corporates/${corporateId}/internships/${internshipId}/reviews/${reviewId}/comments`, {
-        username: principal.username,
-        parentType: parentType,
-        parentId: parentId,
-        content: comment,
-      })
-      .then((res) => {
-        if (res.data.status === 'SUCCESS') {
+  const handlePost = (comment: string): void => {
+    if (!principal || !corporateId || !internshipId) return;
+    postComment(corporateId, internshipId, id, 'Review', comment, id)
+      .then((result) => {
+        if (result.status === 'SUCCESS') {
           setShowComment(false);
           setMoreComments([
             ...moreComments,
             {
-              user: {
-                username: principal.username,
-              },
-              id: res.data.id,
-              content: comment,
-              comments: [],
-              datePosted: res.data.datePosted,
-            },
+              user: principal,
+              id: result.id,
+              content: result.content,
+              comments: [] as Comment[],
+              datePosted: result.datePosted,
+            } as Comment,
           ]);
         }
-      });
+      })
+      .catch((err) => {});
   };
 
   return (
@@ -112,7 +120,7 @@ export default function ReviewCard({
           readOnly
         />
         <Box sx={{ ml: 2, my: 1 }}>
-          <Typography variant='h7' style={{ wordWrap: 'break-word' }}>
+          <Typography variant='h6' style={{ wordWrap: 'break-word' }}>
             {content}
           </Typography>
         </Box>
@@ -142,9 +150,7 @@ export default function ReviewCard({
         <Box sx={{ mt: 2 }}>
           <CommentBox
             handleShowCommentBox={handleShowCommentBox}
-            parentType={'Review'}
-            parentId={reviewId}
-            postComment={postComment}
+            handlePost={handlePost}
           />
         </Box>
       ) : undefined}
@@ -154,10 +160,10 @@ export default function ReviewCard({
           return (
             <CommentCard
               key={i}
-              reviewId={reviewId}
+              reviewId={id}
               parentType={'Review'}
               commentId={comment.id}
-              parentId={reviewId}
+              parentId={id}
               userId={comment.user.username}
               content={comment.content}
               datePosted={comment.datePosted}

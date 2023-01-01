@@ -20,11 +20,11 @@ function Login() {
   const [error, setError] = useState('');
   const authContext = useAuthContext();
 
-  const onUserNameChange = (e) => {
+  const onUserNameChange: TextFieldOnChange = (e) => {
     setFormData({ ...formData, username: e.target.value });
   };
 
-  const onPasswordChange = (e) => {
+  const onPasswordChange: TextFieldOnChange = (e) => {
     setFormData({ ...formData, password: e.target.value });
   };
 
@@ -32,19 +32,13 @@ function Login() {
     const fd = new FormData();
     fd.append('username', formData.username);
     fd.append('password', formData.password);
-    fd.append('remember-me', true);
+    fd.append('remember-me', new Boolean(true).toString());
     axios
-      .post('/login', fd, {
+      .post<User>('/login', fd, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
-      .then((data) => {
-        return {
-          principal: data.data.principal,
-          username: data.data.principal.username,
-        };
-      })
-      .then((data) => {
-        authContext.getUserInfo(data);
+      .then((response) => {
+        authContext.setPrincipal(response.data);
         navigate('/');
       })
       .catch((err) => {

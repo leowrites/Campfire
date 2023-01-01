@@ -1,5 +1,6 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
@@ -35,7 +36,7 @@ public class User implements Serializable {
     @Column(length = 200)
     private String email;
     @Column
-    @JsonIgnoreProperties
+    @JsonIgnore
     private String password;
 
     @ManyToMany

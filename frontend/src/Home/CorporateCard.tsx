@@ -1,9 +1,16 @@
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router';
-export default function CorporateCard({ name, info, id }) {
+import React from 'react';
+
+interface CorporateCardProps {
+  name: string,
+  info: string,
+  id: string
+}
+
+export default function CorporateCard({ name, info, id }: CorporateCardProps): JSX.Element {
   const navigate = useNavigate();
   return (
     <Paper

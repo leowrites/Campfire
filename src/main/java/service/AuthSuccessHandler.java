@@ -1,15 +1,26 @@
 package service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import entity.User;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.transaction.annotation.Transactional;
+import service.dao.IUserDAO;
+import usecases.requestconnect.exceptions.UserNotFoundException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Configuration
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Autowired
+    private IUserDAO userDAO;
     /**
      *
      * Initializes an AuthenticationSuccess if the http request is valid
@@ -19,10 +30,18 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
      *
      */
     @Override
+    @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication)
             throws IOException {
-        String json = new Gson().toJson(authentication);
+        User user;
+        try {
+            user = userDAO.getUser(authentication.getName());
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        AuthenticatedUserDto authenticatedUserDto = new ModelMapper().map(user, AuthenticatedUserDto.class);
+        String json = new ObjectMapper().writeValueAsString(authenticatedUserDto);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);

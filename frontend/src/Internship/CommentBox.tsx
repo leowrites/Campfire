@@ -3,21 +3,29 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CustomTextField from '../Component/CustomTextfield';
 import useTheme from '@mui/material/styles/useTheme';
+import React from 'react';
+import { usePostComment, usePostReview } from './hooks';
 
-export default function CommentBox({ handleShowCommentBox, postComment, parentType, parentId, rating }) {
+interface CommentBoxProps {
+  handleShowCommentBox: () => void;
+  handlePost: (comment: string) => void
+}
+
+export default function CommentBox({
+  handleShowCommentBox,
+  handlePost,
+}: CommentBoxProps) {
   const [comment, setComment] = useState('');
   const [clicked, setClicked] = useState(false);
   const theme = useTheme();
   const handleClickPost = () => {
-    setClicked(true)
-    parentType === 'Internship'
-    ? postComment(comment, rating)
-    : postComment(parentType, parentId, comment);
+    setClicked(true);
+    handlePost(comment)
     setTimeout(() => {
-      setClicked(false)
-    }, 3000)
-  }
-  const handleValChange = (e) => {
+      setClicked(false);
+    }, 3000);
+  };
+  const handleValChange = (e: TextInputEvent) => {
     setComment(e.target.value);
   };
   return (

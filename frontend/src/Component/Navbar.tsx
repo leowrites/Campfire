@@ -19,13 +19,17 @@ import CustomTextField from './CustomTextfield';
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const authContext = useAuthContext();
+  const { principal, setPrincipal } = useAuthContext();
   const theme = useTheme();
-  const principal = authContext.principal;
 
   const handleLogout = () => {
-    authContext.setPrincipal();
-    axios.post('/logout');
+    setPrincipal(undefined);
+    axios
+      .post('/logout')
+      .then((result) => {
+        window.location.reload();
+      })
+      .catch((err) => {});
   };
 
   const [open, setOpen] = useState(false);

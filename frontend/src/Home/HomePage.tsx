@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { JSXElementConstructor, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -14,15 +14,28 @@ import Button from '@mui/material/Button';
 import CorporateCard from './CorporateCard';
 import { useEffect } from 'react';
 import axios from 'axios';
+import React from 'react';
+
+interface ReactChildren {
+  children: JSX.Element | JSX.Element[];
+}
+
+interface PageText {
+  text: string;
+}
+
+interface RetrievedCompanies extends CompanyDetails {
+  id: string;
+}
 
 function HomePage() {
-  const [corporates, setCorporates] = useState([]);
+  const [corporates, setCorporates] = useState<RetrievedCompanies[]>([]);
 
   useEffect(() => {
     axios.get('/corporates').then((res) => setCorporates(res.data));
   }, []);
 
-  const FeaturePaper = ({ text, children }) => {
+  const FeaturePaper = ({ text, children }: ReactChildren & PageText) => {
     return (
       <Paper
         elevation={20}
@@ -45,7 +58,7 @@ function HomePage() {
     );
   };
 
-  const TitleText = ({ text }) => {
+  const TitleText = ({ text }: PageText) => {
     return (
       <Typography sx={{ color: 'white', fontWeight: 'bold', mb: 5 }} variant='h3'>
         {text}
@@ -53,7 +66,7 @@ function HomePage() {
     );
   };
 
-  const PageWrapper = ({ children }) => {
+  const PageWrapper = ({ children }: ReactChildren) => {
     return (
       <Box
         sx={{

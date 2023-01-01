@@ -3,6 +3,7 @@ package service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,22 +29,11 @@ public class ServiceRoutes {
     private IInternshipDAO internshipDAO;
 
     @PostMapping("/users/authenticate")
-    public ResponseEntity<String> authenticate(Principal principal) throws JsonProcessingException {
-        if (principal == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        String response = new ObjectMapper().writeValueAsString(principal);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    // get authenticated user info here
-    // only allow user to access their own info for now
-    @GetMapping("/users/{id}")
-    public String getUserInfo(Principal principal, @PathVariable String id) throws UserNotFoundException, JsonProcessingException {
-        if (principal == null || !principal.getName().equals(id)) {
-            return null;
-        }
-        return new ObjectMapper().writeValueAsString(userDAO.getUser(id));
+    public ResponseEntity<String> authenticate(Principal principal) throws UserNotFoundException, JsonProcessingException {
+        User user = userDAO.getUser(principal.getName());
+        AuthenticatedUserDto authenticatedUserDto = new ModelMapper().map(user, AuthenticatedUserDto.class);
+        String userString = new ObjectMapper().writeValueAsString(authenticatedUserDto);
+        return new ResponseEntity<>(userString, HttpStatus.OK);
     }
 
     // get internship details

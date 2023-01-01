@@ -4,6 +4,7 @@ import SockJsclient from 'react-stomp';
 import ErrorMessage from './ErrorMessage';
 import { Outlet } from 'react-router';
 import useGlobalContext from './GlobalContext';
+import React from 'react';
 
 const SOCKET_URL = 'http://localhost:8080/ws';
 

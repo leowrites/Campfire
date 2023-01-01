@@ -11,6 +11,11 @@ import Grid from '@mui/material/Grid';
 import signupImg from './signupImg.jpg';
 import Box from '@mui/material/Box';
 
+interface FieldError {
+  field: string;
+  message: string;
+}
+
 function SignUp() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -22,34 +27,34 @@ function SignUp() {
   });
 
   const navigate = useNavigate();
-  const authContext = useAuthContext();
+  const { setPrincipal } = useAuthContext();
 
   const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
-  const onFirstNameChange = (e) => {
+  const onFirstNameChange: TextFieldOnChange = (e) => {
     setFormData({ ...formData, firstName: e.target.value });
   };
 
-  const onLastNameChange = (e) => {
+  const onLastNameChange: TextFieldOnChange = (e) => {
     setFormData({ ...formData, lastName: e.target.value });
   };
 
-  const onUserNameChange = (e) => {
+  const onUserNameChange: TextFieldOnChange = (e) => {
     setFormData({ ...formData, username: e.target.value });
   };
 
-  const onEmailChange = (e) => {
+  const onEmailChange: TextFieldOnChange = (e) => {
     setFormData({ ...formData, email: e.target.value });
   };
 
-  const onPasswordChange = (e) => {
+  const onPasswordChange: TextFieldOnChange = (e) => {
     setFormData({ ...formData, password: e.target.value });
   };
 
-  const onConfirmPasswordChange = (e) => {
+  const onConfirmPasswordChange: TextFieldOnChange = (e) => {
     setFormData({ ...formData, confirmPassword: e.target.value });
   };
 
@@ -68,7 +73,7 @@ function SignUp() {
         //if there are error messages:
         if (data.errorMessages.length > 0) {
           //iterate through each error message to display
-          data.errorMessages.forEach((fieldError) => {
+          data.errorMessages.forEach((fieldError: FieldError) => {
             if (fieldError.field === 'email') {
               setEmailError(fieldError.message);
             }
@@ -89,21 +94,15 @@ function SignUp() {
           const fd = new FormData();
           fd.append('username', formData.username);
           fd.append('password', formData.password);
-          fd.append('remember-me', true);
+          fd.append('remember-me', new Boolean(true).toString());
 
           //post to /login
           axios
-            .post('/login', fd, {
+            .post<User>('/login', fd, {
               headers: { 'Content-Type': 'multipart/form-data' },
             })
-            .then((data) => {
-              return {
-                principal: data.data.principal,
-                username: data.data.principal.username,
-              };
-            })
-            .then((data) => {
-              authContext.getUserInfo(data);
+            .then((response) => {
+              setPrincipal(response.data);
               navigate('/');
             });
         }
