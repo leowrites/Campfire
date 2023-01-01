@@ -7,7 +7,7 @@ import java.util.UUID;
 @Entity
 @Table(name="internships")
 public class Internship {
-    @Column(unique = true)
+    @Column
     private UUID companyId;
     @OneToMany
     private List<Review> reviews;

@@ -17,7 +17,6 @@ public class Corporate {
     @Column
     private String companyInfo;
     @OneToMany
-    @CollectionTable(name = "COMPANY_INTERNSHIPS", joinColumns = @JoinColumn(name="FK_COMPANY"))
     private List<Internship> internships;
 
     public Corporate(User rep, String companyName, String companyInfo){
