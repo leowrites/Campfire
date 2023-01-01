@@ -1,18 +1,20 @@
 import React, { useContext, useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 
-interface AuthContext{
-  principal: User
+interface AuthContextInterface {
+  principal: User | undefined;
+  setPrincipal: React.Dispatch<React.SetStateAction<User | undefined>>;
+  login: () => void;
 }
 
 interface Props {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-export const AuthContext = React.createContext<Partial<AuthContext>>({})
+export const AuthContext = React.createContext<AuthContextInterface>({} as AuthContextInterface);
 
-export function AuthContextProvider({ children } : Props) {
-  const [principal, setPrincipal] = useState<User>()
+export function AuthContextProvider({ children }: Props): JSX.Element {
+  const [principal, setPrincipal] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     login();
@@ -21,28 +23,10 @@ export function AuthContextProvider({ children } : Props) {
 
   const login = () => {
     axios
-      .post('/users/authenticate')
-      .then((data) => {
-        return {
-          principal: data.data.principal, 
-          username: data.data.principal.username}
-      })
-      .then(data => {
-        getUserInfo(data)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getUserInfo = ({username, principal}: {
-    username: string,
-    principal: User
-  }) => {
-    axios
-      .get<User>(`/users/${username}`)
+      .post<User>('/users/authenticate')
       .then((response) => {
-        setPrincipal({...principal, ...response.data});
+        if (!response.data.username) return;
+        setPrincipal(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -53,8 +37,7 @@ export function AuthContextProvider({ children } : Props) {
     () => ({
       principal,
       setPrincipal,
-      getUserInfo,
-      login
+      login,
     }),
     [principal]
   );

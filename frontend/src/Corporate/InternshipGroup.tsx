@@ -3,9 +3,10 @@ import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import React from 'react';
 export default function InternshipGroup() {
   const { corporateId } = useParams();
-  const [internships, setInternships] = useState([]);
+  const [internships, setInternships] = useState<InternshipDetails []>([]);
   useEffect(() => {
     axios.get(`/corporates/${corporateId}/internships`).then((data) => {
       console.log('internships', internships);

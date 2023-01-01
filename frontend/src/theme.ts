@@ -3,7 +3,7 @@ import '@fontsource/ibm-plex-sans-condensed';
 
 let theme = createTheme({
   typography: {
-    fontFamily: ['IBM Plex Sans Condensed'],
+    fontFamily: 'IBM Plex Sans Condensed',
   },
   palette: {
     primary: {

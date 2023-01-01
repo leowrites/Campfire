@@ -7,11 +7,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Container } from '@mui/system';
 import applepark from './applepark.jpg';
+import React from 'react';
 
 export default function CorporatePage() {
   const { corporateId } = useParams();
-  const [companyDetails, setCompanyDetails] = useState({});
-  const [internships, setInternships] = useState([]);
+  const [companyDetails, setCompanyDetails] = useState<CompanyDetails>({} as CompanyDetails);
+  const [internships, setInternships] = useState<InternshipDetails[]>([]);
   useEffect(() => {
     axios.get(`/corporates/${corporateId}`).then((data) => {
       setCompanyDetails(data.data);

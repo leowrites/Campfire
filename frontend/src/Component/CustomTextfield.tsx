@@ -1,7 +1,8 @@
-import TextField from '@mui/material/TextField';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 import useTheme from '@mui/material/styles/useTheme';
+import React from 'react';
 
-export default function CustomTextField(props) {
+export default function CustomTextField(props: any) {
   const theme = useTheme();
   return (
     <TextField

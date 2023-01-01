@@ -9,7 +9,7 @@ import React from 'react';
 
 export default function ConnectPannel() {
   const globalContext = useGlobalContext();
-  const [connectionInput, setConnectionInput] = useState();
+  const [connectionInput, setConnectionInput] = useState<string>("");
   const { principal } = useAuthContext();
 
   return (
@@ -39,7 +39,9 @@ export default function ConnectPannel() {
         <CustomTextField
           label='username'
           fullWidth
-          onChange={(e) => setConnectionInput(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+            setConnectionInput(e.target.value)
+          }
         />
         <Button
           sx={{ mt: 1, ml: 1, backgroundColor: 'black', borderRadius: 2 }}
@@ -52,7 +54,7 @@ export default function ConnectPannel() {
         <Typography variant='h6' textAlign={'start'}>
           Your Connections
         </Typography>
-        {principal?.user?.connectedUsers?.map((user) => (
+        {principal?.connectedUsers?.map((user) => (
           <Typography key={user.username} textAlign={'start'} variant='h6'>
             {user.username}
           </Typography>
@@ -62,7 +64,7 @@ export default function ConnectPannel() {
         <Typography variant='h6' textAlign={'start'}>
           Your Outgoing Requests
         </Typography>
-        {principal?.user?.outgoingConnectionRequests?.map((user) => (
+        {principal?.outgoingConnectionRequests?.map((user) => (
           <Typography key={user.username} textAlign={'start'} variant='h6'>
             {user.username}
           </Typography>
@@ -72,16 +74,14 @@ export default function ConnectPannel() {
         <Typography variant='h6' textAlign={'start'}>
           Your Incoming Requests
         </Typography>
-        {principal?.user?.incomingConnectionRequests?.map((user) => (
+        {principal?.incomingConnectionRequests?.map((user) => (
           <Box key={user.username} sx={{ display: 'flex', justifyContent: 'left' }}>
             <Typography textAlign={'start'} variant='h6'>
               {user.username}
             </Typography>
             <Button
               sx={{ ml: 'auto' }}
-              onClick={() =>
-                globalContext.sendAcceptConnectionRequest(user.username)
-              }>
+              onClick={() => globalContext.sendAcceptConnectionRequest(user.username)}>
               Accept
             </Button>
           </Box>

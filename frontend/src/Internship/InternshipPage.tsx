@@ -4,18 +4,24 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import ReviewCard from './ReviewCard';
-import CommentCard from '../Internship/CommentBox';
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { usePostReview } from './hooks';
+import useAuthContext from '../AuthContext';
+import CommentBox from './CommentBox';
 
 export default function InternshipPage() {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const { corporateId, internshipId } = useParams();
-  const [internshipDetails, setInternshipsDetails] = useState({});
+  const [internshipDetails, setInternshipsDetails] = useState<InternshipDetails>(
+    {} as InternshipDetails
+  );
+  const { principal } = useAuthContext();
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [rating, setRating] = useState(0);
   const navigate = useNavigate();
@@ -23,29 +29,29 @@ export default function InternshipPage() {
     setShowCommentBox(!showCommentBox);
   };
 
-  const fetchInternshipDetails = () => {
-    axios.get(`/corporates/${corporateId}/internships/${internshipId}`).then((data) => {
-      console.log(data)
-      setInternshipsDetails(data.data);
-      setReviews(data.data.reviews);
-      console.log(data.data.reviews)
-    });
-  }
-
   useEffect(() => {
-    fetchInternshipDetails()
+    fetchInternshipDetails();
   }, []);
 
+  const { postReview } = usePostReview();
 
-  const postReview = (comment, rating) => {
+  const fetchInternshipDetails = () => {
     axios
-      .post(`/corporates/${corporateId}/internships/${internshipId}/reviews`, {
-        reviewContent: comment,
-        internshipId: internshipId,
-        rating: rating,
-      })
-      .then((res) => res.data.status === 'SUCCESS' && fetchInternshipDetails())
-      .then(() => setShowCommentBox(false));
+      .get<InternshipDetails | undefined>(`/corporates/${corporateId}/internships/${internshipId}`)
+      .then((response) => {
+        if (!response.data) return navigate('/');
+        setInternshipsDetails(response.data);
+        setReviews(response.data.reviews);
+      });
+  };
+
+  const handlePost = (comment: string): void => {
+    if (!principal || !corporateId || !internshipId) return;
+    postReview(corporateId, internshipId, comment, rating)
+    .then(() => {
+      fetchInternshipDetails();
+      setShowCommentBox(false);
+    })
   };
 
   return (
@@ -78,24 +84,21 @@ export default function InternshipPage() {
             sx={{ mb: 2 }}
             defaultValue={0}
             onChange={(e, newValue) => {
-              setRating(newValue)
+              setRating(newValue || 0);
             }}
-            icon={<FavoriteIcon fontSize='inherit' color='white' />}
+            icon={<FavoriteIcon fontSize='inherit' htmlColor='white' />}
             emptyIcon={<FavoriteBorderIcon fontSize={'inherit'} sx={{ color: 'white' }} />}
           />
-          <CommentCard
-            rating={rating}
+          <CommentBox
             handleShowCommentBox={handleShowCommentBox}
-            postComment={postReview}
-            parentType={'Internship'}
-            parentId={internshipId}
+            handlePost={handlePost}
           />
         </Box>
       ) : null}
       {reviews?.map((review, i) => (
         <ReviewCard
           key={i}
-          reviewId={review.id}
+          id={review.id}
           userId={review.user.username}
           datePosted={review.datePosted}
           numLikes={review.numLikes}

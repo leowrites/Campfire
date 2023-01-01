@@ -21,11 +21,11 @@ function CreateCompany() {
 
   const navigate = useNavigate();
 
-  const onCompanyNameChange = (e) => {
+  const onCompanyNameChange = (e: TextInputEvent) => {
     setFormData({ ...formData, companyName: e.target.value });
   };
 
-  const onCompanyInfoChange = (e) => {
+  const onCompanyInfoChange = (e: TextInputEvent) => {
     setFormData({ ...formData, companyInfo: e.target.value });
   };
 
