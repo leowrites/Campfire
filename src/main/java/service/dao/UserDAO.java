@@ -1,7 +1,5 @@
 package service.dao;
 
-import java.util.ArrayList;
-
 // remove this dependency once db is implemented
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -67,6 +65,11 @@ public class UserDAO implements IUserDAO {
         } catch(JsonProcessingException e){
             System.out.println("Json process error!");
         }
+    }
+
+    @Override
+    public boolean exists(String username) {
+        return false;
     }
 
     /** Resets the database of User objects and their connections and connection requests.

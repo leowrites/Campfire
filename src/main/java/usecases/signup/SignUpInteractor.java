@@ -8,8 +8,6 @@ import service.dao.IRoleDAO;
 import service.dao.IUserDAO;
 
 import entity.FieldError;
-import usecases.requestconnect.exceptions.UserNotFoundException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,11 +56,8 @@ public class SignUpInteractor implements ISignUp {
         }
 
         //validate username is unique
-        try {
-            dataAccess.getUser(signUpInputs.getUsername());
+        if (dataAccess.exists(signUpInputs.getUsername())) {
             errorMessages.add(new FieldError("username", "username taken"));
-        } catch (UserNotFoundException e) {
-            // this is good, we proceed
         }
 
         //validate password and confirmPassword matches

@@ -60,6 +60,11 @@ public class UserService implements IUserDAO {
         userRepository.save(user);
     }
 
+    @Override
+    public boolean exists(String username) {
+        return userRepository.existsById(username);
+    }
+
     /**
      * Gets all users in the User database.
      *

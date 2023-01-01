@@ -3,8 +3,6 @@ package service.dao;
 import entity.User;
 import usecases.requestconnect.exceptions.UserNotFoundException;
 
-import java.util.ArrayList;
-
 /** An interface for the User data access object.
  */
 public interface IUserDAO {
@@ -26,4 +24,6 @@ public interface IUserDAO {
      * @param user the new User object
      */
     void updateUser(User user);
+
+    boolean exists(String username);
 }
