@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { JSXElementConstructor, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import CustomTextField from '../Component/CustomTextfield';
 import Image from './bannerImage.png';
 import { ReactComponent as BonfireSVG } from './bonfire.svg';
 import { ReactComponent as CommentsSVG } from './comments.svg';
 import { ReactComponent as ConnectSVG } from './connect.svg';
-import { useNavigate } from 'react-router';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import CorporateCard from './CorporateCard';
+import { useEffect } from 'react';
 import axios from 'axios';
-import useCompanyContext from '../global/CompanyContext';
+import React from 'react';
 
 interface ReactChildren {
   children: JSX.Element | JSX.Element[];
@@ -29,12 +29,11 @@ interface RetrievedCompanies extends CompanyDetails {
 }
 
 function HomePage() {
-  const { companies } = useCompanyContext();
-  const [searchSelectedCompany, setSearchSelectedCompany] = useState<string | undefined>(
-    companies?.[0]?.companyName
-  );
-  const [searchInput, setSearchInput] = useState<string>('');
-  const navigate = useNavigate();
+  const [corporates, setCorporates] = useState<RetrievedCompanies[]>([]);
+
+  useEffect(() => {
+    axios.get('/corporates').then((res) => setCorporates(res.data));
+  }, []);
 
   const FeaturePaper = ({ text, children }: ReactChildren & PageText) => {
     return (
@@ -88,10 +87,6 @@ function HomePage() {
     );
   };
 
-  const handleNavigateToCompany = (companyName: string) => {
-    navigate(`/corporates/${companies?.find((company) => company.companyName === companyName)?.id}`);
-  };
-
   return (
     <Box>
       <Box
@@ -120,22 +115,11 @@ function HomePage() {
             Come share your valuable internship experience.
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'end' }}>
-            <Autocomplete
-              id='search-for-companies'
-              options={companies?.map((option) => option.companyName)}
-              value={searchSelectedCompany}
-              onChange={(_, value) => {
-                setSearchSelectedCompany(value);
-              }}
-              onInputChange={(_, value) => {
-                setSearchInput(value);
-              }}
-              disableClearable
+            <CustomTextField
               sx={{
                 mt: 2,
                 mr: 2,
                 color: 'white',
-                width: '20rem',
                 '& label.Mui-focused': {
                   color: 'white',
                 },
@@ -148,23 +132,12 @@ function HomePage() {
                   color: 'white', // Custom text color
                 },
               }}
-              renderInput={(params) => (
-                <CustomTextField
-                  {...params}
-                  label='Search For Companies'
-                  InputProps={{
-                    ...params.InputProps,
-                    type: 'search',
-                  }}
-                />
-              )}
+              id='standard-basic'
+              label='Search For Companies'
             />
             <Button
               variant={'contained'}
-              sx={{ borderRadius: 2, backgroundColor: 'black', height: 'auto' }}
-              onClick={() => {
-                searchSelectedCompany && handleNavigateToCompany(searchSelectedCompany);
-              }}>
+              sx={{ borderRadius: 2, backgroundColor: 'black', height: 'auto' }}>
               <Typography fontWeight={'bold'}>Go</Typography>
             </Button>
           </Box>
@@ -209,12 +182,12 @@ function HomePage() {
         </Box>
         <Box textAlign={'start'} sx={{ minHeight: '30rem', width: '100%', mb: 5 }}>
           <TitleText text={'Our Companies'} />
-          {companies?.map((company) => (
+          {corporates.map((corporate) => (
             <CorporateCard
-              key={company.id}
-              name={company.companyName}
-              info={company.companyInfo}
-              id={company.id}
+              key={corporate.id}
+              name={corporate.companyName}
+              info={corporate.companyInfo}
+              id={corporate.id}
             />
           ))}
         </Box>
