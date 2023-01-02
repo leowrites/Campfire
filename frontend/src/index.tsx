@@ -5,7 +5,7 @@ import App from './App';
 import Login from './Component/Login';
 import SignUp from './Component/SignUp';
 import HomePage from './Home/HomePage';
-import { createBrowserRouter, RouterProvider, ScrollRestoration } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './Layout';
 import { GlobalContextProvider } from './GlobalContext';
 import { AuthContextProvider } from './AuthContext';
@@ -18,15 +18,12 @@ import theme from './theme';
 import CorporateLayout from './Corporate/CorporateLayout';
 import InternshipGroup from './Corporate/InternshipGroup';
 import RouteProtectionWrapper from './RouteProtectionWrapper';
+import { CompanyContextProvider } from './global/CompanyContext';
 
 const routes = [
   {
     element: <Layout />,
     children: [
-      {
-        path: '/',
-        element: <HomePage />,
-      },
       {
         path: '/corporates/create',
         element: (
@@ -65,6 +62,10 @@ const routes = [
         path: '/signup',
         element: <SignUp />,
       },
+      {
+        path: '/',
+        element: <HomePage />,
+      },
     ],
   },
 ];
@@ -72,12 +73,16 @@ const routes = [
 const router = createBrowserRouter([
   {
     element: (
-      <GlobalContextProvider>
-        <ThemeProvider theme={theme}>
-          <ScrollToTop />
-          <App />
-        </ThemeProvider>
-      </GlobalContextProvider>
+      <CompanyContextProvider>
+        <AuthContextProvider>
+          <GlobalContextProvider>
+            <ThemeProvider theme={theme}>
+              <ScrollToTop />
+              <App />
+            </ThemeProvider>
+          </GlobalContextProvider>
+        </AuthContextProvider>
+      </CompanyContextProvider>
     ),
     children: routes,
   },
@@ -85,9 +90,5 @@ const router = createBrowserRouter([
 
 const root = document.getElementById('root');
 if (root) {
-  ReactDOM.createRoot(root).render(
-    <AuthContextProvider>
-      <RouterProvider router={router} />
-    </AuthContextProvider>
-  );
+  ReactDOM.createRoot(root).render(<RouterProvider router={router} />);
 }
