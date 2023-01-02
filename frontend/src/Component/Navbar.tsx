@@ -16,12 +16,18 @@ import ConnectPanel from '../Home/ConnectPanel';
 import { Drawer } from '@mui/material';
 import { useTheme } from '@mui/material';
 import CustomTextField from './CustomTextfield';
+import Autocomplete from '@mui/material/Autocomplete';
+import useCompanyContext from '../global/CompanyContext';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const { principal, setPrincipal } = useAuthContext();
   const theme = useTheme();
-
+  const { companies } = useCompanyContext();
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [searchSelectedCompany, setSearchSelectedCompany] = useState<string | null>(
+    companies?.[0]?.companyName
+  );
   const handleLogout = () => {
     setPrincipal(undefined);
     axios
@@ -33,6 +39,14 @@ export default function Navbar() {
   };
 
   const [open, setOpen] = useState(false);
+  const handleNavigateToCompany = () => {
+    if (searchSelectedCompany) {
+      navigate(`/corporates/${companies.find((c) => c.companyName === searchSelectedCompany)?.id}`);
+      // window.location.href = `/corporates/${
+      //   companies.find((c) => c.companyName === searchSelectedCompany)?.id
+      // }`;
+    }
+  };
 
   return (
     <>
@@ -63,12 +77,29 @@ export default function Navbar() {
               </Typography>
             </Box>
           </Link>
-          <CustomTextField
-            hiddenLabel
-            size='small'
-            placeholder='Search For A Company'
-            sx={{ width: '20rem', ml: 'auto', background: '#666666' }}
+          <Autocomplete
+            id='search-company-navbar'
+            options={companies.map((company) => company.companyName)}
+            value={searchSelectedCompany}
+            onChange={(_, value) => {
+              setSearchSelectedCompany(value);
+            }}
+            onInputChange={(_, value) => {
+              setSearchInput(value);
+            }}
+            renderInput={(params) => (
+              <CustomTextField
+                {...params}
+                hiddenLabel
+                size='small'
+                placeholder='Search For A Company'
+                sx={{ width: '20rem', ml: 'auto', background: '#666666' }}
+              />
+            )}
           />
+          <Button onClick={handleNavigateToCompany} sx={{ color: 'white' }}>
+            <Typography>Go</Typography>
+          </Button>
           <Box sx={{ ml: 'auto' }}>
             {principal ? (
               <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
