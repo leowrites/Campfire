@@ -41,10 +41,9 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const handleNavigateToCompany = () => {
     if (searchSelectedCompany) {
-      navigate(`/corporates/${companies.find((c) => c.companyName === searchSelectedCompany)?.id}`);
-      // window.location.href = `/corporates/${
-      //   companies.find((c) => c.companyName === searchSelectedCompany)?.id
-      // }`;
+      window.location.href = `/corporates/${
+        companies.find((c) => c.companyName === searchSelectedCompany)?.id
+      }`;
     }
   };
 
