@@ -1,15 +1,18 @@
 package service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import service.dao.*;
+import service.jpaImp.ICompanyRepApplicationDAO;
 import usecases.acceptconnect.AcceptConnectionInteractor;
 import usecases.acceptconnect.IAcceptConnectionInput;
 import usecases.comment.CommentFactory;
 import usecases.comment.CommentInteractor;
 import usecases.comment.ICommentInputBoundary;
+import usecases.common.UseCaseOutputFactory;
 import usecases.createcorporate.CorporateFactory;
 import usecases.createcorporate.CorporateGenerateInteractor;
 import usecases.createcorporate.ICorporateGenerateInput;
@@ -22,6 +25,8 @@ import usecases.postreview.PostReview;
 import usecases.postreview.PostReviewFactory;
 import usecases.requestconnect.IRequestConnectionInput;
 import usecases.requestconnect.RequestConnectionInteractor;
+import usecases.requesttobecompanyrep.CompanyRepApplicationProcessor;
+import usecases.requesttobecompanyrep.ICompanyRepApplicationProcessor;
 import usecases.signup.ISignUp;
 import usecases.signup.SignUpInteractor;
 import usecases.votehelpful.HelpfulInteractor;
@@ -105,6 +110,12 @@ public class BeanConfiguration {
         return new CorporateGenerateInteractor(corporateDAO, userDAO, corporateFactory);
     }
 
+    @Bean
+    public ICompanyRepApplicationProcessor companyRepApplicationProcessor(ICompanyRepApplicationDAO companyRepApplicationDAO,
+                                                                          UseCaseOutputFactory outputFactory) {
+        return new CompanyRepApplicationProcessor(companyRepApplicationDAO, outputFactory);
+    }
+
     @Bean CorporateFactory createCorporateFactory() {
         return new CorporateFactory();
     }
@@ -117,5 +128,10 @@ public class BeanConfiguration {
         loggingFilter.setIncludePayload(true);
         loggingFilter.setMaxPayloadLength(64000);
         return loggingFilter;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
