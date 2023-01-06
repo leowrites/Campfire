@@ -1,8 +1,8 @@
 package service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import entity.User;
+import jakarta.servlet.ServletException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import service.dao.IUserDAO;
 import usecases.requestconnect.exceptions.UserNotFoundException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Configuration
@@ -32,8 +32,8 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response, Authentication authentication)
-            throws IOException {
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
         User user;
         try {
             user = userDAO.getUser(authentication.getName());

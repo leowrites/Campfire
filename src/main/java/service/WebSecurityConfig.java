@@ -94,12 +94,15 @@ public class WebSecurityConfig {
                 .disable()
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .antMatchers("/h2-console/**").permitAll()
-                                .antMatchers(HttpMethod.POST, "/signup").permitAll()
-                                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                                .antMatchers(HttpMethod.POST, "/**").authenticated()
-                                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                                .requestMatchers("/h2-console/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/signup").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/**").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/**").permitAll()
                 )
+//                .addFilterAfter(new MultiReadFilter(), BasicAuthenticationFilter.class)
+//                .addFilterAfter(new AdminOrOwnerFilter(reviewDAO, commentDAO), MultiReadFilter.class)
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .successHandler(authenticationSuccessHandler)
@@ -115,53 +118,6 @@ public class WebSecurityConfig {
                 .key("AbcdefghiJklmNoPqRstUvXyz");
         return http.build();
     }
-
-    @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain deleteReviewSecurityChain (HttpSecurity http) throws Exception{
-        http
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
-                .headers()
-                .frameOptions()
-                .sameOrigin()
-                .and()
-                .csrf()
-                .disable()
-                .requestMatchers((requests) ->
-                        requests.antMatchers(HttpMethod.DELETE,
-                        "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}")
-                                .antMatchers(HttpMethod.DELETE,
-                                        "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}/comments/{commentId}")
-                )
-                .addFilterAfter(new MultiReadFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new AdminOrOwnerFilter(reviewDAO, commentDAO), MultiReadFilter.class)
-        ;
-        return http.build();
-    }
-
-//    @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    public SecurityFilterChain deleteCommentSeucirtyChain (HttpSecurity http) throws Exception{
-//        http
-//                .cors().configurationSource(corsConfigurationSource())
-//                .and()
-//                .headers()
-//                .frameOptions()
-//                .sameOrigin()
-//                .and()
-//                .csrf()
-//                .disable()
-//                .requestMatchers((requests) -> {
-//                    requests.antMatchers(HttpMethod.DELETE,
-//                            "/corporates/{corporateId}/internships/{internshipId}/reviews/{reviewId}"
-//                    );
-//                })
-//                .addFilterAfter(new MultiReadFilter(), BasicAuthenticationFilter.class)
-//                .addFilterAfter(new AdminOrOwnerFilter(reviewDAO), MultiReadFilter.class)
-//        ;
-//        return http.build();
-//    }
 
     @Bean
     public PasswordEncoder bCryptPasswordEncoder() {

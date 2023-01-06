@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entity.Comment;
-import org.postgresql.util.PSQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -29,13 +28,8 @@ public class CommentDaoMapper implements RowMapper<Comment> {
         Gson gson = new Gson();
         JsonObject object = (JsonObject) JsonParser.parseString(commentData);
         Comment comment = gson.fromJson(object, Comment.class);
-        try {
-            comment.setId(rs.getObject("id", UUID.class));
-            comment.setParentId(rs.getObject("parentId", UUID.class));
-        } catch (PSQLException e) {
-            System.out.print("At CommentDaoMapper ");
-            System.out.println(e);
-        }
+        comment.setId(rs.getObject("id", UUID.class));
+        comment.setParentId(rs.getObject("parentId", UUID.class));
         return comment;
     }
 }

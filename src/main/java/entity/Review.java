@@ -1,6 +1,6 @@
 package entity;
 import usecases.votehelpful.VoteDecision;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +25,8 @@ public class Review implements IUserPost{
     @Id
     @GeneratedValue
     private UUID id;
+
+    @Transient
     private HashMap<String, VoteDecision> votedUsers;
 
     public Review() {
