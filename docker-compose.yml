@@ -9,17 +9,21 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+
   spring:
     build: .
+    image: spring
     ports:
       - "8080:8080"
+
+  front:
+    build: ./frontend
+    image: front
+    ports:
+      - "80:80"
     depends_on:
-      - "postgres"
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_HOST: postgres
+      - "spring"
+
   test:
     build: .
     command: bash -c "gradle clean test"
